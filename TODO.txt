@@ -1,0 +1,18 @@
+- v0.1 Basic Reader
+	- Flask Microservice
+	- ElasticSearch Schema 
+	- Reader Layout
+	- Bootstrap / React with Bower
+
+- v0.2 Chapter CRUD
+	- Chapter Manage Component with Create and Delete Options
+	- Edit Chapter Component with Delete
+
+- v0.3 Notes
+	- Note Manager Component
+
+- Unit Testing
+- Admin Access Restrictions
+- Admin Page
+- Search Functionality
+- HTML Editor For Chapters / Notes

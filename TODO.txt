@@ -1,5 +1,7 @@
 - v0.1 Basic Reader
-	- Flask Microservice
+	+ Flask Microservice +
+	+ Basic REST API +
+	- Orchestrate Environment Configs
 	- ElasticSearch Schema 
 	- Reader Layout
 	- Bootstrap / React with Bower
@@ -11,6 +13,7 @@
 - v0.3 Notes
 	- Note Manager Component
 
+- Error Handling
 - Unit Testing
 - Admin Access Restrictions
 - Admin Page

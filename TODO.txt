@@ -1,16 +1,21 @@
-- v0.1 Basic Reader
+- v0.1 Text Editor + Basic Reader
 	+ Flask Microservice +
 	+ Basic REST API +
+	+ Basic Layout + 
+	- React Components
+	- Wire React to ES API
+	- Simple CRUID interface
 	- Orchestrate Environment Configs
-	- ElasticSearch Schema 
-	- Reader Layout
-	- Bootstrap / React with Bower
+	- Basic Testing
+	- Front-End Dependency Manager
 
-- v0.2 Chapter CRUD
-	- Chapter Manage Component with Create and Delete Options
-	- Edit Chapter Component with Delete
+- v0.2 Reader
+	- Reader UX
+	- Top Bar
+	- Background Texture - Canvas / Paper
 
-- v0.3 Notes
+- v0.3 Notes and Text Formatting
+	- Abstract API Blueprint for Notes
 	- Note Manager Component
 
 - Error Handling

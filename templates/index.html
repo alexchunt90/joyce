@@ -1,1 +1,34 @@
-<p>Hello world!</p>
+<!doctype html>
+<head>
+	<title>Joyce</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+	<link rel="manifest" href="static/js/manifest.json">
+
+	<!-- TODO: Swap CDN Links for Bower / Yarn -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+	<!-- Reader Layout -->
+	<div id="joyce_reader" class="container-fluid">
+		<div class="row">
+			<div class="col-sm-2" id="sidebar">
+				<div id="highlight_button" class="text-center">
+					<a href="#" class="btn btn-primary btn-lg">Highlight Notes</a>
+				</div>
+				<div>
+					List of Chapters!
+				</div>
+			</div>
+
+			<div class="col-sm-6" id="reader">
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="{{asset_url_for('app.js')}}"></script>		
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>

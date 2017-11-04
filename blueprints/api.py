@@ -1,26 +1,30 @@
 from flask import Blueprint, render_template, abort, jsonify, request
-from jinja2 import TemplateNotFound
 from elasticsearch import Elasticsearch
 
 #Elasticsearch local connection
 #TODO: Extract to config
 ELASTICSEARCH_HOST = '127.0.0.1:9200'
 es = Elasticsearch(ELASTICSEARCH_HOST)
+# if es.ping() == True?
+
+print 'API initialized!'
 
 api = Blueprint('api', __name__)
 
 # Get all chapters
-@api.route('/chapters')
+@api.route('/chapters/')
 def get_chapters():
-	res = es.search(index='joyce', doc_type='chapters', body={'query': {'match_all': {}}})
-	# chapters = { your_key: old_dict[your_key] for your_key in your_keys }
+	search = es.search(index='joyce', doc_type='chapters', body={'query': {'match_all': {}}})
+	res = []
+	for x in search['hits']['hits']:
+		res.append(x['_source'])
 	return jsonify(res)
 
-# Get singular chapter
+# Get specific chapter
 @api.route('/chapters/<int:id>')
 def get_chapter(id):
-	res = es.get(index='joyce', doc_type='chapters', id=id, _source=True)
-	return jsonify(res['_source'])
+	res = es.get_source(index='joyce', doc_type='chapters', id=id, _source=True)
+	return jsonify(res)
 
 # Create and update chapters
 @api.route('/chapters/<int:id>', methods=['POST', 'PUT'])

@@ -14,7 +14,16 @@ api = Blueprint('api', __name__)
 # Get all chapters
 @api.route('/chapters/')
 def get_chapters():
-	search = es.search(index='joyce', doc_type='chapters', body={'query': {'match_all': {}}})
+	search = es.search(
+		index='joyce', 
+		doc_type='chapters', 
+		body={
+			'query': {'match_all': {}},
+			'sort': [
+				{'id': {'order': 'asc'}}
+			]
+		} 
+	)
 	res = []
 	for x in search['hits']['hits']:
 		res.append(x['_source'])

@@ -1,0 +1,5 @@
+/static
+/lib
+/bin
+/node_modules
+*.pyc

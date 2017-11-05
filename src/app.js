@@ -1,13 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Redux from 'redux'
+import ReactRedux from 'react-redux'
+import axios from 'axios' // HTTP client
+import objectAssign from 'object-assign' // Object.assign() polyfill for older browsers
 
-class ChapterButton extends React.Component {
+// const readerApp = Redux.combineReducers({
 
-}
+// })
 
 
-class ChapterList extends React.Component {
+// // STORE
+
+// let store = Redux.createStore()
+
+// ReactDOM.render(
+// 	<ReaderSidebar />,
+//   	document.getElementById('sidebar')
+// )
+
+class ReaderSidebar extends React.Component {
 
 	constructor(props) {
 		super(props)
@@ -18,12 +30,11 @@ class ChapterList extends React.Component {
 
 	componentDidMount() {
 		const chapters = axios.get('/api/chapters').then(res => {
-			const chapters = res.data.sort((a, b) => a.id - b.id)
-			return chapters
+			return res.data
 		}).catch(error =>
 			console.log(error)
 		).then(chapters => this.setState({chapters}))
-	}
+	}	
 
  	render() {
         return (
@@ -31,18 +42,25 @@ class ChapterList extends React.Component {
 				<div id="highlight_button" className="text-center">
 					<a href="#" className="btn btn-primary btn-lg">Highlight Notes</a>
 				</div>
-				{console.log(this.state.chapters)}
-	        	{this.state.chapters.map(chapter => 
-	        		<div>
-	        			<a className='btn btn-primary btn-lg' href={chapter.id}>{chapter.name}</a>
-        			</div>
-	        	)}
+	        	<ChapterList chapters={this.state.chapters} />
         	</div>
       	);
   	}
 }
 
+const ChapterList = props =>
+	<div>
+    	{props.chapters.map(chapter => 
+			<ChapterButton key={chapter.id} chapter={chapter}/>
+    	)}
+	</div>
+
+const ChapterButton = props =>
+	<div className ='text-center'>			
+		<a href={props.chapter.id} className='chapter_button btn btn-default btn-lg'>{props.chapter.name}</a>
+	</div>
+
 ReactDOM.render(
-	<ChapterList chapter='Telemachus'/>,
+	<ReaderSidebar />,
   	document.getElementById('sidebar')
 )

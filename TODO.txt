@@ -2,12 +2,12 @@
 	+ Flask Microservice +
 	+ Basic REST API +
 	+ Basic Layout + 
-	- React Components
+	+ React Components +
+	+ Front-End Dependency Manager +
 	- Wire React to ES API
 	- Simple CRUID interface
 	- Orchestrate Environment Configs
 	- Basic Testing
-	- Front-End Dependency Manager
 
 - v0.2 Reader
 	- Reader UX
@@ -20,7 +20,8 @@
 
 - Error Handling
 - Unit Testing
-- Admin Access Restrictions
+- Admin Access Restrictions (OAuth?)
 - Admin Page
 - Search Functionality
 - HTML Editor For Chapters / Notes
+- 

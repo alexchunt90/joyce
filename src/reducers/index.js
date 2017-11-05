@@ -12,11 +12,8 @@ const chapters = (state=[], action) => {
 
 const currentChapter = (state={}, action) => {
 	switch(action.type) {
-		case 'SET_CURRENT_CHAPTER':
-			return objectAssign(
-				{},	state,
-				{currentChapter: {id: action.id, name: chapter.name}}
-			)
+		case 'GET_TEXT_DATA_RECEIVED':
+			return action.data
 		default:
 			return state
 	}

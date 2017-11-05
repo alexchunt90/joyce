@@ -5,24 +5,24 @@ from elasticsearch import Elasticsearch
 #TODO: Extract to config
 ELASTICSEARCH_HOST = '127.0.0.1:9200'
 es = Elasticsearch(ELASTICSEARCH_HOST)
-# if es.ping() == True?
-
-print 'API initialized!'
 
 api = Blueprint('api', __name__)
+
+doc_type = 'chapter'
 
 # Get all chapters
 @api.route('/chapters/')
 def get_chapters():
 	search = es.search(
 		index='joyce', 
-		doc_type='chapters', 
+		doc_type=doc_type, 
+		_source_exclude=['text'],
 		body={
 			'query': {'match_all': {}},
 			'sort': [
 				{'id': {'order': 'asc'}}
 			]
-		} 
+		}
 	)
 	res = []
 	for x in search['hits']['hits']:
@@ -32,20 +32,24 @@ def get_chapters():
 # Get specific chapter
 @api.route('/chapters/<int:id>')
 def get_chapter(id):
-	res = es.get_source(index='joyce', doc_type='chapters', id=id, _source=True)
+	res = es.get_source(index='joyce', doc_type=doc_type, id=id)
 	return jsonify(res)
 
 # Create and update chapters
 @api.route('/chapters/<int:id>', methods=['POST', 'PUT'])
 def write_chapter(id):
+	
+	def es_index(data):
+		return es.index(index='joyce', doc_type='chapter', id=id, body=data)
+
 	if request.method == 'POST':
-		if es.exists(index='joyce', doc_type='chapters', id=id):
-			res = es.exists(index='joyce', doc_type='chapters', id=id)
+		if es.exists(index='joyce', doc_type=doc_type, id=id):
+			res = 'That already exists.'
 		else:
-			res = es.index(index='joyce', doc_type='chapters', id=id, body=request.data)
+			res = es_index(request.data)
 	else:
-		if es.exists(index='joyce', doc_type='chapters', id=id):
-			res = es.index(index='joyce', doc_type='chapters', id=id, body=request.data)
+		if es.exists(index='joyce', doc_type=doc_type, id=id):
+			res = es_index(request.data)
 		else:
 			res = 'That doesn\'t exist.'
 	return jsonify(res)
@@ -53,5 +57,5 @@ def write_chapter(id):
 # Delete chapter
 @api.route('/chapters/<int:id>', methods=['DELETE'])
 def delete_chapter(id):
-	res = es.delete(index='joyce', doc_type='chapters', id=id)
+	res = es.delete(index='joyce', doc_type=doc_type, id=id)
 	return jsonify(res)

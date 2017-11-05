@@ -1,4 +1,5 @@
 import React from 'react'
+import ChapterListContainer from '../containers/ChapterListContainer'
 
 //  	render() {
 //         return (
@@ -11,18 +12,3 @@ import React from 'react'
 //       	);
 //   	}
 // }
-
-const ChapterList = ({chapters, onChapterClick}) =>
-	<div>
-		{console.log(chapters)}
-    	{chapters.map(chapter =>
-			<ChapterButton key={chapter.id} chapter={chapter} onClick={()=>onChapterClick(chapter.id)}/>
-    	)}
-	</div>
-
-const ChapterButton = ({chapter, onClick}) =>
-	<div className ='text-center'>
-		<a href={chapter.id} onClick={onClick} className='chapter_button btn btn-default btn-lg'>{chapter.name}</a>
-	</div>
-
-export default ChapterList

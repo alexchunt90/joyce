@@ -1,5 +1,9 @@
-export const setCurrentChapter = id =>
+const setCurrentChapter = id =>
 	({
-		type: 'SET_CURRENT_CHAPTER',
+		type: 'GET_TEXT_DATA',
 		id: id
 	})
+	
+export {
+	setCurrentChapter
+}

@@ -1,10 +1,11 @@
+import React from 'react'
 import { connect } from 'react-redux'
-import ChapterList from '../components'
+
 import { setCurrentChapter } from '../actions/actions'
 
+import ChapterList from '../components/chapterList'
+
 const mapStateToProps = state => {
-	console.log('State is:')
-	console.log(state)
 	return {
 		chapters: state.chapters,
 		currentChapter: state.currentChapter
@@ -19,4 +20,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export const ChapterListContainer = connect(mapStateToProps, mapDispatchToProps)(ChapterList)
+const ChapterListContainer = connect(mapStateToProps, mapDispatchToProps)(ChapterList)
+
+export default ChapterListContainer

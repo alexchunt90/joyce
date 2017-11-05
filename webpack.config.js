@@ -12,13 +12,13 @@ let pathsToClean = [
 
 module.exports = {
 	entry: {
-		app: [
-			rootAssetPath + 'app'
+		reader: [
+			rootAssetPath + 'reader'
 		]
 	},
 	output: {
 		publicPath: "static/js/",
-    	filename: 'app.[chunkhash].js',
+    	filename: 'reader.[chunkhash].js',
     	path: path.resolve(__dirname, 'static/js')
 	},
 	watch: true,

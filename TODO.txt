@@ -24,4 +24,13 @@
 - Admin Page
 - Search Functionality
 - HTML Editor For Chapters / Notes
-- 
+- Draft.JS
+- Community Contributors?
+- Login with Social Media OAuth, User Preferences?
+- Search, broken out with text results and note results
+	- Advanced search page?
+- Immutable Text
+- Add Typechecking with Flow or at least PropTypes
+- Maintain old version of Joyce Project? (unlikely)
+- Weed out unneeded dependencies
+- Implement a pixel to track usage

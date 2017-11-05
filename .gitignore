@@ -1,5 +1,12 @@
 /static
+!/static/style.css
 /lib
 /bin
+/include
 /node_modules
 *.pyc
+pip-selfcheck.json
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+.Python

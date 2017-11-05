@@ -26,3 +26,12 @@ html body {
 	padding: 5% 0 5% 0;
 	border-bottom: 2px solid rgba(40,40,40,.5);
 }
+
+#highlight_button a {
+	width: 100%;
+}
+
+.chapter_button {
+	width: 100%;
+	margin: 1% 0 1% 0;
+}

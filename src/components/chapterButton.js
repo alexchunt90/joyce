@@ -1,8 +1,8 @@
 import React from 'react'
 
 const ChapterButton = ({chapter, onClick}) =>
-	<div className ='text-center'>
-		<a onClick={onClick} className='chapter_button btn btn-default btn-lg'>{chapter.name}</a>
+	<div className ='chapter_button text-center'>
+		<button onClick={onClick} className='btn btn-outline-dark btn-lg'>{chapter.name}</button>
 	</div>
 
 export default ChapterButton

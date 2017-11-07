@@ -10,6 +10,15 @@ const chapters = (state=[], action) => {
 	}
 }
 
+const highlightActive = (state=false, action) => {
+	switch(action.type) {
+		case 'TOGGLE_HIGHLIGHT':
+			return !state
+		default:
+			return state
+	}
+}
+
 const currentChapter = (state={}, action) => {
 	switch(action.type) {
 		case 'GET_TEXT_DATA_RECEIVED':
@@ -21,7 +30,8 @@ const currentChapter = (state={}, action) => {
 
 const readerApp = combineReducers({
 	chapters,
-	currentChapter
+	currentChapter,
+	highlightActive
 })
 
 export default readerApp

@@ -1,5 +1,5 @@
 import React from 'react'
-import ChapterButton from './ChapterButton'
+import ChapterButton from './chapterButton'
 
 const ChapterList = ({chapters, onChapterClick}) =>
 	<div>

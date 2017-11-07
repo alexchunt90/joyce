@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import ChapterList from '../components'
 import { setCurrentChapter } from '../actions/actions'
 
 class Page extends React.Component {
 	render() {
-		{console.log(this.props.currentChapter)}
 		return (
-			<div className="col-xs-8" id="reader">
+			<div id="page">
+				<h2>[{this.props.currentChapter.id}]</h2>
+				<h3>{this.props.currentChapter.name}</h3>
 				{this.props.currentChapter.text}
 			</div>			
 		)

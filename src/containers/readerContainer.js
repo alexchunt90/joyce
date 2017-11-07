@@ -3,16 +3,22 @@ import { connect } from 'react-redux'
 
 import { setCurrentChapter } from '../actions/actions'
 
+import Navbar from '../components/navbar'
 import Sidebar from '../components/sidebar'
-import PageContainer from '../containers/pageContainer'
+import Content from '../components/content'
 
 class Reader extends React.Component {
 	render() {
 		return (
-			<div className="row">
-				<Sidebar />
-				<PageContainer />
-			</div>			
+			<div>
+				<Navbar />
+				<div id='joyce_reader' className='container-fluid'>
+					<div className="row">
+						<Sidebar />
+						<Content />
+					</div>
+				</div>
+			</div>
 		)
 	}
 }

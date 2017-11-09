@@ -6,8 +6,20 @@
 	+ Front-End Dependency Manager +
 	- Wire React to ES API
 	- Simple CRUID interface
-	- Orchestrate Environment Configs
-	- Basic Testing
+
+Short List:
+- Some Testing
+- Env Configs
+- Collapsable Button Lists
+- Draft.JS
+- DRY up Sass Modules
+- Async API Middleware
+- CombineReducers in App.js
+- Import Actions into Reducers
+- PropTypes
+
+- Loading Indicators
+
 
 - v0.2 Reader
 	- Reader UX
@@ -20,7 +32,7 @@
 
 - Error Handling
 - Unit Testing
-- Remove Flask-Webpack
+- Remove Flask-Webpack?
 - Admin Access Restrictions (OAuth?)
 - Admin Page
 - Search Functionality
@@ -35,3 +47,5 @@
 - Maintain old version of Joyce Project? (unlikely)
 - Weed out unneeded dependencies
 - Implement a pixel to track usage
+- Default Pagination?
+- ARIA compliance

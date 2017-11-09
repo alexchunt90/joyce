@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import objectAssign from 'object-assign' // Object.assign() polyfill for older browsers
 
 const chapters = (state=[], action) => {
@@ -28,10 +27,8 @@ const currentChapter = (state={}, action) => {
 	}
 }
 
-const reduceReader = combineReducers({
+export {
 	chapters,
-	currentChapter,
-	highlightActive
-})
-
-export default reduceReader
+	highlightActive,
+	currentChapter
+}

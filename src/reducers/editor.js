@@ -1,5 +1,6 @@
-import { combineReducers } from 'redux'
+import { EditorState } from 'draft-js'
 import objectAssign from 'object-assign' // Object.assign() polyfill for older browsers
+import actions from '../actions/actions'
 
 const chapters = (state=[], action) => {
 	switch(action.type) {
@@ -28,10 +29,19 @@ const currentChapter = (state={}, action) => {
 	}
 }
 
-const reduceEditor = combineReducers({
-	chapters,
-	currentChapter,
-	highlightActive
-})
+const editorState = (state=(EditorState.createEmpty()), action) => {
+	switch(action.type) {
+		case 'UPDATE_EDITOR_STATE':
+			console.log(action.payload.getSelection())
+			return action.payload
+		default:
+			return state
+	}
+}
 
-export default reduceEditor
+export {
+	chapters,
+	highlightActive,
+	currentChapter,
+	editorState
+}

@@ -1,9 +1,8 @@
 import React from 'react'
-import PageContainer from '../containers/pageContainer'
 
-const Content = () =>
+const Content = (props) =>
 	<div id='content_window' className='col-md-8'>
-		<PageContainer />
+		{props.children}
 	</div>
 
 export default Content

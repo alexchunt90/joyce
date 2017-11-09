@@ -4,12 +4,19 @@ const setCurrentChapter = id =>
 		id: id
 	})
 
-const toggleHighlight = id =>
+const toggleHighlight = () =>
 	({
 		type: 'TOGGLE_HIGHLIGHT'
+	})
+
+const updateEditorState = editorState =>
+	({
+		type: 'UPDATE_EDITOR_STATE',
+		payload: editorState
 	})
 	
 export {
 	setCurrentChapter,
-	toggleHighlight
+	toggleHighlight,
+	updateEditorState
 }

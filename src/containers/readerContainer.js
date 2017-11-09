@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 
 import { setCurrentChapter } from '../actions/actions'
 
+import PageContainer from '../containers/pageContainer'
+import Content from '../components/content'
 import Navbar from '../components/navbar'
 import Sidebar from '../components/sidebar'
-import Content from '../components/content'
 
 class Reader extends React.Component {
 	render() {
@@ -15,7 +16,9 @@ class Reader extends React.Component {
 				<div id='joyce_reader' className='container-fluid'>
 					<div className="row">
 						<Sidebar />
-						<Content />
+						<Content>
+							<PageContainer />
+						</Content>
 					</div>
 				</div>
 			</div>

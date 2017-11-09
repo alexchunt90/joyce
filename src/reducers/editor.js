@@ -28,10 +28,10 @@ const currentChapter = (state={}, action) => {
 	}
 }
 
-const readerApp = combineReducers({
+const reduceEditor = combineReducers({
 	chapters,
 	currentChapter,
 	highlightActive
 })
 
-export default readerApp
+export default reduceEditor

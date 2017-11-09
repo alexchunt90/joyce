@@ -4,11 +4,11 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import 'bootstrap'
 
-import readerApp from './reducers'
+import reduceReader from './reducers/reader'
 import joyceAPIService from './middleware'
 import { ReaderContainer } from './containers/readerContainer'
 
-let store = createStore(readerApp, applyMiddleware(joyceAPIService))	
+let store = createStore(reduceReader, applyMiddleware(joyceAPIService))	
 
 ReactDOM.render(
 	<Provider store={store}>

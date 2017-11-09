@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let apiRoute = 'api/chapters/'
+let apiRoute = '/api/chapters/'
 
 const joyceAPIService = state => next => action => {
 	next(action)

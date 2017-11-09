@@ -16,12 +16,16 @@ module.exports = {
 			rootAssetPath + 'reader',
 			rootAssetPath + 'stylesheets/' + 'reader.scss'
 		],
+		editor: [
+			rootAssetPath + 'editor',
+			rootAssetPath + 'stylesheets/' + 'editor.scss'
+		]
 		// style: [
 		// ]
 	},
 	output: {
-		publicPath: "static/js/",
-    	filename: 'reader.[chunkhash].js',
+		publicPath: "/static/js/",
+    	filename: '[name].[chunkhash].js',
     	path: path.resolve(__dirname, 'static/js/')
 	},
 	watch: true,
@@ -62,7 +66,7 @@ module.exports = {
 	plugins: [
 		// TODO: Dev / Prod Config
 		// new webpack.optimize.UglifyJsPlugin(),
-        new ManifestRevisionPlugin(path.join('static/js', 'manifest.json'), {
+        new ManifestRevisionPlugin(path.join('static/', 'manifest.json'), {
             rootAssetPath: rootAssetPath
         }),
         new webpack.ProvidePlugin({

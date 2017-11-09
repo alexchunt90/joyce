@@ -1,26 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import 'bootstrap'
 
-const Editor = props =>
-	<div className='col-sm-4'>
+import reduceEditor from './reducers/editor'
+import joyceAPIService from './middleware'
+import EditorContainer from './containers/editorContainer'
 
-	</div>
+let store = createStore(reduceEditor, applyMiddleware(joyceAPIService))	
 
-	
-const EditSidebar = props =>
-	<EditChapterList chapters={props.chapters}/>
-
-const EditChapterList = props =>
-	{this.props.chapters.map(chapter =>
-		<div>
-			<EditChapterButton chapter={chapter} />
-		</div>
-	)}
-	
-const EditChapterButton = props =>
-	<a className=''>{props.chapter.name}</a>
-
-const EditChapter = props => 
-	<div className='text_wrapper'>
-		{props.currentChapter.text}
-	</div>
+ReactDOM.render(
+	<Provider store={store}>
+		<EditorContainer />
+	</Provider>,
+  	document.getElementById('wrapper')
+)
+store.dispatch({type: 'GET_CHAPTER_DATA'})
+store.dispatch({type: 'GET_TEXT_DATA', id: 1})

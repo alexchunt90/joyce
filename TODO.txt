@@ -20,6 +20,7 @@
 
 - Error Handling
 - Unit Testing
+- Remove Flask-Webpack
 - Admin Access Restrictions (OAuth?)
 - Admin Page
 - Search Functionality

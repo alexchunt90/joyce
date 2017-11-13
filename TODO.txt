@@ -9,13 +9,14 @@
 
 Short List:
 - Some Testing
+- Font Awesome / Better Glyphicons
 - Env Configs
 - Collapsable Button Lists
 - Draft.JS
 - DRY up Sass Modules
 - Async API Middleware
 - CombineReducers in App.js
-- Import Actions into Reducers
+- Import Action consts into Reducers
 - PropTypes
 
 - Loading Indicators

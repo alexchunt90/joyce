@@ -108,13 +108,50 @@ nav a:hover {
     border-radius: 5px;
 }
 
-#text_editor {
+#editor_topbar {
+	margin: 0.8% 0;
+}
+
+#editor_topbar input {
+	width: 100%;
+}
+
+#editor_topbar button img {
+	width: 100%;
+	height: 100%; 
+}
+
+#editor_content {
     height: 100%;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
-    padding: 3% 8%;
+    margin: 0.8% 0;
     border: 1px solid $border_color;
     border-radius: 5px;
+    padding: 3% 8%;
+}
+
+#editor_content div {
+	height: 100%;
+	overflow: scroll;
+}
+
+#editor_topbar button img {
+	width: 60%;
+}
+
+#editor_bottombar {
+	margin: 0.8% 0;
+}
+
+#editor_delete {
+	float: left;
+	width: 100%;
+}
+
+#editor_save {
+	float: right;
+	width: 100%;
 }
 
 #page {

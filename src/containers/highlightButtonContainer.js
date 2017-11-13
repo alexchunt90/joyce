@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { toggleHighlight } from '../actions/actions'
+import { toggleHighlight } from '../actions'
 
 import HighlightButton from '../components/highlightButton'
 

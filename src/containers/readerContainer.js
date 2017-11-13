@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setCurrentChapter } from '../actions/actions'
+import { setCurrentChapter } from '../actions'
 
 import PageContainer from '../containers/pageContainer'
 import Content from '../components/content'

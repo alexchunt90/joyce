@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import 'bootstrap'
 
 import { chapters, currentChapter, highlightActive } from './reducers/reader'
-import joyceAPIService from './middleware'
+import { joyceAPIService } from './actions'
 import { ReaderContainer } from './containers/readerContainer'
 
 const reduceReader = combineReducers({

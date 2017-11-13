@@ -2,7 +2,7 @@ import React from 'react'
 
 import TextEditorContainer from '../containers/textEditorContainer'
 import Navbar from '../components/navbar'
-import Sidebar from '../components/sidebar'
+import EditorSidebar from '../components/editorSidebar'
 import Content from '../components/content'
 
 const EditorContainer = () =>
@@ -10,7 +10,7 @@ const EditorContainer = () =>
 		<Navbar />
 		<div id='joyce_editor' className='container-fluid'>
 			<div className="row">
-				<Sidebar />
+				<EditorSidebar />
 				<Content>
 					<TextEditorContainer />
 				</Content>

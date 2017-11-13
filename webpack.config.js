@@ -1,10 +1,10 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
-const webpack = require('webpack');
-const path = require('path');
+const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin')
+const webpack = require('webpack')
+const path = require('path')
 
-const rootAssetPath = './src/';
+const rootAssetPath = './src/'
 
 let pathsToClean = [
   'static/'
@@ -25,7 +25,7 @@ module.exports = {
 	},
 	output: {
 		publicPath: "/static/js/",
-    	filename: '[name].[chunkhash].js',
+    	filename: '[name].[hash].js',
     	path: path.resolve(__dirname, 'static/js/')
 	},
 	watch: true,
@@ -42,6 +42,12 @@ module.exports = {
 				options: {
 					presets: ['env', 'react']
 	        	}
+			}
+		},
+		{
+			test: /\.(png)$/,
+			use: {
+				loader: 'file-loader'
 			}
 		},
 		{
@@ -75,6 +81,6 @@ module.exports = {
 	        'window.jQuery': 'jquery',
 	        Popper: ['popper.js', 'default']        	
         }),
-        new CleanWebpackPlugin(pathsToClean)
-	],	
+        new CleanWebpackPlugin(pathsToClean),
+	],
 };

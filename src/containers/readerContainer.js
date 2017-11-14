@@ -6,7 +6,7 @@ import { setCurrentChapter } from '../actions'
 import PageContainer from '../containers/pageContainer'
 import Content from '../components/content'
 import Navbar from '../components/navbar'
-import Sidebar from '../components/sidebar'
+import ReaderSidebarContainer from '../containers/readerSidebarContainer'
 
 class Reader extends React.Component {
 	render() {
@@ -15,7 +15,7 @@ class Reader extends React.Component {
 				<Navbar />
 				<div id='joyce_reader' className='container-fluid'>
 					<div className="row">
-						<Sidebar />
+						<ReaderSidebarContainer />
 						<Content>
 							<PageContainer />
 						</Content>

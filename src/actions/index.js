@@ -13,8 +13,9 @@ const GET_TEXT_DATA_ERROR = 'GET_TEXT_DATA_ERROR'
 const UPDATE_EDITOR_STATE = 'UPDATE_EDITOR_STATE'
 const TOGGLE_HIGHLIGHT = 'TOGGLE_HIGHLIGHT'
 const UPDATE_CHAPTER_TITLE = 'UPDATE_CHAPTER_TITLE'
+const CREATE_CHAPTER = 'CREATE_CHAPTER'
 
-export const setCurrentChapter = id =>
+export const setChapterToRead = id =>
 	({
 		type: GET_TEXT_DATA,
 		id: id
@@ -62,10 +63,15 @@ export const textDataError = error =>
 		error
 	})
 
-export const setChapterEditor = chapter =>
+export const setChapterToEdit = chapter =>
 	({
 		type: SET_EDITED_CHAPTER,
 		chapter
+	})
+
+export const createNewChapter = () =>
+	({
+		type: CREATE_CHAPTER
 	})
 
 export const logger = store => next => action => {

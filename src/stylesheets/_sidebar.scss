@@ -1,0 +1,24 @@
+@import "variables";
+
+#sidebar {
+    background-color: rgba(250,250,250,.8);
+    margin: -2.5% 2% 1.5% 2%;
+    padding: 1%;
+    border: 1px solid $border_color;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+#highlight_button > button {
+	width: 100%;
+}
+
+.sidebar_spacer {
+    margin: 3% 0;
+    border: 1px solid $border_color;	
+}
+
+.chapter_button > button {
+	width: 100%;
+	margin: 1% 0 1% 0;
+}

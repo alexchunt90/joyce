@@ -1,6 +1,9 @@
 @import "custom";
 @import "node_modules/bootstrap/scss/bootstrap";
 
+$fa-font-path: "../../node_modules/font-awesome/fonts";
+@import "node_modules/font-awesome/scss/font-awesome";
+
 $bg_gradient1: #ede9de;
 $bg_gradient2: #e0dbb5;
 
@@ -87,11 +90,40 @@ nav a:hover {
 
 #page {
     height: 100%;
+    overflow: scroll;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
     padding: 3% 8%;
     border: 1px solid $border_color;
     border-radius: 5px;
+}
+
+#page.show_notes a {	
+	cursor: pointer;
+  	animation-duration: 1s;
+  	animation-name: fadeIn;	
+  	animation-fill-mode: forwards;
+}
+
+#page.hide_notes a {
+	color: black;
+	text-decoration: none;
+	cursor: default;
+	pointer-events: none;
+
+}
+
+@keyframes fadeIn {
+	from {
+		color: black;
+		text-decoration: none;		
+	}
+
+	to {
+		color: map-get($theme_colors, "primary");
+		background-color: #f2e9de;
+		border-radius: 3px;
+	}
 }
 
 #page {

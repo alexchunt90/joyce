@@ -18,7 +18,7 @@ export const HighlightButton = ({highlightActive, onHighlightClick}) =>
 	<div>
 		<div id="highlight_button" className="text-center">
 			<button onClick={onHighlightClick} className={highlightActive ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'}>
-				{highlightActive ? 'Remove Highlight' : 'Highlight Notes'}
+				{highlightActive ? 'Hide Notes' : 'Highlight Notes'}
 			</button>
 		</div>
 	</div>
@@ -27,7 +27,7 @@ export const NewChapterButton = ({onNewChapterClick}) =>
 	<div>
 		<div id="highlight_button" className="text-center">
 			<button onClick={onNewChapterClick} className='btn btn-outline-success btn-lg'>
-				New Chapter <strong>+</strong>
+				New Chapter <i className="fa fa-plus-square-o"></i>
 			</button>
 		</div>
 	</div>	

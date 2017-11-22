@@ -15,10 +15,12 @@
     "draft-js": "^0.10.4",
     "draft-js-export-html": "^1.2.0",
     "draft-js-import-html": "^1.2.1",
+    "font-awesome": "^4.7.0",
     "object-assign": "^4.1.1",
     "popper.js": "^1.12.6",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-fontawesome": "^1.6.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"
   },

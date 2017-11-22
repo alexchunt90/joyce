@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setCurrentChapter } from '../actions'
 
-const Page = ({currentChapter}) =>
-	<div id="page">
+const Page = ({currentChapter, highlightActive}) =>
+	<div id="page" className={highlightActive ? 'show_notes' : 'hide_notes'}>
 		<h2>[{currentChapter.number}]</h2>
 		<h3>{currentChapter.title}</h3>
 		<div dangerouslySetInnerHTML={{__html: currentChapter.text}} />
@@ -11,8 +11,8 @@ const Page = ({currentChapter}) =>
 
 const mapStateToProps = state => {
 	return {
-		chapters: state.chapters,
-		currentChapter: state.currentChapter
+		currentChapter: state.currentChapter,
+		highlightActive: state.highlightActive
 	}
 }
 

@@ -4,23 +4,10 @@
 	+ Basic Layout + 
 	+ React Components +
 	+ Front-End Dependency Manager +
-	- Wire React to ES API
-	- Simple CRUID interface
-
-Short List:
-- Some Testing
-- Font Awesome / Better Glyphicons
-- Env Configs
-- Collapsable Button Lists
-- Draft.JS
-- DRY up Sass Modules
-- Async API Middleware
-- CombineReducers in App.js
-- Import Action consts into Reducers
-- PropTypes
-
-- Loading Indicators
-
+	+ Wire React to ES API +
+	+ Simple CRUD interface +
+	+ Async API Middleware +
+	+ Font Awesome / Better Glyphicons +
 
 - v0.2 Reader
 	- Reader UX
@@ -31,6 +18,19 @@ Short List:
 	- Abstract API Blueprint for Notes
 	- Note Manager Component
 
+- v0.4 Search
+
+- v0.5 Pagination
+
+Short List:
+- PropTypes
+- DRY up Sass Modules
+- Env Configs
+- Some Testing
+- Draft.JS
+- Elasticsearch Versioning and Revert UI
+- Collapsable Button Lists
+- Loading Indicators
 - Error Handling
 - Unit Testing
 - Remove Flask-Webpack?
@@ -50,3 +50,4 @@ Short List:
 - Implement a pixel to track usage
 - Default Pagination?
 - ARIA compliance
+- Docker

@@ -3,11 +3,8 @@ import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
-
 import { updateEditorState, updateChapterTitleInput, updateChapterNumberInput, submitChapter, deleteChapter } from '../actions'
 
-
-import { glyphiconBold, glyphiconItalic, glyphiconUnderline, glyphiconAlignLeft, glyphiconAlignCenter, glyphiconAlignRight } from '../assets'
 
 const TextEditor = ({currentChapter, editorState, onChangeEditorState, chapterTitleInput, onChapterTitleChange, onEditSubmit, onDelete}) =>
 	<div id='editor_container'>
@@ -23,14 +20,14 @@ const TextEditor = ({currentChapter, editorState, onChangeEditorState, chapterTi
 			</div>
 			<div className='row'>
 				<div className='btn-group col-md-3 offset-md-6' role='group'>
-					<button type='button' className='btn btn-info btn-sm'><img src={glyphiconBold} /></button>
-					<button type='button' className='btn btn-info btn-sm'><img src={glyphiconItalic} /></button>
-					<button type='button' className='btn btn-info btn-sm'><img src={glyphiconUnderline} /></button>
+					<button type='button' className='btn btn-info btn-sm'><i className='fa fa-bold'></i></button>
+					<button type='button' className='btn btn-info btn-sm'><i className='fa fa-italic'></i></button>
+					<button type='button' className='btn btn-info btn-sm'><i className='fa fa-underline'></i></button>
 				</div>
 				<div className='btn-group col-md-3' role='group'>
-					<button type='button' className='btn btn-info btn-sm'><img src={glyphiconAlignLeft} /></button>
-					<button type='button' className='btn btn-info btn-sm'><img src={glyphiconAlignCenter} /></button>
-					<button type='button' className='btn btn-info btn-sm'><img src={glyphiconAlignRight} /></button>			
+					<button type='button' className='btn btn-info btn-sm'><i className='fa fa-align-left'></i></button>
+					<button type='button' className='btn btn-info btn-sm'><i className='fa fa-align-center'></i></button>
+					<button type='button' className='btn btn-info btn-sm'><i className='fa fa-align-right'></i></button>			
 				</div>
 			</div>
 		</div>
@@ -42,10 +39,16 @@ const TextEditor = ({currentChapter, editorState, onChangeEditorState, chapterTi
 		<div id='editor_bottombar'>
 			<div className='row'>
 				<div className='col-md-5'>
-					<button id='editor_delete' onClick={()=>onDelete(currentChapter)} type='button' className='btn btn-danger btn-sm'>Delete</button>
+					<button id='editor_delete' onClick={()=>onDelete(currentChapter)} type='button' className='btn btn-danger btn-sm'>
+						Delete
+						<i className='fa fa-trash-o'></i>
+					</button>
 				</div>
 				<div className='col-md-5 offset-md-2'>
-					<button id='editor_save' onClick={()=>onEditSubmit(currentChapter, chapterTitleInput, editorState)} type='button' className='btn btn-success btn-sm'>Save</button>
+					<button id='editor_save' onClick={()=>onEditSubmit(currentChapter, chapterTitleInput, editorState)} type='button' className='btn btn-success btn-sm'>
+						Save
+						<i className='fa fa-check-square-o'></i>
+					</button>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,10 @@
 @import "custom";
 @import "node_modules/bootstrap/scss/bootstrap";
 
+$fa-font-path: "../../node_modules/font-awesome/fonts";
+@import "node_modules/font-awesome/scss/font-awesome";
+
+
 $bg_gradient1: #ede9de;
 $bg_gradient2: #e0dbb5;
 
@@ -91,6 +95,7 @@ nav a:hover {
 
 #content_window {
     height: 44em;
+    overflow: hidden;
     background-color: rgba(250,250,250,.8);
     margin: 0 2% 1.5% 2%;
     padding: 2% 2%;
@@ -126,7 +131,8 @@ nav a:hover {
 }
 
 #editor_content {
-    height: 100%;
+    height: 35em;
+    overflow: scroll;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
     margin: 0.8% 0;
@@ -136,7 +142,6 @@ nav a:hover {
 }
 
 #editor_content div {
-	height: 100%;
 	overflow: scroll;
 }
 

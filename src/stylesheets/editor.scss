@@ -112,7 +112,11 @@ nav a:hover {
 	margin: 0.8% 0;
 }
 
-#editor_topbar input {
+#chapter_number_input input {
+	width: 20%;
+}
+
+#chapter_title_input input {
 	width: 100%;
 }
 
@@ -128,7 +132,7 @@ nav a:hover {
     margin: 0.8% 0;
     border: 1px solid $border_color;
     border-radius: 5px;
-    padding: 3% 8%;
+    padding: 2% 5%;
 }
 
 #editor_content div {

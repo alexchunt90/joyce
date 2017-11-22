@@ -4,8 +4,8 @@
   "description": "Reader and Editor for Hypertext",
   "main": "app.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --colors --port 2992 --content-base static/js",
-    "build": "webpack --config webpack.config.js --watch",
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --config webpack.config.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alex Hunt",
@@ -13,6 +13,8 @@
   "dependencies": {
     "bootstrap": "^4.0.0-beta.2",
     "draft-js": "^0.10.4",
+    "draft-js-export-html": "^1.2.0",
+    "draft-js-import-html": "^1.2.1",
     "object-assign": "^4.1.1",
     "popper.js": "^1.12.6",
     "react": "^16.0.0",

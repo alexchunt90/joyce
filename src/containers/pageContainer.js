@@ -2,17 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setCurrentChapter } from '../actions'
 
-class Page extends React.Component {
-	render() {
-		return (
-			<div id="page">
-				<h2>[{this.props.currentChapter.id}]</h2>
-				<h3>{this.props.currentChapter.name}</h3>
-				{this.props.currentChapter.text}
-			</div>			
-		)
-	}
-}
+const Page = ({currentChapter}) =>
+	<div id="page">
+		<h2>[{currentChapter.number}]</h2>
+		<h3>{currentChapter.title}</h3>
+		<div dangerouslySetInnerHTML={{__html: currentChapter.text}} />
+	</div>			
 
 const mapStateToProps = state => {
 	return {

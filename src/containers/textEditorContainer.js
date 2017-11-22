@@ -1,20 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { updateEditorState, updateChapterTitleInput } from '../actions'
+import { Editor } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
 
-import { Editor, convertToRaw } from 'draft-js';
+
+import { updateEditorState, updateChapterTitleInput, updateChapterNumberInput, submitChapter, deleteChapter } from '../actions'
+
 
 import { glyphiconBold, glyphiconItalic, glyphiconUnderline, glyphiconAlignLeft, glyphiconAlignCenter, glyphiconAlignRight } from '../assets'
 
-const TextEditor = ({editorState, onSaveEditorState, chapterTitleInput, onChapterTitleChange}) =>
+const TextEditor = ({currentChapter, editorState, onChangeEditorState, chapterTitleInput, onChapterTitleChange, onEditSubmit, onDelete}) =>
 	<div id='editor_container'>
 		<div id='editor_topbar'>
 			<div className='row'>			
-				<div className='col-md-4'>
-					<h4>Chapter 1:</h4>
-				</div>				
-				<div className='col-md-8'>
-					<input type="text" value={chapterTitleInput} onChange={onChapterTitleChange}/>
+				<div id='chapter_number_input' className='col-md-4'>
+					Chapter {currentChapter.number}:
+				</div>								
+				<div id='chapter_title_input' className='col-md-8'>
+					<input type='text' value={chapterTitleInput} onChange={onChapterTitleChange}/>
 				</div>
 
 			</div>
@@ -33,23 +36,24 @@ const TextEditor = ({editorState, onSaveEditorState, chapterTitleInput, onChapte
 		</div>
 
 		<div id='editor_content'>
-			<Editor editorState={editorState} onChange={onSaveEditorState} />
+			<Editor editorState={editorState} onChange={onChangeEditorState} />
 		</div>
 
 		<div id='editor_bottombar'>
 			<div className='row'>
 				<div className='col-md-5'>
-					<button id='editor_delete' type='button' className='btn btn-danger btn-sm'>Delete</button>
+					<button id='editor_delete' onClick={()=>onDelete(currentChapter)} type='button' className='btn btn-danger btn-sm'>Delete</button>
 				</div>
 				<div className='col-md-5 offset-md-2'>
-					<button id='editor_save' type='button' className='btn btn-success btn-sm'>Save</button>
+					<button id='editor_save' onClick={()=>onEditSubmit(currentChapter, chapterTitleInput, editorState)} type='button' className='btn btn-success btn-sm'>Save</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-const mapStateToProps = state => {
+const mapStateToProps = state => { 
 	return {
+		currentChapter: state.currentChapter,
 		editorState: state.editorState,
 		chapterTitleInput: state.chapterTitleInput
 	}
@@ -57,11 +61,25 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onSaveEditorState: editorState => {
+		onChangeEditorState: editorState => {
 			dispatch(updateEditorState(editorState))
 		},
 		onChapterTitleChange: chapterTitleInput => {
 			dispatch(updateChapterTitleInput(chapterTitleInput))
+		},
+		onDelete: currentChapter => {
+			if (currentChapter.title !== '') {
+				dispatch(deleteChapter(currentChapter.number))
+			}
+		},
+		onEditSubmit: (currentChapter, chapterTitleInput, editorState) => {
+			let textContent = editorState.getCurrentContent()
+			const editDocument = {
+				number: currentChapter.number,
+				title: chapterTitleInput,
+				text: stateToHTML(textContent)
+			}
+			dispatch(submitChapter(editDocument))
 		}
 	}
 }

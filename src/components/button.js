@@ -7,10 +7,10 @@ export const ChapterNavButton = () =>
 		</button>
 	</div>
 
-export const ChapterButton = ({chapter, onClick}) =>
+export const ChapterButton = ({chapter, currentChapterNumber, onClick}) =>
 	<div className ='chapter_button text-center'>
-		<button onClick={onClick} className='btn btn-outline-dark btn-lg'>
-			{chapter.name}
+		<button onClick={onClick} className={currentChapterNumber === chapter.number ? 'btn btn-dark btn-lg' : 'btn btn-outline-dark btn-lg'}>
+			{chapter.title}
 		</button>
 	</div>
 

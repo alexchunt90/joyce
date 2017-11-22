@@ -4,8 +4,9 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import 'bootstrap'
 
-import { chapters, highlightActive, currentChapter, chapterTitleInput, editorState } from './reducers/editor'
-import { joyceAPIService, logger } from './actions'
+import { chapters, highlightActive, currentChapter, chapterTitleInput, editorState } from './reducers'
+import { getChapterList, setChapterToEdit } from './actions'
+import { joyceAPI, logger } from './middleware'
 import EditorContainer from './containers/editorContainer'
 
 const reduceEditor = combineReducers({
@@ -16,7 +17,7 @@ const reduceEditor = combineReducers({
 	editorState
 })
 
-let store = createStore(reduceEditor, applyMiddleware(joyceAPIService, logger))
+let store = createStore(reduceEditor, applyMiddleware(joyceAPI, logger))
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -25,5 +26,5 @@ ReactDOM.render(
   	document.getElementById('wrapper')
 )
 
-store.dispatch({type: 'GET_CHAPTER_DATA'})
-store.dispatch({type: 'GET_TEXT_DATA', id: 1})
+store.dispatch(getChapterList())
+store.dispatch(setChapterToEdit(1))

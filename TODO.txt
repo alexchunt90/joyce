@@ -7,47 +7,62 @@
 	+ Wire React to ES API +
 	+ Simple CRUD interface +
 	+ Async API Middleware +
+	+ Introduce Draft.JS + 
 	+ Font Awesome / Better Glyphicons +
+	+ DRY up Sass Modules +
+	+ Wire Up Rich Util Buttons +
+	- Major TextEditor Refactor
+	- Wire Up Editor Style Buttons
+	- Seed Chapter Data for Setup.py
+	- Abstract API Blueprint for Notes
+	- Modularize TextEditor Container Component
+	- Testing
+		- Python Unit Tests
+		- React Unit Tests
+		- ES API Tests?
 
 - v0.2 Reader
 	- Reader UX
+	- Collapse Reader Sidebar
 	- Top Bar
 	- Background Texture - Canvas / Paper
+	- Reader Options
+		- Font-size
+		- Font
+		- Pagination?
+	- Full-Screen Mode
 
 - v0.3 Notes and Text Formatting
 	- Abstract API Blueprint for Notes
 	- Note Manager Component
 
 - v0.4 Search
+	- Advanced search page? broken out with text results and note results
+	- Drop Down window
 
 - v0.5 Pagination
 
+- v0.6 Users
+	- Admin Access Restrictions (OAuth?)
+	- Login with Social Media OAuth, User Preferences?
+	- Bookmarks?
+	- Store Session / Progress in cookie
+	- Note Commenting
+
+- v0.7 Monitoring
+	- Pixel
+
 Short List:
 - PropTypes
-- DRY up Sass Modules
 - Env Configs
-- Some Testing
-- Draft.JS
 - Elasticsearch Versioning and Revert UI
-- Collapsable Button Lists
 - Loading Indicators
 - Error Handling
-- Unit Testing
-- Remove Flask-Webpack?
-- Admin Access Restrictions (OAuth?)
-- Admin Page
-- Search Functionality
 - HTML Editor For Chapters / Notes
-- Draft.JS
 - Community Contributors?
-- Login with Social Media OAuth, User Preferences?
 - Search, broken out with text results and note results
 	- Advanced search page?
-- Immutable Text
-- Add Typechecking with Flow or at least PropTypes
-- Maintain old version of Joyce Project? (unlikely)
-- Weed out unneeded dependencies
-- Implement a pixel to track usage
-- Default Pagination?
+- Weed out unneeded dependencies (Flask-Webpack?)
 - ARIA compliance
 - Docker
+- Stats Logging

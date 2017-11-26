@@ -1,7 +1,13 @@
 const chapterTitleInput = (state='', action) => {
 	switch(action.type) {
-		case 'UPDATE_EDITED_CHAPTER':
-			return action.data.title
+		case 'GET_DOCUMENT_TEXT': 
+			if (action.status === 'success') {
+				return action.data.title
+			} else { return state }
+		case 'CREATE_CHAPTER':
+			if (action.chapterNumber) {
+				return ''
+			} else { return state }
 		case 'UPDATE_CHAPTER_TITLE':
 			return action.data
 		default:

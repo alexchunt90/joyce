@@ -1,36 +1,38 @@
-export const setChapterToRead = id =>
+// API Request Actions
+
+export const getDocumentList = (response = {}) =>
 	({
-		type: 'SET_READ_CHAPTER',
-		id: id
+		type: 'GET_DOCUMENT_LIST',
+		docType: response.docType,
+		status: response.status ? response.status : 'request',
+		data: response.data
 	})
 
-export const setNoteToRead = id =>
+export const getDocumentText = (response = {}) =>
 	({
-		type: 'SET_READ_NOTE',
-		id: id
-	})	
-
-export const setChapterToEdit = id =>
-	({
-		type: 'SET_EDITED_CHAPTER',
-		id: id
+		type: 'GET_DOCUMENT_TEXT',
+		id: response.id,
+		docType: response.docType,
+		status: response.status ? response.status : 'request',
+		data: response.data
 	})
 
-export const readTextReceived = data =>
+export const deleteDocument = (response = {}) =>
 	({
-		type: 'GET_TEXT_DATA_RECEIVED',
-		data: data
+		type: 'DELETE_DOCUMENT',
+		id: response.id,
+		docType: response.docType,
+		status: response.status ? response.status : 'request',
+		data: response.data
 	})
 
-export const readTextError = error =>
+export const saveDocument = (response = {}) =>
 	({
-		type: 'GET_TEXT_DATA_ERROR',
-		error: error
-	})
-
-export const toggleHighlight = () =>
-	({
-		type: 'TOGGLE_HIGHLIGHT'
+		type: 'SAVE_DOCUMENT',
+		id: response.id,
+		docType: response.docType,
+		status: response.status ? response.status : 'request',
+		data: response.data
 	})
 
 export const editTextReceived = data =>
@@ -39,85 +41,55 @@ export const editTextReceived = data =>
 		data: data
 	})
 
-export const editTextError = error =>
-	({
-		type: 'GET_TEXT_DATA_ERROR',
-		error: error
-	})
+// User Actions
+	
+	// Reader
+	export const toggleHighlight = () =>
+		({
+			type: 'TOGGLE_HIGHLIGHT'
+		})
 
-export const updateChapterTitleInput = chapterTitleInput => {
-	return ({
-		type: 'UPDATE_CHAPTER_TITLE',
-		data: chapterTitleInput.target.value
-	})
-}
+	export const setChapterToRead = id =>
+		({
+			type: 'SET_READ_CHAPTER',
+			id: id
+		})
 
-export const updateEditorState = editorState =>
-	({
-		type: 'UPDATE_EDITOR_STATE',
-		data: editorState
-	})
+	// Editor
+	export const createNewChapter = (chapterNumber = null) =>
+		({
+			type: 'CREATE_CHAPTER',
+			chapterNumber: chapterNumber
 
-export const chapterDataReceived = data =>
-	({
-		type: 'GET_CHAPTER_DATA_RECEIVED',
-		data
-	})
+		})	
 
-export const chapterDataError = error =>
-	({
-		type: 'GET_CHAPTER_DATA_ERROR',
-		error		
-	})
+	export const setChapterToEdit = id =>
+		({
+			type: 'SET_EDITED_CHAPTER',
+			id: id
+		})
 
-export const createNewChapter = () =>
-	({
-		type: 'CREATE_CHAPTER'
-	})
+	export const updateEditorState = editorState =>
+		({
+			type: 'UPDATE_EDITOR_STATE',
+			data: editorState
+		})
 
-export const submitChapter = document =>
-	({
-		type: 'SUBMIT_CHAPTER_EDIT',
-		document: document
-	})
+	export const updateChapterTitleInput = chapterTitleInput => {
+		return ({
+			type: 'UPDATE_CHAPTER_TITLE',
+			data: chapterTitleInput.target.value
+		})
+	}	
 
-export const deleteChapter = id =>
-	({
-		type: 'DELETE_CURRENT_CHAPTER',
-		id: id
-	})
+	export const submitChapterEdit = document =>
+		({
+			type: 'SUBMIT_CHAPTER_EDIT',
+			document: document
+		})
 
-export const deleteChapterSuccess = (id, data) =>
-	({
-		type: 'DELETE_CHAPTER_SUCCESS',
-		id: id,
-		data: data
-	})
-
-export const deleteChapterError = error =>
-	({
-		type: 'DELETE_CHAPTER_ERROR'
-	})
-
-export const saveDocumentSuccess = (id, data) =>
-	({
-		type: 'SAVE_DOCUMENT_SUCCESS',
-		id: id,
-		data: data
-	})
-
-export const saveDocumentError = error =>
-	({
-		type: 'SAVE_DOCUMENT_ERROR',
-		error: error
-	})
-
-export const getChapterList = () =>
-	({
-		type: 'GET_CHAPTER_DATA'
-	})
-
-export const getNoteList = () =>
-	({
-		type: 'GET_NOTE_DATA'
-	})	
+	export const deleteCurrentChapter = id =>
+		({
+			type: 'DELETE_CURRENT_CHAPTER',
+			id: id
+		})

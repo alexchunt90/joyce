@@ -5,8 +5,8 @@ import { Provider } from 'react-redux'
 import 'bootstrap'
 
 import { chapters, currentChapter, highlightActive } from './reducers'
-import { getChapterList, setChapterToRead } from './actions'
-import { joyceAPI } from './middleware/'
+import { getDocumentList, setChapterToRead } from './actions'
+import { logger, joyceAPI } from './middleware/'
 import ReaderContainer from './containers/readerContainer'
 
 const reduceReader = combineReducers({
@@ -15,7 +15,7 @@ const reduceReader = combineReducers({
 	highlightActive
 })
 
-let store = createStore(reduceReader, applyMiddleware(joyceAPI))	
+let store = createStore(reduceReader, applyMiddleware(logger, joyceAPI))	
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -24,5 +24,5 @@ ReactDOM.render(
   	document.getElementById('wrapper')
 )
 
-store.dispatch(getChapterList())
+store.dispatch(getDocumentList({docType: 'chapters'}))
 store.dispatch(setChapterToRead(1))

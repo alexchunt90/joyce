@@ -11,10 +11,9 @@
 	+ Font Awesome / Better Glyphicons +
 	+ DRY up Sass Modules +
 	+ Wire Up Rich Util Buttons +
-	- Major TextEditor Refactor
+	+ Major TextEditor Refactor +
 	- Wire Up Editor Style Buttons
 	- Seed Chapter Data for Setup.py
-	- Abstract API Blueprint for Notes
 	- Modularize TextEditor Container Component
 	- Testing
 		- Python Unit Tests
@@ -52,6 +51,7 @@
 
 - v0.7 Monitoring
 	- Pixel
+	- Stats Logging
 
 Short List:
 - PropTypes
@@ -66,4 +66,3 @@ Short List:
 - Weed out unneeded dependencies (Flask-Webpack?)
 - ARIA compliance
 - Docker
-- Stats Logging

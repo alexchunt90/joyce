@@ -1,14 +1,21 @@
 import { EditorState, ContentState } from 'draft-js'
 import { stateFromHTML } from 'draft-js-import-html'
 
-const editorState = (state=(EditorState.createEmpty()), action) => {
+const blankEditor = EditorState.createEmpty()
+
+const editorState = (state=blankEditor, action) => {
 	switch(action.type) {
+		case 'GET_DOCUMENT_TEXT':
+			if (action.status === 'success') {
+				const editorState = EditorState.createWithContent(stateFromHTML(action.data.text))
+				return editorState
+			} else { return state }
+		case 'CREATE_CHAPTER':
+			if (action.chapterNumber) {
+				return blankEditor
+			} else { return state } 
 		case 'UPDATE_EDITOR_STATE':
 			return action.data
-		case 'UPDATE_EDITED_CHAPTER':
-			const contentState = stateFromHTML(action.data.text)
-			const editorState = EditorState.createWithContent(contentState)
-			return editorState
 		default:
 			return state
 	}

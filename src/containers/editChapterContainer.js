@@ -5,7 +5,7 @@ import { stateToHTML } from 'draft-js-export-html'
 
 import JoyceTextEditorContainer from './joyceTextEditorContainer'
 import { EditorSubmitButton, EditorDeleteButton } from '../components/button'
-import { updateEditorState, updateChapterTitleInput, updateChapterNumberInput, submitChapter, deleteChapter } from '../actions'
+import { updateEditorState, updateChapterTitleInput, submitChapterEdit, deleteCurrentChapter } from '../actions'
 
 const EditChapter = ({currentChapter, editorState, chapterTitleInput, onChapterTitleChange, onSubmitClick, onDeleteClick}) =>
 	<div id='editor_container'>
@@ -49,18 +49,17 @@ const mapDispatchToProps = dispatch => {
 		},
 		onDeleteClick: currentChapter => {
 			if (currentChapter.title !== '') {
-				dispatch(deleteChapter(currentChapter.number))
+				dispatch(deleteCurrentChapter(currentChapter.number))
 			}
 		},
 		onSubmitClick: (currentChapter, chapterTitleInput, editorState) => {
 			let textContent = editorState.getCurrentContent()
-			console.log(chapterTitleInput)
 			const editDocument = {
 				number: currentChapter.number,
 				title: chapterTitleInput,
 				text: stateToHTML(textContent)
 			}
-			dispatch(submitChapter(editDocument))
+			dispatch(submitChapterEdit(editDocument))
 		}
 	}
 }

@@ -30,4 +30,21 @@ export const NewChapterButton = ({onNewChapterClick}) =>
 				New Chapter <i className="fa fa-plus-square-o"></i>
 			</button>
 		</div>
-	</div>	
+	</div>
+
+export const EditorTopbarToolButton = ({glyph, onClick}) =>
+	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
+		<i className={'fa fa-' + glyph}></i>
+	</button>
+
+export const EditorSubmitButton = ({onSubmitClick}) =>
+	<button id='editor_submit' onClick={onSubmitClick} type='button' className='btn btn-success btn-sm'>
+		Submit
+		<i className='fa fa-check-square-o'></i>
+	</button>
+
+export const EditorDeleteButton = ({onDeleteClick}) =>
+	<button id='editor_delete' onClick={onDeleteClick} type='button' className='btn btn-danger btn-sm'>
+		Delete
+		<i className='fa fa-trash-o'></i>
+	</button>

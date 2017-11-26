@@ -1,6 +1,6 @@
 import React from 'react'
 
-import TextEditorContainer from '../containers/textEditorContainer'
+import EditChapterContainer from '../containers/editChapterContainer'
 import Navbar from '../components/navbar'
 import EditorSidebarContainer from '../containers/editorSidebarContainer'
 import Content from '../components/content'
@@ -12,7 +12,7 @@ const EditorContainer = () =>
 			<div className="row">
 				<EditorSidebarContainer />
 				<Content>
-					<TextEditorContainer />
+					<EditChapterContainer />
 				</Content>
 			</div>
 		</div>

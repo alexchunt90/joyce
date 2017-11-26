@@ -20,10 +20,6 @@ $fa-font-path: "../../node_modules/font-awesome/fonts";
 	margin-top: 20px;
 }
 
-#editor_topbar {
-	margin: 0.8% 0;
-}
-
 #chapter_title_input input {
 	width: 100%;
 }
@@ -31,6 +27,14 @@ $fa-font-path: "../../node_modules/font-awesome/fonts";
 #editor_topbar button img {
 	width: 100%;
 	height: 100%; 
+}
+
+#editor_topbar .row {
+	margin-bottom: 0.8%;
+}
+
+#editor_topbar .btn-group {
+	margin: 0 1%;
 }
 
 #editor_content {
@@ -62,7 +66,7 @@ $fa-font-path: "../../node_modules/font-awesome/fonts";
 	width: 100%;
 }
 
-#editor_save {
+#editor_submit {
 	float: right;
 	width: 100%;
 }

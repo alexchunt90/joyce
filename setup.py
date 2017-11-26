@@ -10,6 +10,13 @@ es = Elasticsearch(ELASTICSEARCH_HOST)
 
 print 'Elasticsearch index deleted!'
 
+def get_chapter_text_from_seed_data(string):
+	fname = './seed_data/' + string + '.html'
+	HtmlFile = open(fname, 'r')
+	chapter_source = HtmlFile.read()
+	HtmlFile.close()
+	return chapter_source
+
 # DELETE INDEX: 
 es.indices.delete(index='joyce', ignore=[400, 404])
 
@@ -23,7 +30,6 @@ create_index_settings = {
 	'mappings': {
 	    'chapter': {
 	    	'properties': {
-	    		# 'id': {'type': 'integer'},
 	    		'number': {'type': 'integer'},
 	    		'title': {'type': 'keyword'},
 	    		'text': {'type': 'text'}
@@ -40,33 +46,111 @@ SAMPLE_DATA = [
     {'_op_type': 'create','_type': 'chapter', '_id': 1, '_source': {
 			'number': 1,
 			'title': 'Telemachus',
-			'text': '<p>Stately, plump Buck Mulligan came from the <a href="#/notes">stairhead</a>, bearing a bowl of lather on which a mirror and a razor lay crossed. A yellow dressinggown, ungirdled, was sustained gently behind him by the mild morning air. He held the bowl aloft and intoned:</p>'
+			'text': get_chapter_text_from_seed_data('telem')
 		},
     },	
     {'_op_type': 'create', '_type': 'chapter', '_id': 2, '_source': {
 			'number': 2,
 			'title': 'Nestor',			
-			'text': 'Fabled by the daughters of memory. And yet it was in some way if not as memory fabled it. A phrase, then, of impatience, thud of Blake\'s wings of excess. I hear the ruin of all space, shattered glass and toppling masonry, and time one livid final flame. What\'s left us then?'
+			'text': get_chapter_text_from_seed_data('nestor')
 		},
     },
     {'_op_type': 'create', '_type': 'chapter', '_id': 3, '_source': {
 			'number': 3,
 			'title': 'Proteus',
-			'text': 'Ineluctable modality of the visible: at least that if no more, thought through my eyes. Signatures of all things I am here to read, seaspawn and seawrack, the nearing tide, that rusty boot. Snotgreen, bluesilver, rust: coloured signs. Limits of the diaphane. But he adds: in bodies. Then he was aware of them bodies before of them coloured. How? By knocking his sconce against them, sure. Go easy. Bald he was and a millionaire, maestro di color che sanno. Limit of the diaphane in. Why in? Diaphane, adiaphane. If you can put your five fingers through it it is a gate, if not a door. Shut your eyes and see.'
+			'text': get_chapter_text_from_seed_data('proteus')
 		},
     },
     {'_op_type': 'create', '_type': 'chapter', '_id': 4, '_source': {
 			'number': 4,
 			'title': 'Calyspo',
-			'text': 'Mr Leopold Bloom ate with relish the inner organs of beasts and fowls. He liked thick giblet soup, nutty gizzards, a stuffed roast heart, liverslices fried with crustcrumbs, fried hencods\' roes. Most of all he liked grilled mutton kidneys which gave to his palate a fine tang of faintly scented urine.'
+			'text': get_chapter_text_from_seed_data('calypso')
 		},
     },   
     {'_op_type': 'create', '_type': 'chapter', '_id': 5, '_source': {
 			'number': 5,
 			'title': 'Lotus Eaters',
-			'text': 'By lorries along sir John Rogerson\'s quay Mr Bloom walked soberly, past Windmill lane, Leask\'s the linseed crusher, the postal telegraph office. Could have given that address too. And past the sailors\' home. He turned from the morning noises of the quayside and walked through Lime street. By Brady\'s cottages a boy for the skins lolled, his bucket of offal linked, smoking a chewed fagbutt.',
+			'text': get_chapter_text_from_seed_data('lotus')
 		},
-    }		
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 6, '_source': {
+			'number': 6,
+			'title': 'Hades',
+			'text': get_chapter_text_from_seed_data('hades')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 7, '_source': {
+			'number': 7,
+			'title': 'Aeolus',
+			'text': get_chapter_text_from_seed_data('aeolus')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 8, '_source': {
+			'number': 8,
+			'title': 'Lestrygonians',
+			'text': get_chapter_text_from_seed_data('lestry')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 9, '_source': {
+			'number': 9,
+			'title': 'Scylla and Charybdis',
+			'text': get_chapter_text_from_seed_data('scylla')
+		},
+    },
+                {'_op_type': 'create', '_type': 'chapter', '_id': 10, '_source': {
+			'number': 10,
+			'title': 'Wandering Rocks',
+			'text': get_chapter_text_from_seed_data('wrocks')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 11, '_source': {
+			'number': 11,
+			'title': 'Sirens',
+			'text': get_chapter_text_from_seed_data('sirens')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 12, '_source': {
+			'number': 12,
+			'title': 'Cyclops',
+			'text': get_chapter_text_from_seed_data('cyclops')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 13, '_source': {
+			'number': 13,
+			'title': 'Nausicaa',
+			'text': get_chapter_text_from_seed_data('nausicaa')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 14, '_source': {
+			'number': 14,
+			'title': 'Oxen of the Sun',
+			'text': get_chapter_text_from_seed_data('oxen')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 15, '_source': {
+			'number': 15,
+			'title': 'Circe',
+			'text': get_chapter_text_from_seed_data('circe')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 16, '_source': {
+			'number': 16,
+			'title': 'Eumaeus',
+			'text': get_chapter_text_from_seed_data('eumaeus')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 17, '_source': {
+			'number': 17,
+			'title': 'Ithaca',
+			'text': get_chapter_text_from_seed_data('ithaca')
+		},
+    },
+    {'_op_type': 'create', '_type': 'chapter', '_id': 18, '_source': {
+			'number': 18,
+			'title': 'Penelope',
+			'text': get_chapter_text_from_seed_data('penelope')
+		},
+    },                           
 ]
 
 bulk(es, SAMPLE_DATA, index='joyce', doc_type='chapter')

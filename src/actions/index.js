@@ -4,6 +4,12 @@ export const setChapterToRead = id =>
 		id: id
 	})
 
+export const setNoteToRead = id =>
+	({
+		type: 'SET_READ_NOTE',
+		id: id
+	})	
+
 export const setChapterToEdit = id =>
 	({
 		type: 'SET_EDITED_CHAPTER',
@@ -110,3 +116,8 @@ export const getChapterList = () =>
 	({
 		type: 'GET_CHAPTER_DATA'
 	})
+
+export const getNoteList = () =>
+	({
+		type: 'GET_NOTE_DATA'
+	})	

@@ -19,9 +19,11 @@ module.exports = {
 		editor: [
 			rootAssetPath + 'editor',
 			rootAssetPath + 'stylesheets/' + 'editor.scss'
+		],
+		notes: [
+			rootAssetPath + 'notes',
+			rootAssetPath + 'stylesheets/' + 'notes.scss'
 		]
-		// style: [
-		// ]
 	},
 	output: {
 		publicPath: "/static/js/",

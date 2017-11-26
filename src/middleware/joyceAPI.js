@@ -37,7 +37,7 @@ export const joyceAPI = store => next => action => {
 			return next(errorAction(error))
 		})
 
-	const saveChapterText = (document, receivedAction, errorAction) =>
+	const saveChapterText = (document) =>
 		axios.post(apiRoute + document.number, document).then(res => {
 			store.dispatch(saveDocumentSuccess(document.number, res.data))
 		}).catch(error => {

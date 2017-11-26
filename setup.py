@@ -34,6 +34,12 @@ create_index_settings = {
 	    		'title': {'type': 'keyword'},
 	    		'text': {'type': 'text'}
 	    	}
+	    },
+	    'note': {
+	    	'properties': {
+	    		'title': {'type': 'keyword'},
+	    		'text': {'type': 'text'}
+	    	}
 	    }
 	}
 }
@@ -150,7 +156,17 @@ SAMPLE_DATA = [
 			'title': 'Penelope',
 			'text': get_chapter_text_from_seed_data('penelope')
 		},
-    },                           
+    },
+    {'_op_type': 'create', '_type': 'note', '_id': 1, '_source': {
+			'title': 'Kinch',
+			'text': 'A knife'
+		},
+    }, 
+    {'_op_type': 'create', '_type': 'note', '_id': 2, '_source': {
+			'title': 'Lighthouse',
+			'text': 'A lighthouse'
+		},
+    },                                  
 ]
 
 bulk(es, SAMPLE_DATA, index='joyce', doc_type='chapter')

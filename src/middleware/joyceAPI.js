@@ -5,7 +5,7 @@ import {
 	getDocumentText,
 	deleteDocument,
 	saveDocument,
-	setChapterToEdit,
+	setCurrentChapter,
 	createNewChapter,
 } from '../actions'
 
@@ -65,7 +65,7 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(saveDocument(response))
 				)
 			} else if (action.status === 'success') {
-				store.dispatch(setChapterToEdit(action.id))
+				store.dispatch(setCurrentChapter(action.id))
 			}
 			break
 		case 'DELETE_DOCUMENT':
@@ -74,14 +74,11 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(deleteDocument(response))
 				)
 			} else if (action.status === 'success') {
-				store.dispatch(setChapterToEdit(action.data[0].number))
+				store.dispatch(setCurrentChapter(action.data[0].number))
 			}
 			break
-		// User Interactions
-		case 'SET_READ_CHAPTER':
-			store.dispatch(getDocumentText({id: action.id, docType: 'chapters'}))
-			break
-		case 'SET_EDITED_CHAPTER':
+		// Chapter Action Middleware
+		case 'SET_CURRENT_CHAPTER':
 			store.dispatch(getDocumentText({id: action.id, docType: 'chapters'}))
 			break
 		case 'SUBMIT_CHAPTER_EDIT':

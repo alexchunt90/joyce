@@ -40,47 +40,21 @@ export const editTextReceived = data =>
 		type: 'UPDATE_EDITED_CHAPTER',
 		data: data
 	})
-
-// User Actions
 	
-	// Reader
-	export const toggleHighlight = () =>
-		({
-			type: 'TOGGLE_HIGHLIGHT'
-		})
+// Chapter Actions
 
-	export const setChapterToRead = id =>
+	export const setCurrentChapter = id =>
 		({
-			type: 'SET_READ_CHAPTER',
+			type: 'SET_CURRENT_CHAPTER',
 			id: id
 		})
 
-	// Editor
 	export const createNewChapter = (chapterNumber = null) =>
 		({
 			type: 'CREATE_CHAPTER',
 			chapterNumber: chapterNumber
 
 		})	
-
-	export const setChapterToEdit = id =>
-		({
-			type: 'SET_EDITED_CHAPTER',
-			id: id
-		})
-
-	export const updateEditorState = editorState =>
-		({
-			type: 'UPDATE_EDITOR_STATE',
-			data: editorState
-		})
-
-	export const updateChapterTitleInput = chapterTitleInput => {
-		return ({
-			type: 'UPDATE_CHAPTER_TITLE',
-			data: chapterTitleInput.target.value
-		})
-	}	
 
 	export const submitChapterEdit = document =>
 		({
@@ -92,4 +66,52 @@ export const editTextReceived = data =>
 		({
 			type: 'DELETE_CURRENT_CHAPTER',
 			id: id
+		})
+
+// Note Actions
+
+	export const setCurrentNote = id =>
+		({
+			type: 'SET_CURRENT_NOTE',
+			id: id
+		})
+
+	export const createNewNote = () =>
+		({
+			type: 'CREATE_NOTE',
+		})	
+
+	export const submitNoteEdit = document =>
+		({
+			type: 'SUBMIT_NOTE_EDIT',
+			document: document
+		})
+
+	export const deleteCurrentNote = id =>
+		({
+			type: 'DELETE_CURRENT_NOTE',
+			id: id
+		})				
+
+// EditorState Actions
+
+	export const updateEditorState = editorState =>
+		({
+			type: 'UPDATE_EDITOR_STATE',
+			data: editorState
+		})
+
+// ChapterTitleInput Actions
+	export const updateChapterTitleInput = chapterTitleInput => {
+		return ({
+			type: 'UPDATE_CHAPTER_TITLE',
+			data: chapterTitleInput.target.value
+		})
+	}	
+
+// Note Highlight Actions
+
+	export const toggleHighlight = () =>
+		({
+			type: 'TOGGLE_HIGHLIGHT'
 		})

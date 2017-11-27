@@ -8,6 +8,10 @@ const chapters = (state=[], action) => {
 			if (action.status === 'success' && action.docType === 'chapters') {
 				return action.data
 			} else { return state }
+		case 'SAVE_DOCUMENT':
+			if (action.status === 'success' && action.docType === 'chapters') {
+				return action.data
+			} else { return state }
 		default: 
 			return state
 	}

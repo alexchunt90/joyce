@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setChapterToEdit, createNewChapter } from '../actions'
+import { setCurrentChapter, createNewChapter } from '../actions'
 import ChapterList from '../components/chapterList'
 import { NewChapterButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => {
 			dispatch(createNewChapter())
 		},
 		onChapterClick: id => {
-			dispatch(setChapterToEdit(id))
+			dispatch(setCurrentChapter(id))
 		}
 	}
 }

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import 'bootstrap'
 
 import { chapters, highlightActive, currentChapter, chapterTitleInput, editorState } from './reducers'
-import { getDocumentList, setChapterToEdit } from './actions'
+import { getDocumentList, setCurrentChapter } from './actions'
 import { joyceAPI, logger } from './middleware'
 import EditorContainer from './containers/editorContainer'
 
@@ -27,4 +27,4 @@ ReactDOM.render(
 )
 
 store.dispatch(getDocumentList({docType: 'chapters'}))
-store.dispatch(setChapterToEdit(1))
+store.dispatch(setCurrentChapter(1))

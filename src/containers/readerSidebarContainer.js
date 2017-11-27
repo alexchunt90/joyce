@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setChapterToRead, toggleHighlight } from '../actions'
+import { setCurrentChapter, toggleHighlight } from '../actions'
 import ChapterList from '../components/chapterList'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
@@ -24,7 +24,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onChapterClick: id => {
-			dispatch(setChapterToRead(id))
+			dispatch(setCurrentChapter(id))
 		},
 		onHighlightClick: () => {
 			dispatch(toggleHighlight())

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import 'bootstrap'
 
 import { chapters, currentChapter, highlightActive } from './reducers'
-import { getDocumentList, setChapterToRead } from './actions'
+import { getDocumentList, setCurrentChapter } from './actions'
 import { logger, joyceAPI } from './middleware/'
 import ReaderContainer from './containers/readerContainer'
 
@@ -25,4 +25,4 @@ ReactDOM.render(
 )
 
 store.dispatch(getDocumentList({docType: 'chapters'}))
-store.dispatch(setChapterToRead(1))
+store.dispatch(setCurrentChapter(1))

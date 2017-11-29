@@ -25,4 +25,10 @@ ReactDOM.render(
 )
 
 store.dispatch(getDocumentList({docType: 'chapters'}))
-store.dispatch(setCurrentChapter(1))
+
+// Hacky way to fetch first chapter after async call above has completed.
+// TODO: Add number lookup to API?
+setTimeout(
+	() => store.dispatch(setCurrentChapter(store.getState().chapters[0].id)),
+	1000
+)

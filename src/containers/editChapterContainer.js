@@ -7,12 +7,12 @@ import JoyceTextEditorContainer from './joyceTextEditorContainer'
 import { EditorSubmitButton, EditorDeleteButton } from '../components/button'
 import { updateEditorState, updateChapterTitleInput, submitChapterEdit, deleteCurrentChapter } from '../actions'
 
-const EditChapter = ({currentChapter, editorState, chapterTitleInput, onChapterTitleChange, onSubmitClick, onDeleteClick}) =>
+const EditChapter = ({chapters, currentChapter, editorState, chapterTitleInput, onChapterTitleChange, onSubmitClick, onDeleteClick}) =>
 	<div id='editor_container'>
 		<div id='editor_metadata'>
 			<div className='row'>			
 				<div id='chapter_number_input' className='col-md-4'>
-					Chapter {currentChapter.number}:
+					Chapter {currentChapter.id ? currentChapter.number : chapters.length + 1}:
 				</div>								
 				<div id='chapter_title_input' className='col-md-8'>
 					<input type='text' value={chapterTitleInput} onChange={onChapterTitleChange}/>
@@ -28,7 +28,7 @@ const EditChapter = ({currentChapter, editorState, chapterTitleInput, onChapterT
 					<EditorDeleteButton onDeleteClick={()=>onDeleteClick(currentChapter)} currentChapter={currentChapter}/>
 				</div>
 				<div className='col-md-5 offset-md-2'>
-					<EditorSubmitButton onSubmitClick={()=>onSubmitClick(currentChapter, chapterTitleInput, editorState)} currentChapter={currentChapter} chapterTitleInput={chapterTitleInput} editorState={editorState}/>
+					<EditorSubmitButton onSubmitClick={()=>onSubmitClick(chapters, currentChapter, chapterTitleInput, editorState)} currentChapter={currentChapter} chapterTitleInput={chapterTitleInput} editorState={editorState}/>
 				</div>
 			</div>
 		</div>
@@ -36,6 +36,7 @@ const EditChapter = ({currentChapter, editorState, chapterTitleInput, onChapterT
 
 const mapStateToProps = state => { 
 	return {
+		chapters: state. chapters,
 		currentChapter: state.currentChapter,
 		editorState: state.editorState,
 		chapterTitleInput: state.chapterTitleInput
@@ -48,18 +49,21 @@ const mapDispatchToProps = dispatch => {
 			dispatch(updateChapterTitleInput(chapterTitleInput))
 		},
 		onDeleteClick: currentChapter => {
-			if (currentChapter.title !== '') {
-				dispatch(deleteCurrentChapter(currentChapter.number))
+			if (currentChapter.id) {
+				dispatch(deleteCurrentChapter(currentChapter.id))
 			}
 		},
-		onSubmitClick: (currentChapter, chapterTitleInput, editorState) => {
+		onSubmitClick: (chapters, currentChapter, chapterTitleInput, editorState) => {
 			let textContent = editorState.getCurrentContent()
-			const editDocument = {
-				number: currentChapter.number,
+			const data = {
+				number: currentChapter.id ? currentChapter.number : chapters.length + 1,
 				title: chapterTitleInput,
 				text: stateToHTML(textContent)
 			}
-			dispatch(submitChapterEdit(editDocument))
+			if (currentChapter.id) {
+				data.id = currentChapter.id
+			}
+			dispatch(submitChapterEdit(data))
 		}
 	}
 }

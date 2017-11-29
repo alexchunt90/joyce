@@ -8,6 +8,11 @@ es = Elasticsearch(ELASTICSEARCH_HOST)
 
 api = Blueprint('api', __name__)
 
+def merge_id_and_source(id, source):
+	response = {'id': id}
+	response.update(source)
+	return response
+
 # Elasticsearch interface functions
 def es_document_list(doc_type):
 	search = es.search(
@@ -24,18 +29,19 @@ def es_document_list(doc_type):
 	)
 	res = []
 	for x in search['hits']['hits']:
-		res.append(x['_source'])
-	return jsonify(res)
+		res.append(merge_id_and_source(x['_id'], x['_source']))
+	return res
 
 def es_get_document(doc_type, id):
-	res = es.get_source(
+	res = es.get(
 		index='joyce', 
 		doc_type=doc_type, 
 		id=id
 	)
-	return jsonify(res)
+	data = merge_id_and_source(res['_id'], res['_source'])
+	return data
 
-def es_write_document(doc_type, id, body):
+def es_index_document(doc_type, id, body):
 	res = es.index(
 		index='joyce', 
 		doc_type=doc_type,
@@ -43,7 +49,25 @@ def es_write_document(doc_type, id, body):
 		refresh=True,
 		body=body
 	)
-	return jsonify(res)
+	return res
+
+def es_create_document(doc_type, body):
+	res = es.index(
+		index='joyce',
+		doc_type=doc_type,
+		refresh=True,
+		body=body
+	)
+	return res
+
+def es_update_number(doc_type, id, number):
+	res = es.update(
+		index='joyce',
+		doc_type=doc_type,
+		id=id,
+		refresh=True,
+		body={'doc': {'number': number}}
+	)
 
 def es_delete_document(doc_type, id):
 	res = es.delete(
@@ -52,7 +76,12 @@ def es_delete_document(doc_type, id):
 		id=id,
 		refresh=True
 	)
-	return jsonify(res)
+	chapters = es_document_list(doc_type)
+	for index, chapter in enumerate(chapters):
+		if index + 1 != chapter['number']:
+			es_update_number(doc_type, chapter['id'], index + 1)
+	return chapters
+
 #
 # Chapter API Routes
 #
@@ -60,24 +89,31 @@ def es_delete_document(doc_type, id):
 """ Get all chapters """
 @api.route('/chapters/')
 def get_chapters():
-	return es_document_list('chapter')
+	return jsonify(es_document_list('chapter'))
 
 """ Get specific chapter """
-@api.route('/chapters/<int:id>')
+@api.route('/chapters/<string:id>')
 def get_chapter(id):
-	return es_get_document('chapter', id)
+	data = es_get_document('chapter', id)
+	return jsonify(data)
+
+""" New chapter """
+@api.route('/chapters/', methods=['PUT'])
+def create_chapter():
+	es_create_document('chapter', request.data)
+	return jsonify(es_document_list('chapter'))
 
 """ Write chapter """
-@api.route('/chapters/<int:id>', methods=['POST'])
+@api.route('/chapters/<string:id>', methods=['POST'])
 def write_chapter(id):
-	es_write_document('chapter', id, request.data)
-	return es_document_list('chapter')
+	es_index_document('chapter', id, request.data)
+	return jsonify(es_document_list('chapter'))
 
 """ Delete chapter """
-@api.route('/chapters/<int:id>', methods=['DELETE'])
+@api.route('/chapters/<string:id>', methods=['DELETE'])
 def delete_chapter(id):
 	es_delete_document('chapter', id)
-	return es_document_list('chapter')
+	return jsonify(es_document_list('chapter'))
 
 #
 # Note API Routes
@@ -86,22 +122,29 @@ def delete_chapter(id):
 """ Get all notes """
 @api.route('/notes/')
 def get_notes():
-	return es_document_list('note')
+	return jsonify(es_document_list('note'))
 
 """ Get specific chapter """
-@api.route('/notes/<int:id>')
+@api.route('/notes/<string:id>')
 def get_note(id):
-	return es_get_document('note', id)
+	data =  es_get_document('note', id)
+	return jsonify(data)
+
+""" New chapter """
+@api.route('/notes/', methods=['PUT'])
+def create_note():
+	es_create_document('note', request.data)
+	return jsonify(es_document_list('note'))
 
 """ Write chapter """
-@api.route('/notes/<int:id>', methods=['POST'])
+@api.route('/notes/<string:id>', methods=['POST'])
 def write_note(id):
 	es_write_document('note', id, request.data)
-	return es_document_list('note')
+	return jsonify(es_document_list('note'))
 
 """ Delete chapter """
-@api.route('/notes/<int:id>', methods=['DELETE'])
+@api.route('/notes/<string:id>', methods=['DELETE'])
 def delete_note(id):
 	es_delete_document('note', id)
-	return es_document_list('note')
+	return jsonify(es_document_list('note'))
 

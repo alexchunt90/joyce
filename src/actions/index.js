@@ -29,7 +29,7 @@ export const deleteDocument = (response = {}) =>
 export const saveDocument = (response = {}) =>
 	({
 		type: 'SAVE_DOCUMENT',
-		id: response.id,
+		id: response.data.id ? response.data.id : null,
 		docType: response.docType,
 		status: response.status ? response.status : 'request',
 		data: response.data
@@ -49,11 +49,9 @@ export const editTextReceived = data =>
 			id: id
 		})
 
-	export const createNewChapter = (chapterNumber = null) =>
+	export const createNewChapter = () =>
 		({
 			type: 'CREATE_CHAPTER',
-			chapterNumber: chapterNumber
-
 		})	
 
 	export const submitChapterEdit = document =>

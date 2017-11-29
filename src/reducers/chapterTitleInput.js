@@ -5,9 +5,7 @@ const chapterTitleInput = (state='', action) => {
 				return action.data.title
 			} else { return state }
 		case 'CREATE_CHAPTER':
-			if (action.chapterNumber) {
-				return ''
-			} else { return state }
+			return ''
 		case 'UPDATE_CHAPTER_TITLE':
 			return action.data
 		default:

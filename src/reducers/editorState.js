@@ -11,9 +11,7 @@ const editorState = (state=blankEditor, action) => {
 				return editorState
 			} else { return state }
 		case 'CREATE_CHAPTER':
-			if (action.chapterNumber) {
-				return blankEditor
-			} else { return state } 
+			return blankEditor
 		case 'UPDATE_EDITOR_STATE':
 			return action.data
 		default:

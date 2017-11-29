@@ -33,6 +33,13 @@ const HTTPDeleteDocument = (id, docType) =>
 		return {id: id, status: 'error', docType: docType, data: error}
 	})
 
+const HTTPPutCreateDocument = (docType, data) =>
+	axios.put(apiRoute + docType + '/', data).then(res => {
+		return {status: 'success', docType: docType, data: res.data}
+	}).catch(error => {
+		return {status: 'error', docType: docType, data: error}
+	})
+
 const HTTPPostWriteDocument = (id, docType, data) =>
 	axios.post(apiRoute + docType + '/' + id, data).then(res => {
 		return {id: id, status: 'success', docType: docType, data: res.data}
@@ -61,11 +68,15 @@ export const joyceAPI = store => next => action => {
 			break
 		case 'SAVE_DOCUMENT':
 			if (action.status === 'request') {
-				HTTPPostWriteDocument(action.id, action.docType, action.data).then(response =>
+				if (action.id) {
+					HTTPPostWriteDocument(action.id, action.docType, action.data).then(response =>
 					store.dispatch(saveDocument(response))
-				)
+				)} else {
+					HTTPPutCreateDocument(action.docType, action.data).then(response =>
+					store.dispatch(saveDocument(response)))
+				}
 			} else if (action.status === 'success') {
-				store.dispatch(setCurrentChapter(action.id))
+				store.dispatch(setCurrentChapter(action.data.slice(-1)[0].id))
 			}
 			break
 		case 'DELETE_DOCUMENT':
@@ -74,7 +85,7 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(deleteDocument(response))
 				)
 			} else if (action.status === 'success') {
-				store.dispatch(setCurrentChapter(action.data[0].number))
+				store.dispatch(setCurrentChapter(action.data[0].id))
 			}
 			break
 		// Chapter Action Middleware
@@ -82,16 +93,10 @@ export const joyceAPI = store => next => action => {
 			store.dispatch(getDocumentText({id: action.id, docType: 'chapters'}))
 			break
 		case 'SUBMIT_CHAPTER_EDIT':
-			store.dispatch(saveDocument({id: action.document.number, docType: 'chapters', data: action.document}))
+			store.dispatch(saveDocument({docType: 'chapters', data: action.document}))
 			break
 		case 'DELETE_CURRENT_CHAPTER':
 			store.dispatch(deleteDocument({id: action.id, docType: 'chapters'}))
-			break						
-		case 'CREATE_CHAPTER':
-			if (!action.chapterNumber) {
-				const chapterNumber = store.getState().chapters.length + 1
-				store.dispatch(createNewChapter(chapterNumber))
-			}
 			break
 		default:
 			break

@@ -98,6 +98,16 @@ export const joyceAPI = store => next => action => {
 		case 'DELETE_CURRENT_CHAPTER':
 			store.dispatch(deleteDocument({id: action.id, docType: 'chapters'}))
 			break
+		// Note Action Middleware
+		case 'SET_CURRENT_NOTE':
+			store.dispatch(getDocumentText({id: action.id, docType: 'notes'}))
+			break
+		case 'SUBMIT_NOTE_EDIT':
+			store.dispatch(saveDocument({docType: 'notes', data: action.document}))
+			break
+		case 'DELETE_CURRENT_NOTE':
+			store.dispatch(deleteDocument({id: action.id, docType: 'notes'}))
+			break			
 		default:
 			break
 	}

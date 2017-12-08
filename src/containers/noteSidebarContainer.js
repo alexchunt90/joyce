@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setNoteToRead } from '../actions'
-import NoteList from '../components/noteList'
+import { setCurrentNote } from '../actions'
+import { NoteList } from '../components/list'
 
 const NoteSidebar = ({notes, currentNote, onNoteClick}) =>
 	<div className="col-md-3" id="sidebar">
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onNoteClick: id => {
-			dispatch(setNoteToRead(id))
+			dispatch(setCurrentNote(id))
 		},
 	}
 }

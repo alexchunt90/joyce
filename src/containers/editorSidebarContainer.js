@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { setCurrentChapter, createNewChapter } from '../actions'
-import ChapterList from '../components/chapterList'
+import { ChapterList } from '../components/list'
 import { NewChapterButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 

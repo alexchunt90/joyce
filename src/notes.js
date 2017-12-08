@@ -5,8 +5,8 @@ import { Provider } from 'react-redux'
 import 'bootstrap'
 
 import { notes, currentNote } from './reducers'
-import { getNoteList, setNoteToRead } from './actions'
-import { joyceAPI } from './middleware/'
+import { getDocumentList } from './actions'
+import { joyceAPI, logger } from './middleware/'
 import JoyceNotesPageContainer from './containers/joyceNotesPageContainer'
 
 const reduceNotes = combineReducers({
@@ -14,7 +14,7 @@ const reduceNotes = combineReducers({
 	currentNote
 })
 
-let store = createStore(reduceNotes, applyMiddleware(joyceAPI))	
+let store = createStore(reduceNotes, applyMiddleware(joyceAPI, logger))	
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -23,5 +23,4 @@ ReactDOM.render(
   	document.getElementById('wrapper')
 )
 
-store.dispatch(getNoteList())
-store.dispatch(setNoteToRead(1))
+store.dispatch(getDocumentList({docType: 'notes'}))

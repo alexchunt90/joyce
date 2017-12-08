@@ -1,7 +1,9 @@
 const currentNote = (state={}, action) => {
 	switch(action.type) {
-		case 'UPDATE_EDITED_NOTE':
-			return action.data
+		case 'GET_DOCUMENT_TEXT':
+			if (action.status === 'success' && action.docType === 'notes') {
+				return action.data
+			} else { return state }
 		default:
 			return state
 	}

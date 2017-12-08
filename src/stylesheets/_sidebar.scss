@@ -20,7 +20,14 @@
 
 .chapter_button > button {
 	width: 100%;
-	margin: .25% 0;
+	margin: 0.25% 0;
     padding: 0.2rem 1rem;
     font-size: 1rem;
+}
+
+.note_button > button {
+    width: 100%;
+    margin: 0.325% 0;
+    padding: 0.5rem;
+    font-size: 0.8rem;
 }

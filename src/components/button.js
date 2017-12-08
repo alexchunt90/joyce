@@ -14,6 +14,13 @@ export const ChapterButton = ({chapter, currentChapter, onClick}) =>
 		</button>
 	</div>
 
+export const NoteButton = ({note, currentNote, onClick}) =>
+	<div className ='note_button'>
+		<button onClick={()=>onClick(note.id)} className={currentNote.id === note.id ? 'btn btn-warning' : 'btn btn-outline-warning'}>
+			{note.title}
+		</button>
+	</div>
+
 export const HighlightButton = ({highlightActive, onHighlightClick}) =>
 	<div>
 		<div id="highlight_button" className="text-center">

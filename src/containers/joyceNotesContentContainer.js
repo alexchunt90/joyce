@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Editor, RichUtils } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
 
 import { EditModeTopBar }  from '../components/contentTopBar'
 import { ReadModeBottomBar, EditModeBottomBar } from '../components/contentBottomBar'
-import { updateEditorState, setEditMode, cancelEdit } from '../actions'
-import { Editor, RichUtils } from 'draft-js'
+import { updateEditorState, setEditMode, cancelEdit, submitNoteEdit } from '../actions'
 
-const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setEditMode, cancelEdit}) =>
+const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setEditMode, cancelEdit, onSubmitClick}) =>
 	<div>
 		<div id='editor_topbar'>
 			{mode === 'EDIT_MODE' &&
@@ -21,10 +22,10 @@ const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, on
 				<ReadModeBottomBar setEditMode={setEditMode} />
 			}
 			{mode === 'EDIT_MODE' &&
-				<EditModeBottomBar cancelEdit={cancelEdit} />
+				<EditModeBottomBar cancelEdit={cancelEdit} onSubmitClick={()=>onSubmitClick(currentNote, editorState)} />
 			}
 		</div>
-	</div>			
+	</div>
 
 const mapStateToProps = state => {
 	return {
@@ -59,6 +60,14 @@ const mapDispatchToProps = dispatch => {
 				dispatch(updateEditorState(newBlockTypeState))					
 			}
 		},
+		onSubmitClick: (currentNote, editorState) => {
+					let textContent = editorState.getCurrentContent()
+					const data = { title: currentNote.title, text: stateToHTML(textContent) }
+					if (currentNote.id) {
+						data.id = currentNote.id
+					}
+					dispatch(submitNoteEdit(data))
+		}		
 	}
 }
 

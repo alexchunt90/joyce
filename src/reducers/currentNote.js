@@ -4,6 +4,8 @@ const currentNote = (state={}, action) => {
 			if (action.status === 'success' && action.docType === 'notes') {
 				return action.data
 			} else { return state }
+		case 'CREATE_NOTE':
+			return {id: null, number: null, title: '', text: ''}		
 		default:
 			return state
 	}

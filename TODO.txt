@@ -53,6 +53,9 @@
 	- Pixel
 	- Stats Logging
 
+BUGS:
+	- DraftJS crashes if you backspace on an empty Editor
+
 Short List:
 - PropTypes
 - Env Configs

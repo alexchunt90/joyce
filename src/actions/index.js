@@ -54,10 +54,10 @@ export const editTextReceived = data =>
 			type: 'CREATE_CHAPTER',
 		})	
 
-	export const submitChapterEdit = document =>
+	export const submitChapterEdit = data =>
 		({
 			type: 'SUBMIT_CHAPTER_EDIT',
-			document: document
+			document: data
 		})
 
 	export const deleteCurrentChapter = id =>
@@ -79,10 +79,10 @@ export const editTextReceived = data =>
 			type: 'CREATE_NOTE',
 		})	
 
-	export const submitNoteEdit = document =>
+	export const submitNoteEdit = data =>
 		({
 			type: 'SUBMIT_NOTE_EDIT',
-			document: document
+			document: data
 		})
 
 	export const deleteCurrentNote = id =>

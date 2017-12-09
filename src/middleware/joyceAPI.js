@@ -6,6 +6,7 @@ import {
 	deleteDocument,
 	saveDocument,
 	setCurrentChapter,
+	setCurrentNote,
 	createNewChapter,
 } from '../actions'
 
@@ -75,7 +76,7 @@ export const joyceAPI = store => next => action => {
 					HTTPPutCreateDocument(action.docType, action.data).then(response =>
 					store.dispatch(saveDocument(response)))
 				}
-			} else if (action.status === 'success') {
+			} else if (action.status === 'success' && action.docType === 'chapters') {
 				store.dispatch(setCurrentChapter(action.data.slice(-1)[0].id))
 			}
 			break
@@ -85,7 +86,11 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(deleteDocument(response))
 				)
 			} else if (action.status === 'success') {
-				store.dispatch(setCurrentChapter(action.data[0].id))
+				if (action.docType === 'chapters') {
+					store.dispatch(setCurrentChapter(action.data[0].id))
+				} else if (action.docType === 'notes') {
+					store.dispatch(setCurrentNote(action.data[0].id))
+				}
 			}
 			break
 		// Chapter Action Middleware

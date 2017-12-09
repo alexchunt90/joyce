@@ -76,11 +76,15 @@ def es_delete_document(doc_type, id):
 		id=id,
 		refresh=True
 	)
+	if doc_type == 'chapter':
+		return renumber_chapters()
+
+def renumber_chapters():
 	chapters = es_document_list(doc_type)
 	for index, chapter in enumerate(chapters):
 		if index + 1 != chapter['number']:
 			es_update_number(doc_type, chapter['id'], index + 1)
-	return chapters
+	return chapters	
 
 #
 # Chapter API Routes
@@ -139,7 +143,7 @@ def create_note():
 """ Write chapter """
 @api.route('/notes/<string:id>', methods=['POST'])
 def write_note(id):
-	es_write_document('note', id, request.data)
+	es_index_document('note', id, request.data)
 	return jsonify(es_document_list('note'))
 
 """ Delete chapter """

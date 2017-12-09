@@ -1,7 +1,7 @@
 import React from 'react'
 import { ReaderAnnotateButton, ReaderEditButton, EditorCancelButton, EditorSubmitButton } from '../components/button'
 
-export const NotesReadModeBottomBar = ({setEditMode}) =>
+export const ReadModeBottomBar = ({setEditMode}) =>
 	<div className='row'>
 		<div className='col-md-5'>
 			<ReaderAnnotateButton />
@@ -11,12 +11,12 @@ export const NotesReadModeBottomBar = ({setEditMode}) =>
 		</div>
 	</div>
 
-export const NotesEditModeBottomBar = ({cancelEdit}) =>
+export const EditModeBottomBar = ({cancelEdit, onSubmitClick}) =>
 	<div className='row'>
 		<div className='col-md-5'>
 			<EditorCancelButton onClick={()=>cancelEdit()}/>
 		</div>
 		<div className='col-md-5 offset-md-2'>
-			<EditorSubmitButton />
+			<EditorSubmitButton onSubmitClick={onSubmitClick} />
 		</div>
 	</div>

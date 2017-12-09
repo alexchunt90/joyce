@@ -76,8 +76,12 @@ export const joyceAPI = store => next => action => {
 					HTTPPutCreateDocument(action.docType, action.data).then(response =>
 					store.dispatch(saveDocument(response)))
 				}
-			} else if (action.status === 'success' && action.docType === 'chapters') {
-				store.dispatch(setCurrentChapter(action.data.slice(-1)[0].id))
+			} else if (action.status === 'success') {
+				if (action.docType === 'chapters') {
+					store.dispatch(setCurrentChapter(action.data.slice(-1)[0].id))
+				} else if (action.docType === 'notes') {
+					store.dispatch(setCurrentNote(action.data.slice(-1)[0].id))
+				}
 			}
 			break
 		case 'DELETE_DOCUMENT':

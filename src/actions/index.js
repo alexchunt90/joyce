@@ -125,3 +125,10 @@ export const editTextReceived = data =>
 		({
 			type: 'TOGGLE_HIGHLIGHT'
 		})
+
+	export const updateNoteTitleInput = noteTitleInput => {
+		return ({
+			type: 'UPDATE_NOTE_TITLE',
+			data: noteTitleInput.target.value
+		})
+	}		

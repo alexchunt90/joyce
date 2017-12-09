@@ -5,10 +5,18 @@ import { stateToHTML } from 'draft-js-export-html'
 
 import { EditModeTopBar }  from '../components/contentTopBar'
 import { ReadModeBottomBar, EditModeBottomBar } from '../components/contentBottomBar'
-import { updateEditorState, setEditMode, cancelEdit, submitNoteEdit } from '../actions'
+import { updateEditorState, setEditMode, cancelEdit, submitNoteEdit, updateNoteTitleInput } from '../actions'
 
-const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setEditMode, cancelEdit, onSubmitClick}) =>
+const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setEditMode, cancelEdit, onSubmitClick, noteTitleInput, onNoteTitleChange}) =>
 	<div>
+		<div id='editor_metadata'>
+			{mode === 'READ_MODE' &&
+				<h4>{currentNote.title}</h4>
+			}
+			{mode === 'EDIT_MODE' &&
+				<input type='text' value={noteTitleInput} onChange={onNoteTitleChange}/>
+			}
+		</div>
 		<div id='editor_topbar'>
 			{mode === 'EDIT_MODE' &&
 				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} />
@@ -22,7 +30,7 @@ const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, on
 				<ReadModeBottomBar setEditMode={setEditMode} />
 			}
 			{mode === 'EDIT_MODE' &&
-				<EditModeBottomBar cancelEdit={cancelEdit} onSubmitClick={()=>onSubmitClick(currentNote, editorState)} />
+				<EditModeBottomBar cancelEdit={cancelEdit} onSubmitClick={()=>onSubmitClick(currentNote, editorState, noteTitleInput)} />
 			}
 		</div>
 	</div>
@@ -30,8 +38,9 @@ const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, on
 const mapStateToProps = state => {
 	return {
 		currentNote: state.currentNote,
+		mode: state.mode,
 		editorState: state.editorState,
-		mode: state.mode
+		noteTitleInput: state.noteTitleInput
 	}
 }
 
@@ -40,6 +49,9 @@ const mapDispatchToProps = dispatch => {
 		onChangeEditorState: editorState => {
 			dispatch(updateEditorState(editorState))
 		},
+		onNoteTitleChange: noteTitleInput => {
+			dispatch(updateNoteTitleInput(noteTitleInput))
+		},		
 		handleKeyCommand: (command, editorState) => {
 			const newState = RichUtils.handleKeyCommand(editorState, command)
 			dispatch(updateEditorState(newState))
@@ -60,9 +72,9 @@ const mapDispatchToProps = dispatch => {
 				dispatch(updateEditorState(newBlockTypeState))					
 			}
 		},
-		onSubmitClick: (currentNote, editorState) => {
+		onSubmitClick: (currentNote, editorState, noteTitleInput) => {
 					let textContent = editorState.getCurrentContent()
-					const data = { title: currentNote.title, text: stateToHTML(textContent) }
+					const data = { title: noteTitleInput, text: stateToHTML(textContent) }
 					if (currentNote.id) {
 						data.id = currentNote.id
 					}

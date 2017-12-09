@@ -1,11 +1,18 @@
 import React from 'react'
 
-export const ChapterNavButton = () =>
-	<div className='nav_button text-center'>
-		<button onClick='' className='btn btn-outline-primary btn-lg'>
-			Chapters
+export const ReaderEditButton = ({onClick}) =>
+	<div className='edit_note_button'>
+		<button onClick={onClick} className='btn btn-outline-primary btn-lg'>
+			Edit
 		</button>
 	</div>
+
+export const ReaderAnnotateButton = ({onClick}) =>
+	<div className='annotate_note_button'>
+		<button onClick={onClick} className='btn btn-outline-primary btn-lg'>
+			Annotate
+		</button>
+	</div>	
 
 export const ChapterButton = ({chapter, currentChapter, onClick}) =>
 	<div className ='chapter_button text-center'>
@@ -44,8 +51,14 @@ export const EditorTopbarToolButton = ({glyph, onClick}) =>
 		<i className={'fa fa-' + glyph}></i>
 	</button>
 
+export const EditorCancelButton = ({onClick}) =>
+	<button type='button' onClick={onClick} className='btn btn-outline-secondary btn-lg'>
+		Cancel
+		<i className='fa fa-cancel'></i>
+	</button>
+
 export const EditorSubmitButton = ({onSubmitClick}) =>
-	<button id='editor_submit' onClick={onSubmitClick} type='button' className='btn btn-success btn-sm'>
+	<button id='editor_submit' onClick={onSubmitClick} type='button' className='btn btn-outline-success btn-lg'>
 		Submit
 		<i className='fa fa-check-square-o'></i>
 	</button>

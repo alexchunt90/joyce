@@ -89,7 +89,19 @@ export const editTextReceived = data =>
 		({
 			type: 'DELETE_CURRENT_NOTE',
 			id: id
-		})				
+		})
+
+// Mode Actions
+
+	export const setEditMode = () =>
+		({
+			type: 'SET_EDIT_MODE'
+		})
+
+	export const cancelEdit = () =>
+		({
+			type: 'CANCEL_EDIT'
+		})
 
 // EditorState Actions
 

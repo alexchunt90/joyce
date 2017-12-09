@@ -107,7 +107,10 @@ export const joyceAPI = store => next => action => {
 			break
 		case 'DELETE_CURRENT_NOTE':
 			store.dispatch(deleteDocument({id: action.id, docType: 'notes'}))
-			break			
+			break
+		case 'CANCEL_EDIT':
+			const currentNote = store.getState().currentNote
+			store.dispatch(getDocumentText({id: currentNote.id, status: 'success', docType: 'notes', data: currentNote}))
 		default:
 			break
 	}

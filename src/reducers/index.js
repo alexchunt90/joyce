@@ -8,6 +8,7 @@ import chapterTitleInput from './chapterTitleInput'
 import editorState from './editorState'
 
 import highlightActive from './highlightActive'
+import mode from './mode'
 
 export {
 	chapters,
@@ -16,5 +17,6 @@ export {
 	currentNote,
 	chapterTitleInput,
 	editorState,
-	highlightActive
+	highlightActive,
+	mode
 }

@@ -3,22 +3,13 @@ import { connect } from 'react-redux'
 import { Editor, RichUtils } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
-import { EditorTopbarToolButton } from '../components/button'
-import { updateEditorState, updateChapterTitleInput, updateChapterNumberInput, submitChapter, deleteChapter } from '../actions'
+import EditorTopbar from '../components/editorTopbar'
+import { updateEditorState, updateChapterTitleInput, submitChapter, deleteChapter } from '../actions'
 
 const JoyceTextEditor = ({currentChapter, editorState, handleKeyCommand, onChangeEditorState, onToolButtonClick}) =>
 	<div className='joyce_text_editor'>		
 		<div id='editor_topbar'>
-			<div className='row'>
-				<div className='col-md-12'>
-					<div className='btn-group' role='group'>
-						<EditorTopbarToolButton glyph='bold' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
-						<EditorTopbarToolButton glyph='italic' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
-						<EditorTopbarToolButton glyph='underline' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
-						<EditorTopbarToolButton glyph='header' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
-					</div>
-				</div>
-			</div>
+			<EditorTopbar editorState={editorState} onToolButtonClick={onToolButtonClick} />
 		</div>	
 		<div id='editor_content'>
 			<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState} />

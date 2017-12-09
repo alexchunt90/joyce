@@ -1,0 +1,54 @@
+#chapter_title_input input {
+	width: 100%;
+}
+
+#editor_topbar button img {
+	width: 100%;
+	height: 100%; 
+}
+
+#editor_topbar .row {
+	margin-bottom: 0.8%;
+}
+
+#editor_topbar .btn-group {
+	margin: 0 1%;
+}
+
+#editor_content {
+    height: 43em;
+    overflow: scroll;
+    background-color: rgba(256,256,256,.8);
+    box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
+    margin: 1.3% 0;
+    border: 1px solid $border_color;
+    border-radius: 5px;
+    padding: 2% 5%;
+    font-size: 0.8em;
+}
+
+#editor_content div {
+	overflow: scroll;
+}
+
+#editor_topbar button img {
+	width: 60%;
+}
+
+#editor_bottombar {
+	margin: 0.8% 0;
+}
+
+#editor_bottombar button {
+	width: 100%;
+}
+
+#editor_delete {
+	float: left;
+	width: 100%;
+}
+
+#editor_submit {
+	float: right;
+	width: 100%;
+}

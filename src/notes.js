@@ -4,14 +4,16 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import 'bootstrap'
 
-import { notes, currentNote } from './reducers'
+import { notes, currentNote, editorState, mode } from './reducers'
 import { getDocumentList } from './actions'
 import { joyceAPI, logger } from './middleware/'
 import JoyceNotesPageContainer from './containers/joyceNotesPageContainer'
 
 const reduceNotes = combineReducers({
 	notes,
-	currentNote
+	currentNote,
+	editorState,
+	mode
 })
 
 let store = createStore(reduceNotes, applyMiddleware(joyceAPI, logger))	

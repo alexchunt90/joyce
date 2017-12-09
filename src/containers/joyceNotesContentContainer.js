@@ -1,17 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { EditNoteButton } from '../components/button'
-import EditorTopbar from '../components/editorTopbar'
-import { ReaderBottombar, EditorBottombar } from '../components/notePageBottombar'
-import { updateEditorState, setEditMode, 	 } from '../actions'
+import { EditModeTopBar }  from '../components/contentTopBar'
+import { ReadModeBottomBar, EditModeBottomBar } from '../components/contentBottomBar'
+import { updateEditorState, setEditMode, cancelEdit } from '../actions'
 import { Editor, RichUtils } from 'draft-js'
 
-const NotePage = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setEditMode, cancelEdit}) =>
+const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setEditMode, cancelEdit}) =>
 	<div>
 		<div id='editor_topbar'>
 			{mode === 'EDIT_MODE' &&
-				<EditorTopbar editorState={editorState} onToolButtonClick={onToolButtonClick} />
+				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} />
 			}
 		</div>	
 		<div id='editor_content'>
@@ -19,10 +18,10 @@ const NotePage = ({currentNote, editorState, mode, handleKeyCommand, onChangeEdi
 		</div>
 		<div id='editor_bottombar'>
 			{mode === 'READ_MODE' &&
-				<ReaderBottombar setEditMode={setEditMode} />
+				<ReadModeBottomBar setEditMode={setEditMode} />
 			}
 			{mode === 'EDIT_MODE' &&
-				<EditorBottombar cancelEdit={cancelEdit} />
+				<EditModeBottomBar cancelEdit={cancelEdit} />
 			}
 		</div>
 	</div>			
@@ -63,6 +62,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const NotePageContainer = connect(mapStateToProps, mapDispatchToProps)(NotePage)
+const JoyceNotesContentContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceNotesContent)
 
-export default NotePageContainer
+export default JoyceNotesContentContainer

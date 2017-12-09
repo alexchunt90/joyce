@@ -5,7 +5,6 @@ const webpack = require('webpack')
 const path = require('path')
 
 const rootAssetPath = './src/'
-
 let pathsToClean = [
   'static/'
 ]
@@ -17,8 +16,8 @@ module.exports = {
 			rootAssetPath + 'stylesheets/' + 'reader.scss'
 		],
 		editor: [
-			rootAssetPath + 'editor',
-			rootAssetPath + 'stylesheets/' + 'editor.scss'
+			rootAssetPath + 'chapters',
+			rootAssetPath + 'stylesheets/' + 'chapters.scss'
 		],
 		notes: [
 			rootAssetPath + 'notes',

@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { Editor, RichUtils } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
-import EditorTopbar from '../components/editorTopbar'
+import { EditModeTopBar } from '../components/contentTopBar'
 import { updateEditorState, updateChapterTitleInput, submitChapter, deleteChapter } from '../actions'
 
 const JoyceTextEditor = ({currentChapter, editorState, handleKeyCommand, onChangeEditorState, onToolButtonClick}) =>
 	<div className='joyce_text_editor'>		
 		<div id='editor_topbar'>
-			<EditorTopbar editorState={editorState} onToolButtonClick={onToolButtonClick} />
+			<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} />
 		</div>	
 		<div id='editor_content'>
 			<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState} />

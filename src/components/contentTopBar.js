@@ -2,7 +2,7 @@ import React from 'react'
 
 import { EditorTopbarToolButton } from './button'
 
-const EditorTopbar = ({editorState, onToolButtonClick}) =>
+export const EditModeTopBar = ({editorState, onToolButtonClick}) =>
 	<div className='row'>
 		<div className='col-md-12'>
 			<div className='btn-group' role='group'>
@@ -12,6 +12,4 @@ const EditorTopbar = ({editorState, onToolButtonClick}) =>
 				<EditorTopbarToolButton glyph='header' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
 			</div>
 		</div>
-	</div>	
-
-export default EditorTopbar
+	</div>

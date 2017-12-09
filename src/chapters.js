@@ -1,27 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import 'bootstrap'
 
-import { chapters, highlightActive, currentChapter, chapterTitleInput, editorState } from './reducers'
+import reduceChapters from './reducers/reduceChapters'
 import { getDocumentList, setCurrentChapter } from './actions'
 import { joyceAPI, logger } from './middleware'
-import EditorContainer from './containers/editorContainer'
+import JoyceChaptersPage from './components/joyceChaptersPage'
 
-const reduceEditor = combineReducers({
-	chapters,
-	currentChapter,
-	chapterTitleInput,
-	highlightActive,
-	editorState
-})
-
-let store = createStore(reduceEditor, applyMiddleware(joyceAPI, logger))
+let store = createStore(reduceChapters, applyMiddleware(joyceAPI, logger))
 
 ReactDOM.render(
 	<Provider store={store}>
-		<EditorContainer />
+		<JoyceChaptersPage />
 	</Provider>,
   	document.getElementById('wrapper')
 )

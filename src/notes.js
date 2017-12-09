@@ -1,26 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import 'bootstrap'
 
-import { notes, currentNote, editorState, mode } from './reducers'
+import reduceNotes from './reducers/reduceNotes'
 import { getDocumentList } from './actions'
 import { joyceAPI, logger } from './middleware/'
-import JoyceNotesPageContainer from './containers/joyceNotesPageContainer'
-
-const reduceNotes = combineReducers({
-	notes,
-	currentNote,
-	editorState,
-	mode
-})
+import JoyceNotesPage from './components/joyceNotesPage'
 
 let store = createStore(reduceNotes, applyMiddleware(joyceAPI, logger))	
 
 ReactDOM.render(
 	<Provider store={store}>
-		<JoyceNotesPageContainer />
+		<JoyceNotesPage />
 	</Provider>,
   	document.getElementById('wrapper')
 )

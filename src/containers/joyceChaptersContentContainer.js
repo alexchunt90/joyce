@@ -7,7 +7,7 @@ import JoyceTextEditorContainer from './joyceTextEditorContainer'
 import { EditorSubmitButton, EditorDeleteButton } from '../components/button'
 import { updateEditorState, updateChapterTitleInput, submitChapterEdit, deleteCurrentChapter } from '../actions'
 
-const EditChapter = ({chapters, currentChapter, editorState, chapterTitleInput, onChapterTitleChange, onSubmitClick, onDeleteClick}) =>
+const JoyceChaptersContent = ({chapters, currentChapter, editorState, chapterTitleInput, onChapterTitleChange, onSubmitClick, onDeleteClick}) =>
 	<div id='editor_container'>
 		<div id='editor_metadata'>
 			<div className='row'>			
@@ -68,6 +68,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const EditChapterContainer = connect(mapStateToProps, mapDispatchToProps)(EditChapter)
+const JoyceChaptersContentContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceChaptersContent)
 
-export default EditChapterContainer
+export default JoyceChaptersContentContainer

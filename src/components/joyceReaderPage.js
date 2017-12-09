@@ -1,18 +1,18 @@
 import React from 'react'
 
-import PageContainer from '../containers/pageContainer'
 import Navbar from '../components/navbar'
-import ReaderSidebarContainer from '../containers/readerSidebarContainer'
 import Content from '../components/content'
+import JoyceReaderSidebarContainer from '../containers/joyceReaderSidebarContainer'
+import JoyceReaderContentContainer from '../containers/joyceReaderContentContainer'
 
 const ReaderContainer = () =>
 	<div>
 		<Navbar />
 		<div id='joyce_reader' className='container-fluid'>
 			<div className="row">
-				<ReaderSidebarContainer />
+				<JoyceReaderSidebarContainer />
 				<Content>
-					<PageContainer />
+					<JoyceReaderContentContainer />
 				</Content>
 			</div>
 		</div>

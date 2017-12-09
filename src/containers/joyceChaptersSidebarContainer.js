@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+
 import { setCurrentChapter, createNewChapter } from '../actions'
 import { ChapterList } from '../components/list'
 import { NewChapterButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 
-const EditorSidebar = ({chapters, currentChapter, onChapterClick, onNewChapterClick}) =>
+const JoyceChaptersSidebar = ({chapters, currentChapter, onChapterClick, onNewChapterClick}) =>
 	<div className="col-md-3" id="sidebar">
 		<SidebarSpacer />
 		<NewChapterButton onNewChapterClick={onNewChapterClick}/>
@@ -32,6 +33,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const EditorSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(EditorSidebar)
+const JoyceChaptersSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceChaptersSidebar)
 
-export default EditorSidebarContainer
+export default JoyceChaptersSidebarContainer

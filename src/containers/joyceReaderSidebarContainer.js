@@ -5,7 +5,7 @@ import { ChapterList } from '../components/list'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 
-const ReaderSidebar = ({chapters, currentChapter, onChapterClick, highlightActive, onHighlightClick}) =>
+const JoyceReaderSidebar = ({chapters, currentChapter, onChapterClick, highlightActive, onHighlightClick}) =>
 	<div className="col-md-3" id="sidebar">
 		<SidebarSpacer />
 		<HighlightButton highlightActive={highlightActive} onHighlightClick={onHighlightClick}/>
@@ -32,6 +32,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const ReaderSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(ReaderSidebar)
+const JoyceReaderSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceReaderSidebar)
 
-export default ReaderSidebarContainer
+export default JoyceReaderSidebarContainer

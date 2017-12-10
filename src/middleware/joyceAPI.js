@@ -118,8 +118,13 @@ export const joyceAPI = store => next => action => {
 			store.dispatch(deleteDocument({id: action.id, docType: 'notes'}))
 			break
 		case 'CANCEL_EDIT':
+			const notes = store.getState().notes
 			const currentNote = store.getState().currentNote
-			store.dispatch(getDocumentText({id: currentNote.id, status: 'success', docType: 'notes', data: currentNote}))
+			if (currentNote.id) {
+				store.dispatch(getDocumentText({id: currentNote.id, status: 'success', docType: 'notes', data: currentNote}))
+			} else {
+				store.dispatch(getDocumentText({id: notes[0].id, docType: 'notes'}))
+			}
 		default:
 			break
 	}

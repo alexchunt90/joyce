@@ -1,20 +1,29 @@
 - v0.1 Text Editor + Basic Reader
-	+ Flask Microservice +
-	+ Basic REST API +
-	+ Basic Layout + 
-	+ React Components +
-	+ Front-End Dependency Manager +
-	+ Wire React to ES API +
-	+ Simple CRUD interface +
-	+ Async API Middleware +
-	+ Introduce Draft.JS + 
-	+ Font Awesome / Better Glyphicons +
-	+ DRY up Sass Modules +
-	+ Wire Up Rich Util Buttons +
-	+ Major TextEditor Refactor +
-	- Wire Up Editor Style Buttons
-	- Seed Chapter Data for Setup.py
-	- Modularize TextEditor Container Component
+	+ DONE +
+		+ Flask Microservice +
+		+ Basic REST API +
+		+ Basic Layout + 
+		+ React Components +
+		+ Front-End Dependency Manager +
+		+ Wire React to ES API +
+		+ Simple CRUD interface +
+		+ Async API Middleware +
+		+ Introduce Draft.JS + 
+		+ Font Awesome / Better Glyphicons +
+		+ DRY up Sass Modules +
+		+ Wire Up Rich Util Buttons +
+		+ Major TextEditor Refactor +
+		+ Wire Up Editor Style Buttons +
+		+ Seed Chapter Data for Setup.py +
+		+ Modularize TextEditor Container Component +
+		+ Abstract API Blueprint for Notes +
+		+ Note Manager Component +
+	- Abstract Notes Page into Documents Page, Create Text Route
+	- Add Date Created / Updated Stamps, Introduce Sort Options
+	- Notes Modal to Select A Note
+	- More Responsive CSS
+	- Functioning Search Page
+	- Link data attributes in DraftJSExportHTML	
 	- Testing
 		- Python Unit Tests
 		- React Unit Tests
@@ -32,12 +41,8 @@
 		- Pagination?
 	- Full-Screen Mode
 
-- v0.3 Notes and Text Formatting
-	- Abstract API Blueprint for Notes
-	- Note Manager Component
-
 - v0.4 Search
-	- Advanced search page? broken out with text results and note results
+	- Advanced search page
 	- Drop Down window
 
 - v0.5 Pagination

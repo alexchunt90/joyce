@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { Editor, RichUtils } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
-import { EditModeTopBar }  from '../components/contentTopBar'
-import { ReadModeBottomBar, EditModeBottomBar } from '../components/contentBottomBar'
-import { updateEditorState, setEditMode, cancelEdit, submitNoteEdit, updateNoteTitleInput } from '../actions'
+import { ReadModeTopBar, EditModeTopBar }  from '../components/contentTopBar'
+import { EditModeBottomBar } from '../components/contentBottomBar'
+import { updateEditorState, setMode, cancelEdit, submitNoteEdit, updateNoteTitleInput } from '../actions'
 
-const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setEditMode, cancelEdit, onSubmitClick, noteTitleInput, onNoteTitleChange}) =>
+const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, noteTitleInput, onNoteTitleChange}) =>
 	<div>
 		<div id='editor_metadata'>
-			{mode === 'READ_MODE' &&
+			{(mode === 'READ_MODE' || mode === 'ANNOTATE_MODE') &&
 				<h4>{currentNote.title}</h4>
 			}
 			{mode === 'EDIT_MODE' &&
@@ -18,18 +18,18 @@ const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, on
 			}
 		</div>
 		<div id='editor_topbar'>
+			{mode === 'READ_MODE' &&
+				<ReadModeTopBar setMode={setMode} />
+			}
 			{mode === 'EDIT_MODE' &&
-				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} />
+				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} deleteDisabled={!currentNote.id ? true : false}/>
 			}
 		</div>	
 		<div id='editor_content'>
-			<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState} readOnly={mode === 'READ_MODE' ? true : false }/>
+			<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState} readOnly={mode === 'READ_MODE' ? true : false } />
 		</div>
 		<div id='editor_bottombar'>
-			{mode === 'READ_MODE' &&
-				<ReadModeBottomBar setEditMode={setEditMode} />
-			}
-			{mode === 'EDIT_MODE' &&
+			{(mode === 'EDIT_MODE' || mode === 'ANNOTATE_MODE') &&
 				<EditModeBottomBar cancelEdit={cancelEdit} onSubmitClick={()=>onSubmitClick(currentNote, editorState, noteTitleInput)} />
 			}
 		</div>
@@ -56,8 +56,8 @@ const mapDispatchToProps = dispatch => {
 			const newState = RichUtils.handleKeyCommand(editorState, command)
 			dispatch(updateEditorState(newState))
 		},
-		setEditMode: () => {
-			dispatch(setEditMode())
+		setMode: (mode) => {
+			dispatch(setMode(mode))
 		},
 		cancelEdit: () => {
 			dispatch(cancelEdit())

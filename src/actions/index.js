@@ -93,9 +93,10 @@ export const editTextReceived = data =>
 
 // Mode Actions
 
-	export const setEditMode = () =>
+	export const setMode = mode =>
 		({
-			type: 'SET_EDIT_MODE'
+			type: 'SET_MODE',
+			mode: mode
 		})
 
 	export const cancelEdit = () =>

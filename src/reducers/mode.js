@@ -8,8 +8,8 @@ const mode = (state='READ_MODE', action) => {
 			if (action.status === 'success') {
 				return 'READ_MODE'
 			}
-		case 'SET_EDIT_MODE':
-			return 'EDIT_MODE'
+		case 'SET_MODE':
+			return action.mode
 		case 'CREATE_NOTE':
 			return 'EDIT_MODE'
 		case 'CANCEL_EDIT':

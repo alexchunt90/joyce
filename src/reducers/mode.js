@@ -7,7 +7,7 @@ const mode = (state='READ_MODE', action) => {
 		case 'SAVE_DOCUMENT':
 			if (action.status === 'success') {
 				return 'READ_MODE'
-			}
+			} else { return state }
 		case 'SET_MODE':
 			return action.mode
 		case 'CREATE_NOTE':

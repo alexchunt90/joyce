@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ReaderAnnotateButton, ReaderEditButton, EditorTopBarToolButton, EditorTopBarDeleteButton } from './button'
+import { ReaderAnnotateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, AnnotatorNewButton, AnnotatorRemoveButton } from './button'
 
 export const ReadModeTopBar = ({setMode}) =>
 	<div className='row'>
@@ -14,15 +14,25 @@ export const ReadModeTopBar = ({setMode}) =>
 
 export const EditModeTopBar = ({editorState, onToolButtonClick, deleteDisabled}) =>
 	<div className='row'>
-		<div className='col-md-6'>
+		<div className='col-md-5'>
 			<div className='btn-group' role='group'>
-				<EditorTopBarToolButton glyph='bold' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
-				<EditorTopBarToolButton glyph='italic' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
-				<EditorTopBarToolButton glyph='underline' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
-				<EditorTopBarToolButton glyph='header' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
+				<EditorToolButton glyph='bold' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
+				<EditorToolButton glyph='italic' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
+				<EditorToolButton glyph='underline' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
+				<EditorToolButton glyph='header' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
 			</div>
 		</div>
-		<div className='col-md-6'>
-			<EditorTopBarDeleteButton deleteDisabled={deleteDisabled}/>
+		<div className='col-md-5 offset-md-2'>
+			<EditorDeleteToolButton deleteDisabled={deleteDisabled}/>
 		</div>
+	</div>
+
+export const AnnotateModeTopBar = ({editorState}) =>
+	<div className='row'>
+		<div className='col-md-5'>
+			<AnnotatorNewButton onClick={()=>console.log('ANNOTATE_MODE')}/>
+		</div>
+		<div className='col-md-5 offset-md-2'>
+			<AnnotatorRemoveButton onClick={()=>console.log('EDIT_MODE')} />
+		</div>	
 	</div>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Editor, RichUtils } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
-import { ReadModeTopBar, EditModeTopBar }  from '../components/contentTopBar'
+import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../components/contentTopBar'
 import { EditModeBottomBar } from '../components/contentBottomBar'
 import { updateEditorState, setMode, cancelEdit, submitNoteEdit, updateNoteTitleInput } from '../actions'
 
@@ -20,6 +20,9 @@ const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, on
 		<div id='editor_topbar'>
 			{mode === 'READ_MODE' &&
 				<ReadModeTopBar setMode={setMode} />
+			}
+			{mode === 'ANNOTATE_MODE' &&
+				<AnnotateModeTopBar />
 			}
 			{mode === 'EDIT_MODE' &&
 				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} deleteDisabled={!currentNote.id ? true : false}/>

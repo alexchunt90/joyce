@@ -57,12 +57,27 @@ export const NewNoteButton = ({onClick}) =>
 		</div>
 	</div>
 
-export const EditorTopBarToolButton = ({glyph, onClick}) =>
+// Fairly abstracted
+
+export const AnnotatorNewButton = ({onClick}) =>
+	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
+		New Annotation
+		<i className='fa fa_inline fa-link'></i>
+	</button>
+
+export const AnnotatorRemoveButton = ({onClick}) =>
+	<button type='button' onClick={onClick} className='btn btn-secondary btn-sm'>
+		Remove Annotation
+		<i className='fa fa_inline fa-unlink'></i>		
+	</button>
+
+export const EditorToolButton = ({glyph, onClick}) =>
 	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
 		<i className={'fa fa-' + glyph}></i>
 	</button>
 
-export const EditorTopBarDeleteButton = ({deleteDisabled}) =>
+
+export const EditorDeleteToolButton = ({deleteDisabled}) =>
 	<button className='btn btn-info btn-sm' disabled={deleteDisabled} data-toggle='modal' data-target='#delete_confirm_modal' type='button'>
 		Delete
 		<i className='fa fa_inline fa-trash-o'></i>

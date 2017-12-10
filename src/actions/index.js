@@ -12,6 +12,7 @@ export const getDocumentText = (response = {}) =>
 	({
 		type: 'GET_DOCUMENT_TEXT',
 		id: response.id,
+		state: response.state,
 		docType: response.docType,
 		status: response.status ? response.status : 'request',
 		data: response.data
@@ -132,4 +133,26 @@ export const editTextReceived = data =>
 			type: 'UPDATE_NOTE_TITLE',
 			data: noteTitleInput.target.value
 		})
-	}		
+	}
+
+// Annotation Actions
+
+	export const addAnnotation = data =>
+		({
+			type: 'ADD_ANNOTATION',
+			data: data
+		})
+
+	export const submitAnnotation = (annotationNote, selectionState, editorState) =>
+		({
+			type: 'SUBMIT_ANNOTATION',
+			annotationNote: annotationNote,
+			selectionState: selectionState,
+			editorState: editorState
+		})
+
+	export const selectAnnotationNote = id =>
+		({
+			type: 'SELECT_ANNOTATION_NOTE',
+			id: id
+		})

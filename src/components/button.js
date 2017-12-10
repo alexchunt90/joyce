@@ -59,8 +59,8 @@ export const NewNoteButton = ({onClick}) =>
 
 // Fairly abstracted
 
-export const AnnotatorNewButton = ({onClick}) =>
-	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
+export const AnnotatorNewButton = ({onClick, disabled}) =>
+	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-toggle='modal' data-target='#annotate_modal'>
 		New Annotation
 		<i className='fa fa_inline fa-link'></i>
 	</button>
@@ -77,8 +77,8 @@ export const EditorToolButton = ({glyph, onClick}) =>
 	</button>
 
 
-export const EditorDeleteToolButton = ({deleteDisabled}) =>
-	<button className='btn btn-info btn-sm' disabled={deleteDisabled} data-toggle='modal' data-target='#delete_confirm_modal' type='button'>
+export const EditorDeleteToolButton = ({disabled}) =>
+	<button className='btn btn-info btn-sm' disabled={disabled} data-toggle='modal' data-target='#delete_confirm_modal' type='button'>
 		Delete
 		<i className='fa fa_inline fa-trash-o'></i>
 	</button>
@@ -89,8 +89,8 @@ export const EditorCancelButton = ({onClick}) =>
 		<i className='fa fa_inline fa-times'></i>
 	</button>
 
-export const EditorSubmitButton = ({onSubmitClick}) =>
-	<button id='editor_submit' onClick={onSubmitClick} type='button' className='btn btn-outline-success btn-sm'>
+export const EditorSubmitButton = ({onClick}) =>
+	<button id='editor_submit' onClick={onClick} type='button' data-dismiss='modal' className='btn btn-outline-success btn-sm'>
 		Submit
 		<i className='fa fa_inline fa-check-square-o'></i>
 	</button>

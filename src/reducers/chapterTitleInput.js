@@ -1,7 +1,7 @@
 const chapterTitleInput = (state='', action) => {
 	switch(action.type) {
 		case 'GET_DOCUMENT_TEXT': 
-			if (action.status === 'success') {
+			if (action.status === 'success' && action.state === 'currentChapter') {
 				return action.data.title
 			} else { return state }
 		case 'CREATE_CHAPTER':

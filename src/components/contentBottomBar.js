@@ -7,6 +7,6 @@ export const EditModeBottomBar = ({cancelEdit, onSubmitClick}) =>
 			<EditorCancelButton onClick={()=>cancelEdit()}/>
 		</div>
 		<div className='col-md-5 offset-md-2'>
-			<EditorSubmitButton onSubmitClick={onSubmitClick} />
+			<EditorSubmitButton onClick={onSubmitClick} />
 		</div>
 	</div>

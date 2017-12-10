@@ -1,7 +1,7 @@
 const mode = (state='READ_MODE', action) => {
 	switch(action.type) {
 		case 'GET_DOCUMENT_TEXT':
-			if (action.status === 'success') {
+			if (action.status === 'success' && action.state === 'currentNote') {
 				return 'READ_MODE'
 			} else { return state }
 		case 'SAVE_DOCUMENT':

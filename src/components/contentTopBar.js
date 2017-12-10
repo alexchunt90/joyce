@@ -12,7 +12,7 @@ export const ReadModeTopBar = ({setMode}) =>
 		</div>
 	</div>
 
-export const EditModeTopBar = ({editorState, onToolButtonClick, deleteDisabled}) =>
+export const EditModeTopBar = ({editorState, onToolButtonClick, disabled}) =>
 	<div className='row'>
 		<div className='col-md-5'>
 			<div className='btn-group' role='group'>
@@ -23,14 +23,14 @@ export const EditModeTopBar = ({editorState, onToolButtonClick, deleteDisabled})
 			</div>
 		</div>
 		<div className='col-md-5 offset-md-2'>
-			<EditorDeleteToolButton deleteDisabled={deleteDisabled}/>
+			<EditorDeleteToolButton disabled={disabled}/>
 		</div>
 	</div>
 
-export const AnnotateModeTopBar = ({editorState}) =>
+export const AnnotateModeTopBar = ({onNewAnnotationClick, disabled}) =>
 	<div className='row'>
 		<div className='col-md-5'>
-			<AnnotatorNewButton onClick={()=>console.log('ANNOTATE_MODE')}/>
+			<AnnotatorNewButton onClick={onNewAnnotationClick} disabled={disabled}/>
 		</div>
 		<div className='col-md-5 offset-md-2'>
 			<AnnotatorRemoveButton onClick={()=>console.log('EDIT_MODE')} />

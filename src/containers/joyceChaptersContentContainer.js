@@ -28,7 +28,7 @@ const JoyceChaptersContent = ({chapters, currentChapter, editorState, chapterTit
 					<EditorDeleteButton onDeleteClick={()=>onDeleteClick(currentChapter)} currentChapter={currentChapter}/>
 				</div>
 				<div className='col-md-5 offset-md-2'>
-					<EditorSubmitButton onSubmitClick={()=>onSubmitClick(chapters, currentChapter, chapterTitleInput, editorState)} currentChapter={currentChapter} chapterTitleInput={chapterTitleInput} editorState={editorState}/>
+					<EditorSubmitButton onClick={()=>onSubmitClick(chapters, currentChapter, chapterTitleInput, editorState)} currentChapter={currentChapter} chapterTitleInput={chapterTitleInput} editorState={editorState}/>
 				</div>
 			</div>
 		</div>

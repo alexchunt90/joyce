@@ -20,11 +20,11 @@ const HTTPGetDocumentList = docType =>
 		return {status: 'error', docType: docType, data: error}
 	})
 
-const HTTPGetDocumentText = (id, docType) =>
+const HTTPGetDocumentText = (id, docType, state) =>
 	axios.get(apiRoute + docType + '/' + id).then(res => {
-		return {id: id, status: 'success', docType: docType, data: res.data}
+		return {id: id, status: 'success', docType: docType, state: state, data: res.data}
 	}).catch(error => {
-		return {id: id, status: 'error', docType: docType, data: error}
+		return {id: id, status: 'error', docType: docType, state: state, data: error}
 	})
 
 const HTTPDeleteDocument = (id, docType) =>
@@ -62,7 +62,7 @@ export const joyceAPI = store => next => action => {
 			break
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'request') {
-				HTTPGetDocumentText(action.id, action.docType).then(response =>
+				HTTPGetDocumentText(action.id, action.docType, action.state).then(response =>
 					store.dispatch(getDocumentText(response))
 				)
 			}
@@ -99,7 +99,7 @@ export const joyceAPI = store => next => action => {
 			break
 		// Chapter Action Middleware
 		case 'SET_CURRENT_CHAPTER':
-			store.dispatch(getDocumentText({id: action.id, docType: 'chapters'}))
+			store.dispatch(getDocumentText({id: action.id, docType: 'chapters', state: 'currentChapter'}))
 			break
 		case 'SUBMIT_CHAPTER_EDIT':
 			store.dispatch(saveDocument({docType: 'chapters', data: action.document}))
@@ -109,7 +109,7 @@ export const joyceAPI = store => next => action => {
 			break
 		// Note Action Middleware
 		case 'SET_CURRENT_NOTE':
-			store.dispatch(getDocumentText({id: action.id, docType: 'notes'}))
+			store.dispatch(getDocumentText({id: action.id, docType: 'notes', state: 'currentNote'}))
 			break
 		case 'SUBMIT_NOTE_EDIT':
 			store.dispatch(saveDocument({docType: 'notes', data: action.document}))
@@ -121,10 +121,15 @@ export const joyceAPI = store => next => action => {
 			const notes = store.getState().notes
 			const currentNote = store.getState().currentNote
 			if (currentNote.id) {
-				store.dispatch(getDocumentText({id: currentNote.id, status: 'success', docType: 'notes', data: currentNote}))
+				store.dispatch(getDocumentText({id: currentNote.id, status: 'success', docType: 'notes', data: currentNote, state: 'currentNote'}))
 			} else {
-				store.dispatch(getDocumentText({id: notes[0].id, docType: 'notes'}))
+				store.dispatch(getDocumentText({id: notes[0].id, docType: 'notes', state: 'currentNote'}))
 			}
+			break
+		// Annotation Action Middleware
+		case 'SELECT_ANNOTATION_NOTE':
+			store.dispatch(getDocumentText({id: action.id, docType: 'notes', state: 'annotationNote'}))
+			break
 		default:
 			break
 	}

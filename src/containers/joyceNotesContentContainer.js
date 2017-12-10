@@ -5,9 +5,9 @@ import { stateToHTML } from 'draft-js-export-html'
 
 import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../components/contentTopBar'
 import { EditModeBottomBar } from '../components/contentBottomBar'
-import { updateEditorState, setMode, cancelEdit, submitNoteEdit, updateNoteTitleInput } from '../actions'
+import { updateEditorState, setMode, cancelEdit, submitNoteEdit, updateNoteTitleInput, addAnnotation } from '../actions'
 
-const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, noteTitleInput, onNoteTitleChange}) =>
+const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, noteTitleInput, onNoteTitleChange, onNewAnnotationClick}) =>
 	<div>
 		<div id='editor_metadata'>
 			{(mode === 'READ_MODE' || mode === 'ANNOTATE_MODE') &&
@@ -22,10 +22,10 @@ const JoyceNotesContent = ({currentNote, editorState, mode, handleKeyCommand, on
 				<ReadModeTopBar setMode={setMode} />
 			}
 			{mode === 'ANNOTATE_MODE' &&
-				<AnnotateModeTopBar />
+				<AnnotateModeTopBar onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())} disabled={editorState.getSelection().isCollapsed() ? true : false} />
 			}
 			{mode === 'EDIT_MODE' &&
-				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} deleteDisabled={!currentNote.id ? true : false}/>
+				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} disabled={!currentNote.id ? true : false}/>
 			}
 		</div>	
 		<div id='editor_content'>
@@ -65,6 +65,9 @@ const mapDispatchToProps = dispatch => {
 		cancelEdit: () => {
 			dispatch(cancelEdit())
 		},
+		onNewAnnotationClick: (selectionState) => {
+			dispatch(addAnnotation(selectionState))
+		}, 
 		onToolButtonClick: (editorState, style) => {
 			let inlineStyles = ['BOLD', 'ITALIC', 'UNDERLINE']
 			if (inlineStyles.indexOf(style) >= 0) {
@@ -76,12 +79,12 @@ const mapDispatchToProps = dispatch => {
 			}
 		},
 		onSubmitClick: (currentNote, editorState, noteTitleInput) => {
-					let textContent = editorState.getCurrentContent()
-					const data = { title: noteTitleInput, text: stateToHTML(textContent) }
-					if (currentNote.id) {
-						data.id = currentNote.id
-					}
-					dispatch(submitNoteEdit(data))
+			let textContent = editorState.getCurrentContent()
+			const data = { title: noteTitleInput, text: stateToHTML(textContent) }
+			if (currentNote.id) {
+				data.id = currentNote.id
+			}
+			dispatch(submitNoteEdit(data))
 		}		
 	}
 }

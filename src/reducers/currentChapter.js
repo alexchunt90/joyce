@@ -1,7 +1,7 @@
 const currentChapter = (state={}, action) => {
 	switch(action.type) {
 		case 'GET_DOCUMENT_TEXT':
-			if (action.status === 'success' && action.docType === 'chapters') {
+			if (action.status === 'success' && action.docType === 'chapters' && action.state === 'currentChapter') {
 				return action.data
 			} else { return state }
 		case 'CREATE_CHAPTER':

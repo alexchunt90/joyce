@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { EditorSubmitButton, EditorCancelButton } from './button'
-import { NoteList } from './list'
+import { DocumentList } from './list'
 
 const AnnotateModal = ({notes, annotationNote, onSubmitClick, selectAnnotationNote}) =>
 	<div className='modal fade' id='annotate_modal' tabIndex='-1' role='dialog'>
@@ -13,7 +13,7 @@ const AnnotateModal = ({notes, annotationNote, onSubmitClick, selectAnnotationNo
 				<div className='modal-body'>
 					<div className='row'>
 						<div className='col-md-3'>
-							<NoteList notes={notes} currentNote={annotationNote} onNoteClick={selectAnnotationNote} />
+							<DocumentList notes={notes} currentDocument={annotationNote} onDocumentClick={selectAnnotationNote} docType={'notes'}/>
 						</div>
 						<div className='col-md-8 offset-md-1'>
 							<div dangerouslySetInnerHTML={{__html: annotationNote.text}} />

@@ -25,7 +25,7 @@ export const ChapterButton = ({chapter, currentChapter, onClick}) =>
 
 export const NoteButton = ({note, currentNote, onClick}) =>
 	<div className ='note_button'>
-		<button onClick={()=>onClick(note.id)} className={currentNote.id === note.id ? 'btn btn-warning' : 'btn btn-outline-warning'}>
+		<button onClick={onClick} className={currentNote.id === note.id ? 'btn btn-warning' : 'btn btn-outline-warning'}>
 			{note.title}
 		</button>
 	</div>
@@ -48,11 +48,24 @@ export const NewChapterButton = ({onNewChapterClick}) =>
 		</div>
 	</div>
 
-export const NewNoteButton = ({onClick}) =>
+const documentName = docType => {
+	switch(docType) {
+		case 'chapters':
+			return 'Chapter'
+			break
+		case 'notes':
+			return 'Note'
+			break
+	}	
+}
+
+
+export const NewDocumentButton = ({onClick, docType}) =>
 	<div>
-		<div id='new_note_button' className='text-center'>
+		<div id='new_document_button' className='text-center'>
 			<button onClick={onClick} className='btn btn-outline-success btn-sm'>
-				New Note <i className='fa fa_inline fa-plus-square-o'></i>
+				New {documentName(docType)}
+				<i className='fa fa_inline fa-plus-square-o'></i>
 			</button>
 		</div>
 	</div>

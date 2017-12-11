@@ -9,7 +9,7 @@ import { getDocumentList, setCurrentDocument, setDocType } from './actions'
 import { joyceAPI, logger } from './middleware/'
 import JoyceDocumentsPageContainer from './containers/joyceDocumentsPageContainer'
 
-let docType = 'notes'
+let docType = 'chapters'
 let store = createStore(reduceDocuments, applyMiddleware(joyceAPI, logger))	
 store.dispatch(setDocType(docType))
 
@@ -29,6 +29,7 @@ ReactDOM.render(
   	document.getElementById('wrapper')
 )
 
+store.dispatch(getDocumentList({docType: 'notes'}))
 store.dispatch(getDocumentList({docType: docType}))
 
 // Hacky way to fetch first chapter after async call above has completed.

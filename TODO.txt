@@ -18,9 +18,9 @@
 		+ Modularize TextEditor Container Component +
 		+ Abstract API Blueprint for Notes +
 		+ Note Manager Component +
+		+ Notes Modal to Select A Note +
 	- Abstract Notes Page into Documents Page, Create Text Route
 	- Add Date Created / Updated Stamps, Introduce Sort Options
-	- Notes Modal to Select A Note
 	- More Responsive CSS
 	- Functioning Search Page
 	- Link data attributes in DraftJSExportHTML	

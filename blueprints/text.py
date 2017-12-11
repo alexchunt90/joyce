@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, abort
 from jinja2 import TemplateNotFound
 
-editor = Blueprint('editor', __name__)
+text = Blueprint('text', __name__)
 
-@editor.route('/')
+@text.route('/')
 def show_reader():
-	return render_template('editor.html')
+	return render_template('text.html')

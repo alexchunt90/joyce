@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 
 import chapters from './chapters'
-import currentChapter from './currentChapter'
+import currentDocument from './currentDocument'
 import highlightActive from './highlightActive'
 
 const reduceReader = combineReducers({
 	chapters,
-	currentChapter,
+	currentDocument,
 	highlightActive
 })
 

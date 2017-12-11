@@ -1,12 +1,12 @@
 import axios from 'axios'
+import { stateToHTML } from 'draft-js-export-html'
 
 import { 
 	getDocumentList,
 	getDocumentText,
 	deleteDocument,
 	saveDocument,
-	setCurrentChapter,
-	setCurrentNote,
+	setCurrentDocument,
 	createNewChapter,
 } from '../actions'
 
@@ -77,11 +77,7 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(saveDocument(response)))
 				}
 			} else if (action.status === 'success') {
-				if (action.docType === 'chapters') {
-					store.dispatch(setCurrentChapter(action.data.slice(-1)[0].id))
-				} else if (action.docType === 'notes') {
-					store.dispatch(setCurrentNote(action.data.slice(-1)[0].id))
-				}
+				store.dispatch(setCurrentDocument(action.data.slice(-1)[0].id, action.docType))
 			}
 			break
 		case 'DELETE_DOCUMENT':
@@ -90,11 +86,7 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(deleteDocument(response))
 				)
 			} else if (action.status === 'success') {
-				if (action.docType === 'chapters') {
-					store.dispatch(setCurrentChapter(action.data[0].id))
-				} else if (action.docType === 'notes') {
-					store.dispatch(setCurrentNote(action.data[0].id))
-				}
+				store.dispatch(setCurrentDocument(action.data[0].id, action.docType))
 			}
 			break
 		// Chapter Action Middleware
@@ -108,22 +100,27 @@ export const joyceAPI = store => next => action => {
 			store.dispatch(deleteDocument({id: action.id, docType: 'chapters'}))
 			break
 		// Note Action Middleware
-		case 'SET_CURRENT_NOTE':
-			store.dispatch(getDocumentText({id: action.id, docType: 'notes', state: 'currentNote'}))
+		case 'SET_CURRENT_DOCUMENT':
+			store.dispatch(getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
 			break
-		case 'SUBMIT_NOTE_EDIT':
-			store.dispatch(saveDocument({docType: 'notes', data: action.document}))
+		case 'SUBMIT_DOCUMENT_EDIT':
+			const textContent = action.editorState.getCurrentContent()
+			const data = { title: action.documentTitleInput, text: stateToHTML(textContent) }
+			if (action.currentDocument.id) {
+				data.id = action.currentDocument.id
+			}			
+			store.dispatch(saveDocument({docType: action.docType, data: data}))
 			break
-		case 'DELETE_CURRENT_NOTE':
-			store.dispatch(deleteDocument({id: action.id, docType: 'notes'}))
+		case 'DELETE_CURRENT_DOCUMENT':
+			store.dispatch(deleteDocument({id: action.id, docType: action.docType}))
 			break
 		case 'CANCEL_EDIT':
 			const notes = store.getState().notes
-			const currentNote = store.getState().currentNote
-			if (currentNote.id) {
-				store.dispatch(getDocumentText({id: currentNote.id, status: 'success', docType: 'notes', data: currentNote, state: 'currentNote'}))
+			const currentDocument = store.getState().currentDocument
+			if (currentDocument.id) {
+				store.dispatch(getDocumentText({id: currentDocument.id, status: 'success', docType: 'notes', data: currentDocument, state: 'currentDocument'}))
 			} else {
-				store.dispatch(getDocumentText({id: notes[0].id, docType: 'notes', state: 'currentNote'}))
+				store.dispatch(getDocumentText({id: notes[0].id, docType: 'notes', state: 'currentDocument'}))
 			}
 			break
 		// Annotation Action Middleware

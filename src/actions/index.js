@@ -67,29 +67,36 @@ export const editTextReceived = data =>
 			id: id
 		})
 
-// Note Actions
+// Document Actions
 
-	export const setCurrentNote = id =>
+	export const setCurrentDocument = (id, docType) =>
 		({
-			type: 'SET_CURRENT_NOTE',
-			id: id
-		})
-
-	export const createNewNote = () =>
-		({
-			type: 'CREATE_NOTE',
+			type: 'SET_CURRENT_DOCUMENT',
+			id: id,
+			docType: docType
 		})	
 
-	export const submitNoteEdit = data =>
+	export const createNewDocument = docType =>
 		({
-			type: 'SUBMIT_NOTE_EDIT',
-			document: data
+			type: 'CREATE_DOCUMENT',
+			docType: docType
+		})	
+
+	export const submitDocumentEdit = (currentDocument, editorState, documentTitleInput, docType) =>
+		({
+			type: 'SUBMIT_DOCUMENT_EDIT',
+			currentDocument: currentDocument,
+			editorState: editorState,
+			documentTitleInput: documentTitleInput,
+			docType: docType
 		})
 
-	export const deleteCurrentNote = id =>
+	export const deleteCurrentDocument = (id, docType) =>
 		({
-			type: 'DELETE_CURRENT_NOTE',
-			id: id
+			type: 'DELETE_CURRENT_DOCUMENT',
+			id: id,
+			docType: docType
+
 		})
 
 // Mode Actions
@@ -113,6 +120,20 @@ export const editTextReceived = data =>
 			data: editorState
 		})
 
+	export const applyInlineStyles = (editorState, style) =>
+		({
+			type: 'APPLY_INLINE_STYLE',
+			editorState: editorState,
+			style: style
+		})
+
+	export const handleEditorKeyCommand = (editorState, command) =>
+		({
+			type: 'HANDLE_EDITOR_KEY_COMMAND',
+			editorState: editorState,
+			command: command
+		})
+
 // ChapterTitleInput Actions
 	export const updateChapterTitleInput = chapterTitleInput => {
 		return ({
@@ -128,12 +149,20 @@ export const editTextReceived = data =>
 			type: 'TOGGLE_HIGHLIGHT'
 		})
 
-	export const updateNoteTitleInput = noteTitleInput => {
+	export const updateDocumentTitleChange = documentTitleInput => {
 		return ({
-			type: 'UPDATE_NOTE_TITLE',
-			data: noteTitleInput.target.value
+			type: 'UPDATE_DOCUMENT_TITLE',
+			data: documentTitleInput.target.value
 		})
 	}
+
+// DocType Actions
+
+	export const setDocType = docType =>
+		({
+			type: 'SET_DOC_TYPE',
+			docType: docType
+		})
 
 // Annotation Actions
 

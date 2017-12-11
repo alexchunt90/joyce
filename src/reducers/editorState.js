@@ -1,5 +1,5 @@
 import React from 'react'
-import { EditorState, Modifier, ContentState, CompositeDecorator, Entity } from 'draft-js'
+import { EditorState, Modifier, ContentState, CompositeDecorator, RichUtils, Entity } from 'draft-js'
 import { stateFromHTML } from 'draft-js-import-html'
 
 const blankEditor = EditorState.createEmpty(decorator)
@@ -17,10 +17,9 @@ const findLinkEntities = (contentBlock, callback) => {
 }
       
 const Link = (props) => {
-	const url = props.contentState.getEntity(props.entityKey).getData()
-	console.log(props)
+	const data = props.contentState.getEntity(props.entityKey).getData()
     return (
-      <a href={url}>
+      <a href={data.url}>
         {props.children}
       </a>
     )
@@ -36,16 +35,25 @@ const decorator = new CompositeDecorator([
 const editorState = (state=blankEditor, action) => {
 	switch(action.type) {
 		case 'GET_DOCUMENT_TEXT':
-			if (action.status === 'success' && action.state === 'currentNote') {
+			if (action.status === 'success' && action.state === 'currentDocument') {
 				const editorState = EditorState.createWithContent(stateFromHTML(action.data.text), decorator)
 				return editorState
 			} else { return state }
 		case 'CREATE_CHAPTER':
 			return blankEditor
-		case 'CREATE_NOTE':
+		case 'CREATE_DOCUMENT':
 			return blankEditor
 		case 'UPDATE_EDITOR_STATE':
 			return action.data
+		case 'HANDLE_EDITOR_KEY_COMMAND':
+			return RichUtils.handleKeyCommand(action.editorState, action.command)
+		case 'APPLY_INLINE_STYLE':
+			let inlineStyles = ['BOLD', 'ITALIC', 'UNDERLINE']
+			if (inlineStyles.indexOf(action.style) >= 0) {
+				return RichUtils.toggleInlineStyle(action.editorState, action.style)
+			} else if (action.style === 'header-two') {
+				return RichUtils.toggleBlockType(action.editorState, 'header-two')
+			}
 		case 'SUBMIT_ANNOTATION':
 			const contentState = action.editorState.getCurrentContent()
 			const contentStateWithEntity = contentState.createEntity(

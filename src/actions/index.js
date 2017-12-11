@@ -42,31 +42,6 @@ export const editTextReceived = data =>
 		data: data
 	})
 	
-// Chapter Actions
-
-	export const setCurrentChapter = id =>
-		({
-			type: 'SET_CURRENT_CHAPTER',
-			id: id
-		})
-
-	export const createNewChapter = () =>
-		({
-			type: 'CREATE_CHAPTER',
-		})	
-
-	export const submitChapterEdit = data =>
-		({
-			type: 'SUBMIT_CHAPTER_EDIT',
-			document: data
-		})
-
-	export const deleteCurrentChapter = id =>
-		({
-			type: 'DELETE_CURRENT_CHAPTER',
-			id: id
-		})
-
 // Document Actions
 
 	export const setCurrentDocument = (id, docType) =>
@@ -133,14 +108,6 @@ export const editTextReceived = data =>
 			editorState: editorState,
 			command: command
 		})
-
-// ChapterTitleInput Actions
-	export const updateChapterTitleInput = chapterTitleInput => {
-		return ({
-			type: 'UPDATE_CHAPTER_TITLE',
-			data: chapterTitleInput.target.value
-		})
-	}	
 
 // Note Highlight Actions
 

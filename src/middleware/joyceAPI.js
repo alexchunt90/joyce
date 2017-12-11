@@ -89,7 +89,7 @@ export const joyceAPI = store => next => action => {
 				store.dispatch(setCurrentDocument(action.data[0].id, action.docType))
 			}
 			break
-		// Note Action Middleware
+		// Document Action Middleware
 		case 'SET_CURRENT_DOCUMENT':
 			store.dispatch(getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
 			break
@@ -100,7 +100,12 @@ export const joyceAPI = store => next => action => {
 				data.id = action.currentDocument.id
 			}
 			if (action.docType === 'chapters') {
-				data.number = action.currentDocument.number
+				if (!action.currentDocument.id) {
+					const nextNumber = store.getState().chapters.length + 1
+					data.number = nextNumber
+				} else {
+					data.number = action.currentDocument.number
+				} 
 			}
 			store.dispatch(saveDocument({docType: action.docType, data: data}))
 			break

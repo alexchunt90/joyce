@@ -2,14 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setCurrentChapter } from '../actions'
 
-const JoyceReaderContent = ({currentChapter, highlightActive}) =>
+const JoyceReaderContent = ({currentDocument, highlightActive}) =>
 	<div id="page" className={highlightActive ? 'show_notes' : 'hide_notes'}>
-		<div dangerouslySetInnerHTML={{__html: currentChapter.text}} />
+		<div dangerouslySetInnerHTML={{__html: currentDocument.text}} />
 	</div>			
 
 const mapStateToProps = state => {
 	return {
-		currentChapter: state.currentChapter,
+		currentDocument: state.currentDocument,
 		highlightActive: state.highlightActive
 	}
 }

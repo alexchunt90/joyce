@@ -3,12 +3,12 @@ import { ChapterButton, NoteButton } from './button'
 
 export const DocumentList = ({notes, chapters, currentDocument, onDocumentClick, docType}) =>
 	<div>
-		{docType === 'notes' &&
-			<NoteList notes={notes} currentNote={currentDocument} onNoteClick={onDocumentClick}/>
-		}
 		{docType === 'chapters' &&
 			<ChapterList chapters={chapters} currentChapter={currentDocument} onChapterClick={onDocumentClick}/>
 		}		
+		{docType === 'notes' &&
+			<NoteList notes={notes} currentNote={currentDocument} onNoteClick={onDocumentClick}/>
+		}
 	</div>
 
 export const ChapterList = ({chapters, currentChapter, onChapterClick}) =>

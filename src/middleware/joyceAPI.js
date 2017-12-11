@@ -76,7 +76,7 @@ export const joyceAPI = store => next => action => {
 					HTTPPutCreateDocument(action.docType, action.data).then(response =>
 					store.dispatch(saveDocument(response)))
 				}
-			} else if (action.status === 'success') {
+			} else if (action.status === 'success' && !action.id) {
 				store.dispatch(setCurrentDocument(action.data.slice(-1)[0].id, action.docType))
 			}
 			break
@@ -89,16 +89,6 @@ export const joyceAPI = store => next => action => {
 				store.dispatch(setCurrentDocument(action.data[0].id, action.docType))
 			}
 			break
-		// Chapter Action Middleware
-		case 'SET_CURRENT_CHAPTER':
-			store.dispatch(getDocumentText({id: action.id, docType: 'chapters', state: 'currentChapter'}))
-			break
-		case 'SUBMIT_CHAPTER_EDIT':
-			store.dispatch(saveDocument({docType: 'chapters', data: action.document}))
-			break
-		case 'DELETE_CURRENT_CHAPTER':
-			store.dispatch(deleteDocument({id: action.id, docType: 'chapters'}))
-			break
 		// Note Action Middleware
 		case 'SET_CURRENT_DOCUMENT':
 			store.dispatch(getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
@@ -108,7 +98,10 @@ export const joyceAPI = store => next => action => {
 			const data = { title: action.documentTitleInput, text: stateToHTML(textContent) }
 			if (action.currentDocument.id) {
 				data.id = action.currentDocument.id
-			}			
+			}
+			if (action.docType === 'chapters') {
+				data.number = action.currentDocument.number
+			}
 			store.dispatch(saveDocument({docType: action.docType, data: data}))
 			break
 		case 'DELETE_CURRENT_DOCUMENT':

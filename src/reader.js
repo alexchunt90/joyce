@@ -5,11 +5,22 @@ import { Provider } from 'react-redux'
 import 'bootstrap'
 
 import reduceReader from './reducers/reduceReader'
-import { getDocumentList, setCurrentChapter } from './actions'
+import { getDocumentList, setCurrentDocument, setDocType } from './actions'
 import { logger, joyceAPI } from './middleware/'
 import JoyceReaderPage from './components/joyceReaderPage'
 
+let docType = 'chapters'
 let store = createStore(reduceReader, applyMiddleware(logger, joyceAPI))	
+store.dispatch(setDocType(docType))
+
+const getFirstDocument = (docType) => {
+	switch(docType) {
+		case 'chapters':
+			return store.getState().chapters[0]
+		case 'notes':
+			return store.getState().notes[0]
+	}
+}
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -18,11 +29,11 @@ ReactDOM.render(
   	document.getElementById('wrapper')
 )
 
-store.dispatch(getDocumentList({docType: 'chapters'}))
+store.dispatch(getDocumentList({docType: docType}))
 
 // Hacky way to fetch first chapter after async call above has completed.
 // TODO: Add number lookup to API?
 setTimeout(
-	() => store.dispatch(setCurrentChapter(store.getState().chapters[0].id)),
+	() => store.dispatch(setCurrentDocument(getFirstDocument(docType).id, docType)),
 	1000
 )

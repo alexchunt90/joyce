@@ -1,30 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentChapter, toggleHighlight } from '../actions'
-import { ChapterList } from '../components/list'
+import { setCurrentDocument, toggleHighlight } from '../actions'
+import { DocumentList } from '../components/list'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 
-const JoyceReaderSidebar = ({chapters, currentChapter, onChapterClick, highlightActive, onHighlightClick}) =>
+const JoyceReaderSidebar = ({chapters, currentDocument, onDocumentClick, highlightActive, onHighlightClick, docType}) =>
 	<div className="col-md-3" id="sidebar">
 		<SidebarSpacer />
 		<HighlightButton highlightActive={highlightActive} onHighlightClick={onHighlightClick}/>
 		<SidebarSpacer />
-		<ChapterList chapters={chapters} currentChapter={currentChapter} onChapterClick={onChapterClick} />
+		<DocumentList chapters={chapters} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />
 	</div>
 
 const mapStateToProps = state => {
 	return {
 		chapters: state.chapters,
-		currentChapter: state.currentChapter,
+		docType: state.docType,
+		currentDocument: state.currentDocument,
 		highlightActive: state.highlightActive
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onChapterClick: id => {
-			dispatch(setCurrentChapter(id))
+		onDocumentClick: (id, docType) => {
+			dispatch(setCurrentDocument(id, docType))
 		},
 		onHighlightClick: () => {
 			dispatch(toggleHighlight())

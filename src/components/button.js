@@ -78,8 +78,8 @@ export const AnnotatorNewButton = ({onClick, disabled}) =>
 		<i className='fa fa_inline fa-link'></i>
 	</button>
 
-export const AnnotatorRemoveButton = ({onClick}) =>
-	<button type='button' onClick={onClick} className='btn btn-secondary btn-sm'>
+export const AnnotatorRemoveButton = ({onClick, disabled}) =>
+	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-secondary btn-sm'>
 		Remove Annotation
 		<i className='fa fa_inline fa-unlink'></i>		
 	</button>

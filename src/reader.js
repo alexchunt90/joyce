@@ -7,7 +7,9 @@ import 'bootstrap'
 import reduceReader from './reducers/reduceReader'
 import { getDocumentList, setCurrentDocument, setDocType } from './actions'
 import { logger, joyceAPI } from './middleware/'
-import JoyceReaderPage from './components/joyceReaderPage'
+import JoyceReaderPageContainer from './containers/joyceReaderPageContainer'
+
+// TODO: Pass routing from Flask?
 
 let docType = 'chapters'
 let store = createStore(reduceReader, applyMiddleware(logger, joyceAPI))	
@@ -24,7 +26,7 @@ const getFirstDocument = (docType) => {
 
 ReactDOM.render(
 	<Provider store={store}>
-		<JoyceReaderPage />
+		<JoyceReaderPageContainer />
 	</Provider>,
   	document.getElementById('wrapper')
 )

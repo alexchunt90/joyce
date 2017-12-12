@@ -43,7 +43,7 @@ const HTTPPutCreateDocument = (docType, data) =>
 
 const HTTPPostWriteDocument = (id, docType, data) =>
 	axios.post(apiRoute + docType + '/' + id, data).then(res => {
-		return {id: id, status: 'success', docType: docType, data: res.data}
+		return {id: data.id, status: 'success', docType: docType, data: res.data}
 	}).catch(error => {
 		return {id: id, status: 'error', docType: docType, data: error}
 	})
@@ -95,7 +95,23 @@ export const joyceAPI = store => next => action => {
 			break
 		case 'SUBMIT_DOCUMENT_EDIT':
 			const textContent = action.editorState.getCurrentContent()
-			const data = { title: action.documentTitleInput, text: stateToHTML(textContent) }
+			const options = {
+			  entityStyleFn: (entity) => {
+			    const entityType = entity.get('type').toUpperCase()
+			    if (entityType === 'LINK') {
+			      const data = entity.getData()
+			      return {
+			        element: 'a',
+			        attributes: {
+		        		'href': data.url,
+			        	'data-target': '#annotation_modal',
+			        	'data-toggle': 'modal'
+			        }
+			      }
+			    }
+			  }
+			}			
+			const data = { title: action.documentTitleInput, text: stateToHTML(textContent, options) }
 			if (action.currentDocument.id) {
 				data.id = action.currentDocument.id
 			}
@@ -107,7 +123,7 @@ export const joyceAPI = store => next => action => {
 					data.number = action.currentDocument.number
 				} 
 			}
-			store.dispatch(saveDocument({docType: action.docType, data: data}))
+			store.dispatch(saveDocument({id: data.id ? data.id : null, docType: action.docType, data: data}))
 			break
 		case 'DELETE_CURRENT_DOCUMENT':
 			store.dispatch(deleteDocument({id: action.id, docType: action.docType}))

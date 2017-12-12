@@ -27,12 +27,12 @@ export const EditModeTopBar = ({editorState, onToolButtonClick, disabled}) =>
 		</div>
 	</div>
 
-export const AnnotateModeTopBar = ({onNewAnnotationClick, disabled}) =>
+export const AnnotateModeTopBar = ({onNewAnnotationClick, onRemoveAnnotationClick, addDisabled, removeDisabled}) =>
 	<div className='row'>
 		<div className='col-md-5'>
-			<AnnotatorNewButton onClick={onNewAnnotationClick} disabled={disabled}/>
+			<AnnotatorNewButton onClick={onNewAnnotationClick} disabled={addDisabled}/>
 		</div>
 		<div className='col-md-5 offset-md-2'>
-			<AnnotatorRemoveButton onClick={()=>console.log('EDIT_MODE')} />
+			<AnnotatorRemoveButton onClick={onRemoveAnnotationClick} disabled={removeDisabled} />
 		</div>	
 	</div>

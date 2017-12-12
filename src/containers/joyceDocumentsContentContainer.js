@@ -4,13 +4,14 @@ import { Editor } from 'draft-js'
 
 import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../components/contentTopBar'
 import { EditModeBottomBar } from '../components/contentBottomBar'
-import { updateEditorState, handleEditorKeyCommand, applyInlineStyles, setMode, cancelEdit, submitDocumentEdit, updateDocumentTitleChange, addAnnotation } from '../actions'
+import DocumentTitle from '../components/documentTitle'
+import { updateEditorState, handleEditorKeyCommand, applyInlineStyles, setMode, cancelEdit, submitDocumentEdit, updateDocumentTitleChange, addAnnotation, removeAnnotation } from '../actions'
 
-const JoyceDocumentsContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, docType}) =>
+const JoyceDocumentsContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, onRemoveAnnotationClick, docType}) =>
 	<div>
 		<div id='editor_metadata'>
 			{(mode === 'READ_MODE' || mode === 'ANNOTATE_MODE') &&
-				<h4>{currentDocument.title}</h4>
+				<DocumentTitle docType={docType} currentDocument={currentDocument} />
 			}
 			{mode === 'EDIT_MODE' &&
 				<input type='text' value={documentTitleInput} onChange={onDocumentTitleChange}/>
@@ -21,7 +22,7 @@ const JoyceDocumentsContent = ({currentDocument, editorState, mode, handleKeyCom
 				<ReadModeTopBar setMode={setMode} />
 			}
 			{mode === 'ANNOTATE_MODE' &&
-				<AnnotateModeTopBar onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())} disabled={editorState.getSelection().isCollapsed() ? true : false} />
+				<AnnotateModeTopBar onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())} onRemoveAnnotationClick={()=>onRemoveAnnotationClick(editorState)} addDisabled={editorState.getSelection().isCollapsed() ? true : false} removeDisabled={(editorState.getSelection().isCollapsed() ) ? true : false}/>
 			}
 			{mode === 'EDIT_MODE' &&
 				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} disabled={!currentDocument.id ? true : false}/>
@@ -37,13 +38,13 @@ const JoyceDocumentsContent = ({currentDocument, editorState, mode, handleKeyCom
 		</div>
 	</div>
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props ) => {
 	return {
 		currentDocument: state.currentDocument,
 		mode: state.mode,
 		docType: state.docType,
 		editorState: state.editorState,
-		documentTitleInput: state.documentTitleInput
+		documentTitleInput: state.documentTitleInput,
 	}
 }
 
@@ -66,7 +67,10 @@ const mapDispatchToProps = dispatch => {
 		},
 		onNewAnnotationClick: (selectionState) => {
 			dispatch(addAnnotation(selectionState))
-		}, 
+		},
+		onRemoveAnnotationClick: (editorState) => {
+			dispatch(removeAnnotation(editorState))
+		},
 		onToolButtonClick: (editorState, style) => {
 			dispatch(applyInlineStyles(editorState, style))
 		},

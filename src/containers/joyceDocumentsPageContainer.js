@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { EditorState, Entity, CompositeDecorator } from 'draft-js'
+import { EditorState } from 'draft-js'
 
 import { deleteCurrentDocument, submitAnnotation, selectAnnotationNote } from '../actions'
 import Navbar from '../components/navbar'
 import Content from '../components/content'
 import DeleteConfirmModal from '../components/deleteConfirmModal'
 import AnnotateModal from '../components/annotateModal'
+import AnnotationModal from '../components/annotationModal'
 import JoyceDocumentsSidebarContainer from '../containers/joyceDocumentsSidebarContainer'
 import JoyceDocumentsContentContainer from '../containers/joyceDocumentsContentContainer'
 
@@ -23,6 +24,7 @@ const JoyceDocumentsPage = ({notes, currentDocument, docType, annotationNote, on
 		</div>
 		<DeleteConfirmModal onDeleteClick={()=>onDeleteClick(currentDocument.id, docType)}/>
 		<AnnotateModal notes={notes} annotationNote={annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, selectionState, editorState)} selectAnnotationNote={selectAnnotationNote} />
+		<AnnotationModal annotationNote={annotationNote} />
 	</div>
 
 const mapStateToProps = state => {

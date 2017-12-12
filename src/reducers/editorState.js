@@ -2,6 +2,8 @@ import React from 'react'
 import { EditorState, Modifier, ContentState, CompositeDecorator, RichUtils, Entity } from 'draft-js'
 import { stateFromHTML } from 'draft-js-import-html'
 
+import LinkContainer from '../containers/linkContainer'
+
 const blankEditor = EditorState.createEmpty(decorator)
 
 const findLinkEntities = (contentBlock, callback) => {
@@ -15,20 +17,11 @@ const findLinkEntities = (contentBlock, callback) => {
 	},
 	callback)
 }
-      
-const Link = (props) => {
-	const data = props.contentState.getEntity(props.entityKey).getData()
-    return (
-      <a href={data.url}>
-        {props.children}
-      </a>
-    )
-}
 
 const decorator = new CompositeDecorator([
 	{
 	  strategy: findLinkEntities,
-	  component: Link,
+	  component: LinkContainer,
 	}
 ])
 
@@ -68,6 +61,13 @@ const editorState = (state=blankEditor, action) => {
   				entityKey
 			)
 			return EditorState.createWithContent(contentStateWithLink, decorator)
+		case 'REMOVE_ANNOTATION':
+			const contentStateWithoutLink = Modifier.applyEntity(
+  				action.editorState.getCurrentContent(),
+  				action.selectionState,
+  				null
+			)
+			return EditorState.createWithContent(contentStateWithoutLink, decorator)			
 		default:
 			return state
 	}

@@ -30,7 +30,7 @@ export const deleteDocument = (response = {}) =>
 export const saveDocument = (response = {}) =>
 	({
 		type: 'SAVE_DOCUMENT',
-		id: response.data.id ? response.data.id : null,
+		id: response.id ? response.id : null,
 		docType: response.docType,
 		status: response.status ? response.status : 'request',
 		data: response.data
@@ -145,6 +145,13 @@ export const editTextReceived = data =>
 			annotationNote: annotationNote,
 			selectionState: selectionState,
 			editorState: editorState
+		})
+
+	export const removeAnnotation = (editorState) =>
+		({
+			type: 'REMOVE_ANNOTATION',
+			editorState: editorState,	
+			selectionState: editorState.getSelection()
 		})
 
 	export const selectAnnotationNote = id =>

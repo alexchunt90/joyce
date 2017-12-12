@@ -23,7 +23,20 @@
 	text-decoration: none;
 	cursor: default;
 	pointer-events: none;
+}
 
+.annotations {
+	cursor: pointer;
+  	animation-duration: 1s;
+  	animation-name: fadeIn;	
+  	animation-fill-mode: forwards;	
+}
+
+.hidden_annotations {
+	color: black;
+	text-decoration: none;
+	cursor: default;
+	pointer-events: none;
 }
 
 @keyframes fadeIn {
@@ -46,6 +59,10 @@
 	}
 
 	h3 {
+		text-align: center;
+	}
+
+	h4 {
 		text-align: center;
 	}
 

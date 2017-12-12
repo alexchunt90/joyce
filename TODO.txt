@@ -19,11 +19,13 @@
 		+ Abstract API Blueprint for Notes +
 		+ Note Manager Component +
 		+ Notes Modal to Select A Note +
-	- Abstract Notes Page into Documents Page, Create Text Route
-	- Add Date Created / Updated Stamps, Introduce Sort Options
+		+ Abstract Notes Page into Documents Page, Create Text Route +
+		+ Make Links Pop Modals +
+	- Make Remove Highlight Work with Contextual Disabling
+	- Make Annotate Mode Ignore Keyboard Input
 	- More Responsive CSS
 	- Functioning Search Page
-	- Link data attributes in DraftJSExportHTML	
+	- Add Date Created / Updated Stamps, Introduce Sort Options
 	- Testing
 		- Python Unit Tests
 		- React Unit Tests

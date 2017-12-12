@@ -1,18 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Editor } from 'draft-js'
+
 import { setCurrentChapter, setAnnotationNote } from '../actions'
 import DocumentTitle from '../components/documentTitle'
 
-const JoyceReaderContent = ({currentDocument, highlightActive}) =>
-	<div id="page" className={highlightActive ? 'show_notes' : 'hide_notes'}>
+const JoyceReaderContent = ({currentDocument, highlightActive, editorState}) =>
+	<div id="page" className={highlightActive ? 'annotations' : 'hidden_annotations'}>
 		<DocumentTitle docType={'chapters'} currentDocument={currentDocument} />
-		<div dangerouslySetInnerHTML={{__html: currentDocument.text}} />
+		<Editor editorState={editorState} readOnly={true} />
 	</div>			
 
 const mapStateToProps = state => {
 	return {
 		currentDocument: state.currentDocument,
-		highlightActive: state.highlightActive
+		highlightActive: state.highlightActive,
+		editorState: state.editorState
 	}
 }
 

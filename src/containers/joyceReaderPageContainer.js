@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Navbar from '../components/navbar'
 import Content from '../components/content'
-import AnnotationModel from '../components/annotationModal'
+import AnnotationModal from '../components/annotationModal'
 import JoyceReaderSidebarContainer from '../containers/joyceReaderSidebarContainer'
 import JoyceReaderContentContainer from '../containers/joyceReaderContentContainer'
 
@@ -18,12 +18,12 @@ const JoyceReaderPage = ({annotationNote}) =>
 				</Content>
 			</div>
 		</div>
-		<AnnotationModel annotationNote={annotationNote} />
+		<AnnotationModal annotationNote={annotationNote} />
 	</div>
 
 const mapStateToProps = state => {
 	return {
-		notes: state.notes
+		annotationNote: state.annotationNote
 	}
 }
 

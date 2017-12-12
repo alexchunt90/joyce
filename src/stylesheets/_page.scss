@@ -25,14 +25,14 @@
 	pointer-events: none;
 }
 
-.annotations {
+.annotations a {
 	cursor: pointer;
   	animation-duration: 1s;
   	animation-name: fadeIn;	
   	animation-fill-mode: forwards;	
 }
 
-.hidden_annotations {
+.hidden_annotations a {
 	color: black;
 	text-decoration: none;
 	cursor: default;

@@ -21,7 +21,7 @@
 		+ Notes Modal to Select A Note +
 		+ Abstract Notes Page into Documents Page, Create Text Route +
 		+ Make Links Pop Modals +
-	- Make Remove Highlight Work with Contextual Disabling
+		+ Make Remove Highlight Work with Contextual Disabling +
 	- Make Annotate Mode Ignore Keyboard Input
 	- More Responsive CSS
 	- Functioning Search Page

@@ -7,7 +7,7 @@ import { EditModeBottomBar } from '../components/contentBottomBar'
 import DocumentTitle from '../components/documentTitle'
 import { updateEditorState, handleEditorKeyCommand, applyInlineStyles, setMode, cancelEdit, submitDocumentEdit, updateDocumentTitleChange, addAnnotation, removeAnnotation } from '../actions'
 
-const JoyceDocumentsContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, onRemoveAnnotationClick, docType}) =>
+const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, onRemoveAnnotationClick, docType}) =>
 	<div>
 		<div id='editor_metadata'>
 			{(mode === 'READ_MODE' || mode === 'ANNOTATE_MODE') &&
@@ -80,6 +80,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceDocumentsContentContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceDocumentsContent)
+const JoyceEditorContentContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceEditorContent)
 
-export default JoyceDocumentsContentContainer
+export default JoyceEditorContentContainer

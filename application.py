@@ -3,8 +3,7 @@ from flask_webpack import Webpack
 from werkzeug.serving import run_simple
 
 from blueprints.reader import reader
-from blueprints.text import text
-from blueprints.notes import notes
+from blueprints.editor import editor
 from blueprints.api import api
 
 # Initialize application
@@ -25,8 +24,7 @@ webpack.init_app(application)
 
 # Register blueprints
 application.register_blueprint(reader)
-application.register_blueprint(text, url_prefix='/text')
-application.register_blueprint(notes, url_prefix='/notes')
+application.register_blueprint(editor, url_prefix='/editor')
 application.register_blueprint(api, url_prefix='/api')
 
 if __name__ == "__main__":

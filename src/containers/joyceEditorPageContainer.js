@@ -8,17 +8,17 @@ import Content from '../components/content'
 import DeleteConfirmModal from '../components/deleteConfirmModal'
 import AnnotateModal from '../components/annotateModal'
 import AnnotationModal from '../components/annotationModal'
-import JoyceDocumentsSidebarContainer from '../containers/joyceDocumentsSidebarContainer'
-import JoyceDocumentsContentContainer from '../containers/joyceDocumentsContentContainer'
+import JoyceEditorSidebarContainer from '../containers/joyceEditorSidebarContainer'
+import JoyceEditorContentContainer from '../containers/joyceEditorContentContainer'
 
-const JoyceDocumentsPage = ({notes, currentDocument, docType, annotationNote, onDeleteClick, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState}) =>
+const JoyceEditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteClick, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState}) =>
 	<div>
 		<Navbar />
 		<div id='joyce_reader' className='container-fluid'>
 			<div className="row">
-				<JoyceDocumentsSidebarContainer />
+				<JoyceEditorSidebarContainer />
 				<Content>
-					<JoyceDocumentsContentContainer />
+					<JoyceEditorContentContainer />
 				</Content>
 			</div>
 		</div>
@@ -52,6 +52,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceDocumentsPageContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceDocumentsPage)
+const JoyceEditorPageContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceEditorPage)
 
-export default JoyceDocumentsPageContainer
+export default JoyceEditorPageContainer

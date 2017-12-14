@@ -10,6 +10,8 @@ import {
 	createNewChapter,
 } from '../actions'
 
+import { getFirstDocument } from '../mixins/firstDocument'
+
 let apiRoute = '/api/'
 
 // Axios HTTP Functions
@@ -90,6 +92,13 @@ export const joyceAPI = store => next => action => {
 			}
 			break
 		// Document Action Middleware
+		case 'SET_DOC_TYPE':
+			const firstDocument = getFirstDocument(store, action.docType)
+			if (firstDocument) {
+				console.log(firstDocument)
+				store.dispatch(getDocumentText({id: firstDocument.id, docType: action.docType, state: 'currentDocument'}))
+			}
+			break
 		case 'SET_CURRENT_DOCUMENT':
 			store.dispatch(getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
 			break
@@ -129,12 +138,12 @@ export const joyceAPI = store => next => action => {
 			store.dispatch(deleteDocument({id: action.id, docType: action.docType}))
 			break
 		case 'CANCEL_EDIT':
-			const notes = store.getState().notes
+			const docType = store.getState().docType
 			const currentDocument = store.getState().currentDocument
 			if (currentDocument.id) {
-				store.dispatch(getDocumentText({id: currentDocument.id, status: 'success', docType: 'notes', data: currentDocument, state: 'currentDocument'}))
+				store.dispatch(getDocumentText({id: currentDocument.id, docType: docType, state: 'currentDocument'}))
 			} else {
-				store.dispatch(getDocumentText({id: notes[0].id, docType: 'notes', state: 'currentDocument'}))
+				store.dispatch(getDocumentText({id: notes[0].id, docType: docType, state: 'currentDocument'}))
 			}
 			break
 		// Annotation Action Middleware

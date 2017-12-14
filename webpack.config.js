@@ -15,13 +15,9 @@ module.exports = {
 			rootAssetPath + 'reader',
 			rootAssetPath + 'stylesheets/' + 'reader.scss'
 		],
-		text: [
-			rootAssetPath + 'text',
-			rootAssetPath + 'stylesheets/' + 'documents.scss'
-		],
-		notes: [
-			rootAssetPath + 'notes',
-			rootAssetPath + 'stylesheets/' + 'documents.scss'
+		editor: [
+			rootAssetPath + 'editor',
+			rootAssetPath + 'stylesheets/' + 'editor.scss'
 		]
 	},
 	output: {

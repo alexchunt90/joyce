@@ -1,12 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentDocument, createNewDocument } from '../actions'
+import { setCurrentDocument, createNewDocument, setDocType } from '../actions'
 import { DocumentList } from '../components/list'
 import { NewDocumentButton } from '../components/button'
+import { DocTypeDropdown } from '../components/dropdown'
 import SidebarSpacer from '../components/sidebarSpacer'
 
-const JoyceDocumentsSidebar = ({notes, chapters, docType, currentDocument, onDocumentClick, onNewDocumentClick}) =>
+const JoyceEditorSidebar = ({notes, chapters, docType, currentDocument, onDocumentClick, onNewDocumentClick, setDocType}) =>
 	<div className="col-md-3" id="sidebar">
+		<SidebarSpacer />
+		<DocTypeDropdown docType={docType} setDocType={setDocType} />
 		<SidebarSpacer />
 		<NewDocumentButton onClick={()=>onNewDocumentClick(docType)} docType={docType}/>
 		<SidebarSpacer />
@@ -24,6 +27,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		setDocType: docType => {
+			dispatch(setDocType(docType))
+		},
 		onNewDocumentClick: docType => {
 			dispatch(createNewDocument(docType))
 		},		
@@ -33,6 +39,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceDocumentsSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceDocumentsSidebar)
+const JoyceEditorSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceEditorSidebar)
 
-export default JoyceDocumentsSidebarContainer
+export default JoyceEditorSidebarContainer

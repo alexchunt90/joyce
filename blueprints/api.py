@@ -60,10 +60,10 @@ def es_create_document(doc_type, body):
 	)
 	return res
 
-def es_update_number(doc_type, id, number):
+def es_update_number(id, number):
 	res = es.update(
 		index='joyce',
-		doc_type=doc_type,
+		doc_type='chapter',
 		id=id,
 		refresh=True,
 		body={'doc': {'number': number}}
@@ -80,10 +80,10 @@ def es_delete_document(doc_type, id):
 		return renumber_chapters()
 
 def renumber_chapters():
-	chapters = es_document_list(doc_type)
+	chapters = es_document_list('chapter')
 	for index, chapter in enumerate(chapters):
 		if index + 1 != chapter['number']:
-			es_update_number(doc_type, chapter['id'], index + 1)
+			es_update_number(chapter['id'], index + 1)
 	return chapters	
 
 #

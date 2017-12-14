@@ -11,6 +11,7 @@ es = Elasticsearch(ELASTICSEARCH_HOST)
 print 'Elasticsearch index deleted!'
 
 def get_chapter_text_from_seed_data(string):
+	string = string.encode('ascii', 'ignore')
 	fname = './seed_data/' + string + '.html'
 	HtmlFile = open(fname, 'r')
 	chapter_source = HtmlFile.read()
@@ -57,7 +58,7 @@ SAMPLE_DATA = [
     },	
     {'_op_type': 'index', '_type': 'chapter', '_source': {
 			'number': 2,
-			'title': 'Nestor',			
+			'title': 'Nestor',
 			'text': get_chapter_text_from_seed_data('nestor')
 		},
     },
@@ -109,54 +110,54 @@ SAMPLE_DATA = [
 			'text': get_chapter_text_from_seed_data('wrocks')
 		},
     },
-  #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# 	'number': 11,
-		# 	'title': 'Sirens',
-		# 	'text': get_chapter_text_from_seed_data('sirens')
-		# },
-  #   },
-  #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# 	'number': 12,
-		# 	'title': 'Cyclops',
-		# 	'text': get_chapter_text_from_seed_data('cyclops')
-		# },
-  #   },
-  #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# 	'number': 13,
-		# 	'title': 'Nausicaa',
-		# 	'text': get_chapter_text_from_seed_data('nausicaa')
-		# },
-  #   },
-  #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# 	'number': 14,
-		# 	'title': 'Oxen of the Sun',
-		# 	'text': get_chapter_text_from_seed_data('oxen')
-		# },
-  #   },
-  # #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# # 	'number': 15,
-		# # 	'title': 'Circe',
-		# # 	'text': get_chapter_text_from_seed_data('circe')
-		# # },
-  # #   },
-  #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# 	'number': 16,
-		# 	'title': 'Eumaeus',
-		# 	'text': get_chapter_text_from_seed_data('eumaeus')
-		# },
-  #   },
-  # #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# # 	'number': 17,
-		# # 	'title': 'Ithaca',
-		# # 	'text': get_chapter_text_from_seed_data('ithaca')
-		# # },
-  # #   },
-  #   {'_op_type': 'index', '_type': 'chapter', '_source': {
-		# 	'number': 18,
-		# 	'title': 'Penelope',
-		# 	'text': get_chapter_text_from_seed_data('penelope')
-		# },
-  #   },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 11,
+			'title': 'Sirens',
+			'text': get_chapter_text_from_seed_data('sirens')
+		},
+    },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 12,
+			'title': 'Cyclops',
+			'text': get_chapter_text_from_seed_data('cyclops')
+		},
+    },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 13,
+			'title': 'Nausicaa',
+			'text': get_chapter_text_from_seed_data('nausicaa')
+		},
+    },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 14,
+			'title': 'Oxen of the Sun',
+			'text': get_chapter_text_from_seed_data('oxen')
+		},
+    },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 15,
+			'title': 'Circe',
+			'text': get_chapter_text_from_seed_data('circe')
+		},
+    },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 16,
+			'title': 'Eumaeus',
+			'text': get_chapter_text_from_seed_data('eumaeus')
+		},
+    },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 17,
+			'title': 'Ithaca',
+			'text': get_chapter_text_from_seed_data('ithaca')
+		},
+    },
+    {'_op_type': 'index', '_type': 'chapter', '_source': {
+			'number': 18,
+			'title': 'Penelope',
+			'text': get_chapter_text_from_seed_data('penelope')
+		},
+    },
     {'_op_type': 'index', '_type': 'note', '_source': {
 			'title': 'Kinch',
 			'text': 'A knife'

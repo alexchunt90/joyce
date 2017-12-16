@@ -159,3 +159,12 @@ export const editTextReceived = data =>
 			type: 'SELECT_ANNOTATION_NOTE',
 			id: id
 		})
+
+// Search
+
+	export const updateSearchInput = searchInput => {
+		return ({
+			type: 'UPDATE_SEARCH_INPUT',
+			data: searchInput.target.value
+		})		
+	}

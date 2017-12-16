@@ -4,14 +4,14 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import 'bootstrap'
 
-import reduceDocuments from './reducers/reduceDocuments'
+import reduceEditor from './reducers/reduceEditor'
 import { getDocumentList, setCurrentDocument, setDocType } from './actions'
 import { joyceAPI, logger } from './middleware/'
 import { getFirstDocument } from './mixins/firstDocument'
 import JoyceEditorPageContainer from './containers/joyceEditorPageContainer'
 
 const docType = 'chapters'
-const store = createStore(reduceDocuments, applyMiddleware(joyceAPI, logger))	
+const store = createStore(reduceEditor, applyMiddleware(joyceAPI, logger))	
 store.dispatch(setDocType(docType))
 
 ReactDOM.render(

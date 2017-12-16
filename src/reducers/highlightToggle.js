@@ -1,4 +1,4 @@
-const highlightActive = (state=false, action) => {
+const highlightToggle = (state=false, action) => {
 	switch(action.type) {
 		case 'TOGGLE_HIGHLIGHT':
 			return !state
@@ -7,4 +7,4 @@ const highlightActive = (state=false, action) => {
 	}
 }
 
-export default highlightActive
+export default highlightToggle

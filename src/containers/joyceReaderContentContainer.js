@@ -2,20 +2,25 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
 
-import { setCurrentChapter, setAnnotationNote } from '../actions'
+import { setCurrentChapter, setAnnotationNote, toggleLoading } from '../actions'
 import DocumentTitle from '../components/documentTitle'
+import LoadingSpinner from '../components/loadingSpinner'
 
-const JoyceReaderContent = ({currentDocument, highlightActive, editorState}) =>
-	<div id="page" className={highlightActive ? 'annotations' : 'hidden_annotations'}>
+const JoyceReaderContent = ({currentDocument, highlightToggle, editorState, loadingToggle}) =>
+	<div id="page" className={highlightToggle ? 'annotations' : 'hidden_annotations'}>
+		{loadingToggle === true &&
+			<LoadingSpinner />
+		}
 		<DocumentTitle docType={'chapters'} currentDocument={currentDocument} />
 		<Editor editorState={editorState} readOnly={true} />
-	</div>			
+	</div>
 
 const mapStateToProps = state => {
 	return {
 		currentDocument: state.currentDocument,
-		highlightActive: state.highlightActive,
-		editorState: state.editorState
+		editorState: state.editorState,
+		highlightToggle: state.highlightToggle,
+		loadingToggle: state.loadingToggle
 	}
 }
 

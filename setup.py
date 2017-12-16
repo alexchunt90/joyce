@@ -27,19 +27,32 @@ create_index_settings = {
 	   		'number_of_shards' : 1, 
 	    	'number_of_replicas' : 0 
 		},
+		'analysis': {
+			'analyzer': {
+				'html_analyzer': {
+					'type': 'custom',
+		        	'tokenizer': 'standard',
+		        	'char_filter': ['html_strip']
+				}
+			}
+		}
 	},
 	'mappings': {
 	    'chapter': {
 	    	'properties': {
 	    		'number': {'type': 'integer'},
 	    		'title': {'type': 'keyword'},
-	    		'text': {'type': 'text'}
+	    		'text': {
+	    			'type': 'text',
+	    		}
 	    	}
 	    },
 	    'note': {
 	    	'properties': {
 	    		'title': {'type': 'keyword'},
-	    		'text': {'type': 'text'}
+	    		'text': {
+	    			'type': 'text',
+	    		}
 	    	}
 	    }
 	}

@@ -39,6 +39,15 @@ export const HighlightButton = ({highlightActive, onHighlightClick}) =>
 		</div>
 	</div>
 
+export const SearchButton = () =>
+	<div>
+		<div id='search_button' className='text-center'>
+			<button className='btn btn-primary btn-sm'>
+				Search <i className='fa fa_inline fa-search'></i>
+			</button>
+		</div>
+	</div>
+
 export const NewChapterButton = ({onNewChapterClick}) =>
 	<div>
 		<div id='new_chapter_button' className='text-center'>

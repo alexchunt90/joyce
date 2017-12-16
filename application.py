@@ -4,6 +4,7 @@ from werkzeug.serving import run_simple
 
 from blueprints.reader import reader
 from blueprints.editor import editor
+from blueprints.search import search
 from blueprints.api import api
 
 # Initialize application
@@ -24,8 +25,9 @@ webpack.init_app(application)
 
 # Register blueprints
 application.register_blueprint(reader)
-application.register_blueprint(editor, url_prefix='/editor')
+application.register_blueprint(editor, url_prefix='/edit')
 application.register_blueprint(api, url_prefix='/api')
+application.register_blueprint(search, url_prefix='/search')
 
 if __name__ == "__main__":
 	# application.debug=True

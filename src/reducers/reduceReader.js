@@ -5,7 +5,8 @@ import notes from './notes'
 import currentDocument from './currentDocument'
 import editorState from './editorState'
 import annotationNote from './annotationNote'
-import highlightActive from './highlightActive'
+import highlightToggle from './highlightToggle'
+import loadingToggle from './loadingToggle'
 import docType from './docType'
 
 const reduceReader = combineReducers({
@@ -15,7 +16,8 @@ const reduceReader = combineReducers({
 	annotationNote,
 	docType,
 	currentDocument,
-	highlightActive
+	highlightToggle,
+	loadingToggle
 })
 
 export default reduceReader

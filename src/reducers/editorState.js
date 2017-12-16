@@ -31,6 +31,8 @@ const editorState = (state=blankEditor, action) => {
 			if (action.status === 'success' && action.state === 'currentDocument') {
 				const editorState = EditorState.createWithContent(stateFromHTML(action.data.text), decorator)
 				return editorState
+			} else if (action.status === 'request' && action.state === 'currentDocument') {
+				return blankEditor
 			} else { return state }
 		case 'CREATE_CHAPTER':
 			return blankEditor

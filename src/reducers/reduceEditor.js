@@ -9,6 +9,7 @@ import documentTitleInput from './documentTitleInput'
 import editorState from './editorState'
 import selectionState from './selectionState'
 import annotationNote from './annotationNote'
+import loadingToggle from './loadingToggle'
 
 const reduceDocuments = combineReducers({
 	notes,
@@ -19,7 +20,8 @@ const reduceDocuments = combineReducers({
 	documentTitleInput,
 	editorState,
 	docType,
-	selectionState
+	selectionState,
+	loadingToggle
 })
 
 export default reduceDocuments

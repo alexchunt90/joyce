@@ -5,11 +5,15 @@ import { Editor } from 'draft-js'
 import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../components/contentTopBar'
 import { EditModeBottomBar } from '../components/contentBottomBar'
 import DocumentTitle from '../components/documentTitle'
+import LoadingSpinner from '../components/loadingSpinner'
 import { updateEditorState, handleEditorKeyCommand, applyInlineStyles, setMode, cancelEdit, submitDocumentEdit, updateDocumentTitleChange, addAnnotation, removeAnnotation } from '../actions'
 
-const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, onRemoveAnnotationClick, docType}) =>
+const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, onRemoveAnnotationClick, docType, loadingToggle}) =>
 	<div>
 		<div id='editor_metadata'>
+			{loadingToggle === true &&
+				<LoadingSpinner />
+			}
 			{(mode === 'READ_MODE' || mode === 'ANNOTATE_MODE') &&
 				<DocumentTitle docType={docType} currentDocument={currentDocument} />
 			}
@@ -45,6 +49,7 @@ const mapStateToProps = (state, props ) => {
 		docType: state.docType,
 		editorState: state.editorState,
 		documentTitleInput: state.documentTitleInput,
+		loadingToggle: state.loadingToggle
 	}
 }
 

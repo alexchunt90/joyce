@@ -3,6 +3,7 @@
 /lib
 /bin
 /include
+/icon
 /node_modules
 *.pyc
 pip-selfcheck.json

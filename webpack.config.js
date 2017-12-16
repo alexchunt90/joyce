@@ -6,7 +6,7 @@ const path = require('path')
 
 const rootAssetPath = './src/'
 let pathsToClean = [
-  'static/'
+  'static/js'
 ]
 
 module.exports = {
@@ -18,6 +18,10 @@ module.exports = {
 		editor: [
 			rootAssetPath + 'editor',
 			rootAssetPath + 'stylesheets/' + 'editor.scss'
+		],
+		search: [
+			rootAssetPath + 'search',
+			rootAssetPath + 'stylesheets/' + 'search.scss'
 		]
 	},
 	output: {

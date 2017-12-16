@@ -86,6 +86,33 @@ def renumber_chapters():
 			es_update_number(chapter['id'], index + 1)
 	return chapters	
 
+def es_search_text(body):
+	search = es.search(
+		index='joyce',
+		# _source_exclude=['text'],
+		body={
+			'from': 0, 'size': 10,
+			'query': {
+				'match': {
+					'text': {
+						'query': body,
+						'analyzer': 'html_analyzer'
+					}
+				}
+			},
+		    'highlight' : {
+		        'fields' : {
+		            'text': {
+		            	'matched_fields': 'text',
+		            	'type': 'unified',
+		            }
+		        }
+		    }			
+		}
+	)
+	return search['hits']['hits']
+
+
 #
 # Chapter API Routes
 #
@@ -152,3 +179,11 @@ def delete_note(id):
 	es_delete_document('note', id)
 	return jsonify(es_document_list('note'))
 
+#
+# Search API Routes
+#
+
+""" Basic Text Search """
+@api.route('/search/', methods=['POST'])
+def search_text():
+	return jsonify(es_search_text(request.data))

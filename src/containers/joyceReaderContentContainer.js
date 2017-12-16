@@ -11,7 +11,11 @@ const JoyceReaderContent = ({currentDocument, highlightToggle, editorState, load
 		{loadingToggle === true &&
 			<LoadingSpinner />
 		}
+		<br />
+		<br />
 		<DocumentTitle docType={'chapters'} currentDocument={currentDocument} />
+		<br />
+		<br />
 		<Editor editorState={editorState} readOnly={true} />
 	</div>
 

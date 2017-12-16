@@ -30,11 +30,11 @@ export const NoteButton = ({note, currentNote, onClick}) =>
 		</button>
 	</div>
 
-export const HighlightButton = ({highlightActive, onHighlightClick}) =>
+export const HighlightButton = ({highlightToggle, onHighlightClick}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>
-			<button onClick={onHighlightClick} className={highlightActive ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'}>
-				{highlightActive ? 'Hide Notes' : 'Highlight Notes'}
+			<button onClick={onHighlightClick} className={highlightToggle ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'}>
+				{highlightToggle ? 'Hide Notes' : 'Highlight Notes'}
 			</button>
 		</div>
 	</div>

@@ -6,6 +6,11 @@ const loadingToggle = (state=true, action) => {
 			} else if (action.status === 'success' && action.state === 'currentDocument') {
 				return false
 			}
+		case 'GET_DOCUMENT_LIST':
+			// TODO: How should this handle multiple docTypes?
+			if (action.status === 'success' && !action.data[0] && action.state === 'currentDocType') {
+				return false
+			}
 		default:
 			return state
 	}

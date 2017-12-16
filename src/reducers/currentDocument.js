@@ -7,8 +7,12 @@ const currentDocument = (state={}, action) => {
 				return {}
 			}
 			else { return state }
+		case 'DELETE_DOCUMENT':
+			if (action.status === 'success' && action.data.length <= 0) {
+				return {}
+			}
 		case 'CREATE_DOCUMENT':
-			return {id: null, number: null, title: '', text: ''}		
+			return {id: null, number: null, title: '', text: ''}	
 		default:
 			return state
 	}

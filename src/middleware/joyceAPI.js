@@ -15,11 +15,11 @@ import { getFirstDocument } from '../mixins/firstDocument'
 let apiRoute = '/api/'
 
 // Axios HTTP Functions
-const HTTPGetDocumentList = docType =>
+const HTTPGetDocumentList = (docType, state) =>
 	axios.get(apiRoute + docType).then(res => {
-		return {status: 'success', docType: docType, data: res.data}
+		return {status: 'success', docType: docType, state: state, data: res.data}
 	}).catch(error => {
-		return {status: 'error', docType: docType, data: error}
+		return {status: 'error', docType: docType, state: state, data: error}
 	})
 
 const HTTPGetDocumentText = (id, docType, state) =>
@@ -57,7 +57,7 @@ export const joyceAPI = store => next => action => {
 		// API Calls
 		case 'GET_DOCUMENT_LIST':
 			if (action.status === 'request') {
-				HTTPGetDocumentList(action.docType).then(response =>
+				HTTPGetDocumentList(action.docType, action.state).then(response =>
 					store.dispatch(getDocumentList(response))
 				)
 			}
@@ -88,14 +88,15 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(deleteDocument(response))
 				)
 			} else if (action.status === 'success') {
-				store.dispatch(setCurrentDocument(action.data[0].id, action.docType))
+				if (action.data[0]) {
+					store.dispatch(setCurrentDocument(action.data[0].id, action.docType, state: 'currentDocument'))
+				}
 			}
 			break
 		// Document Action Middleware
 		case 'SET_DOC_TYPE':
 			const firstDocument = getFirstDocument(store, action.docType)
 			if (firstDocument) {
-				console.log(firstDocument)
 				store.dispatch(getDocumentText({id: firstDocument.id, docType: action.docType, state: 'currentDocument'}))
 			}
 			break

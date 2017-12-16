@@ -5,17 +5,18 @@ export const getDocumentList = (response = {}) =>
 		type: 'GET_DOCUMENT_LIST',
 		docType: response.docType,
 		status: response.status ? response.status : 'request',
-		data: response.data
+		data: response.data,
+		state: response.state
 	})
 
 export const getDocumentText = (response = {}) =>
 	({
 		type: 'GET_DOCUMENT_TEXT',
 		id: response.id,
-		state: response.state,
 		docType: response.docType,
 		status: response.status ? response.status : 'request',
-		data: response.data
+		data: response.data,
+		state: response.state,
 	})
 
 export const deleteDocument = (response = {}) =>

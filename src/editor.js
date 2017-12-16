@@ -22,7 +22,10 @@ ReactDOM.render(
 )
 
 store.dispatch(getDocumentList({docType: 'notes'}))
-store.dispatch(getDocumentList({docType: docType}))
+store.dispatch(getDocumentList({
+	docType: docType,
+	state: 'currentDocType'
+}))
 
 // Hacky way to fetch first chapter after async call above has completed.
 // TODO: Add number lookup to API?

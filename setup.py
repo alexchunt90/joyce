@@ -180,7 +180,7 @@ SAMPLE_DATA = [
 			'title': 'Lighthouse',
 			'text': 'A lighthouse'
 		},
-    },                                  
+    },
 ]
 
 bulk(es, SAMPLE_DATA, index='joyce', doc_type='chapter')

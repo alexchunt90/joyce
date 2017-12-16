@@ -19,6 +19,10 @@ module.exports = {
 			rootAssetPath + 'editor',
 			rootAssetPath + 'stylesheets/' + 'editor.scss'
 		],
+		notes: [
+			rootAssetPath + 'notes',
+			rootAssetPath + 'stylesheets/' + 'reader.scss'
+		],
 		search: [
 			rootAssetPath + 'search',
 			rootAssetPath + 'stylesheets/' + 'search.scss'

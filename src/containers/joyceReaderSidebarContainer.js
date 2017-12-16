@@ -5,19 +5,20 @@ import { DocumentList } from '../components/list'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 
-const JoyceReaderSidebar = ({chapters, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
+const JoyceReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
 	<div className='col-md-3 order-1 order-xs-2 order-sm-2' id='sidebar'>
 		<div className='d-none d-md-block'>
 			<SidebarSpacer />
 			<HighlightButton highlightToggle={highlightToggle} onHighlightClick={onHighlightClick}/>
 			<SidebarSpacer />
-			<DocumentList chapters={chapters} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />
+			<DocumentList chapters={chapters} notes={notes} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />
 		</div>
 	</div>
 
 const mapStateToProps = state => {
 	return {
 		chapters: state.chapters,
+		notes: state.notes,
 		docType: state.docType,
 		currentDocument: state.currentDocument,
 		highlightToggle: state.highlightToggle

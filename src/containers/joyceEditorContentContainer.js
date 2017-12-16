@@ -33,7 +33,7 @@ const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyComman
 			}
 		</div>	
 		<div id='editor_content'>
-			<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={mode === 'EDIT_MODE' ? onChangeEditorState : ()=>onChangeEditorState(editorState)} readOnly={mode === 'READ_MODE' ? true : false } />
+			<Editor editorState={editorState} handleKeyCommand={mode === 'EDIT_MODE' ? handleKeyCommand : ()=>null} onChange={mode === 'EDIT_MODE' ? onChangeEditorState : ()=>onChangeEditorState(editorState)} readOnly={mode === 'READ_MODE' ? true : false } />
 		</div>
 		<div id='editor_bottombar'>
 			{(mode === 'EDIT_MODE' || mode === 'ANNOTATE_MODE') &&

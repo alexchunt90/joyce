@@ -27,6 +27,11 @@ store.dispatch(getDocumentList({docType: docType}))
 // Hacky way to fetch first chapter after async call above has completed.
 // TODO: Add number lookup to API?
 setTimeout(
-	() => store.dispatch(setCurrentDocument(getFirstDocument(store, docType).id, docType)),
-	500
+	() => {
+		const firstDocument = getFirstDocument(store, docType)
+		if (firstDocument) {
+			store.dispatch(setCurrentDocument(firstDocument.id, docType))
+		}
+	},
+	1000
 )

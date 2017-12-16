@@ -33,7 +33,7 @@ const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyComman
 			}
 		</div>	
 		<div id='editor_content'>
-			<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState} readOnly={mode === 'READ_MODE' ? true : false } />
+			<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={mode === 'EDIT_MODE' ? onChangeEditorState : ()=>onChangeEditorState(editorState)} readOnly={mode === 'READ_MODE' ? true : false } />
 		</div>
 		<div id='editor_bottombar'>
 			{(mode === 'EDIT_MODE' || mode === 'ANNOTATE_MODE') &&
@@ -55,13 +55,13 @@ const mapStateToProps = (state, props ) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onChangeEditorState: editorState => {
+		onChangeEditorState: (editorState, mode) => {
 			dispatch(updateEditorState(editorState))
 		},
 		onDocumentTitleChange: documentTitleInput => {
 			dispatch(updateDocumentTitleChange(documentTitleInput))
 		},		
-		handleKeyCommand: (editorState, command) => {
+		handleKeyCommand: (command, editorState) => {
 			dispatch(handleEditorKeyCommand(editorState, command))
 		},
 		setMode: (mode) => {

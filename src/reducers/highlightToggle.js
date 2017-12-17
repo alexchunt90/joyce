@@ -1,4 +1,4 @@
-const highlightToggle = (state=false, action) => {
+const highlightToggle = (state=true, action) => {
 	switch(action.type) {
 		case 'TOGGLE_HIGHLIGHT':
 			return !state

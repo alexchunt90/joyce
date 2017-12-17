@@ -8,7 +8,7 @@ import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 import { updateEditorState, handleEditorKeyCommand, applyInlineStyles, setMode, cancelEdit, submitDocumentEdit, updateDocumentTitleChange, addAnnotation, removeAnnotation } from '../actions'
 
-const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, onRemoveAnnotationClick, docType, loadingToggle}) =>
+const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, annotateKeyBindings, onRemoveAnnotationClick, docType, loadingToggle}) =>
 	<div>
 		<div id='editor_metadata'>
 			{loadingToggle === true &&
@@ -33,7 +33,15 @@ const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyComman
 			}
 		</div>	
 		<div id='editor_content'>
-			<Editor editorState={editorState} handleKeyCommand={mode === 'EDIT_MODE' ? handleKeyCommand : ()=>null} onChange={mode === 'EDIT_MODE' ? onChangeEditorState : ()=>onChangeEditorState(editorState)} readOnly={mode === 'READ_MODE' ? true : false } />
+			{mode === 'READ_MODE' &&
+				<Editor editorState={editorState} readOnly={true} />
+			}
+			{mode === 'ANNOTATE_MODE' &&
+				<Editor editorState={editorState} onChange={onChangeEditorState} keyBindingFn={annotateKeyBindings} />
+			}
+			{mode === 'EDIT_MODE' &&
+				<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState} />
+			}			
 		</div>
 		<div id='editor_bottombar'>
 			{(mode === 'EDIT_MODE' || mode === 'ANNOTATE_MODE') &&
@@ -42,7 +50,7 @@ const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyComman
 		</div>
 	</div>
 
-const mapStateToProps = (state, props ) => {
+const mapStateToProps = (state, props) => {
 	return {
 		currentDocument: state.currentDocument,
 		mode: state.mode,
@@ -55,7 +63,7 @@ const mapStateToProps = (state, props ) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onChangeEditorState: (editorState, mode) => {
+		onChangeEditorState: editorState => {
 			dispatch(updateEditorState(editorState))
 		},
 		onDocumentTitleChange: documentTitleInput => {
@@ -63,6 +71,9 @@ const mapDispatchToProps = dispatch => {
 		},		
 		handleKeyCommand: (command, editorState) => {
 			dispatch(handleEditorKeyCommand(editorState, command))
+		},
+		annotateKeyBindings: () => {
+			return 'handled'
 		},
 		setMode: (mode) => {
 			dispatch(setMode(mode))

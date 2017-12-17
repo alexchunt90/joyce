@@ -2,7 +2,7 @@ import React from 'react'
 import { ChapterButton, NoteButton } from './button'
 
 export const DocumentList = ({notes, chapters, currentDocument, onDocumentClick, docType}) =>
-	<div>
+	<div id='document_list'>
 		{docType === 'chapters' &&
 			<ChapterList chapters={chapters} currentChapter={currentDocument} onChapterClick={onDocumentClick}/>
 		}		

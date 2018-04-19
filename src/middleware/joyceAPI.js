@@ -89,7 +89,7 @@ export const joyceAPI = store => next => action => {
 				)
 			} else if (action.status === 'success') {
 				if (action.data[0]) {
-					store.dispatch(setCurrentDocument(action.data[0].id, action.docType, state: 'currentDocument'))
+					store.dispatch(setCurrentDocument(action.data[0].id, action.docType, 'currentDocument'))
 				}
 			}
 			break

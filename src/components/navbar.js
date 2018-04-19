@@ -14,14 +14,10 @@ const Navbar = () =>
 				<li className='nav-item'>
 					<a className='nav-link' href='/notes'>Notes</a>
 				</li>		      	
-				<li className='nav-item'>
-					<a className='nav-link' href='/search'>Search</a>
-				</li>
-				<li className='nav-item'>
-					<a className='nav-link' href='/about'>About</a>
-				</li>
 			</ul>
 		</div>		
 	</nav>
+
+const string = "<li className='nav-item'><a className='nav-link' href='/search'>Search</a></li><li className='nav-item'><a className='nav-link' href='/about'>About</a></li>"
 
 export default Navbar

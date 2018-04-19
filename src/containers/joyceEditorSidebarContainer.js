@@ -7,13 +7,14 @@ import { DocTypeDropdown } from '../components/dropdown'
 import SidebarSpacer from '../components/sidebarSpacer'
 
 const JoyceEditorSidebar = ({notes, chapters, docType, currentDocument, onDocumentClick, onNewDocumentClick, setDocType}) =>
-	<div className="col-md-3" id="sidebar">
-		<SidebarSpacer />
-		<DocTypeDropdown docType={docType} setDocType={setDocType} />
-		<SidebarSpacer />
-		<NewDocumentButton onClick={()=>onNewDocumentClick(docType)} docType={docType}/>
-		<SidebarSpacer />
-		<DocumentList notes={notes} chapters={chapters} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />
+	<div className="col-md-3 d-none d-md-block" id="sidebar">
+		<div>
+			<DocTypeDropdown docType={docType} setDocType={setDocType} />
+			<SidebarSpacer />
+			<NewDocumentButton onClick={()=>onNewDocumentClick(docType)} docType={docType}/>
+			<SidebarSpacer />
+			<DocumentList notes={notes} chapters={chapters} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />
+		</div>
 	</div>
 
 const mapStateToProps = state => {

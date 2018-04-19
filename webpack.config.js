@@ -36,12 +36,19 @@ module.exports = {
 	watch: true,
 	watchOptions: {
 		poll: true,
-		ignored: /node_modules/
+		ignored: [
+			/node_modules/,
+			/DS_Store/
+		]
 	},
 	module : {
 		rules: [
 		{
 			test: /\.(js)$/,
+			exclude: [
+				/node_modules/,
+				/DS_Store/
+			],		
 	    	use: {
 				loader: 'babel-loader',
 				options: {
@@ -57,12 +64,16 @@ module.exports = {
 		},
 		{
 		    test: /\.(scss)$/,
+			exclude: [
+				/node_modules/,
+				/DS_Store/
+			],	    
 		    use: [{
-		    	loader: 'style-loader', // inject CSS to page
+		    	loader: 'style-loader',
 		    }, {
-		    	loader: 'css-loader', // translates CSS into CommonJS modules
+		    	loader: 'css-loader',
 		    }, {
-		    	loader: 'postcss-loader', // Run post css actions
+		    	loader: 'postcss-loader',
 		    	options: {
 		        	plugins: [
 		            	require('precss'),
@@ -74,7 +85,7 @@ module.exports = {
 		    }]
 	    },
 	    {
-	    	test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+	    	test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, 	
 	    	use: [{
 	    		loader: 'file-loader'
 	    	}]

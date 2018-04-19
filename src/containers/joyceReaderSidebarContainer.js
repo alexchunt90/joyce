@@ -6,9 +6,8 @@ import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 
 const JoyceReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
-	<div className='col-md-3 order-1 order-xs-2 order-md-1' id='sidebar'>
-		<div className='d-none d-md-block'>
-			<SidebarSpacer />
+	<div className='col-md-3 d-none d-md-block' id='sidebar'>
+		<div>
 			<HighlightButton highlightToggle={highlightToggle} onHighlightClick={onHighlightClick}/>
 			<SidebarSpacer />
 			<DocumentList chapters={chapters} notes={notes} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />

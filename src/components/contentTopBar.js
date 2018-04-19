@@ -4,10 +4,10 @@ import { ReaderAnnotateButton, ReaderEditButton, EditorToolButton, EditorDeleteT
 
 export const ReadModeTopBar = ({setMode}) =>
 	<div className='row'>
-		<div className='col-md-5'>
+		<div className='col-sm-5'>
 			<ReaderAnnotateButton onClick={()=>setMode('ANNOTATE_MODE')}/>
 		</div>
-		<div className='col-md-5 offset-md-2'>
+		<div className='col-sm-5 offset-sm-2'>
 			<ReaderEditButton onClick={()=>setMode('EDIT_MODE')} />
 		</div>
 	</div>

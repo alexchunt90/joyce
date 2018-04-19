@@ -1,4 +1,5 @@
 import React from 'react'
+import romanize from '../mixins/romanize'
 
 export const ReaderEditButton = ({onClick}) =>
 	<div className='edit_note_button'>
@@ -18,14 +19,14 @@ export const ReaderAnnotateButton = ({onClick}) =>
 
 export const ChapterButton = ({chapter, currentChapter, onClick}) =>
 	<div className ='chapter_button text-center'>
-		<button onClick={()=>onClick(chapter.id)} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg' : 'btn btn-outline-dark btn-lg inactive_chapter_button'}>
-			{chapter.title}
+		<button onClick={()=>onClick(chapter.id)} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg' : 'btn btn-outline-dark btn-lg inactive_button'}>
+			{romanize(chapter.number)}. {chapter.title}
 		</button>
 	</div>
 
 export const NoteButton = ({note, currentNote, onClick}) =>
 	<div className ='note_button'>
-		<button onClick={onClick} className={currentNote.id === note.id ? 'btn btn-warning' : 'btn btn-outline-warning'}>
+		<button onClick={onClick} className={currentNote.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
 			{note.title}
 		</button>
 	</div>

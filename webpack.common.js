@@ -28,26 +28,18 @@ module.exports = {
 			rootAssetPath + 'stylesheets/' + 'search.scss'
 		]
 	},
-	output: {
-		publicPath: "/static/js/",
-    	filename: '[name].[hash].js',
-    	path: path.resolve(__dirname, 'static/js/')
-	},
-	watch: true,
-	watchOptions: {
-		poll: true,
-		ignored: [
-			/node_modules/,
-			/DS_Store/
-		]
-	},
+	// output: {
+	// 	publicPath: "/static/js/",
+ //    	filename: '[name].[hash].js',
+ //    	path: path.resolve(__dirname, 'static/js/')
+	// },
 	module : {
 		rules: [
 		{
 			test: /\.(js)$/,
 			exclude: [
 				/node_modules/,
-				/DS_Store/
+				/\.DS_Store/
 			],		
 	    	use: {
 				loader: 'babel-loader',
@@ -66,7 +58,7 @@ module.exports = {
 		    test: /\.(scss)$/,
 			exclude: [
 				/node_modules/,
-				/DS_Store/
+				/\.DS_Store/
 			],	    
 		    use: [{
 		    	loader: 'style-loader',
@@ -92,8 +84,6 @@ module.exports = {
 	    }
     ]},
 	plugins: [
-		// TODO: Dev / Prod Config
-		// new webpack.optimize.UglifyJsPlugin(),
         new ManifestRevisionPlugin(path.join('static/', 'manifest.json'), {
             rootAssetPath: rootAssetPath
         }),

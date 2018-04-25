@@ -5,6 +5,7 @@
 /include
 /icon
 /node_modules
+.pytest_cache/
 *.pyc
 pip-selfcheck.json
 *.sublime-project

@@ -31,19 +31,19 @@ export const NoteButton = ({note, currentNote, onClick}) =>
 		</button>
 	</div>
 
-export const HighlightButton = ({highlightToggle, onHighlightClick}) =>
+export const HighlightButton = ({highlightToggle, onClick}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>
-			<button onClick={onHighlightClick} className={highlightToggle ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'}>
+			<button onClick={onClick} className={highlightToggle ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'}>
 				{highlightToggle ? 'Hide Notes' : 'Highlight Notes'}
 			</button>
 		</div>
 	</div>
 
-export const SearchButton = () =>
+export const SearchButton = ({searchInput, onClick}) =>
 	<div>
 		<div id='search_button' className='text-center'>
-			<button className='btn btn-primary btn-sm'>
+			<button className='btn btn-primary btn-sm' onClick={()=>onClick(searchInput)}>
 				Search <i className='fa fa_inline fa-search'></i>
 			</button>
 		</div>

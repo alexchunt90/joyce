@@ -22,6 +22,25 @@
 		+ Abstract Notes Page into Documents Page, Create Text Route +
 		+ Make Links Pop Modals +
 		+ Make Remove Highlight Work with Contextual Disabling +
+
+
+TODAY:
+- HTML Char Strip ES Search
+	- Index HTML-Stripped Field for Searching
+		- Update Mappings in Setup.py
+		- Update api.py to duplicate text field
+- Search Result Components
+- Light Refactoring
+
+TOMORROW:
+- Implement React-Router
+- Review dependencies
+
+
+
+
+
+SHORT LIST:
 	- Make Annotate Mode Ignore Keyboard Input
 	- More Responsive CSS
 	- Functioning Search Page

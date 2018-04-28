@@ -12,7 +12,7 @@ const currentDocument = (state={}, action) => {
 				return {}
 			}
 		case 'CREATE_DOCUMENT':
-			return {id: null, number: null, title: '', text: ''}	
+			return {id: null, number: null, title: '', html_source: ''}	
 		default:
 			return state
 	}

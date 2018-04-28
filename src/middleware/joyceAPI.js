@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { stateToHTML } from 'draft-js-export-html'
+import { stateToMarkdown } from 'draft-js-export-markdown'
+import { convertToRaw } from 'draft-js'
 
 import { 
 	getDocumentList,
@@ -8,47 +10,43 @@ import {
 	saveDocument,
 	setCurrentDocument,
 	createNewChapter,
+	getSearchResults
 } from '../actions'
+
+import { 
+	HTTPGetDocumentList, 
+	HTTPGetDocumentText, 
+	HTTPDeleteDocument, 
+	HTTPPutCreateDocument, 
+	HTTPPostWriteDocument, 
+	HTTPPostSearchResults } from './http.js'
 
 import { getFirstDocument } from '../mixins/firstDocument'
 
-let apiRoute = '/api/'
+const html_export_options = {
+  entityStyleFn: (entity) => {
+    const entityType = entity.get('type').toUpperCase()
+    if (entityType === 'LINK') {
+      const data = entity.getData()
+      return {
+        element: 'a',
+        attributes: {
+    		'href': data.url,
+        	'data-target': '#annotation_modal',
+        	'data-toggle': 'modal'
+        }
+      }
+    }
+  }
+}
 
-// Axios HTTP Functions
-const HTTPGetDocumentList = (docType, state) =>
-	axios.get(apiRoute + docType).then(res => {
-		return {status: 'success', docType: docType, state: state, data: res.data}
-	}).catch(error => {
-		return {status: 'error', docType: docType, state: state, data: error}
-	})
-
-const HTTPGetDocumentText = (id, docType, state) =>
-	axios.get(apiRoute + docType + '/' + id).then(res => {
-		return {id: id, status: 'success', docType: docType, state: state, data: res.data}
-	}).catch(error => {
-		return {id: id, status: 'error', docType: docType, state: state, data: error}
-	})
-
-const HTTPDeleteDocument = (id, docType) =>
-	axios.delete(apiRoute + docType + '/' + id).then(res => {
-		return {id: id, status: 'success', docType: docType, data: res.data}
-	}).catch(error => {
-		return {id: id, status: 'error', docType: docType, data: error}
-	})
-
-const HTTPPutCreateDocument = (docType, data) =>
-	axios.put(apiRoute + docType + '/', data).then(res => {
-		return {status: 'success', docType: docType, data: res.data}
-	}).catch(error => {
-		return {status: 'error', docType: docType, data: error}
-	})
-
-const HTTPPostWriteDocument = (id, docType, data) =>
-	axios.post(apiRoute + docType + '/' + id, data).then(res => {
-		return {id: data.id, status: 'success', docType: docType, data: res.data}
-	}).catch(error => {
-		return {id: id, status: 'error', docType: docType, data: error}
-	})
+const convertToPlainText = contentState => {
+	const rawState = convertToRaw(contentState)
+	return rawState.blocks.reduce(
+	  (plaintText, block) => plaintText + block.text + '\n',
+	  ''
+	)	
+}
 
 // API Middleware
 export const joyceAPI = store => next => action => {
@@ -105,23 +103,7 @@ export const joyceAPI = store => next => action => {
 			break
 		case 'SUBMIT_DOCUMENT_EDIT':
 			const textContent = action.editorState.getCurrentContent()
-			const options = {
-			  entityStyleFn: (entity) => {
-			    const entityType = entity.get('type').toUpperCase()
-			    if (entityType === 'LINK') {
-			      const data = entity.getData()
-			      return {
-			        element: 'a',
-			        attributes: {
-		        		'href': data.url,
-			        	'data-target': '#annotation_modal',
-			        	'data-toggle': 'modal'
-			        }
-			      }
-			    }
-			  }
-			}			
-			const data = { title: action.documentTitleInput, text: stateToHTML(textContent, options) }
+			const data = { title: action.documentTitleInput, html_source: stateToHTML(textContent, html_export_options), plain_text: convertToPlainText(textContent) }
 			if (action.currentDocument.id) {
 				data.id = action.currentDocument.id
 			}
@@ -151,6 +133,17 @@ export const joyceAPI = store => next => action => {
 		case 'SELECT_ANNOTATION_NOTE':
 			store.dispatch(getDocumentText({id: action.id, docType: 'notes', state: 'annotationNote'}))
 			break
+		// Search Action Middleware
+		case 'CLICK_SEARCH':
+			store.dispatch(getSearchResults({data: action.data}))
+			break
+		case 'GET_SEARCH_RESULTS':
+			if (action.status === 'request') {
+				HTTPPostSearchResults(action.data).then(response =>
+					store.dispatch(getSearchResults(response))
+				)
+			}
+			break			
 		default:
 			break
 	}

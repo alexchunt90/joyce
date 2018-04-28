@@ -50,7 +50,7 @@ export const editTextReceived = data =>
 			type: 'SET_CURRENT_DOCUMENT',
 			id: id,
 			docType: docType
-		})	
+		})
 
 	export const createNewDocument = docType =>
 		({
@@ -168,4 +168,27 @@ export const editTextReceived = data =>
 			type: 'UPDATE_SEARCH_INPUT',
 			data: searchInput.target.value
 		})		
+	}
+
+	// export const updateSearchResults = searchResults => {
+	// 	return ({
+	// 		type: 'UPDATE_SEARCH_RESULTS',
+	// 		data: searchResults
+	// 	})
+	// }
+
+	export const clickSearch = searchInput => {
+		console.log('click action gets ', searchInput)
+		return ({
+			type: 'CLICK_SEARCH',
+			data: searchInput
+		})
+	}
+
+	export const getSearchResults = (response={}) => {
+		return ({
+			type: 'GET_SEARCH_RESULTS',
+			data: response.data,
+			status: response.status ? response.status : 'request'
+		})
 	}

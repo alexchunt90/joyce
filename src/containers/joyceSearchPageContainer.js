@@ -8,9 +8,7 @@ const JoyceSearchPage = () =>
 	<div>
 		<Navbar />
 		<div id='joyce_search' className='container-fluid'>
-			<div className="row">
-				<JoyceSearchContentContainer />
-			</div>
+			<JoyceSearchContentContainer />
 		</div>
 	</div>
 

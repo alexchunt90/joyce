@@ -60,7 +60,7 @@ button {
     border-radius: 5px;
     background-color: rgba(200, 200, 200, .8);
     max-height: 38em;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 #new_document_button > button {

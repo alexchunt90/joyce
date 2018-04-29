@@ -8,10 +8,11 @@ import {
 	getDocumentText,
 	deleteDocument,
 	saveDocument,
-	setCurrentDocument,
 	createNewChapter,
 	getSearchResults
-} from '../actions'
+} from '../actions/apiActions'
+
+import { setCurrentDocument } from '../actions/userActions'
 
 import { 
 	HTTPGetDocumentList, 

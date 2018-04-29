@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentDocument, createNewDocument, setDocType } from '../actions'
+import { setCurrentDocument, createNewDocument, setDocType } from '../actions/userActions'
 import { DocumentList } from '../components/list'
 import { NewDocumentButton } from '../components/button'
 import { DocTypeDropdown } from '../components/dropdown'

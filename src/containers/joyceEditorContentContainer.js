@@ -6,7 +6,17 @@ import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../componen
 import { EditModeBottomBar } from '../components/contentBottomBar'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
-import { updateEditorState, handleEditorKeyCommand, applyInlineStyles, setMode, cancelEdit, submitDocumentEdit, updateDocumentTitleChange, addAnnotation, removeAnnotation } from '../actions'
+import { 
+	setMode,
+	cancelEdit,
+	submitDocumentEdit,
+	addAnnotation,
+	removeAnnotation } from '../actions/userActions'
+import {
+	updateEditorState, 
+	handleEditorKeyCommand,
+	applyInlineStyles } from '../actions/editorStateActions'
+import { updateDocumentTitleChange } from '../actions/inputActions'
 
 const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, annotateKeyBindings, onRemoveAnnotationClick, docType, loadingToggle}) =>
 	<div>

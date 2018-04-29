@@ -4,11 +4,12 @@ import { Editor } from 'draft-js'
 
 import { SearchButton } from '../components/button'
 import SearchResultsBox from '../components/searchResultsBox'
-import { updateSearchInput, clickSearch } from '../actions'
+import { clickSearch } from '../actions/userActions'
+import { updateSearchInput } from '../actions/inputActions'
 
 const JoyceSearchContent = ({searchResults, searchInput, onSearchInputChange, onSearchClick}) =>
 	<div id='joyce_search' className='container-fluid'>
-		<div id='search_content' className='row'>
+		<div id='content_window' className='row'>
 			<div className='container'>
 				<div className='row'>
 					<div className='col-sm-2'>

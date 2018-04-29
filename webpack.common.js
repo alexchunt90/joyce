@@ -1,13 +1,9 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
 
 const rootAssetPath = './src/'
-let pathsToClean = [
-  'static/js'
-]
 
 module.exports = {
 	entry: {
@@ -28,11 +24,6 @@ module.exports = {
 			rootAssetPath + 'stylesheets/' + 'search.scss'
 		]
 	},
-	// output: {
-	// 	publicPath: "/static/js/",
- //    	filename: '[name].[hash].js',
- //    	path: path.resolve(__dirname, 'static/js/')
-	// },
 	module : {
 		rules: [
 		{
@@ -93,6 +84,5 @@ module.exports = {
 	        'window.jQuery': 'jquery',
 	        Popper: ['popper.js', 'default']        	
         }),
-        new CleanWebpackPlugin(pathsToClean),
 	],
 };

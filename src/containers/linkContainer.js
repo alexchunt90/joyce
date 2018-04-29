@@ -1,5 +1,5 @@
 import React from 'react'
-import { selectAnnotationNote } from '../actions'
+import { selectAnnotationNote } from '../actions/userActions'
 import { connect } from 'react-redux'
 
 const Link = (props) => {

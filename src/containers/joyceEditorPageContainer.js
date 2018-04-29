@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { EditorState } from 'draft-js'
 
-import { deleteCurrentDocument, submitAnnotation, selectAnnotationNote } from '../actions'
+import { deleteCurrentDocument, submitAnnotation, selectAnnotationNote } from '../actions/userActions'
 import Navbar from '../components/navbar'
 import Content from '../components/content'
 import DeleteConfirmModal from '../components/deleteConfirmModal'

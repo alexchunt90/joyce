@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentDocument, toggleHighlight } from '../actions'
+import { setCurrentDocument, toggleHighlight } from '../actions/userActions'
 import { DocumentList } from '../components/list'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
@@ -8,7 +8,7 @@ import SidebarSpacer from '../components/sidebarSpacer'
 const JoyceReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
 	<div className='col-md-3 d-none d-md-block' id='sidebar'>
 		<div>
-			<HighlightButton highlightToggle={highlightToggle} onHighlightClick={onHighlightClick}/>
+			<HighlightButton highlightToggle={highlightToggle} onClick={onHighlightClick}/>
 			<SidebarSpacer />
 			<DocumentList chapters={chapters} notes={notes} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />
 		</div>

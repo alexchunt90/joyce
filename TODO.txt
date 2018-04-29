@@ -25,9 +25,7 @@
 
 
 TODAY:
-- Light Refactoring
 - Implement React-Router
-- Review dependencies
 
 
 
@@ -42,6 +40,7 @@ SHORT LIST:
 		- ES API Tests?
 	- Figure out Editor focus() with Redux
 	- Create Tags and Note Tagging
+	- Review dependencies
 
 - v0.2 Reader
 	- Reader UX

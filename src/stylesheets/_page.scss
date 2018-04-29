@@ -2,58 +2,25 @@
 
 #page {
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
     padding: 3% 8%;
     border: 1px solid $border_color;
     border-radius: 5px;
-    font-size: 0.8em;
-}
-
-#page.show_notes a {	
-	cursor: pointer;
-  	animation-duration: 1s;
-  	animation-name: fadeIn;	
-  	animation-fill-mode: forwards;
-}
-
-#page.hide_notes a {
-	color: black;
-	text-decoration: none;
-	cursor: default;
-	pointer-events: none;
-}
-
-.annotations a {
-	cursor: pointer;
-  	animation-duration: 1s;
-  	animation-name: fadeIn;	
-  	animation-fill-mode: forwards;	
-}
-
-.hidden_annotations a {
-	color: black;
-	text-decoration: none;
-	cursor: default;
-	pointer-events: none;
-}
-
-@keyframes fadeIn {
-	from {
+    font-size: 0.8em;    
+	&.annotations a {
+		cursor: pointer;
+	  	animation-duration: 1s;
+	  	animation-name: fadeIn;	
+	  	animation-fill-mode: both;	
+	}
+	&.hidden_annotations a {
 		color: black;
-		text-decoration: none;		
+		text-decoration: none;
+		cursor: default;
+		pointer-events: none;
 	}
-
-	to {
-		color: map-get($theme_colors, "primary");
-		background-color: #f2e9de;
-		border-radius: 3px;
-	}
-}
-
-#page {
-
 	h2 {
 		text-align: center;
 	}
@@ -64,6 +31,17 @@
 
 	h4 {
 		text-align: center;
-	}
+	}	
+}
 
+@keyframes fadeIn {
+	from {
+		color: black;
+		text-decoration: none;		
+	}
+	to {
+		color: map-get($theme_colors, "primary");
+		background-color: #f2e9de;
+		border-radius: 3px;
+	}
 }

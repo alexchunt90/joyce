@@ -49,6 +49,21 @@ const convertToPlainText = contentState => {
 	)	
 }
 
+const selectChapterIDByNumber = (store, number) => {
+	for (const chapter of store.getState().chapters) {
+		if (number === chapter.number) {
+			return chapter.id
+		}
+	}	
+}
+
+const parseNumberFromPath = path => {
+	const match = /^\/([0-9]*)/.exec(path)
+	const number = Number(match[1])
+	console.log('Hey!', number)
+	return number
+}
+
 // API Middleware
 export const joyceAPI = store => next => action => {
 	next(action)
@@ -59,6 +74,12 @@ export const joyceAPI = store => next => action => {
 				HTTPGetDocumentList(action.docType, action.state).then(response =>
 					store.dispatch(getDocumentList(response))
 				)
+			}
+			if (action.status === 'success' && action.state === 'initialPageLoad') {
+				HTTPGetDocumentList(action.docType, action.state).then(response => {
+					const pathName = store.getState().routerReducer.location.pathname
+					store.dispatch(setCurrentDocument(selectChapterIDByNumber(store, parseNumberFromPath(pathName)), action.docType))
+				})
 			}
 			break
 		case 'GET_DOCUMENT_TEXT':
@@ -144,7 +165,15 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(getSearchResults(response))
 				)
 			}
-			break			
+			break
+		case '@@router/LOCATION_CHANGE':
+			if (/^\/[0-9]*/.test(action.payload.pathname)) {
+				for (const chapter of store.getState().chapters) {
+					if (action.payload.pathname === '/' + chapter.number) {
+						store.dispatch(setCurrentDocument(chapter.id, 'chapters'))
+					}
+				}
+			}
 		default:
 			break
 	}

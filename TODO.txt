@@ -24,10 +24,7 @@
 		+ Make Remove Highlight Work with Contextual Disabling +
 
 
-TODAY:
-- Implement React-Router
-
-
+NEXT: Bring everything under single entry point w/ React Router
 
 SHORT LIST:
 	- Make Annotate Mode Ignore Keyboard Input

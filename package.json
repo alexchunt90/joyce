@@ -11,16 +11,20 @@
   "author": "Alex Hunt",
   "license": "ISC",
   "dependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2",
+    "bootstrap": "^4.1.0",
     "draft-js": "^0.10.4",
     "draft-js-export-html": "^1.2.0",
     "draft-js-import-html": "^1.2.1",
-    "bootstrap": "^4.1.0",
+    "font-awesome": "^4.7.0",
+    "history": "^4.7.2",
     "popper.js": "^1.12.6",
-    "font-awesome": "^4.7.0"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

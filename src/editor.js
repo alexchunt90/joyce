@@ -28,8 +28,9 @@ store.dispatch(getDocumentList({
 	state: 'currentDocType'
 }))
 
-// Hacky way to fetch first chapter after async call above has completed.
-// TODO: Add number lookup to API?
+// TODO: Remove when 
+//   API can handle number lookups
+//   Routing can handle / => /1
 setTimeout(
 	() => {
 		const firstDocument = getFirstDocument(store, docType)

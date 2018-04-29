@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Route } from 'react-router'
 
 import Navbar from '../components/navbar'
 import Content from '../components/content'
@@ -13,20 +14,22 @@ const JoyceReaderPage = ({currentDocument, loadingToggle, annotationNote}) =>
 	<div>
 		<Navbar />
 		<div id='joyce_reader' className='container-fluid'>
-			<div className="row">
-				<JoyceReaderSidebarContainer />
-				<Content>
-					{loadingToggle === true &&
-						<LoadingSpinner size={4} />
-					}				
-					{(Object.keys(currentDocument).length > 0 && loadingToggle === false) &&
-						<JoyceReaderContentContainer />
-					}
-					{(Object.keys(currentDocument).length === 0 && loadingToggle === false) &&
-						<ReaderWelcome />
-					}				
-				</Content>
-			</div>
+			<Route path='/'>
+				<div className="row">
+					<JoyceReaderSidebarContainer />
+					<Content>
+						{loadingToggle === true &&
+							<LoadingSpinner size={4} />
+						}				
+						{(Object.keys(currentDocument).length > 0 && loadingToggle === false) &&
+							<JoyceReaderContentContainer />
+						}
+						{(Object.keys(currentDocument).length === 0 && loadingToggle === false) &&
+							<ReaderWelcome />
+						}				
+					</Content>
+				</div>
+			</Route>
 		</div>
 		<AnnotationModal annotationNote={annotationNote} />
 	</div>

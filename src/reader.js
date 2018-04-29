@@ -1,42 +1,42 @@
+// node_modules
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import 'bootstrap'
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import createHistory from 'history/createBrowserHistory'
+// import 'bootstrap'
 
+// src packages
 import reduceReader from './reducers/reduceReader'
 import { getDocumentList } from './actions/apiActions'
 import { setCurrentDocument, setDocType } from './actions/userActions'
 import { logger, joyceAPI } from './middleware/'
 import { getFirstDocument } from './mixins/firstDocument'
 import JoyceReaderPageContainer from './containers/joyceReaderPageContainer'
+import JoyceEditorPageContainer from './containers/joyceEditorPageContainer'
 
 // TODO: Pass routing from Flask?
 
-let docType = 'chapters'
-let store = createStore(reduceReader, applyMiddleware(logger, joyceAPI))	
+const history = createHistory()
+const router = routerMiddleware(history)
+
+const docType = 'chapters'
+const store = createStore(reduceReader, applyMiddleware(logger, joyceAPI, router))	
 store.dispatch(setDocType(docType))
 
 ReactDOM.render(
 	<Provider store={store}>
-		<JoyceReaderPageContainer />
+		<ConnectedRouter history={history}>
+			<div>
+				<JoyceReaderPageContainer />
+			</div>
+		</ConnectedRouter>
 	</Provider>,
   	document.getElementById('wrapper')
 )
 
 store.dispatch(getDocumentList({
 	docType: docType,
-	state: 'currentDocType'
+	state: 'initialPageLoad'
 }))
-
-// Hacky way to fetch first chapter after async call above has completed.
-// TODO: Add number lookup to API?
-setTimeout(
-	() => {
-		const firstDocument = getFirstDocument(store, docType)
-		if (firstDocument) {
-			store.dispatch(setCurrentDocument(firstDocument.id, docType))
-		}
-	},
-	1000
-)

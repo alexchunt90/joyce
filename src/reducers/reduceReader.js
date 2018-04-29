@@ -8,6 +8,8 @@ import annotationNote from './annotationNote'
 import highlightToggle from './highlightToggle'
 import loadingToggle from './loadingToggle'
 import docType from './docType'
+import { routerReducer } from 'react-router-redux'
+
 
 const reduceReader = combineReducers({
 	chapters,
@@ -17,7 +19,8 @@ const reduceReader = combineReducers({
 	docType,
 	currentDocument,
 	highlightToggle,
-	loadingToggle
+	loadingToggle,
+	routerReducer
 })
 
 export default reduceReader

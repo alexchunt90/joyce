@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import romanize from '../mixins/romanize'
 
 export const ReaderEditButton = ({onClick}) =>
@@ -19,9 +21,9 @@ export const ReaderAnnotateButton = ({onClick}) =>
 
 export const ChapterButton = ({chapter, currentChapter, onClick}) =>
 	<div className ='chapter_button text-center'>
-		<button onClick={()=>onClick(chapter.id)} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg' : 'btn btn-outline-dark btn-lg inactive_button'}>
+		<Link to={'/'+ chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg active_button' : 'btn btn-outline-dark btn-lg inactive_button'}>
 			{romanize(chapter.number)}. {chapter.title}
-		</button>
+		</Link>
 	</div>
 
 export const NoteButton = ({note, currentNote, onClick}) =>

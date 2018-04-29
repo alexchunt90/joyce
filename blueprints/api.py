@@ -94,15 +94,16 @@ def group_search_results(es_results):
 	for type in types:
 		list = []
 		for result in es_results:
-			entry = {'id': result['_id'], 'highlight': result['highlight']['plain_text']}
-			list.append(entry)
+			if result['_type'] == type:
+				entry = {'id': result['_id'], 'title': result['_source']['title'], 'highlight': result['highlight']['plain_text']}
+				list.append(entry)
 		output_results[type] = list
 	return output_results
 
 def es_search_text(body):
 	search = es.search(
 		index='joyce',
-		filter_path=['hits.hits._id', 'hits.hits._type', 'hits.hits.highlight', 'hits.hits.title'],
+		filter_path=['hits.hits._id', 'hits.hits._type', 'hits.hits._source.title', 'hits.hits._source.number', 'hits.hits.highlight', 'hits.hits.title'],
 		body={
 			'from': 0,
 			'size': 10,
@@ -114,11 +115,13 @@ def es_search_text(body):
 				}
 			},
 		    'highlight' : {
+		    	'number_of_fragments' : 15,
 		        'fields' : {
-					'_all' : { 'pre_tags' : [''], 'post_tags' : [''] },		        
 		            'plain_text': {
 		            	'matched_fields': 'text',
-		            	'type': 'unified'
+		            	'type': 'unified',
+		            	'pre_tags' : [''],
+		            	'post_tags' : ['']
 		            }
 		        }
 		    }			
@@ -127,7 +130,6 @@ def es_search_text(body):
 	# TODO: Handle no hits
 	results = search['hits']['hits']
 	grouped_results = group_search_results(results)
-	# return search
 	return grouped_results
 
 

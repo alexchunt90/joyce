@@ -7,9 +7,7 @@ import JoyceSearchContentContainer from '../containers/joyceSearchContentContain
 const JoyceSearchPage = () =>
 	<div>
 		<Navbar />
-		<div id='joyce_search' className='container-fluid'>
-			<JoyceSearchContentContainer />
-		</div>
+		<JoyceSearchContentContainer />
 	</div>
 
 const JoyceSearchPageContainer = connect()(JoyceSearchPage)

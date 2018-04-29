@@ -25,18 +25,9 @@
 
 
 TODAY:
-- HTML Char Strip ES Search
-	- Index HTML-Stripped Field for Searching
-		- Update Mappings in Setup.py
-		- Update api.py to duplicate text field
-- Search Result Components
 - Light Refactoring
-
-TOMORROW:
 - Implement React-Router
 - Review dependencies
-
-
 
 
 
@@ -50,6 +41,7 @@ SHORT LIST:
 		- React Unit Tests
 		- ES API Tests?
 	- Figure out Editor focus() with Redux
+	- Create Tags and Note Tagging
 
 - v0.2 Reader
 	- Reader UX
@@ -64,6 +56,7 @@ SHORT LIST:
 
 - v0.4 Search
 	- Advanced search page
+		- Filter by DocType, Chapter
 	- Drop Down window
 
 - v0.5 Pagination

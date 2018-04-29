@@ -7,15 +7,23 @@ import SearchResultsBox from '../components/searchResultsBox'
 import { updateSearchInput, clickSearch } from '../actions'
 
 const JoyceSearchContent = ({searchResults, searchInput, onSearchInputChange, onSearchClick}) =>
-	<div id='search_content' className='row'>
-		<div className='col-sm-2'>
-			<SearchButton onClick={onSearchClick} searchInput={searchInput}/>
+	<div id='joyce_search' className='container-fluid'>
+		<div id='search_content' className='row'>
+			<div className='container'>
+				<div className='row'>
+					<div className='col-sm-2'>
+						<SearchButton onClick={onSearchClick} searchInput={searchInput}/>
+					</div>
+					<div className='col-sm-10'>
+						<input id='search_input' type='text' value={searchInput} onChange={onSearchInputChange} />
+					</div>
+				</div>
+				<div className='row'>
+					<SearchResultsBox searchResults={searchResults} />
+				</div>
+			</div>
 		</div>
-		<div className='col-sm-10'>
-			<input id='search_input' type='text' value={searchInput} onChange={onSearchInputChange}/>
-		</div>
-		<SearchResultsBox searchResults={searchResults} />
-	</div>
+	</div>	
 
 const mapStateToProps = state => {
 	return {

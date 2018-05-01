@@ -58,10 +58,17 @@ const selectChapterIDByNumber = (store, number) => {
 }
 
 const parseNumberFromPath = path => {
-	const match = /^\/([0-9]*)/.exec(path)
-	const number = Number(match[1])
-	console.log('Hey!', number)
-	return number
+	const match = /\/([0-9]*)$/.exec(path)
+	if (match) {
+		if (parseInt(match[1])) {	
+			const number = Number(match[1])
+			return number
+		} else {
+			return null
+		}
+	} else {
+		return null
+	}
 }
 
 // API Middleware
@@ -75,12 +82,14 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(getDocumentList(response))
 				)
 			}
-			if (action.status === 'success' && action.state === 'initialPageLoad') {
-				HTTPGetDocumentList(action.docType, action.state).then(response => {
-					const pathName = store.getState().routerReducer.location.pathname
-					store.dispatch(setCurrentDocument(selectChapterIDByNumber(store, parseNumberFromPath(pathName)), action.docType))
-				})
-			}
+			if (action.status === 'success' && action.docType === store.getState().docType && !store.getState().currentDocument.id) {
+				if (action.docType === 'chapters') {
+					const pathNumber = parseNumberFromPath(store.getState().routerReducer.location.pathname)
+					store.dispatch(setCurrentDocument(selectChapterIDByNumber(store, pathNumber), action.docType))
+				} else if (action.docType === 'notes') {
+					store.dispatch(setCurrentDocument(store.getState().notes[0].id, action.docType))
+				}
+			}			
 			break
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'request') {
@@ -167,9 +176,10 @@ export const joyceAPI = store => next => action => {
 			}
 			break
 		case '@@router/LOCATION_CHANGE':
-			if (/^\/[0-9]*/.test(action.payload.pathname)) {
+			const pathNumber = parseNumberFromPath(action.payload.pathname)
+			if (pathNumber) {
 				for (const chapter of store.getState().chapters) {
-					if (action.payload.pathname === '/' + chapter.number) {
+					if (pathNumber === chapter.number) {
 						store.dispatch(setCurrentDocument(chapter.id, 'chapters'))
 					}
 				}

@@ -1,9 +1,7 @@
  import React from 'react'
  import { Link } from 'react-router-dom'
 
- import { connect } from 'react-redux'
-
-const Navbar = ({currentDocument}) =>
+const Navbar = () =>
 	<nav className='navbar navbar-dark navbar-static-top navbar-expand-lg'>
 		<a className='navbar-brand' href='/'>The Joyce Project</a>
 		<button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarItems'>
@@ -23,13 +21,5 @@ const Navbar = ({currentDocument}) =>
 			</ul>
 		</div>		
 	</nav>
-
-const mapStateToProps = state => {
-	return {
-		currentDocument: state.currentDocument,
-	}
-}
-
-const JoyceReaderPageContainer = connect(mapStateToProps)(JoyceReaderPage)
 
 export default Navbar

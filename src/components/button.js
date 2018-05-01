@@ -19,9 +19,9 @@ export const ReaderAnnotateButton = ({onClick}) =>
 		</button>
 	</div>	
 
-export const ChapterButton = ({chapter, currentChapter, onClick}) =>
+export const ChapterButton = ({chapter, currentChapter, path}) =>
 	<div className ='chapter_button text-center'>
-		<Link to={'/'+ chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg active_button' : 'btn btn-outline-dark btn-lg inactive_button'}>
+		<Link to={path + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg active_button' : 'btn btn-outline-dark btn-lg inactive_button'}>
 			{romanize(chapter.number)}. {chapter.title}
 		</Link>
 	</div>

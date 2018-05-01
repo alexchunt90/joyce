@@ -9,7 +9,8 @@ import highlightToggle from './highlightToggle'
 import loadingToggle from './loadingToggle'
 import docType from './docType'
 import { routerReducer } from 'react-router-redux'
-
+import mode from './mode'
+import documentTitleInput from './documentTitleInput'
 
 const reduceReader = combineReducers({
 	chapters,
@@ -20,7 +21,9 @@ const reduceReader = combineReducers({
 	currentDocument,
 	highlightToggle,
 	loadingToggle,
-	routerReducer
+	routerReducer,
+	mode,
+	documentTitleInput
 })
 
 export default reduceReader

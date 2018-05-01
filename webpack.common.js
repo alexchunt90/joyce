@@ -7,21 +7,9 @@ const rootAssetPath = './src/'
 
 module.exports = {
 	entry: {
-		reader: [
-			rootAssetPath + 'reader',
-			rootAssetPath + 'stylesheets/' + 'reader.scss'
-		],
-		editor: [
-			rootAssetPath + 'editor',
-			rootAssetPath + 'stylesheets/' + 'editor.scss'
-		],
-		notes: [
-			rootAssetPath + 'notes',
-			rootAssetPath + 'stylesheets/' + 'reader.scss'
-		],
-		search: [
-			rootAssetPath + 'search',
-			rootAssetPath + 'stylesheets/' + 'search.scss'
+		joyce: [
+			rootAssetPath + 'joyce',
+			rootAssetPath + 'stylesheets/' + 'joyce.scss'
 		]
 	},
 	module : {
@@ -78,11 +66,12 @@ module.exports = {
         new ManifestRevisionPlugin(path.join('static/', 'manifest.json'), {
             rootAssetPath: rootAssetPath
         }),
-        new webpack.ProvidePlugin({
-	        $: 'jquery',
-	        jQuery: 'jquery',
-	        'window.jQuery': 'jquery',
-	        Popper: ['popper.js', 'default']        	
-        }),
+        // new webpack.ProvidePlugin({
+        	// bootstrap: 'bootstrap'
+	        // $: 'jquery',
+	        // jQuery: 'jquery',
+	       //  'window.jQuery': 'jquery',
+	       //  Popper: ['popper.js', 'default']        	
+        // }),
 	],
 };

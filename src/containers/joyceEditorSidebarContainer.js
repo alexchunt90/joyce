@@ -13,7 +13,7 @@ const JoyceEditorSidebar = ({notes, chapters, docType, currentDocument, onDocume
 			<SidebarSpacer />
 			<NewDocumentButton onClick={()=>onNewDocumentClick(docType)} docType={docType}/>
 			<SidebarSpacer />
-			<DocumentList notes={notes} chapters={chapters} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} />
+			<DocumentList notes={notes} chapters={chapters} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} path={'/edit/'}/>
 		</div>
 	</div>
 
@@ -22,7 +22,7 @@ const mapStateToProps = state => {
 		notes: state.notes,
 		chapters: state.chapters,
 		docType: state.docType,
-		currentDocument: state.currentDocument
+		currentDocument: state.currentDocument,
 	}
 }
 

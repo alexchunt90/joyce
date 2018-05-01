@@ -2,10 +2,7 @@ from flask import Flask
 from flask_webpack import Webpack
 from werkzeug.serving import run_simple
 
-from blueprints.reader import reader
-from blueprints.notes import notes
-from blueprints.editor import editor
-from blueprints.search import search
+from blueprints.joyce import joyce
 from blueprints.api import api
 
 # Initialize application
@@ -25,11 +22,8 @@ webpack = Webpack()
 webpack.init_app(application)
 
 # Register blueprints
-application.register_blueprint(reader)
-application.register_blueprint(editor, url_prefix='/edit')
+application.register_blueprint(joyce)
 application.register_blueprint(api, url_prefix='/api')
-application.register_blueprint(search, url_prefix='/search')
-application.register_blueprint(notes, url_prefix='/notes')
 
 if __name__ == "__main__":
 	# application.debug=True

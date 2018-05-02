@@ -10,7 +10,7 @@ import JoyceReaderContentContainer from '../containers/joyceReaderContentContain
 
 const JoyceReaderPage = ({currentDocument, loadingToggle}) =>
 	<div id='joyce_reader' className='container-fluid'>
-		<div className="row">
+		<div id='content_window' className='row'>
 			<JoyceReaderSidebarContainer />
 			<Content>
 				{loadingToggle === true &&

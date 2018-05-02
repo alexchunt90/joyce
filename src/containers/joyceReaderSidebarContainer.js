@@ -10,7 +10,7 @@ const JoyceReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, 
 		<div>
 			<HighlightButton highlightToggle={highlightToggle} onClick={onHighlightClick}/>
 			<SidebarSpacer />
-			<DocumentList chapters={chapters} notes={notes} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} path={'/'}/>
+			<DocumentList chapters={chapters} notes={notes} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType}/>
 		</div>
 	</div>
 

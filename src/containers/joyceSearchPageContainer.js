@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Navbar from '../components/navbar'
 import JoyceSearchContentContainer from '../containers/joyceSearchContentContainer'
 
 const JoyceSearchPage = () =>
-	<div>
-		<Navbar />
-		<JoyceSearchContentContainer />
+	<div id='joyce_reader' className='container-fluid'>
+		<div id='content_window' className='row'>
+			<JoyceSearchContentContainer />
+		</div>
 	</div>
 
 const JoyceSearchPageContainer = connect()(JoyceSearchPage)

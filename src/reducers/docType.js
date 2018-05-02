@@ -1,4 +1,4 @@
-const docType = (state=null, action) => {
+const docType = (state='chapters', action) => {
 	switch(action.type) {
 		case 'SET_DOC_TYPE':
 			return action.docType
@@ -6,7 +6,7 @@ const docType = (state=null, action) => {
 			const path = action.payload.pathname
 			if (/^\/(notes).*/.exec(path)) {
 				return 'notes'
-			} else { return state }
+			} else{ return state }
 		default:
 			return state
 	}

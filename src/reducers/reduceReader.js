@@ -11,6 +11,8 @@ import docType from './docType'
 import { routerReducer } from 'react-router-redux'
 import mode from './mode'
 import documentTitleInput from './documentTitleInput'
+import searchResults from './searchResults'
+import searchInput from './searchInput'
 
 const reduceReader = combineReducers({
 	chapters,
@@ -23,7 +25,9 @@ const reduceReader = combineReducers({
 	loadingToggle,
 	routerReducer,
 	mode,
-	documentTitleInput
+	documentTitleInput,
+	searchResults,
+	searchInput	
 })
 
 export default reduceReader

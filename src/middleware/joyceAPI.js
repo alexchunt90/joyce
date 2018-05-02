@@ -2,6 +2,7 @@ import axios from 'axios'
 import { stateToHTML } from 'draft-js-export-html'
 import { stateToMarkdown } from 'draft-js-export-markdown'
 import { convertToRaw } from 'draft-js'
+import { push } from 'react-router-redux'
 
 import { 
 	getDocumentList,
@@ -21,8 +22,6 @@ import {
 	HTTPPutCreateDocument, 
 	HTTPPostWriteDocument, 
 	HTTPPostSearchResults } from './http.js'
-
-import { getFirstDocument } from '../mixins/firstDocument'
 
 const html_export_options = {
   entityStyleFn: (entity) => {
@@ -49,25 +48,60 @@ const convertToPlainText = contentState => {
 	)	
 }
 
-const selectChapterIDByNumber = (store, number) => {
-	for (const chapter of store.getState().chapters) {
-		if (number === chapter.number) {
-			return chapter.id
-		}
-	}	
-}
+// const selectChapterIDByNumber = (store, number) => {
+// 	for (const chapter of store.getState().chapters) {
+// 		if (number === chapter.number) {
+// 			return chapter.id
+// 		}
+// 	}
+// }
 
 const parseNumberFromPath = path => {
 	const match = /\/([0-9]*)$/.exec(path)
-	if (match) {
-		if (parseInt(match[1])) {	
-			const number = Number(match[1])
-			return number
-		} else {
-			return null
-		}
+	if (match && parseInt(match[1])) {
+		return Number(match[1])
 	} else {
 		return null
+	}
+}
+
+const parseIDFromPath = path => {
+	const match = /\/([A-Za-z0-9\-\_]{18,})$/.exec(path)
+	if (match) {
+		return match[1]
+	} else {
+		return null
+	}
+}
+
+const checkIfRedirectPath = path => {
+	const match = /\/(\:id)$/.exec(path)
+	if (match) {
+		return true
+	} else {
+		return false
+	}
+}
+
+const selectDocumentIDByPath = (path, docs, docType) => {
+	if (docType === 'chapters') {
+		const number = parseNumberFromPath(path)
+		for (const chapter of docs) {
+			if (chapter.number === number) {return chapter.id}
+		}
+	} else {
+		const id = parseIDFromPath(path)
+		for (const doc of docs) {
+			if (doc.id === id) {return doc.id}
+		}
+	}
+}
+
+const selectDocTypeIdentifier = (doc, docType) => {
+	if (docType === 'chapters') {
+		return String(doc.number)
+	} else {
+		return doc.id
 	}
 }
 
@@ -75,6 +109,14 @@ const parseNumberFromPath = path => {
 export const joyceAPI = store => next => action => {
 	next(action)
 	switch(action.type) {
+		case '@@router/LOCATION_CHANGE':
+			if (checkIfRedirectPath(action.payload.pathname) || action.payload.pathname === '/') {
+				if (store.getState().currentDocument.id) {
+					const id = selectDocTypeIdentifier(store.getState().currentDocument, store.getState().docType)
+					store.dispatch(push(id))
+				}
+			}
+			break
 		// API Calls
 		case 'GET_DOCUMENT_LIST':
 			if (action.status === 'request') {
@@ -83,13 +125,14 @@ export const joyceAPI = store => next => action => {
 				)
 			}
 			if (action.status === 'success' && action.docType === store.getState().docType && !store.getState().currentDocument.id) {
-				if (action.docType === 'chapters') {
-					const pathNumber = parseNumberFromPath(store.getState().routerReducer.location.pathname)
-					store.dispatch(setCurrentDocument(selectChapterIDByNumber(store, pathNumber), action.docType))
-				} else if (action.docType === 'notes') {
-					store.dispatch(setCurrentDocument(store.getState().notes[0].id, action.docType))
+				const path = store.getState().routerReducer.location.pathname
+				if (checkIfRedirectPath(path)) {
+					store.dispatch(setCurrentDocument(action.data[0].id, action.docType))
+				} else {
+					const id = selectDocumentIDByPath(path, action.data, action.docType)
+					store.dispatch(setCurrentDocument(id, action.docType))
 				}
-			}			
+			}
 			break
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'request') {
@@ -97,6 +140,13 @@ export const joyceAPI = store => next => action => {
 					store.dispatch(getDocumentText(response))
 				)
 			}
+			if (action.status === 'success' && action.state === 'currentDocument') {
+				if (action.docType === 'chapters') {
+					store.dispatch(push(String(action.data.number)))
+				} else  if (action.docType === 'notes') {
+					store.dispatch(push(action.data.id))
+				}
+			}			
 			break
 		case 'SAVE_DOCUMENT':
 			if (action.status === 'request') {
@@ -120,13 +170,6 @@ export const joyceAPI = store => next => action => {
 				if (action.data[0]) {
 					store.dispatch(setCurrentDocument(action.data[0].id, action.docType, 'currentDocument'))
 				}
-			}
-			break
-		// Document Action Middleware
-		case 'SET_DOC_TYPE':
-			const firstDocument = getFirstDocument(store, action.docType)
-			if (firstDocument) {
-				store.dispatch(getDocumentText({id: firstDocument.id, docType: action.docType, state: 'currentDocument'}))
 			}
 			break
 		case 'SET_CURRENT_DOCUMENT':
@@ -175,15 +218,6 @@ export const joyceAPI = store => next => action => {
 				)
 			}
 			break
-		case '@@router/LOCATION_CHANGE':
-			const pathNumber = parseNumberFromPath(action.payload.pathname)
-			if (pathNumber) {
-				for (const chapter of store.getState().chapters) {
-					if (pathNumber === chapter.number) {
-						store.dispatch(setCurrentDocument(chapter.id, 'chapters'))
-					}
-				}
-			}
 		default:
 			break
 	}

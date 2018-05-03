@@ -1,5 +1,5 @@
 import React from 'react'
-import romanize from '../mixins/romanize'
+import romanize from '../modules/romanize'
 
 const DocumentTitle = ({docType, currentDocument}) =>
 	<h4>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import romanize from '../mixins/romanize'
+import romanize from '../modules/romanize'
 
 export const ReaderEditButton = ({onClick}) =>
 	<div className='edit_note_button'>

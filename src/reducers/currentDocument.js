@@ -7,6 +7,8 @@ const currentDocument = (state={}, action) => {
 				return {}
 			}
 			else { return state }
+		case 'CLEAR_CURRENT_DOCUMENT':
+			return {}
 		case 'DELETE_DOCUMENT':
 			if (action.status === 'success' && action.data.length <= 0) {
 				return {}

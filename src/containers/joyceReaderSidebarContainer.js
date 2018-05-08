@@ -4,6 +4,7 @@ import { setCurrentDocument, toggleHighlight } from '../actions/userActions'
 import { DocumentList } from '../components/list'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
+import { push } from 'react-router-redux'
 
 const JoyceReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
 	<div className='col-md-3 d-none d-md-block' id='sidebar'>

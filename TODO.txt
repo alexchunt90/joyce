@@ -32,10 +32,15 @@ REFACTORING CHECKLIST:
 	- Switch to Webpack Dev Server and Remove Webpack/Flask Dependencies
 	- Write ReadMe
 	- One Pass Through Every Module's Imports
+	- Rename Components
 
 NEED:
 	- Deploy Process
 	- Testing
+
+UX NEEDS:
+	- Disable Title Submit Button Without Title
+	- Disable Modal Submit Button with input
 
 SHORT LIST:
 	- Make Annotate Mode Ignore Keyboard Input
@@ -65,6 +70,7 @@ SHORT LIST:
 	- Advanced search page
 		- Filter by DocType, Chapter
 	- Drop Down window
+	- Handle no search results
 
 - v0.5 Pagination
 
@@ -80,7 +86,6 @@ SHORT LIST:
 	- Stats Logging
 
 BUGS:
-	- DraftJS crashes if you backspace on an empty Editor
 
 Short List:
 - PropTypes

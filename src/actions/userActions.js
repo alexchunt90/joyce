@@ -34,6 +34,11 @@
 			type: 'CANCEL_EDIT'
 		})
 
+	export const clearCurrentDocument = () =>
+		({
+			type: 'CLEAR_CURRENT_DOCUMENT'
+		})
+
 	// Click 'Delete' and confirm to delete a document
 	export const deleteCurrentDocument = (id, docType) =>
 		({

@@ -41,7 +41,11 @@ const editorState = (state=blankEditor, action) => {
 		case 'UPDATE_EDITOR_STATE':
 			return action.data
 		case 'HANDLE_EDITOR_KEY_COMMAND':
-			return RichUtils.handleKeyCommand(action.editorState, action.command)
+			const editorState = RichUtils.handleKeyCommand(action.editorState, action.command)
+			// Null check to handle null editorState when backspacking empty editor
+			if (editorState !== null) {
+				return editorState
+			} else { return state }
 		case 'APPLY_INLINE_STYLE':
 			let inlineStyles = ['BOLD', 'ITALIC', 'UNDERLINE']
 			if (inlineStyles.indexOf(action.style) >= 0) {

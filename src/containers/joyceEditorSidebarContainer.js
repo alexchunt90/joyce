@@ -5,6 +5,7 @@ import { DocumentList } from '../components/list'
 import { NewDocumentButton } from '../components/button'
 import { DocTypeDropdown } from '../components/dropdown'
 import SidebarSpacer from '../components/sidebarSpacer'
+import { push } from 'react-router-redux'
 
 const JoyceEditorSidebar = ({notes, chapters, docType, currentDocument, onDocumentClick, onNewDocumentClick, setDocType}) =>
 	<div className="col-md-3 d-none d-md-block" id="sidebar">

@@ -16,8 +16,8 @@ import { getDocumentList } from './actions/apiActions'
 import DeleteConfirmModal from './components/deleteConfirmModal'
 import AnnotateModal from './components/annotateModal'
 import AnnotationModal from './components/annotationModal'
-import { setCurrentDocument, setDocType } from './actions/userActions'
-import { logger, joyceAPI } from './middleware/'
+import { setDocType } from './actions/userActions'
+import { logger, joyceAPI, joyceInterface, joyceRouter } from './middleware/'
 import JoyceReaderPageContainer from './containers/joyceReaderPageContainer'
 import JoyceEditorPageContainer from './containers/joyceEditorPageContainer'
 import JoyceSearchPageContainer from './containers/joyceSearchPageContainer'
@@ -26,9 +26,8 @@ import JoyceSearchPageContainer from './containers/joyceSearchPageContainer'
 
 const history = createHistory()
 const router = routerMiddleware(history)
-const store = createStore(reduceReader, applyMiddleware(logger, joyceAPI, router))	
+const store = createStore(reduceReader, applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
 
-store.dispatch(setDocType('chapters'))
 store.dispatch(getDocumentList({docType: 'chapters'}))
 store.dispatch(getDocumentList({docType: 'notes'}))
 
@@ -44,14 +43,15 @@ ReactDOM.render(
 					<Route exact path='/edit' render={() =>
 						<Redirect to={'/edit/:id'}/>
 					}/>
+					<Route exact path='/edit/notes' render={() =>
+						<Redirect to={'/edit/notes/:id'}/>
+					}/>					
 					<Route exact path='/notes' render={() =>
 						<Redirect to={'/notes/:id'}/>
-					}/>						
-					<Route exact path='/' render={() =>
-						<Redirect to={'/:id'}/>
-					}/>								
+					}/>							
 					<Route exact path='/notes/:id' component={JoyceReaderPageContainer} />
 					<Route exact path='/edit/:id' component={JoyceEditorPageContainer} />
+					<Route exact path='/edit/notes/:id' component={JoyceEditorPageContainer} />
 					<Route exact path='/search/' component={JoyceSearchPageContainer} />
 					<Route exact path='/:id' component={JoyceReaderPageContainer} />	
 				</Switch>

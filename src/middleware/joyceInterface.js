@@ -3,6 +3,17 @@ import { stateToHTML } from 'draft-js-export-html'
 import { stateToMarkdown } from 'draft-js-export-markdown'
 import { convertToRaw } from 'draft-js'
 
+import { 
+	getDocumentList,
+	getDocumentText,
+	deleteDocument,
+	saveDocument,
+	createNewChapter,
+	getSearchResults
+} from '../actions/apiActions'
+
+import { clearCurrentDocument } from '../actions/userActions'
+
 import helpers from '../modules/helpers'
 
 const html_export_options = {
@@ -22,8 +33,7 @@ const html_export_options = {
   }
 }
 
-// API Middleware
-export const joyceInterface = store => next => action => {
+const joyceInterface = store => next => action => {
 	next(action)
 	switch(action.type) {
 		case 'SET_CURRENT_DOCUMENT':
@@ -57,6 +67,11 @@ export const joyceInterface = store => next => action => {
 				store.dispatch(getDocumentText({id: notes[0].id, docType: docType, state: 'currentDocument'}))
 			}
 			break
+		case 'SET_DOC_TYPE':
+			if (action.docType !== store.getState().docType) {
+				store.dispatch(clearCurrentDocument())
+			}
+			break
 		// Annotation Action Middleware
 		case 'SELECT_ANNOTATION_NOTE':
 			store.dispatch(getDocumentText({id: action.id, docType: 'notes', state: 'annotationNote'}))
@@ -65,14 +80,9 @@ export const joyceInterface = store => next => action => {
 		case 'CLICK_SEARCH':
 			store.dispatch(getSearchResults({data: action.data}))
 			break
-		case 'GET_SEARCH_RESULTS':
-			if (action.status === 'request') {
-				HTTPPostSearchResults(action.data).then(response =>
-					store.dispatch(getSearchResults(response))
-				)
-			}
-			break
 		default:
 			break
 	}
 }
+
+export default joyceInterface

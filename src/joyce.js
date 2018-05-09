@@ -11,25 +11,24 @@ import 'bootstrap'
 // src packages
 import Navbar from './components/navbar'
 import reduceReader from './reducers/reduceReader'
-import { selectAnnotationNote } from './actions/userActions'
-import { getDocumentList } from './actions/apiActions'
 import DeleteConfirmModal from './components/deleteConfirmModal'
 import AnnotateModal from './components/annotateModal'
 import AnnotationModal from './components/annotationModal'
-import { setDocType } from './actions/userActions'
+import actions from './actions'
 import { logger, joyceAPI, joyceInterface, joyceRouter } from './middleware/'
 import JoyceReaderPageContainer from './containers/joyceReaderPageContainer'
 import JoyceEditorPageContainer from './containers/joyceEditorPageContainer'
 import JoyceSearchPageContainer from './containers/joyceSearchPageContainer'
 
-// TODO: Pass routing from Flask?
-
 const history = createHistory()
 const router = routerMiddleware(history)
 const store = createStore(reduceReader, applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
 
-store.dispatch(getDocumentList({docType: 'chapters'}))
-store.dispatch(getDocumentList({docType: 'notes'}))
+console.log(actions)
+store.dispatch(actions.getDocumentList({docType: 'chapters'}))
+store.dispatch(actions.getDocumentList({docType: 'notes'}))
+
+// TODO: Modal container should probably get state and dispatch as props, not access store
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -56,7 +55,7 @@ ReactDOM.render(
 					<Route exact path='/:id' component={JoyceReaderPageContainer} />	
 				</Switch>
 				<DeleteConfirmModal onDeleteClick={()=>onDeleteClick(currentDocument.id, docType)}/>
-				<AnnotateModal notes={store.getState().notes} annotationNote={store.getState().annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(store.getState().annotationNote, store.getState().selectionState, store.getState().editorState)} selectAnnotationNote={selectAnnotationNote} />
+				<AnnotateModal notes={store.getState().notes} annotationNote={store.getState().annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(store.getState().annotationNote, store.getState().selectionState, store.getState().editorState)} selectAnnotationNote={actions.selectAnnotationNote} />
 				<AnnotationModal annotationNote={store.getState().annotationNote} />
 			</div>
 		</ConnectedRouter>

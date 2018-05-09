@@ -3,17 +3,7 @@ import { stateToHTML } from 'draft-js-export-html'
 import { stateToMarkdown } from 'draft-js-export-markdown'
 import { convertToRaw } from 'draft-js'
 
-import { 
-	getDocumentList,
-	getDocumentText,
-	deleteDocument,
-	saveDocument,
-	createNewChapter,
-	getSearchResults
-} from '../actions/apiActions'
-
-import { clearCurrentDocument } from '../actions/userActions'
-
+import actions from '../actions'
 import helpers from '../modules/helpers'
 
 const html_export_options = {
@@ -37,7 +27,7 @@ const joyceInterface = store => next => action => {
 	next(action)
 	switch(action.type) {
 		case 'SET_CURRENT_DOCUMENT':
-			store.dispatch(getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
+			store.dispatch(actions.getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
 			break
 		case 'SUBMIT_DOCUMENT_EDIT':
 			const textContent = action.editorState.getCurrentContent()
@@ -53,32 +43,32 @@ const joyceInterface = store => next => action => {
 					data.number = action.currentDocument.number
 				} 
 			}
-			store.dispatch(saveDocument({id: data.id ? data.id : null, docType: action.docType, data: data}))
+			store.dispatch(actions.saveDocument({id: data.id ? data.id : null, docType: action.docType, data: data}))
 			break
 		case 'DELETE_CURRENT_DOCUMENT':
-			store.dispatch(deleteDocument({id: action.id, docType: action.docType}))
+			store.dispatch(actions.deleteDocument({id: action.id, docType: action.docType}))
 			break
 		case 'CANCEL_EDIT':
 			const docType = store.getState().docType
 			const currentDocument = store.getState().currentDocument
 			if (currentDocument.id) {
-				store.dispatch(getDocumentText({id: currentDocument.id, docType: docType, state: 'currentDocument'}))
+				store.dispatch(actions.getDocumentText({id: currentDocument.id, docType: docType, state: 'currentDocument'}))
 			} else {
-				store.dispatch(getDocumentText({id: notes[0].id, docType: docType, state: 'currentDocument'}))
+				store.dispatch(actions.getDocumentText({id: notes[0].id, docType: docType, state: 'currentDocument'}))
 			}
 			break
 		case 'SET_DOC_TYPE':
 			if (action.docType !== store.getState().docType) {
-				store.dispatch(clearCurrentDocument())
+				store.dispatch(actions.clearCurrentDocument())
 			}
 			break
 		// Annotation Action Middleware
 		case 'SELECT_ANNOTATION_NOTE':
-			store.dispatch(getDocumentText({id: action.id, docType: 'notes', state: 'annotationNote'}))
+			store.dispatch(actions.getDocumentText({id: action.id, docType: 'notes', state: 'annotationNote'}))
 			break
 		// Search Action Middleware
 		case 'CLICK_SEARCH':
-			store.dispatch(getSearchResults({data: action.data}))
+			store.dispatch(actions.getSearchResults({data: action.data}))
 			break
 		default:
 			break

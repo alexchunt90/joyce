@@ -2,10 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
 
+import actions from '../actions'
 import { SearchButton } from '../components/button'
 import SearchResultsBox from '../components/searchResultsBox'
-import { clickSearch } from '../actions/userActions'
-import { updateSearchInput } from '../actions/inputActions'
 
 const JoyceSearchContent = ({searchResults, searchInput, onSearchInputChange, onSearchClick}) =>
 	<div className='container'>
@@ -32,10 +31,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onSearchInputChange: searchInput => {
-			dispatch(updateSearchInput(searchInput))
+			dispatch(actions.updateSearchInput(searchInput))
 		},
 		onSearchClick: searchInput => {
-			dispatch(clickSearch(searchInput))
+			dispatch(actions.clickSearch(searchInput))
 		}
 	}
 }

@@ -1,27 +1,29 @@
-//
+// -------------------
 // EditorState Actions
-// 
-	// These actions handle state changes for the DraftJS editor
+// -------------------
+// These actions handle state changes for the DraftJS editor
 
+const editorStateActions = {
 	// Update EditorState on change
-	export const updateEditorState = editorState =>
+	updateEditorState: editorState =>
 		({
 			type: 'UPDATE_EDITOR_STATE',
 			data: editorState
-		})
-
+		}),
 	// Handle Editor inline style buttons
-	export const applyInlineStyles = (editorState, style) =>
+	applyInlineStyles: (editorState, style) =>
 		({
 			type: 'APPLY_INLINE_STYLE',
 			editorState: editorState,
 			style: style
-		})
-
+		}),
 	// Handle key commands to apply inline styles
-	export const handleEditorKeyCommand = (editorState, command) =>
+	handleEditorKeyCommand: (editorState, command) =>
 		({
 			type: 'HANDLE_EDITOR_KEY_COMMAND',
 			editorState: editorState,
 			command: command
-		})
+		}),
+}
+
+export default editorStateActions

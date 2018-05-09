@@ -4,19 +4,9 @@ import { Editor } from 'draft-js'
 
 import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../components/contentTopBar'
 import { EditModeBottomBar } from '../components/contentBottomBar'
+import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
-import { 
-	setMode,
-	cancelEdit,
-	submitDocumentEdit,
-	addAnnotation,
-	removeAnnotation } from '../actions/userActions'
-import {
-	updateEditorState, 
-	handleEditorKeyCommand,
-	applyInlineStyles } from '../actions/editorStateActions'
-import { updateDocumentTitleChange } from '../actions/inputActions'
 
 const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, annotateKeyBindings, onRemoveAnnotationClick, docType, loadingToggle}) =>
 	<div>
@@ -74,34 +64,34 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onChangeEditorState: editorState => {
-			dispatch(updateEditorState(editorState))
+			dispatch(actions.updateEditorState(editorState))
 		},
 		onDocumentTitleChange: documentTitleInput => {
-			dispatch(updateDocumentTitleChange(documentTitleInput))
+			dispatch(actions.updateDocumentTitleChange(documentTitleInput))
 		},		
 		handleKeyCommand: (command, editorState) => {
-			dispatch(handleEditorKeyCommand(editorState, command))
+			dispatch(actions.handleEditorKeyCommand(editorState, command))
 		},
 		annotateKeyBindings: () => {
 			return 'handled'
 		},
 		setMode: (mode) => {
-			dispatch(setMode(mode))
+			dispatch(actions.setMode(mode))
 		},
 		cancelEdit: () => {
-			dispatch(cancelEdit())
+			dispatch(actions.cancelEdit())
 		},
 		onNewAnnotationClick: (selectionState) => {
-			dispatch(addAnnotation(selectionState))
+			dispatch(actions.addAnnotation(selectionState))
 		},
 		onRemoveAnnotationClick: (editorState) => {
-			dispatch(removeAnnotation(editorState))
+			dispatch(actions.removeAnnotation(editorState))
 		},
 		onToolButtonClick: (editorState, style) => {
-			dispatch(applyInlineStyles(editorState, style))
+			dispatch(actions.applyInlineStyles(editorState, style))
 		},
 		onSubmitClick: (currentDocument, editorState, documentTitleInput, docType) => {
-			dispatch(submitDocumentEdit(currentDocument, editorState, documentTitleInput, docType))
+			dispatch(actions.submitDocumentEdit(currentDocument, editorState, documentTitleInput, docType))
 		}		
 	}
 }

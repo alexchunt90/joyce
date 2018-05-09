@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
-
-import { setCurrentChapter, setAnnotationNote, toggleLoading } from '../actions/userActions'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 

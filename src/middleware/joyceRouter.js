@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux'
 
-import { setCurrentDocument, setDocType } from '../actions/userActions'
+import actions from '../actions'
 import helpers from '../modules/helpers'
 import regex from '../modules/regex'
 
@@ -16,19 +16,19 @@ const joyceRouter = store => next => action => {
 	switch(action.type) {
 		case '@@router/LOCATION_CHANGE':
 			if (regex.checkIfRedirectPath(path) && currentDocument.hasOwnProperty('id')) {
-				store.dispatch(push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))
+				store.dispatch(actions.push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))
 			}
 			if (regex.checkNoteReaderRoute(path) && regex.checkIfRedirectPath(path) && notes.length > 0) {
-				store.dispatch(setCurrentDocument(notes[0].id, 'notes'))
+				store.dispatch(actions.setCurrentDocument(notes[0].id, 'notes'))
 			}
 			if (regex.checkNoteReaderRoute(path) || regex.checkNoteEditorRoute(path)) {
-				store.dispatch(setDocType('notes'))
+				store.dispatch(actions.setDocType('notes'))
 			}
 			if (regex.checkRootRedirectRoute(path) && chapters.length > 0) {
-				store.dispatch(setCurrentDocument(chapters[0].id, 'chapters'))
+				store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 			}
 			if (regex.checkNoteBaseRoute(path)) {
-				store.dispatch(setDocType('notes'))
+				store.dispatch(actions.setDocType('notes'))
 			}
 			if (regex.checkEditBaseRoute(path)){
 				if (docType === 'notes') {
@@ -38,16 +38,16 @@ const joyceRouter = store => next => action => {
 		case 'GET_DOCUMENT_LIST':
 			if (action.status === 'success' && action.docType === docType && !currentDocument.id) {
 				if (regex.checkIfRedirectPath(path)) {
-					store.dispatch(setCurrentDocument(action.data[0].id, action.docType))
+					store.dispatch(actions.setCurrentDocument(action.data[0].id, action.docType))
 				}
 				if (action.docType === 'chapters' && pathNumber !== undefined) {
 					for (const chapter of action.data) {
 						if (chapter.number === pathNumber) {
-							store.dispatch(setCurrentDocument(chapter.id, action.docType))
+							store.dispatch(actions.setCurrentDocument(chapter.id, action.docType))
 						}
 					}
 				} else if (pathID !== undefined) {
-					store.dispatch(setCurrentDocument(pathID, action.docType))
+					store.dispatch(actions.setCurrentDocument(pathID, action.docType))
 				}				
 			}
 			break
@@ -58,17 +58,17 @@ const joyceRouter = store => next => action => {
 			break
 		case 'SAVE_DOCUMENT':
 			if (action.status === 'success' && !action.id) {
-				store.dispatch(setCurrentDocument(action.data.slice(-1)[0].id, action.docType))
+				store.dispatch(actions.setCurrentDocument(action.data.slice(-1)[0].id, action.docType))
 			}
 			break			
 		case 'DELETE_DOCUMENT':
 			if (action.status === 'request') {
 				api.HTTPDeleteDocument(action.id, action.docType).then(response =>
-					store.dispatch(deleteDocument(response))
+					store.dispatch(actions.deleteDocument(response))
 				)
 			} else if (action.status === 'success') {
 				if (action.data[0]) {
-					store.dispatch(setCurrentDocument(action.data[0].id, action.docType, 'currentDocument'))
+					store.dispatch(actions.setCurrentDocument(action.data[0].id, action.docType, 'currentDocument'))
 				}
 			}
 			break			

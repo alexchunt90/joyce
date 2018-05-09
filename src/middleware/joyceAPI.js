@@ -1,14 +1,4 @@
-import { push } from 'react-router-redux'
-
-import { 
-	getDocumentList,
-	getDocumentText,
-	deleteDocument,
-	saveDocument,
-	createNewChapter,
-	getSearchResults
-} from '../actions/apiActions'
-
+import actions from '../actions'
 import api from '../modules/api'
 import regex from '../modules/regex'
 
@@ -19,14 +9,14 @@ const joyceAPI = store => next => action => {
 		case 'GET_DOCUMENT_LIST':
 			if (action.status === 'request') {
 				api.HTTPGetDocumentList(action.docType, action.state).then(response =>
-					store.dispatch(getDocumentList(response))
+					store.dispatch(actions.getDocumentList(response))
 				)
 			}
 			break
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'request') {
 				api.HTTPGetDocumentText(action.id, action.docType, action.state).then(response =>
-					store.dispatch(getDocumentText(response))
+					store.dispatch(actions.getDocumentText(response))
 				)
 			}	
 			break
@@ -34,11 +24,11 @@ const joyceAPI = store => next => action => {
 			if (action.status === 'request') {
 				if (action.id) {
 					api.HTTPPostWriteDocument(action.id, action.docType, action.data).then(response =>
-						store.dispatch(saveDocument(response)
+						store.dispatch(actions.saveDocument(response)
 					)
 				)} else {
 					api.HTTPPutCreateDocument(action.docType, action.data).then(response =>
-						store.dispatch(saveDocument(response))
+						store.dispatch(actions.saveDocument(response))
 					)
 				}
 			}
@@ -46,14 +36,14 @@ const joyceAPI = store => next => action => {
 		case 'DELETE_DOCUMENT':
 			if (action.status === 'request') {
 				api.HTTPDeleteDocument(action.id, action.docType).then(response =>
-					store.dispatch(deleteDocument(response))
+					store.dispatch(actions.deleteDocument(response))
 				)
 			}
 			break
 		case 'GET_SEARCH_RESULTS':
 			if (action.status === 'request') {
 				api.HTTPPostSearchResults(action.data).then(response =>
-					store.dispatch(getSearchResults(response))
+					store.dispatch(actions.getSearchResults(response))
 				)
 			}
 			break			

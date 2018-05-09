@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { EditorState } from 'draft-js'
 
-import { deleteCurrentDocument, submitAnnotation, selectAnnotationNote } from '../actions/userActions'
+import actions from '../actions'
 import Content from '../components/content'
 import { EditorWelcome } from '../components/welcome'
 import LoadingSpinner from '../components/loadingSpinner'
@@ -42,13 +42,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onDeleteClick: (id, docType) => {
-			dispatch(deleteCurrentDocument(id, docType))
+			dispatch(actions.deleteCurrentDocument(id, docType))
 		},
 		selectAnnotationNote: id => {
-			dispatch(selectAnnotationNote(id))
+			dispatch(actions.selectAnnotationNote(id))
 		},
 		onSubmitAnnotationClick: (annotationNote, selectionState, editorState) => {
-			dispatch(submitAnnotation(annotationNote, selectionState, editorState))
+			dispatch(actions.submitAnnotation(annotationNote, selectionState, editorState))
 		}
 	}
 }

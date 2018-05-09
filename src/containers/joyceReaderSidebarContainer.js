@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentDocument, toggleHighlight } from '../actions/userActions'
+import actions from '../actions'
 import { DocumentList } from '../components/list'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
@@ -28,10 +28,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onDocumentClick: (id, docType) => {
-			dispatch(setCurrentDocument(id, docType))
+			dispatch(actions.setCurrentDocument(id, docType))
 		},
 		onHighlightClick: () => {
-			dispatch(toggleHighlight())
+			dispatch(actions.toggleHighlight())
 		}		
 	}
 }

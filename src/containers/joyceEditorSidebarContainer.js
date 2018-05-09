@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCurrentDocument, createNewDocument, setDocType } from '../actions/userActions'
+import actions from '../actions'
 import { DocumentList } from '../components/list'
 import { NewDocumentButton } from '../components/button'
 import { DocTypeDropdown } from '../components/dropdown'
@@ -30,13 +30,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		setDocType: docType => {
-			dispatch(setDocType(docType))
+			dispatch(actions.setDocType(docType))
 		},
 		onNewDocumentClick: docType => {
-			dispatch(createNewDocument(docType))
+			dispatch(actions.createNewDocument(docType))
 		},		
 		onDocumentClick: (id, docType) => {
-			dispatch(setCurrentDocument(id, docType))
+			dispatch(actions.setCurrentDocument(id, docType))
 		},
 	}
 }

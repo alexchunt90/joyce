@@ -10,21 +10,20 @@ import 'bootstrap'
 
 // src packages
 import Navbar from './components/navbar'
-import reduceReader from './reducers/reduceReader'
+import reduceJoyce from './reducers/reduceJoyce'
 import DeleteConfirmModal from './components/deleteConfirmModal'
 import AnnotateModal from './components/annotateModal'
 import AnnotationModal from './components/annotationModal'
 import actions from './actions'
 import { logger, joyceAPI, joyceInterface, joyceRouter } from './middleware/'
-import JoyceReaderPageContainer from './containers/joyceReaderPageContainer'
-import JoyceEditorPageContainer from './containers/joyceEditorPageContainer'
-import JoyceSearchPageContainer from './containers/joyceSearchPageContainer'
+import ReaderPageContainer from './containers/readerPageContainer'
+import EditorPageContainer from './containers/editorPageContainer'
+import SearchPageContainer from './containers/searchPageContainer'
 
 const history = createHistory()
 const router = routerMiddleware(history)
-const store = createStore(reduceReader, applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
+const store = createStore(reduceJoyce, applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
 
-console.log(actions)
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
 
@@ -48,11 +47,11 @@ ReactDOM.render(
 					<Route exact path='/notes' render={() =>
 						<Redirect to={'/notes/:id'}/>
 					}/>							
-					<Route exact path='/notes/:id' component={JoyceReaderPageContainer} />
-					<Route exact path='/edit/:id' component={JoyceEditorPageContainer} />
-					<Route exact path='/edit/notes/:id' component={JoyceEditorPageContainer} />
-					<Route exact path='/search/' component={JoyceSearchPageContainer} />
-					<Route exact path='/:id' component={JoyceReaderPageContainer} />	
+					<Route exact path='/notes/:id' component={ReaderPageContainer} />
+					<Route exact path='/edit/:id' component={EditorPageContainer} />
+					<Route exact path='/edit/notes/:id' component={EditorPageContainer} />
+					<Route exact path='/search/' component={SearchPageContainer} />
+					<Route exact path='/:id' component={ReaderPageContainer} />	
 				</Switch>
 				<DeleteConfirmModal onDeleteClick={()=>onDeleteClick(currentDocument.id, docType)}/>
 				<AnnotateModal notes={store.getState().notes} annotationNote={store.getState().annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(store.getState().annotationNote, store.getState().selectionState, store.getState().editorState)} selectAnnotationNote={actions.selectAnnotationNote} />

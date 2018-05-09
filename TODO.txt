@@ -27,9 +27,7 @@
 NEXT: Bring everything under single entry point w/ React Router
 
 REFACTORING CHECKLIST:
-	- Split Up joyceAPI
-	- Single Action Object
-	- Switch to Webpack Dev Server and Remove Webpack/Flask Dependencies
+	- Switch to Webpack Dev Server and Remove Webpack-Flask Dependencies
 	- Write ReadMe
 	- One Pass Through Every Module's Imports
 	- Rename Components

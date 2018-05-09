@@ -34,7 +34,6 @@ const api = {
 		}),
 	HTTPPostSearchResults: (data) =>
 		axios.post(apiRoute + 'search/', { data }).then(res => {
-			console.log('data is ', data)
 			return {status: 'success', data: res.data}
 		}).catch(error => {
 			return {status: 'error', data: res.data}

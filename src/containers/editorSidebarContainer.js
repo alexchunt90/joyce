@@ -7,7 +7,7 @@ import { DocTypeDropdown } from '../components/dropdown'
 import SidebarSpacer from '../components/sidebarSpacer'
 import { push } from 'react-router-redux'
 
-const JoyceEditorSidebar = ({notes, chapters, docType, currentDocument, onDocumentClick, onNewDocumentClick, setDocType}) =>
+const EditorSidebar = ({notes, chapters, docType, currentDocument, onDocumentClick, onNewDocumentClick, setDocType}) =>
 	<div className="col-md-3 d-none d-md-block" id="sidebar">
 		<div>
 			<DocTypeDropdown docType={docType} setDocType={setDocType} />
@@ -30,7 +30,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		setDocType: docType => {
-			dispatch(actions.setDocType(docType))
+			dispatch(actions.setEditorDocType(docType))
 		},
 		onNewDocumentClick: docType => {
 			dispatch(actions.createNewDocument(docType))
@@ -41,6 +41,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceEditorSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceEditorSidebar)
+const EditorSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(EditorSidebar)
 
-export default JoyceEditorSidebarContainer
+export default EditorSidebarContainer

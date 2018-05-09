@@ -8,7 +8,7 @@ import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 
-const JoyceEditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, annotateKeyBindings, onRemoveAnnotationClick, docType, loadingToggle}) =>
+const EditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, annotateKeyBindings, onRemoveAnnotationClick, docType, loadingToggle}) =>
 	<div>
 		<div id='editor_metadata'>
 			{loadingToggle === true &&
@@ -96,6 +96,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceEditorContentContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceEditorContent)
+const EditorContentContainer = connect(mapStateToProps, mapDispatchToProps)(EditorContent)
 
-export default JoyceEditorContentContainer
+export default EditorContentContainer

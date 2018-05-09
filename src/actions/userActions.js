@@ -66,6 +66,11 @@ const userActions = {
 			type: 'SET_DOC_TYPE',
 			docType: docType
 		}),
+	setEditorDocType: docType =>
+		({
+			type: 'SET_EDITOR_DOC_TYPE',
+			docType: docType
+		}),		
 	// Click 'Add Annotation' to enter 'Annotate' mode
 	addAnnotation: data =>
 		({

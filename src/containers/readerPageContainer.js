@@ -5,19 +5,19 @@ import { EditorState } from 'draft-js'
 import Content from '../components/content'
 import { ReaderWelcome } from '../components/welcome'
 import LoadingSpinner from '../components/loadingSpinner'
-import JoyceReaderSidebarContainer from '../containers/joyceReaderSidebarContainer'
-import JoyceReaderContentContainer from '../containers/joyceReaderContentContainer'
+import ReaderSidebarContainer from '../containers/readerSidebarContainer'
+import ReaderContentContainer from '../containers/readerContentContainer'
 
-const JoyceReaderPage = ({currentDocument, loadingToggle}) =>
+const ReaderPage = ({currentDocument, loadingToggle}) =>
 	<div id='joyce_reader' className='container-fluid'>
 		<div id='content_window' className='row'>
-			<JoyceReaderSidebarContainer />
+			<ReaderSidebarContainer />
 			<Content>
 				{loadingToggle === true &&
 					<LoadingSpinner size={4} />
 				}				
 				{(Object.keys(currentDocument).length > 0 && loadingToggle === false) &&
-					<JoyceReaderContentContainer />
+					<ReaderContentContainer />
 				}
 				{(Object.keys(currentDocument).length === 0 && loadingToggle === false) &&
 					<ReaderWelcome />
@@ -33,6 +33,6 @@ const mapStateToProps = state => {
 	}
 }
 
-const JoyceReaderPageContainer = connect(mapStateToProps)(JoyceReaderPage)
+const ReaderPageContainer = connect(mapStateToProps)(ReaderPage)
 
-export default JoyceReaderPageContainer
+export default ReaderPageContainer

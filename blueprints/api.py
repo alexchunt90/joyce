@@ -127,10 +127,10 @@ def es_search_text(body):
 		    }			
 		}
 	)
-	# TODO: Handle no hits
-	results = search['hits']['hits']
-	grouped_results = group_search_results(results)
+	results = search['hits']['hits'] if search else {}
+	grouped_results = group_search_results(results) 
 	return grouped_results
+
 
 
 #
@@ -206,4 +206,4 @@ def delete_note(id):
 ''' Basic Text Search '''
 @api.route('/search/', methods=['POST'])
 def search_text():
-	return jsonify(es_search_text(request.data))
+	return jsonify(es_search_text(request.data['data']))

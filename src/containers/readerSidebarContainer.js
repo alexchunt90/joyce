@@ -6,7 +6,7 @@ import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 import { push } from 'react-router-redux'
 
-const JoyceReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
+const ReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
 	<div className='col-md-3 d-none d-md-block' id='sidebar'>
 		<div>
 			<HighlightButton highlightToggle={highlightToggle} onClick={onHighlightClick}/>
@@ -36,6 +36,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceReaderSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceReaderSidebar)
+const ReaderSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(ReaderSidebar)
 
-export default JoyceReaderSidebarContainer
+export default ReaderSidebarContainer

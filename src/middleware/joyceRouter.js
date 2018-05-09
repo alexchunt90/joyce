@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux'
+import { go, push } from 'react-router-redux'
 
 import actions from '../actions'
 import helpers from '../modules/helpers'
@@ -16,11 +16,17 @@ const joyceRouter = store => next => action => {
 	switch(action.type) {
 		case '@@router/LOCATION_CHANGE':
 			if (regex.checkIfRedirectPath(path) && currentDocument.hasOwnProperty('id')) {
-				store.dispatch(actions.push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))
+				store.dispatch(push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))
 			}
 			if (regex.checkNoteReaderRoute(path) && regex.checkIfRedirectPath(path) && notes.length > 0) {
 				store.dispatch(actions.setCurrentDocument(notes[0].id, 'notes'))
 			}
+			if (regex.checkNoteEditorRoute(path) && regex.checkIfRedirectPath(path) && notes.length > 0) {
+				store.dispatch(actions.setCurrentDocument(notes[0].id, 'notes'))
+			}
+			if (regex.checkChapterEditorRoute(path) && regex.checkIfRedirectPath(path) && chapters.length > 0) {
+				store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
+			}			
 			if (regex.checkNoteReaderRoute(path) || regex.checkNoteEditorRoute(path)) {
 				store.dispatch(actions.setDocType('notes'))
 			}
@@ -49,6 +55,15 @@ const joyceRouter = store => next => action => {
 				} else if (pathID !== undefined) {
 					store.dispatch(actions.setCurrentDocument(pathID, action.docType))
 				}				
+			}
+			break
+		case 'SET_EDITOR_DOC_TYPE':
+			if (regex.checkEditRoute(path)) {
+				if (action.docType === 'chapters') {			
+					store.dispatch(push('/edit'))
+				} else {
+					store.dispatch(push('/edit/' + action.docType))
+				}
 			}
 			break
 		case 'GET_DOCUMENT_TEXT':

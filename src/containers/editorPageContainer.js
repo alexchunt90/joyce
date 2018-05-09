@@ -6,19 +6,19 @@ import actions from '../actions'
 import Content from '../components/content'
 import { EditorWelcome } from '../components/welcome'
 import LoadingSpinner from '../components/loadingSpinner'
-import JoyceEditorSidebarContainer from '../containers/joyceEditorSidebarContainer'
-import JoyceEditorContentContainer from '../containers/joyceEditorContentContainer'
+import EditorSidebarContainer from '../containers/editorSidebarContainer'
+import EditorContentContainer from '../containers/editorContentContainer'
 
-const JoyceEditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteClick, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState, loadingToggle}) =>
+const EditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteClick, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState, loadingToggle}) =>
 	<div id='joyce_reader' className='container-fluid'>
 		<div className="row">
-			<JoyceEditorSidebarContainer />
+			<EditorSidebarContainer />
 			<Content>
 				{loadingToggle === true &&
 					<LoadingSpinner size={4} />
 				}
 				{(Object.keys(currentDocument).length > 0 && loadingToggle === false) &&
-					<JoyceEditorContentContainer />
+					<EditorContentContainer />
 				}
 				{(Object.keys(currentDocument).length === 0 && loadingToggle === false) &&
 					<EditorWelcome />
@@ -53,6 +53,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceEditorPageContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceEditorPage)
+const EditorPageContainer = connect(mapStateToProps, mapDispatchToProps)(EditorPage)
 
-export default JoyceEditorPageContainer
+export default EditorPageContainer

@@ -25,13 +25,19 @@ const regex = {
 	},
 	checkEditBaseRoute: path => {
 		return regexCheckBaseFunction(path, /^\/edit$/)
-	},	
+	},
+	checkEditRoute: path => {
+		return regexCheckBaseFunction(path, /^\/edit\//)
+	},		
 	checkChapterReaderRoute: path => {
 		return regexCheckBaseFunction(path, /^\/[0-9]{1,3}$/)
 	},
 	checkNoteReaderRoute: path => {
 		return regexCheckBaseFunction(path, /^\/notes\/([0-9a-zA-Z\-\_]{18,}|\:id)/)
 	},
+	checkChapterEditorRoute: path => {
+		return regexCheckBaseFunction(path, /^\/edit\/([0-9]{1,3}|\:id)/)
+	},	
 	checkNoteEditorRoute: path => {
 		return regexCheckBaseFunction(path, /^\/edit\/notes\/([0-9a-zA-Z\-\_]{18,}|\:id)/)
 	},

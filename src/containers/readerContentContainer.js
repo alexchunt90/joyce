@@ -4,7 +4,7 @@ import { Editor } from 'draft-js'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 
-const JoyceReaderContent = ({currentDocument, highlightToggle, editorState, loadingToggle}) =>
+const ReaderContent = ({currentDocument, highlightToggle, editorState, loadingToggle}) =>
 	<div id="page" className={highlightToggle ? 'annotations' : 'hidden_annotations'}>
 		{loadingToggle === true &&
 			<LoadingSpinner />
@@ -26,6 +26,6 @@ const mapStateToProps = state => {
 	}
 }
 
-const JoyceReaderContentContainer = connect(mapStateToProps)(JoyceReaderContent)
+const ReaderContentContainer = connect(mapStateToProps)(ReaderContent)
 
-export default JoyceReaderContentContainer
+export default ReaderContentContainer

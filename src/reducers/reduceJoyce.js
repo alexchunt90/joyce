@@ -14,7 +14,7 @@ import documentTitleInput from './documentTitleInput'
 import searchResults from './searchResults'
 import searchInput from './searchInput'
 
-const reduceReader = combineReducers({
+const reduceJoyce = combineReducers({
 	chapters,
 	notes,
 	editorState,
@@ -30,4 +30,4 @@ const reduceReader = combineReducers({
 	searchInput	
 })
 
-export default reduceReader
+export default reduceJoyce

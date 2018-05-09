@@ -9,6 +9,8 @@ const currentDocument = (state={}, action) => {
 			else { return state }
 		case 'CLEAR_CURRENT_DOCUMENT':
 			return {}
+		case 'SET_EDITOR_DOC_TYPE':
+			return {}
 		case 'DELETE_DOCUMENT':
 			if (action.status === 'success' && action.data.length <= 0) {
 				return {}

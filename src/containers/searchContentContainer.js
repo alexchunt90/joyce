@@ -6,7 +6,7 @@ import actions from '../actions'
 import { SearchButton } from '../components/button'
 import SearchResultsBox from '../components/searchResultsBox'
 
-const JoyceSearchContent = ({searchResults, searchInput, onSearchInputChange, onSearchClick}) =>
+const SearchContent = ({searchResults, searchInput, onSearchInputChange, onSearchClick}) =>
 	<div className='container'>
 		<div className='row'>
 			<div className='col-sm-2'>
@@ -39,6 +39,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const JoyceSearchContentContainer = connect(mapStateToProps, mapDispatchToProps)(JoyceSearchContent)
+const SearchContentContainer = connect(mapStateToProps, mapDispatchToProps)(SearchContent)
 
-export default JoyceSearchContentContainer
+export default SearchContentContainer

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { stateToHTML } from 'draft-js-export-html'
-import { stateToMarkdown } from 'draft-js-export-markdown'
 import { convertToRaw } from 'draft-js'
 
 import actions from '../actions'

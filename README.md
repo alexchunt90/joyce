@@ -1,7 +1,9 @@
 # Joyce
 _A Reader and Editor for Hypertext_
 
-Joyce is a web app for reading and annotating texts. It was designed to power The Joyce Project, a website to help introduce James Joyce's Ulysses to new readers with the full-text and detailed annotations.
+Joyce is a web app for reading and annotating texts. It was designed to power [The Joyce Project](http://www.joyceproject.com/), a website to help introduce James Joyce's Ulysses to new readers with the full-text and detailed annotations.
+
+Joyce uses Python and Flask for the backend, Elasticsearch for the datastore, and React and Bootstrap for the front end, bundled with Webpack. The text editor is built on DraftJS. 
 
 ## Setup
 

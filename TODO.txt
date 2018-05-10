@@ -1,8 +1,6 @@
 REFACTORING CHECKLIST:
 	- Switch to Webpack Dev Server and Remove Webpack-Flask Dependencies
-	- Write ReadMe
 	- One Pass Through Every Module's Imports
-	- Rename Components
 
 NEED:
 	- Deploy Process

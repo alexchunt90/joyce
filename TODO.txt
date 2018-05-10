@@ -1,31 +1,3 @@
-- v0.1 Text Editor + Basic Reader
-	+ DONE +
-		+ Flask Microservice +
-		+ Basic REST API +
-		+ Basic Layout + 
-		+ React Components +
-		+ Front-End Dependency Manager +
-		+ Wire React to ES API +
-		+ Simple CRUD interface +
-		+ Async API Middleware +
-		+ Introduce Draft.JS + 
-		+ Font Awesome / Better Glyphicons +
-		+ DRY up Sass Modules +
-		+ Wire Up Rich Util Buttons +
-		+ Major TextEditor Refactor +
-		+ Wire Up Editor Style Buttons +
-		+ Seed Chapter Data for Setup.py +
-		+ Modularize TextEditor Container Component +
-		+ Abstract API Blueprint for Notes +
-		+ Note Manager Component +
-		+ Notes Modal to Select A Note +
-		+ Abstract Notes Page into Documents Page, Create Text Route +
-		+ Make Links Pop Modals +
-		+ Make Remove Highlight Work with Contextual Disabling +
-
-
-NEXT: Bring everything under single entry point w/ React Router
-
 REFACTORING CHECKLIST:
 	- Switch to Webpack Dev Server and Remove Webpack-Flask Dependencies
 	- Write ReadMe
@@ -36,20 +8,20 @@ NEED:
 	- Deploy Process
 	- Testing
 
-UX NEEDS:
+UX:
 	- Disable Title Submit Button Without Title
 	- Disable Modal Submit Button with input
+	- Figure out Editor focus() with Redux
+	- Search submit on enter
+	
 
 SHORT LIST:
-	- Make Annotate Mode Ignore Keyboard Input
 	- More Responsive CSS
-	- Functioning Search Page
 	- Add Date Created / Updated Stamps, Introduce Sort Options
 	- Testing
 		- Python Unit Tests
 		- React Unit Tests
 		- ES API Tests?
-	- Figure out Editor focus() with Redux
 	- Create Tags and Note Tagging
 	- Review dependencies
 

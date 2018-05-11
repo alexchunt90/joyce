@@ -40,7 +40,7 @@ $fa-font-path: "../../node_modules/font-awesome/fonts";
 }
 
 #search_results_box {
-    overflow-y: scroll;	
+    overflow-y: auto;	
 	margin-top: 3%;
 	height: 75vh;
 	border: 1px solid $border_color;

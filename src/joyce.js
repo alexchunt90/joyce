@@ -8,10 +8,9 @@ import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-ro
 import createHistory from 'history/createBrowserHistory'
 import 'bootstrap'
 
-// src packages
+// src modules
 import Navbar from './components/navbar'
 import reduceJoyce from './reducers/reduceJoyce'
-import AnnotationModal from './components/annotationModal'
 import actions from './actions'
 import { logger, joyceAPI, joyceInterface, joyceRouter } from './middleware/'
 import ReaderPageContainer from './containers/readerPageContainer'
@@ -51,7 +50,6 @@ ReactDOM.render(
 					<Route exact path='/search/' component={SearchPageContainer} />
 					<Route exact path='/:id' component={ReaderPageContainer} />	
 				</Switch>
-				<AnnotationModal annotationNote={state.annotationNote} />
 			</div>
 		</ConnectedRouter>
 	</Provider>,

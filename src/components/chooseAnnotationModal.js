@@ -3,7 +3,7 @@ import React from 'react'
 import { EditorSubmitButton, EditorCancelButton } from './button'
 import { DocumentList } from './list'
 
-const AnnotateModal = ({notes, annotationNote, onSubmitClick, selectAnnotationNote}) =>
+const ChooseAnnotationModal = ({notes, annotationNote, onSubmitClick, selectAnnotationNote}) =>
 	<div className='modal fade' id='annotate_modal' tabIndex='-1' role='dialog'>
 		<div className='modal-dialog modal-lg' role='document'>
 			<div className='modal-content'>
@@ -28,4 +28,4 @@ const AnnotateModal = ({notes, annotationNote, onSubmitClick, selectAnnotationNo
 		</div>
 	</div>
 
-export default AnnotateModal
+export default ChooseAnnotationModal

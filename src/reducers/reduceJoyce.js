@@ -1,33 +1,46 @@
+// node_modules
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 
+// Documents
 import chapters from './chapters'
 import notes from './notes'
+import tags from './tags'
 import currentDocument from './currentDocument'
-import editorState from './editorState'
 import annotationNote from './annotationNote'
-import highlightToggle from './highlightToggle'
-import loadingToggle from './loadingToggle'
-import docType from './docType'
-import { routerReducer } from 'react-router-redux'
-import mode from './mode'
-import documentTitleInput from './documentTitleInput'
 import searchResults from './searchResults'
+
+// User Inputs
+import editorState from './editorState'
+import selectionState from './selectionState'
+import documentTitleInput from './documentTitleInput'
 import searchInput from './searchInput'
 
+// Toggles
+import docType from './docType'
+import mode from './mode'
+import highlightToggle from './highlightToggle'
+import loadingToggle from './loadingToggle'
+
 const reduceJoyce = combineReducers({
+	routerReducer,
+	//
 	chapters,
 	notes,
-	editorState,
-	annotationNote,
-	docType,
+	tags,
 	currentDocument,
-	highlightToggle,
-	loadingToggle,
-	routerReducer,
-	mode,
-	documentTitleInput,
+	annotationNote,
 	searchResults,
-	searchInput	
+	//
+	editorState,
+	selectionState,
+	documentTitleInput,
+	searchInput,
+	//
+	docType,
+	mode,
+	highlightToggle,
+	loadingToggle
 })
 
 export default reduceJoyce

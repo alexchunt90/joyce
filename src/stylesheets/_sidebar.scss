@@ -59,7 +59,7 @@ button {
     border-radius: 5px;
     background-color: rgba(200, 200, 200, .8);
     max-height: 38em;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #new_document_button > button {

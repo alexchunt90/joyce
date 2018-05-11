@@ -13,7 +13,7 @@ const AnnotateModal = ({annotationNote}) =>
 				<div className='modal-body'>
 					<div className='row'>
 						<div className='col-md-10 offset-md-1'>
-							<div dangerouslySetInnerHTML={{__html: annotationNote.text}} />
+							<div dangerouslySetInnerHTML={{__html: annotationNote.html_source}} />
 						</div>
 					</div>
 				</div>

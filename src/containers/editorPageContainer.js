@@ -9,7 +9,8 @@ import LoadingSpinner from '../components/loadingSpinner'
 import EditorSidebarContainer from './editorSidebarContainer'
 import EditorContentContainer from './editorContentContainer'
 import DeleteConfirmModal from '../components/deleteConfirmModal'
-import AnnotateModal from '../components/annotateModal'
+import AnnotationModal from '../components/annotationModal'
+import ChooseAnnotationModal from '../components/chooseAnnotationModal'
 
 const EditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteConfirm, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState, loadingToggle}) =>
 	<div id='joyce_reader' className='container-fluid'>
@@ -28,18 +29,19 @@ const EditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteCo
 			</Content>
 		</div>
 		<DeleteConfirmModal onDeleteConfirm={()=>onDeleteConfirm(currentDocument.id, docType)}/>
-		<AnnotateModal notes={notes} annotationNote={annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, selectionState, editorState)} selectAnnotationNote={selectAnnotationNote} />		
+		<AnnotationModal annotationNote={annotationNote} />
+		<ChooseAnnotationModal notes={notes} annotationNote={annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, selectionState, editorState)} selectAnnotationNote={selectAnnotationNote} />
 	</div>
 
 const mapStateToProps = state => {
 	return {
 		notes: state.notes,
-		docType: state.docType,
 		currentDocument: state.currentDocument,
 		annotationNote: state.annotationNote,
-		loadingToggle: state.loadingToggle,
+		editorState: state.editorState,
 		selectionState: state.selectionState,
-		editorState: state.editorState
+		docType: state.docType,
+		loadingToggle: state.loadingToggle,
 	}
 }
 

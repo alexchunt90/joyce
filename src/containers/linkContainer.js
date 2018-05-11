@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onAnnotationClick: id => {
-			dispatch(selectAnnotationNote(id))
+			dispatch(actions.selectAnnotationNote(id))
 		}
 	}
 }

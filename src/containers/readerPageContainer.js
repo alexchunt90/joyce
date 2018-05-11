@@ -7,8 +7,9 @@ import { ReaderWelcome } from '../components/welcome'
 import LoadingSpinner from '../components/loadingSpinner'
 import ReaderSidebarContainer from '../containers/readerSidebarContainer'
 import ReaderContentContainer from '../containers/readerContentContainer'
+import AnnotationModal from '../components/annotationModal'
 
-const ReaderPage = ({currentDocument, loadingToggle}) =>
+const ReaderPage = ({currentDocument, annotationNote, loadingToggle}) =>
 	<div id='joyce_reader' className='container-fluid'>
 		<div id='content_window' className='row'>
 			<ReaderSidebarContainer />
@@ -24,12 +25,14 @@ const ReaderPage = ({currentDocument, loadingToggle}) =>
 				}				
 			</Content>
 		</div>
+		<AnnotationModal annotationNote={annotationNote} />
 	</div>
 
 const mapStateToProps = state => {
 	return {
 		currentDocument: state.currentDocument,
-		loadingToggle: state.loadingToggle
+		annotationNote: state.annotationNote,
+		loadingToggle: state.loadingToggle,
 	}
 }
 

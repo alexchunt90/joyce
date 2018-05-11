@@ -67,7 +67,7 @@ const joyceRouter = store => next => action => {
 			}
 			break
 		case 'GET_DOCUMENT_TEXT':
-			if (action.status === 'success') {
+			if (action.status === 'success' && action.state === 'currentDocument') {
 				store.dispatch(push(action.docType === 'chapters' ? String(action.data.number) : action.data.id))
 			}
 			break

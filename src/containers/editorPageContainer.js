@@ -6,10 +6,12 @@ import actions from '../actions'
 import Content from '../components/content'
 import { EditorWelcome } from '../components/welcome'
 import LoadingSpinner from '../components/loadingSpinner'
-import EditorSidebarContainer from '../containers/editorSidebarContainer'
-import EditorContentContainer from '../containers/editorContentContainer'
+import EditorSidebarContainer from './editorSidebarContainer'
+import EditorContentContainer from './editorContentContainer'
+import DeleteConfirmModal from '../components/deleteConfirmModal'
+import AnnotateModal from '../components/annotateModal'
 
-const EditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteClick, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState, loadingToggle}) =>
+const EditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteConfirm, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState, loadingToggle}) =>
 	<div id='joyce_reader' className='container-fluid'>
 		<div className="row">
 			<EditorSidebarContainer />
@@ -25,6 +27,8 @@ const EditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteCl
 				}					
 			</Content>
 		</div>
+		<DeleteConfirmModal onDeleteConfirm={()=>onDeleteConfirm(currentDocument.id, docType)}/>
+		<AnnotateModal notes={notes} annotationNote={annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, selectionState, editorState)} selectAnnotationNote={selectAnnotationNote} />		
 	</div>
 
 const mapStateToProps = state => {
@@ -41,7 +45,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onDeleteClick: (id, docType) => {
+		onDeleteConfirm: (id, docType) => {
 			dispatch(actions.deleteCurrentDocument(id, docType))
 		},
 		selectAnnotationNote: id => {

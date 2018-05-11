@@ -77,14 +77,8 @@ const joyceRouter = store => next => action => {
 			}
 			break			
 		case 'DELETE_DOCUMENT':
-			if (action.status === 'request') {
-				api.HTTPDeleteDocument(action.id, action.docType).then(response =>
-					store.dispatch(actions.deleteDocument(response))
-				)
-			} else if (action.status === 'success') {
-				if (action.data[0]) {
-					store.dispatch(actions.setCurrentDocument(action.data[0].id, action.docType, 'currentDocument'))
-				}
+			if (action.status === 'success' && action.data[0]) {
+				store.dispatch(actions.setCurrentDocument(action.data[0].id, action.docType, 'currentDocument'))
 			}
 			break			
 		default:

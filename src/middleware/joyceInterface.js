@@ -1,26 +1,10 @@
 import axios from 'axios'
 import { stateToHTML } from 'draft-js-export-html'
-import { convertToRaw } from 'draft-js'
 
 import actions from '../actions'
 import helpers from '../modules/helpers'
 
-const html_export_options = {
-  entityStyleFn: (entity) => {
-    const entityType = entity.get('type').toUpperCase()
-    if (entityType === 'LINK') {
-      const data = entity.getData()
-      return {
-        element: 'a',
-        attributes: {
-    		'href': data.url,
-        	'data-target': '#annotation_modal',
-        	'data-toggle': 'modal'
-        }
-      }
-    }
-  }
-}
+import { html_export_options, convertToPlainText } from '../modules/editorSettings.js'
 
 const joyceInterface = store => next => action => {
 	next(action)

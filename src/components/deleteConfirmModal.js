@@ -2,7 +2,7 @@ import React from 'react'
 
 import { EditorDeleteButton, EditorCancelButton } from './button'
 
-const DeleteConfirmModal = ({onDeleteClick}) =>
+const DeleteConfirmModal = ({onDeleteConfirm}) =>
 	<div className='modal fade' id='delete_confirm_modal' tabIndex='-1' role='dialog'>
 		<div className='modal-dialog' role='document'>
 			<div className='modal-content'>
@@ -14,7 +14,7 @@ const DeleteConfirmModal = ({onDeleteClick}) =>
 				</div>
 				<div className='modal-footer'>
 					<EditorCancelButton />
-					<EditorDeleteButton onClick={onDeleteClick} />
+					<EditorDeleteButton onClick={onDeleteConfirm} />
 				</div>
 			</div>
 		</div>

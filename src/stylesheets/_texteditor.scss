@@ -10,6 +10,16 @@
     border-radius: 5px;
     padding: 2% 5%;
     font-size: 0.8em;
+    // Expand top-level DraftJS components to focus on click
+    > div {
+    	height: 100%;
+	    > div {
+	    	height: 100%;
+		    > div {
+		    	height: 100%;
+		    }	    	
+	    }    	
+    }
 }
 
 #editor_metadata {

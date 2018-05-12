@@ -200,6 +200,39 @@ def delete_note(id):
 	return jsonify(es_document_list('note'))
 
 #
+# Tag API Routes
+#
+
+''' Get all tags '''
+@api.route('/tags/')
+def get_tags():
+	return jsonify(es_document_list('tag'))
+
+''' Get specific chapter '''
+@api.route('/tags/<string:id>')
+def get_tag(id):
+	data =  es_get_document('tag', id)
+	return jsonify(data)
+
+''' New chapter '''
+@api.route('/tags/', methods=['PUT'])
+def create_tag():
+	es_create_document('tag', request.data)
+	return jsonify(es_document_list('tag'))
+
+''' Write chapter '''
+@api.route('/tags/<string:id>', methods=['POST'])
+def write_tag(id):
+	es_index_document('tag', id, request.data)
+	return jsonify(es_document_list('tag'))
+
+''' Delete chapter '''
+@api.route('/tags/<string:id>', methods=['DELETE'])
+def delete_tag(id):
+	es_delete_document('tag', id)
+	return jsonify(es_document_list('tag'))
+
+#
 # Search API Routes
 #
 

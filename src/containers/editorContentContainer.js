@@ -40,7 +40,7 @@ const EditorContent = ({currentDocument, editorState, mode, handleKeyCommand, on
 				<Editor editorState={editorState} onChange={onChangeEditorState} keyBindingFn={annotateKeyBindings} />
 			}
 			{mode === 'EDIT_MODE' &&
-				<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState} />
+				<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState}/>
 			}			
 		</div>
 		<div id='editor_bottombar'>

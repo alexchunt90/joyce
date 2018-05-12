@@ -8,5 +8,6 @@ export const DocTypeDropdown = ({docType, setDocType}) =>
 		<div className='dropdown-menu'>
 			<a className='dropdown-item' onClick={()=>setDocType('chapters')}>Chapters</a>
 			<a className='dropdown-item' onClick={()=>setDocType('notes')}>Notes</a>
+			<a className='dropdown-item' onClick={()=>setDocType('tags')}>Tags</a>
 		</div>
 	</div>

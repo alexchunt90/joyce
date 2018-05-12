@@ -52,7 +52,14 @@ create_index_settings = {
 	    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
 	    		'plain_text': {'type': 'text'}
 	    	}
-	    }
+	    },
+	    'note': {
+	    	'properties': {
+	    		'title': {'type': 'keyword'},
+	    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+	    		'plain_text': {'type': 'text'}
+	    	}
+	    }	    
 	}
 }
 

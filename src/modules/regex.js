@@ -38,6 +38,9 @@ const regex = {
 	checkNoteEditorRoute: path => {
 		return regexCheckBaseFunction(path, /^\/edit\/notes\/([0-9a-zA-Z\-\_]{18,}|\:id)/)
 	},
+	checkTagEditorRoute	: path => {
+		return regexCheckBaseFunction(path, /^\/edit\/tags\/([0-9a-zA-Z\-\_]{18,}|\:id)/)
+	},
 	checkPathForNumber: path => {
 		return regexCheckBaseFunction(path, /\/[0-9]{1,3}$/)
 	},

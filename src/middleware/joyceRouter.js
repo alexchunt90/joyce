@@ -6,13 +6,16 @@ import regex from '../modules/regex'
 
 const joyceRouter = store => next => action => {
 	next(action)
+	// State
+	const chapters = store.getState().chapters
+	const notes = store.getState().notes
+	const tags = store.getState().tags
+	const currentDocument = store.getState().currentDocument
+	const docType = store.getState().docType
+	// Path
 	const path = store.getState().routerReducer.location !== null ? store.getState().routerReducer.location.pathname : '/'
 	const pathID = regex.checkPathForID(path) ? regex.parseIDFromPath(path) : undefined		
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
-	const docType = store.getState().docType
-	const currentDocument = store.getState().currentDocument
-	const chapters = store.getState().chapters
-	const notes = store.getState().notes
 	switch(action.type) {
 		case '@@router/LOCATION_CHANGE':
 			if (regex.checkIfRedirectPath(path) && currentDocument.hasOwnProperty('id')) {
@@ -24,12 +27,18 @@ const joyceRouter = store => next => action => {
 			if (regex.checkNoteEditorRoute(path) && regex.checkIfRedirectPath(path) && notes.length > 0) {
 				store.dispatch(actions.setCurrentDocument(notes[0].id, 'notes'))
 			}
+			if (regex.checkTagEditorRoute(path) && regex.checkIfRedirectPath(path) && tags.length > 0) {
+				store.dispatch(actions.setCurrentDocument(tags[0].id, 'tags'))
+			}			
 			if (regex.checkChapterEditorRoute(path) && regex.checkIfRedirectPath(path) && chapters.length > 0) {
 				store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 			}			
 			if (regex.checkNoteReaderRoute(path) || regex.checkNoteEditorRoute(path)) {
 				store.dispatch(actions.setDocType('notes'))
 			}
+			if (regex.checkTagEditorRoute(path)) {
+				store.dispatch(actions.setDocType('tags'))
+			}			
 			if (regex.checkRootRedirectRoute(path) && chapters.length > 0) {
 				store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 			}

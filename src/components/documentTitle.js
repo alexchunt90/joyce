@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import romanize from '../modules/romanize'
 
 const DocumentTitle = ({docType, currentDocument}) =>
@@ -8,5 +10,10 @@ const DocumentTitle = ({docType, currentDocument}) =>
 		}
 		{currentDocument.title ? currentDocument.title : ''}		
 	</h4>
+
+DocumentTitle.propTypes = {
+	docType: PropTypes.string,
+	currentDocument: PropTypes.object
+}
 
 export default DocumentTitle

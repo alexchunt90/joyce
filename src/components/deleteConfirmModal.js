@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { EditorDeleteButton, EditorCancelButton } from './button'
 
@@ -19,5 +20,9 @@ const DeleteConfirmModal = ({onDeleteConfirm}) =>
 			</div>
 		</div>
 	</div>
+
+DeleteConfirmModal.propTypes = {
+	onDeleteConfirm: PropTypes.func,
+}	
 
 export default DeleteConfirmModal

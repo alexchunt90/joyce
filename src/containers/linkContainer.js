@@ -1,6 +1,8 @@
 import React from 'react'
-import actions from '../actions'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
+import actions from '../actions'
 
 const Link = (props) => {
 	const data = props.contentState.getEntity(props.entityKey).getData()
@@ -23,6 +25,11 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.selectAnnotationNote(id))
 		}
 	}
+}
+
+Link.propTypes = {
+	annotationNote: PropTypes.object,
+	onAnnotationClick: PropTypes.func,
 }
 
 const LinkContainer = connect(mapStateToProps, mapDispatchToProps)(Link)

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { EditorSubmitButton, EditorCancelButton } from './button'
 import { DocumentList } from './list'
@@ -27,5 +28,12 @@ const ChooseAnnotationModal = ({notes, annotationNote, onSubmitClick, selectAnno
 			</div>
 		</div>
 	</div>
+
+ChooseAnnotationModal.propTypes = {
+	notes: PropTypes.arrayOf(PropTypes.object),
+	annotationNote: PropTypes.object,
+	onSubmitClick: PropTypes.func,
+	selectAnnotationNote: PropTypes.func,
+}
 
 export default ChooseAnnotationModal

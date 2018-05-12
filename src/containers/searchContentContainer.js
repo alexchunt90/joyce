@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
 
@@ -6,7 +7,12 @@ import actions from '../actions'
 import { SearchButton } from '../components/button'
 import SearchResultsBox from '../components/searchResultsBox'
 
-const SearchContent = ({searchResults, searchInput, onSearchInputChange, onSearchClick}) =>
+const SearchContent = ({
+	searchResults,
+	searchInput,
+	onSearchInputChange,
+	onSearchClick,
+}) =>
 	<div className='container'>
 		<div className='row'>
 			<div className='col-sm-2'>
@@ -37,6 +43,13 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.clickSearch(searchInput))
 		}
 	}
+}
+
+SearchContent.propTypes = {
+	searchResults: PropTypes.object,
+	searchInput: PropTypes.string,
+	onSearchInputChange: PropTypes.func,
+	onSearchClick: PropTypes.func,
 }
 
 const SearchContentContainer = connect(mapStateToProps, mapDispatchToProps)(SearchContent)

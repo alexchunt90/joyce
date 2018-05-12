@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ReaderAnnotateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, AnnotatorNewButton, AnnotatorRemoveButton } from './button'
 
@@ -36,3 +37,20 @@ export const AnnotateModeTopBar = ({onNewAnnotationClick, onRemoveAnnotationClic
 			<AnnotatorRemoveButton onClick={onRemoveAnnotationClick} disabled={removeDisabled} />
 		</div>	
 	</div>
+
+ReadModeTopBar.propTypes = {
+	setMode: PropTypes.func,
+}
+
+EditModeTopBar.propTypes = {
+	editorState: PropTypes.object,
+	onToolButtonClick: PropTypes.func,
+	disabled: PropTypes.bool,
+}
+
+AnnotateModeTopBar.propTypes = {
+	onNewAnnotationClick: PropTypes.func,
+	onRemoveAnnotationClick: PropTypes.func,
+	onAddDisabled: PropTypes.bool,
+	removeDisabled: PropTypes.bool,
+}

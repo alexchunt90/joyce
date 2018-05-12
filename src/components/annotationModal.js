@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { EditorSubmitButton, EditorCancelButton } from './button'
 import { DocumentList } from './list'
@@ -23,5 +24,9 @@ const AnnotateModal = ({annotationNote}) =>
 			</div>
 		</div>
 	</div>
+
+AnnotateModal.propTypes = {
+	annotationNote: PropTypes.object
+}
 
 export default AnnotateModal

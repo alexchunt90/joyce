@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import actions from '../actions'
 import { DocumentList } from '../components/list'
@@ -6,7 +7,15 @@ import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
 import { push } from 'react-router-redux'
 
-const ReaderSidebar = ({chapters, notes, currentDocument, onDocumentClick, highlightToggle, onHighlightClick, docType}) =>
+const ReaderSidebar = ({
+	chapters,
+	notes,
+	currentDocument,
+	docType,
+	highlightToggle,
+	onDocumentClick,
+	onHighlightClick,
+}) =>
 	<div className='col-md-3 d-none d-md-block' id='sidebar'>
 		<div>
 			<HighlightButton highlightToggle={highlightToggle} onClick={onHighlightClick}/>
@@ -34,6 +43,16 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.toggleHighlight())
 		}		
 	}
+}
+
+ReaderSidebar.propTypes = {
+	chapters: PropTypes.arrayOf(PropTypes.object),
+	notes: PropTypes.arrayOf(PropTypes.object),
+	currentDocument: PropTypes.object,
+	docType: PropTypes.string,	
+	highlightToggle: PropTypes.bool,
+	onDocumentClick: PropTypes.func,
+	onHighlightClick: PropTypes.func,
 }
 
 const ReaderSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(ReaderSidebar)

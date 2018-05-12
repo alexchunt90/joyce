@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
 
@@ -8,7 +9,24 @@ import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 
-const EditorContent = ({currentDocument, editorState, mode, handleKeyCommand, onChangeEditorState, onToolButtonClick, setMode, cancelEdit, onSubmitClick, documentTitleInput, onDocumentTitleChange, onNewAnnotationClick, annotateKeyBindings, onRemoveAnnotationClick, docType, loadingToggle}) =>
+const EditorContent = ({
+	currentDocument,
+	editorState,
+	docType,
+	mode,
+	loadingToggle,
+	handleKeyCommand,
+	onChangeEditorState,
+	onToolButtonClick,
+	setMode,
+	cancelEdit,
+	onSubmitClick,
+	documentTitleInput,
+	onDocumentTitleChange,
+	onNewAnnotationClick,
+	annotateKeyBindings,
+	onRemoveAnnotationClick,
+}) =>
 	<div>
 		<div id='editor_metadata'>
 			{loadingToggle === true &&
@@ -73,6 +91,7 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.handleEditorKeyCommand(editorState, command))
 		},
 		annotateKeyBindings: () => {
+			// Prevents editor input in Annotation Mode
 			return 'handled'
 		},
 		setMode: (mode) => {
@@ -94,6 +113,25 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.submitDocumentEdit(currentDocument, editorState, documentTitleInput, docType))
 		}		
 	}
+}
+
+EditorContent.propTypes = {
+	currentDocument: PropTypes.object,
+	editorState: PropTypes.object,
+	documentTitleInput: PropTypes.string,
+	docType: PropTypes.string,
+	mode: PropTypes.string,
+	loadingToggle: PropTypes.bool,
+	handleKeyCommand: PropTypes.func,
+	onChangeEditorState: PropTypes.func,
+	onToolButtonClick: PropTypes.func,
+	setMode: PropTypes.func,
+	cancelEdit: PropTypes.func,
+	onSubmitClick: PropTypes.func,
+	onDocumentTitleChange: PropTypes.func,
+	onNewAnnotationClick: PropTypes.func,
+	annotateKeyBindings: PropTypes.func,
+	onRemoveAnnotationClick: PropTypes.func,
 }
 
 const EditorContentContainer = connect(mapStateToProps, mapDispatchToProps)(EditorContent)

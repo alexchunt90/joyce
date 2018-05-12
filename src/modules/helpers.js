@@ -8,6 +8,19 @@ const helpers = {
 				return chapter.id
 			}
 		}
+	},
+	docTypeName: docType => {
+		switch(docType) {
+			case 'chapters':
+				return 'Chapter'
+				break
+			case 'notes':
+				return 'Note'
+				break
+			case 'tags':
+				return 'Tags'
+				break
+		}	
 	}	
 }
 

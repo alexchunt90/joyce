@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export const DocTypeDropdown = ({docType, setDocType}) =>
 	<div className='dropdown'>
@@ -11,3 +12,8 @@ export const DocTypeDropdown = ({docType, setDocType}) =>
 			<a className='dropdown-item' onClick={()=>setDocType('tags')}>Tags</a>
 		</div>
 	</div>
+
+DocTypeDropdown.propTypes = {
+	docType: PropTypes.string,
+	setDocType: PropTypes.func
+}

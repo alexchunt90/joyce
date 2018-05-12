@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { EditorState } from 'draft-js'
 
@@ -9,7 +10,11 @@ import ReaderSidebarContainer from '../containers/readerSidebarContainer'
 import ReaderContentContainer from '../containers/readerContentContainer'
 import AnnotationModal from '../components/annotationModal'
 
-const ReaderPage = ({currentDocument, annotationNote, loadingToggle}) =>
+const ReaderPage = ({
+	currentDocument, 
+	annotationNote,
+	loadingToggle,
+}) =>
 	<div id='joyce_reader' className='container-fluid'>
 		<div id='content_window' className='row'>
 			<ReaderSidebarContainer />
@@ -34,6 +39,12 @@ const mapStateToProps = state => {
 		annotationNote: state.annotationNote,
 		loadingToggle: state.loadingToggle,
 	}
+}
+
+ReaderPage.propTypes = {
+	currentDocument: PropTypes.object, 
+	annotationNote: PropTypes.object,
+	loadingToggle: PropTypes.bool,
 }
 
 const ReaderPageContainer = connect(mapStateToProps)(ReaderPage)

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import actions from '../actions'
 import { DocumentList } from '../components/list'
@@ -7,7 +8,15 @@ import { DocTypeDropdown } from '../components/dropdown'
 import SidebarSpacer from '../components/sidebarSpacer'
 import { push } from 'react-router-redux'
 
-const EditorSidebar = ({notes, chapters, docType, currentDocument, onDocumentClick, onNewDocumentClick, setDocType}) =>
+const EditorSidebar = ({
+	chapters,
+	notes,
+	currentDocument,
+	docType,
+	onDocumentClick,
+	onNewDocumentClick,
+	setDocType,
+}) =>
 	<div className="col-md-3 d-none d-md-block" id="sidebar">
 		<div>
 			<DocTypeDropdown docType={docType} setDocType={setDocType} />
@@ -39,6 +48,16 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.setCurrentDocument(id, docType))
 		},
 	}
+}
+
+EditorSidebar.propTypes = {
+	chapters: PropTypes.arrayOf(PropTypes.object),
+	notes: PropTypes.arrayOf(PropTypes.object),
+	currentDocument: PropTypes.object,
+	docType: PropTypes.string,
+	onDocumentClick: PropTypes.func,
+	onNewDocumentClick: PropTypes.func,
+	setDocType: PropTypes.func,
 }
 
 const EditorSidebarContainer = connect(mapStateToProps, mapDispatchToProps)(EditorSidebar)

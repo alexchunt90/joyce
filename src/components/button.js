@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import romanize from '../modules/romanize'
+import helpers from '../modules/helpers'
 
 export const ReaderEditButton = ({onClick}) =>
 	<div className='edit_note_button'>
@@ -51,32 +53,20 @@ export const SearchButton = ({searchInput, onClick}) =>
 		</div>
 	</div>
 
-export const NewChapterButton = ({onNewChapterClick}) =>
+export const NewChapterButton = ({onClick}) =>
 	<div>
 		<div id='new_chapter_button' className='text-center'>
-			<button onClick={onNewChapterClick} className='btn btn-outline-success btn-lg'>
+			<button onClick={onClick} className='btn btn-outline-success btn-lg'>
 				New Chapter <i className='fa fa_inline fa-plus-square-o'></i>
 			</button>
 		</div>
 	</div>
 
-const documentName = docType => {
-	switch(docType) {
-		case 'chapters':
-			return 'Chapter'
-			break
-		case 'notes':
-			return 'Note'
-			break
-	}	
-}
-
-
 export const NewDocumentButton = ({onClick, docType}) =>
 	<div>
 		<div id='new_document_button' className='text-center'>
 			<button onClick={onClick} className='btn btn-outline-success btn-sm'>
-				New {documentName(docType)}
+				New {helpers.docTypeName(docType)}
 				<i className='fa fa_inline fa-plus-square-o'></i>
 			</button>
 		</div>
@@ -125,3 +115,73 @@ export const EditorDeleteButton = ({onClick}) =>
 		Delete
 		<i className='fa fa_inline fa-trash-o'></i>
 	</button>
+
+ReaderEditButton.propTypes = {
+	onClick: PropTypes.func,
+}
+
+ReaderAnnotateButton.propTypes = {
+	onClick: PropTypes.func,
+}
+
+ChapterButton.propTypes = {
+	chapters: PropTypes.arrayOf(PropTypes.object),
+	currentChapter: PropTypes.object,
+	onClick: PropTypes.func,
+}
+
+NoteButton.propTypes = {
+	notes: PropTypes.arrayOf(PropTypes.object),
+	currentNotes: PropTypes.object,	
+	onClick: PropTypes.func,
+}
+
+HighlightButton.propTypes = {
+	highlightToggle: PropTypes.bool,
+	onClick: PropTypes.func,
+}
+
+SearchButton.propTypes = {
+	searchInput: PropTypes.string,
+	onClick: PropTypes.func,
+}
+
+NewChapterButton.propTypes = {
+	onClick: PropTypes.func,
+}
+
+NewDocumentButton.propTypes = {
+	docType: PropTypes.string,
+	onClick: PropTypes.func,
+}
+
+AnnotatorNewButton.propTypes = {
+	disabled: PropTypes.bool,
+	onClick: PropTypes.func,
+}
+
+AnnotatorRemoveButton.propTypes = {
+	disabled: PropTypes.bool,
+	onClick: PropTypes.func,
+}
+
+EditorToolButton.propTypes = {
+	glyph: PropTypes.string,
+	onClick: PropTypes.func,
+}
+
+EditorDeleteToolButton.propTypes = {
+	disabled: PropTypes.bool,
+}
+
+EditorCancelButton.propTypes = {
+	onClick: PropTypes.func,
+}
+
+EditorSubmitButton.propTypes = {
+	onClick: PropTypes.func,
+}
+
+EditorDeleteButton.propTypes = {
+	onClick: PropTypes.func,
+}

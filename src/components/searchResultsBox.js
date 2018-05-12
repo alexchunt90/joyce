@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import SearchResultSnippet from './searchResultSnippet'
 
 const SearchResultGroup = ({docType, docTitle, results}) =>
@@ -23,5 +25,15 @@ const SearchResultsBox = ({searchResults}) =>
 			<SearchResultGroup docType='note' docTitle='Notes' results={searchResults.note}/>
 		}
 	</div>
+
+SearchResultGroup.propType = {
+	docType: PropTypes.string,
+	docTitle: PropTypes.string,
+	results: PropTypes.array,
+}
+
+SearchResultsBox.propTypes = {
+	searchResults: PropTypes.objectOf(PropTypes.array)
+}
 
 export default SearchResultsBox

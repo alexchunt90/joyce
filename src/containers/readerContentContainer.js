@@ -1,10 +1,17 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
+
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 
-const ReaderContent = ({currentDocument, highlightToggle, editorState, loadingToggle}) =>
+const ReaderContent = ({
+	currentDocument,
+	editorState,
+	loadingToggle,
+	highlightToggle,
+}) =>
 	<div id="page" className={highlightToggle ? 'annotations' : 'hidden_annotations'}>
 		{loadingToggle === true &&
 			<LoadingSpinner />
@@ -24,6 +31,13 @@ const mapStateToProps = state => {
 		highlightToggle: state.highlightToggle,
 		loadingToggle: state.loadingToggle
 	}
+}
+
+ReaderContent.propTypes = {
+	currentDocument: PropTypes.object,
+	editorState: PropTypes.object,
+	loadingToggle: PropTypes.bool,
+	highlightToggle: PropTypes.bool,
 }
 
 const ReaderContentContainer = connect(mapStateToProps)(ReaderContent)

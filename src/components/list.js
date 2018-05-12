@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { ChapterButton, NoteButton } from './button'
 
 export const DocumentList = ({notes, chapters, currentDocument, onDocumentClick, docType}) =>
@@ -24,3 +26,23 @@ export const NoteList = ({notes, currentNote, onNoteClick}) =>
 			<NoteButton key={note.id} currentNote={currentNote} note={note} onClick={()=>onNoteClick(note.id, 'notes')} />
     	)}
 	</div>
+
+DocumentList.propTypes = {
+	notes: PropTypes.arrayOf(PropTypes.object),
+	chapters: PropTypes.arrayOf(PropTypes.object),
+	currentDocument: PropTypes.object,
+	onDocumentClick: PropTypes.func,
+	docType: PropTypes.string,
+}
+
+ChapterList.propTypes = {
+	chapters: PropTypes.arrayOf(PropTypes.object),
+	currentDocument: PropTypes.object,
+	onChapterClick: PropTypes.func,
+}
+
+NoteList.propTypes = {
+	notes: PropTypes.arrayOf(PropTypes.object),
+	currentDocument: PropTypes.object,
+	onNoteClick: PropTypes.func,
+}

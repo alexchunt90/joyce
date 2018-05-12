@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { EditorState } from 'draft-js'
 
@@ -12,7 +13,18 @@ import DeleteConfirmModal from '../components/deleteConfirmModal'
 import AnnotationModal from '../components/annotationModal'
 import ChooseAnnotationModal from '../components/chooseAnnotationModal'
 
-const EditorPage = ({notes, currentDocument, docType, annotationNote, onDeleteConfirm, onSubmitAnnotationClick, selectAnnotationNote, selectionState, editorState, loadingToggle}) =>
+const EditorPage = ({
+	notes,
+	currentDocument,
+	annotationNote,
+	editorState,
+	docType,
+	loadingToggle,
+	onDeleteConfirm,
+	onSubmitAnnotationClick,
+	selectAnnotationNote,
+	selectionState,
+}) =>
 	<div id='joyce_reader' className='container-fluid'>
 		<div className="row">
 			<EditorSidebarContainer />
@@ -57,6 +69,19 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.submitAnnotation(annotationNote, selectionState, editorState))
 		}
 	}
+}
+
+EditorPage.propTypes = {
+	notes: PropTypes.arrayOf(PropTypes.object),
+	currentDocument: PropTypes.object,
+	annotationNote: PropTypes.object,
+	editorState: PropTypes.object,
+	selectionState: PropTypes.object,
+	docType: PropTypes.string,
+	loadingToggle: PropTypes.bool,
+	onDeleteConfirm: PropTypes.func,
+	onSubmitAnnotationClick: PropTypes.func,
+	selectAnnotationNote: PropTypes.func,
 }
 
 const EditorPageContainer = connect(mapStateToProps, mapDispatchToProps)(EditorPage)

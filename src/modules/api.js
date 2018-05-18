@@ -2,11 +2,12 @@ import axios from 'axios'
 
 const apiRoute = '/api/'
 const api = {
-	HTTPGetDocumentList: (docType, state) =>
+	HTTPGetDocumentList: (docType) =>
 		axios.get(apiRoute + docType).then(res => {
-			return {status: 'success', docType: docType, state: state, data: res.data}
+			return {status: 'success', docType: docType, data: res.data}
 		}).catch(error => {
-			return {status: 'error', docType: docType, state: state, data: error}
+			console.log(error)
+			return {status: 'error', docType: docType, data: error}
 		}),
 	HTTPGetDocumentText: (id, docType, state) =>
 		axios.get(apiRoute + docType + '/' + id).then(res => {

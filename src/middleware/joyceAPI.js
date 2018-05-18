@@ -8,7 +8,7 @@ const joyceAPI = store => next => action => {
 	switch(action.type) {
 		case 'GET_DOCUMENT_LIST':
 			if (action.status === 'request') {
-				api.HTTPGetDocumentList(action.docType, action.state).then(response =>
+				api.HTTPGetDocumentList(action.docType).then(response =>
 					store.dispatch(actions.getDocumentList(response))
 				)
 			}

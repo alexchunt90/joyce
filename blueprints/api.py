@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, abort, jsonify, request
 from elasticsearch import Elasticsearch
+import json
 
 # Elasticsearch local connection
 # TODO: Extract to config
@@ -239,4 +240,6 @@ def delete_tag(id):
 ''' Basic Text Search '''
 @api.route('/search/', methods=['POST'])
 def search_text():
-	return jsonify(es_search_text(request.data['data']))
+	data = json.loads(request.data)
+	results = es_search_text(data.get('data'))
+	return jsonify(results)

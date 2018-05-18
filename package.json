@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack-cli --config webpack.prod.js --mode=production",
     "watch": "webpack-cli --config webpack.dev.js --watch --mode=development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "python setup.py && jest --config jest.config.js --no-cache && python setup.py"
   },
   "author": "Alex Hunt",
   "license": "ISC",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -37,6 +38,7 @@
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
+    "jest": "^22.4.3",
     "manifest-revision-webpack-plugin": "^0.4.1",
     "node-sass": "^4.6.0",
     "postcss-loader": "^2.0.8",

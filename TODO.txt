@@ -15,6 +15,7 @@ UX:
 
 SHORT LIST:
 	- More Responsive CSS
+	- Does Get Document List Action Need State?
 	- Add Date Created / Updated Stamps, Introduce Sort Options
 	- Testing
 		- Python Unit Tests

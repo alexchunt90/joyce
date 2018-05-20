@@ -9,8 +9,8 @@ const SearchResultGroup = ({docType, docTitle, results}) =>
 		{results.map(result =>
 			<div key={result.id}>
 				<h5>{result.title}</h5>
-				{result.highlight.map(highlight =>
-					<SearchResultSnippet snippet={highlight} />
+				{result.hits.map(hit =>
+					<SearchResultSnippet key={hit.key} snippet={hit} docType={docType} route={docType === 'chapter' ? result.number : result.id}/>
 				)}
 			</div>
 		)}		

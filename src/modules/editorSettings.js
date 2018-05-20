@@ -1,6 +1,14 @@
 import { convertToRaw } from 'draft-js'
 
 export const html_export_options = {
+  blockStyleFn: (block) => {
+    const key = block.getKey()
+    return {
+      attributes: {
+        id: key
+      }
+    }
+  },
   entityStyleFn: (entity) => {
     const entityType = entity.get('type').toUpperCase()
     if (entityType === 'LINK') {
@@ -8,7 +16,7 @@ export const html_export_options = {
       return {
         element: 'a',
         attributes: {
-    		'href': data.url,
+    		  'href': data.url,
         	'data-target': '#annotation_modal',
         	'data-toggle': 'modal'
         }
@@ -17,10 +25,12 @@ export const html_export_options = {
   }
 }
 
-export const convertToPlainText = contentState => {
+export const convertToSearchText = contentState => {
   const rawState = convertToRaw(contentState)
-  return rawState.blocks.reduce(
-    (plaintText, block) => plaintText + block.text + '\n',
-    ''
-  ) 
+  const searchText = rawState.blocks.reduce(
+    (searchText, block) => ([...searchText, {key: block.key, text: block.text}]),
+    []
+  )
+  console.log('Search text result:', searchText)
+  return searchText
 }

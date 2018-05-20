@@ -43,21 +43,21 @@ create_index_settings = {
     			'number': {'type': 'integer'},
     			'title': {'type': 'keyword'},
     			'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    			'plain_text': {'type': 'text'}
+    			'search_text': {'type': 'nested'}
     		}
     	},
 	    'note': {
 	    	'properties': {
 	    		'title': {'type': 'keyword'},
 	    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-	    		'plain_text': {'type': 'text'}
+	    		'search_text': {'type': 'nested'}
 	    	}
 	    },
-	    'note': {
+	    'tag': {
 	    	'properties': {
 	    		'title': {'type': 'keyword'},
 	    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-	    		'plain_text': {'type': 'text'}
+	    		'search_text': {'type': 'nested'}
 	    	}
 	    }	    
 	}

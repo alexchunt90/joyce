@@ -4,7 +4,7 @@ import { stateToHTML } from 'draft-js-export-html'
 import actions from '../actions'
 import helpers from '../modules/helpers'
 
-import { html_export_options, convertToPlainText } from '../modules/editorSettings.js'
+import { html_export_options, convertToSearchText } from '../modules/editorSettings.js'
 
 const joyceInterface = store => next => action => {
 	next(action)
@@ -14,7 +14,7 @@ const joyceInterface = store => next => action => {
 			break
 		case 'SUBMIT_DOCUMENT_EDIT':
 			const textContent = action.editorState.getCurrentContent()
-			const data = { title: action.documentTitleInput, html_source: stateToHTML(textContent, html_export_options), plain_text: convertToPlainText(textContent) }
+			const data = { title: action.documentTitleInput, html_source: stateToHTML(textContent, html_export_options), search_text: convertToSearchText(textContent) }
 			if (action.currentDocument.id) {
 				data.id = action.currentDocument.id
 			}

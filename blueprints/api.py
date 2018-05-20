@@ -19,7 +19,7 @@ def es_document_list(doc_type):
 	search = es.search(
 		index='joyce', 
 		doc_type=doc_type, 
-		_source_exclude=['html_source', 'plain_text'],
+		_source_exclude=['html_source', 'search_text'],
 		body={
 			'from': 0, 'size': 10000,
 			'query': {'match_all': {}},
@@ -93,32 +93,60 @@ def group_search_results(es_results):
 	for result in es_results:
 		types.add(result['_type'])
 	for type in types:
-		list = []
+		documents = []
 		for result in es_results:
 			if result['_type'] == type:
-				entry = {'id': result['_id'], 'title': result['_source']['title'], 'highlight': result['highlight']['plain_text']}
-				list.append(entry)
-		output_results[type] = list
+				hits = []
+				for hit in result['inner_hits']['search_text']['hits']['hits']:
+					hits.append(hit['_source'])
+				entry = {
+					'id': result['_id'],
+					'title': result['_source']['title'],
+					'hits': hits
+				}
+				if type == 'chapter':
+					entry['number'] = result['_source']['number']
+				documents.append(entry)
+		output_results[type] = documents
 	return output_results
 
 def es_search_text(body):
 	search = es.search(
 		index='joyce',
-		filter_path=['hits.hits._id', 'hits.hits._type', 'hits.hits._source.title', 'hits.hits._source.number', 'hits.hits.highlight', 'hits.hits.title'],
+		filter_path=[
+			'hits.hits._id',
+			'hits.hits._type',
+			'hits.hits._source.title',
+			'hits.hits._source.number',
+			'hits.hits.title',
+			'hits.hits.inner_hits.search_text.hits.hits._source'
+		],
 		body={
 			'from': 0,
 			'size': 10,
 			'query': {
-				'match': {
-					'plain_text': {
-						'query': body
+				"nested": {
+					"path": "search_text",
+					"query": {
+						"bool": {
+							"must": [
+								{ "match": { "search_text.text": body}}
+							]
+						}
+					},
+					"inner_hits": { 
+						"highlight": {
+							"fields": {
+								"search_text.text": {}
+							}
+						}
 					}
-				}
+				}		
 			},
 		    'highlight' : {
 		    	'number_of_fragments' : 15,
 		        'fields' : {
-		            'plain_text': {
+		            'search_text': {
 		            	'matched_fields': 'text',
 		            	'type': 'unified',
 		            	'pre_tags' : [''],

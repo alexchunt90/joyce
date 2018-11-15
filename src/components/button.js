@@ -35,6 +35,13 @@ export const NoteButton = ({note, currentNote, onClick}) =>
 		</button>
 	</div>
 
+export const TagButton = ({tag, currentTag, onClick}) =>
+	<div className ='tag_button'>
+		<button onClick={onClick} className={currentTag.id === tag.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+			{tag.title}
+		</button>
+	</div>
+
 export const HighlightButton = ({highlightToggle, onClick}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>

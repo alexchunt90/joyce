@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import actions from '../actions'
 import { DocumentList } from '../components/list'
 import { HighlightButton } from '../components/button'
 import SidebarSpacer from '../components/sidebarSpacer'
-import { push } from 'react-router-redux'
+import helpers from '../modules/helpers'
 
 const ReaderSidebar = ({
 	chapters,
@@ -20,7 +21,7 @@ const ReaderSidebar = ({
 		<div>
 			<HighlightButton highlightToggle={highlightToggle} onClick={onHighlightClick}/>
 			<SidebarSpacer />
-			<DocumentList chapters={chapters} notes={notes} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType}/>
+			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType}/>
 		</div>
 	</div>
 

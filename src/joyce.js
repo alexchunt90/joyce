@@ -19,12 +19,14 @@ import SearchPageContainer from './containers/searchPageContainer'
 
 const history = createHistory()
 const router = routerMiddleware(history)
-const store = createStore(reduceJoyce, applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
+const store = createStore(reduceJoyce, 
+	applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
 const state = store.getState()
 // TODO: Modal container should probably be connected to Redux if possible
 
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
+store.dispatch(actions.getDocumentList({docType: 'tags'}))
 
 ReactDOM.render(
 	<Provider store={store}>

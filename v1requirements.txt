@@ -1,0 +1,30 @@
+- Finish Search
+
+- Add Image Support
+
+	- Add Video Support
+
+	- Add Audio Support
+
+- Add Tagging
+
+- Deploy Process
+
+- Login System
+
+- Pagination
+
+- Add The Logo / Contributors
+
+- CSS Work
+
+------------------------------
+
+
+- Version Tracking
+
+- Commenting
+
+- Offline Mode
+
+- Reader Settings

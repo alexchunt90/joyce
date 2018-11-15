@@ -57,7 +57,8 @@ create_index_settings = {
 	    	'properties': {
 	    		'title': {'type': 'keyword'},
 	    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-	    		'search_text': {'type': 'nested'}
+	    		'search_text': {'type': 'nested'},
+	    		'color': {'type': 'keyword'}
 	    	}
 	    }	    
 	}

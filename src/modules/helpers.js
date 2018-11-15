@@ -21,6 +21,19 @@ const helpers = {
 				return 'Tags'
 				break
 		}	
+	},
+	documentsOfDocType: (docType, chapters, notes, tags) => {
+		switch(docType) {
+			case 'chapters':
+				return chapters
+				break
+			case 'notes':
+				return notes
+				break
+			case 'tags':
+				return tags
+				break
+		}	
 	}	
 }
 

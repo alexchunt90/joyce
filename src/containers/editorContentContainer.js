@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Editor } from 'draft-js'
 
-import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../components/contentTopBar'
-import { EditModeBottomBar } from '../components/contentBottomBar'
 import actions from '../actions'
-import DocumentTitle from '../components/documentTitle'
-import LoadingSpinner from '../components/loadingSpinner'
+import EditorReadMode from '../components/editorReadMode'
+import EditorAnnotateMode from '../components/editorAnnotateMode'
+import EditorEditMode from '../components/editorEditMode'
 
 const EditorContent = ({
 	currentDocument,
@@ -27,46 +25,48 @@ const EditorContent = ({
 	annotateKeyBindings,
 	onRemoveAnnotationClick,
 }) =>
-	<div>
-		<div id='editor_metadata'>
-			{loadingToggle === true &&
-				<LoadingSpinner />
-			}
-			{(mode === 'READ_MODE' || mode === 'ANNOTATE_MODE') &&
-				<DocumentTitle docType={docType} currentDocument={currentDocument} />
-			}
-			{mode === 'EDIT_MODE' &&
-				<input type='text' value={documentTitleInput} onChange={onDocumentTitleChange}/>
-			}
-		</div>
-		<div id='editor_topbar'>
-			{mode === 'READ_MODE' &&
-				<ReadModeTopBar setMode={setMode} />
-			}
-			{mode === 'ANNOTATE_MODE' &&
-				<AnnotateModeTopBar onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())} onRemoveAnnotationClick={()=>onRemoveAnnotationClick(editorState)} addDisabled={editorState.getSelection().isCollapsed() ? true : false} removeDisabled={(editorState.getSelection().isCollapsed() ) ? true : false}/>
-			}
-			{mode === 'EDIT_MODE' &&
-				<EditModeTopBar editorState={editorState} onToolButtonClick={onToolButtonClick} disabled={!currentDocument.id ? true : false}/>
-			}
-		</div>	
-		<div id='editor_content'>
-			{mode === 'READ_MODE' &&
-				<Editor editorState={editorState} readOnly={true} />
-			}
-			{mode === 'ANNOTATE_MODE' &&
-				<Editor editorState={editorState} onChange={onChangeEditorState} keyBindingFn={annotateKeyBindings} />
-			}
-			{mode === 'EDIT_MODE' &&
-				<Editor editorState={editorState} handleKeyCommand={handleKeyCommand} onChange={onChangeEditorState}/>
-			}			
-		</div>
-		<div id='editor_bottombar'>
-			{(mode === 'EDIT_MODE' || mode === 'ANNOTATE_MODE') &&
-				<EditModeBottomBar cancelEdit={cancelEdit} onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, docType)} />
-			}
-		</div>
-	</div>
+	<div id='editor_container'>
+		{mode === 'READ_MODE' &&
+			<EditorReadMode 
+				currentDocument={currentDocument} 
+				editorState={editorState} 
+				docType={docType}
+				loadingToggle={loadingToggle} 
+				setMode={setMode} 
+			/>
+		}
+		{mode === 'ANNOTATE_MODE' &&
+			<EditorAnnotateMode 
+				currentDocument={currentDocument} 
+				editorState={editorState}	
+				docType={docType} 
+				loadingToggle={loadingToggle} 
+				handleKeyCommand={handleKeyCommand}	
+				onChangeEditorState={onChangeEditorState} 
+				onToolButtonClick={onToolButtonClick} 
+				setMode={setMode} 
+				cancelEdit={cancelEdit} 
+				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, docType)}	
+				documentTitleInput={documentTitleInput}	
+				onDocumentTitleChange={onDocumentTitleChange}
+			/>
+		}
+		{mode === 'EDIT_MODE' &&
+			<EditorEditMode 
+				currentDocument={currentDocument}
+				editorState={editorState}
+				docType={docType}
+				loadingToggle={loadingToggle}
+				onChangeEditorState={onChangeEditorState}
+				onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())}
+				annotateKeyBindings={annotateKeyBindings}
+				onRemoveAnnotationClick={()=>onRemoveAnnotationClick(editorState)}
+				cancelEdit={cancelEdit}
+				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, docType)}
+				documentTitleInput={documentTitleInput}
+			/>
+		}
+	</div>	
 
 const mapStateToProps = (state, props) => {
 	return {

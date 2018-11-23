@@ -58,7 +58,7 @@ const editorState = (state=blankEditor, action) => {
 			const contentStateWithEntity = contentState.createEntity(
   				'LINK',
   				'MUTABLE',
-  				{url: action.annotationNote.id}
+  				{'url': action.annotationNote.id, 'data-color': action.annotationTag.color, 'data-tag': action.annotationTag.title}
 			)
 			const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
 			const contentStateWithLink = Modifier.applyEntity(

@@ -17,6 +17,7 @@ const regexParseBaseFunction = (path, pattern) => {
 }
 
 const regex = {
+	// Route Checks
 	checkIfRedirectPath: path => {
 		return regexCheckBaseFunction(path, /\/(\:id)$/)
 	},
@@ -49,13 +50,18 @@ const regex = {
 	},
 	checkPathForID: path => {
 		return regexCheckBaseFunction(path, /\/([0-9A-Za-z0-9\-\_]{18,})$/)
-	},	
+	},
+	// Route Parsers
 	parseNumberFromPath: path => {
 		return Number(regexParseBaseFunction(path, /\/([0-9]{1,3})$/))
 	},
 	parseIDFromPath: path => {
 		return regexParseBaseFunction(path, /\/([0-9A-Za-z0-9\-\_]{18,})$/)
-	}	
+	},
+	// Validation Checks
+	checkColorPickerHexValue: input => {
+		return regexCheckBaseFunction(input, /(^[0-9A-F]{6})$|(^[0-9A-F]{3}$)/)
+	}
 }
 
 export default regex

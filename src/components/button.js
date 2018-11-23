@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
+import TagColorPreview from './tagColorPreview'
 import romanize from '../modules/romanize'
 import helpers from '../modules/helpers'
 
@@ -38,6 +39,7 @@ export const NoteButton = ({note, currentNote, onClick}) =>
 export const TagButton = ({tag, currentTag, onClick}) =>
 	<div className ='tag_button'>
 		<button onClick={onClick} className={currentTag.id === tag.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+			<TagColorPreview color={tag.color}/>
 			{tag.title}
 		</button>
 	</div>

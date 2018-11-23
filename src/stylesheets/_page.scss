@@ -17,7 +17,7 @@
 	  	animation-fill-mode: both;	
 	}
 	&.hidden_annotations a {
-		color: black;
+		color: black !important;
 		text-decoration: none;
 		cursor: default;
 		pointer-events: none;
@@ -41,8 +41,8 @@
 		text-decoration: none;		
 	}
 	to {
-		color: map-get($theme_colors, "primary");
-		background-color: #f2e9de;
+		// color: map-get($theme_colors, "primary");
+		// background-color: #f2e9de;
 		border-radius: 3px;
 	}
 }

@@ -1,0 +1,16 @@
+@import "variables";
+
+.color_preview {
+	display: block;
+	height: 2em;
+	width: 80%;
+	border: 1px solid black;
+}
+
+.tag_button_color_preview {
+	height: 10px;
+    width: 10px;
+    display: inline-flex;
+    margin-right: 0.5em;
+    border: 1px solid black;
+}

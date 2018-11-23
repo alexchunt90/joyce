@@ -19,11 +19,15 @@ const EditorContent = ({
 	setMode,
 	cancelEdit,
 	onSubmitClick,
+	onColorSwatchClick,
 	documentTitleInput,
+	colorPickerInput,
 	onDocumentTitleChange,
+	onColorPickerInputChange,
 	onNewAnnotationClick,
 	annotateKeyBindings,
 	onRemoveAnnotationClick,
+	userErrors,
 }) =>
 	<div id='editor_container'>
 		{mode === 'READ_MODE' &&
@@ -42,13 +46,14 @@ const EditorContent = ({
 				docType={docType} 
 				loadingToggle={loadingToggle} 
 				handleKeyCommand={handleKeyCommand}	
+				onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())}
+				onRemoveAnnotationClick={()=>onRemoveAnnotationClick(editorState)}
+				annotateKeyBindings={annotateKeyBindings}
 				onChangeEditorState={onChangeEditorState} 
 				onToolButtonClick={onToolButtonClick} 
-				setMode={setMode} 
+				setMode={setMode}
 				cancelEdit={cancelEdit} 
-				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, docType)}	
-				documentTitleInput={documentTitleInput}	
-				onDocumentTitleChange={onDocumentTitleChange}
+				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, colorPickerInput, docType)}	
 			/>
 		}
 		{mode === 'EDIT_MODE' &&
@@ -58,12 +63,14 @@ const EditorContent = ({
 				docType={docType}
 				loadingToggle={loadingToggle}
 				onChangeEditorState={onChangeEditorState}
-				onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())}
-				annotateKeyBindings={annotateKeyBindings}
-				onRemoveAnnotationClick={()=>onRemoveAnnotationClick(editorState)}
 				cancelEdit={cancelEdit}
-				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, docType)}
+				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, colorPickerInput, docType)}
 				documentTitleInput={documentTitleInput}
+				colorPickerInput={colorPickerInput}
+				onColorSwatchClick={onColorSwatchClick}
+				onDocumentTitleChange={onDocumentTitleChange}
+				onColorPickerInputChange={onColorPickerInputChange}
+				userErrors={userErrors}
 			/>
 		}
 	</div>	
@@ -75,7 +82,9 @@ const mapStateToProps = (state, props) => {
 		docType: state.docType,
 		editorState: state.editorState,
 		documentTitleInput: state.documentTitleInput,
-		loadingToggle: state.loadingToggle
+		colorPickerInput: state.colorPickerInput,
+		loadingToggle: state.loadingToggle,
+		userErrors: state.userErrors,
 	}
 }
 
@@ -85,8 +94,11 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.updateEditorState(editorState))
 		},
 		onDocumentTitleChange: documentTitleInput => {
-			dispatch(actions.updateDocumentTitleChange(documentTitleInput))
-		},		
+			dispatch(actions.updateDocumentTitleInput(documentTitleInput))
+		},
+		onColorPickerInputChange: colorPickerInput => {
+			dispatch(actions.updateColorPickerInput(colorPickerInput))
+		},
 		handleKeyCommand: (command, editorState) => {
 			dispatch(actions.handleEditorKeyCommand(editorState, command))
 		},
@@ -100,6 +112,9 @@ const mapDispatchToProps = dispatch => {
 		cancelEdit: () => {
 			dispatch(actions.cancelEdit())
 		},
+		onColorSwatchClick: (color) => {
+			dispatch(actions.selectColorSwatch(color))
+		},
 		onNewAnnotationClick: (selectionState) => {
 			dispatch(actions.addAnnotation(selectionState))
 		},
@@ -109,8 +124,8 @@ const mapDispatchToProps = dispatch => {
 		onToolButtonClick: (editorState, style) => {
 			dispatch(actions.applyInlineStyles(editorState, style))
 		},
-		onSubmitClick: (currentDocument, editorState, documentTitleInput, docType) => {
-			dispatch(actions.submitDocumentEdit(currentDocument, editorState, documentTitleInput, docType))
+		onSubmitClick: (currentDocument, editorState, documentTitleInput, colorPickerInput, docType) => {
+			dispatch(actions.submitDocumentEdit(currentDocument, editorState, documentTitleInput, colorPickerInput, docType))
 		}		
 	}
 }

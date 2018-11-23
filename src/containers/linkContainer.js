@@ -7,16 +7,21 @@ import actions from '../actions'
 const Link = (props) => {
 	const data = props.contentState.getEntity(props.entityKey).getData()
     return (
-    	<a href='#' onClick={()=>props.onAnnotationClick(data.url)} data-toggle='modal' data-target='#annotation_modal' data-url={data.url}>
+    	<a href='#' 
+    		onClick={()=>props.onAnnotationClick(data['url'])}
+    		style={{color: '#' + data['data-color']}}
+    		data-toggle='modal'
+    		data-target='#annotation_modal'
+    		data-color={data['data-color']}
+    		data-url={data['url']}
+		>
     		{props.children}
     	</a>
     )
 }
 
 const mapStateToProps = state => {
-	return {
-		annotationNote: state.annotationNote
-	}
+	return {}
 }
 
 const mapDispatchToProps = dispatch => {
@@ -28,7 +33,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 Link.propTypes = {
-	annotationNote: PropTypes.object,
 	onAnnotationClick: PropTypes.func,
 }
 

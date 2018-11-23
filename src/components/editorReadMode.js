@@ -16,16 +16,16 @@ const EditorReadMode = ({
 }) =>
 	<div id='editor_read_mode'>
 		<div id='editor_metadata'>
-				{loadingToggle === true &&
-					<LoadingSpinner />
-				}
-				<DocumentTitle docType={docType} currentDocument={currentDocument} />
+			{loadingToggle === true &&
+				<LoadingSpinner />
+			}
+			<DocumentTitle docType={docType} currentDocument={currentDocument} />
 		</div>
 		<div id='editor_topbar'>
-			<ReadModeTopBar setMode={setMode} />
+			<ReadModeTopBar docType={docType} setMode={setMode} />
 		</div>	
-		<div id='editor_content'>
-			<Editor editorState={editorState} readOnly={true} />
+		<div id='editor_content' className={docType === 'tags' ? 'short_editor' : 'tall_editor'}>
+			<Editor editorState={editorState} readOnly={true}/>
 		</div>
 	</div>
 

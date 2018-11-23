@@ -13,12 +13,15 @@ export const html_export_options = {
     const entityType = entity.get('type').toUpperCase()
     if (entityType === 'LINK') {
       const data = entity.getData()
+      console.log('data when saving is:', data['data-color'])
       return {
         element: 'a',
         attributes: {
-    		  'href': data.url,
+    		  'href': data['url'],
         	'data-target': '#annotation_modal',
-        	'data-toggle': 'modal'
+        	'data-toggle': 'modal',
+          'data-color': data['data-color'],
+          'data-tag': data['data-tag']
         }
       }
     }
@@ -31,6 +34,14 @@ export const convertToSearchText = contentState => {
     (searchText, block) => ([...searchText, {key: block.key, text: block.text}]),
     []
   )
-  console.log('Search text result:', searchText)
   return searchText
 }
+
+export const defaultTagColors = [
+  '307EE3',
+  'CF2929',
+  'AB59C2',
+  '9C632A',
+  'F59627',
+  '40b324'
+]

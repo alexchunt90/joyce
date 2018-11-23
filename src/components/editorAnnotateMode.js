@@ -1,3 +1,7 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Editor } from 'draft-js'
+
 import { ReadModeTopBar, EditModeTopBar, AnnotateModeTopBar }  from '../components/contentTopBar'
 import { EditModeBottomBar } from '../components/contentBottomBar'
 import actions from '../actions'
@@ -15,7 +19,6 @@ const EditorAnnotateMode = ({
 	onRemoveAnnotationClick,
 	cancelEdit,
 	onSubmitClick,
-	documentTitleInput
 }) =>
 	<div>
 		<div id='editor_metadata'>
@@ -32,7 +35,7 @@ const EditorAnnotateMode = ({
 				removeDisabled={(editorState.getSelection().isCollapsed() ) ? true : false}
 			/>
 		</div>	
-		<div id='editor_content'>
+		<div id='editor_content' className={docType === 'tags' ? 'short_editor' : 'tall_editor'}>
 			<Editor editorState={editorState} onChange={onChangeEditorState} keyBindingFn={annotateKeyBindings} />
 		</div>
 		<div id='editor_bottombar'>

@@ -4,6 +4,7 @@ import { Editor } from 'draft-js'
 
 import { EditModeTopBar }  from '../components/contentTopBar'
 import { EditModeBottomBar } from '../components/contentBottomBar'
+import TagColorPicker from '../components/tagColorPicker'
 import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
@@ -19,8 +20,12 @@ const EditorEditMode = ({
 	setMode,
 	cancelEdit,
 	onSubmitClick,
+	colorPickerInput,
 	documentTitleInput,
-	onDocumentTitleChange
+	onDocumentTitleChange,
+	onColorPickerInputChange,
+	onColorSwatchClick,
+	userErrors,
 }) =>
 	<div>
 		<div id='editor_metadata'>
@@ -36,15 +41,25 @@ const EditorEditMode = ({
 				disabled={!currentDocument.id ? true : false}
 			/>
 		</div>	
-		<div id='editor_content'>
+		<div id='editor_content' className={docType === 'tags' ? 'short_editor' : 'tall_editor'}>
 			<Editor 
 				editorState={editorState} 
-				handleKeyCommand={handleKeyCommand} 
+				handleKeyCommand={handleKeyCommand}
 				onChange={onChangeEditorState}
 			/>	
 		</div>
+		<div id='editor_attributes'>
+			{docType === 'tags' &&
+				<TagColorPicker colorPickerInput={colorPickerInput} onChange={onColorPickerInputChange} onColorSwatchClick={onColorSwatchClick}/>
+			}
+		</div>		
 		<div id='editor_bottombar'>
 			<EditModeBottomBar cancelEdit={cancelEdit} onSubmitClick={onSubmitClick} />
+		</div>
+		<div id='user_errors'>
+			{userErrors.map(error =>
+				<div key={error} className='user_error_message'>{error}</div>
+			)}
 		</div>
 	</div>
 

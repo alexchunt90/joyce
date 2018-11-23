@@ -4,6 +4,8 @@ const annotationNote = (state={}, action) => {
 			if (action.status === 'success' && action.docType === 'notes' && action.state === 'annotationNote') {
 				return action.data
 			} else { return state }
+		case 'ADD_ANNOTATION':
+			return {}
 		case 'SUBMIT_ANNOTATION':
 			return {}
 		default:

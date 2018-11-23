@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 
 import { ReaderAnnotateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, AnnotatorNewButton, AnnotatorRemoveButton } from './button'
 
-export const ReadModeTopBar = ({setMode}) =>
+export const ReadModeTopBar = ({docType, setMode}) =>
 	<div className='row'>
-		<div className='col-sm-5'>
-			<ReaderAnnotateButton onClick={()=>setMode('ANNOTATE_MODE')}/>
-		</div>
-		<div className='col-sm-5 offset-sm-2'>
+		{['chapters', 'notes'].indexOf(docType) >= 0 &&
+			<div className='col-sm-5'>
+				<ReaderAnnotateButton onClick={()=>setMode('ANNOTATE_MODE')}/>
+			</div>
+		}
+		<div className='col-sm-5 ml-auto'>
 			<ReaderEditButton onClick={()=>setMode('EDIT_MODE')} />
 		</div>
 	</div>

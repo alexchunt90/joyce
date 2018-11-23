@@ -1,7 +1,6 @@
 @import "variables";
 
 #editor_content {
-    height: 43em;
     overflow-y: auto;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
@@ -20,6 +19,14 @@
 		    }	    	
 	    }    	
     }
+}
+
+.tall_editor {
+	height: 43em;
+}
+
+.short_editor {
+	height: 30em;
 }
 
 #editor_metadata {
@@ -49,4 +56,15 @@
 	button {
 		width: 100%;
 	}
+}
+
+button.caret-off::before {
+    display: none;
+}
+button.caret-off::after {
+    display: none;
+}
+
+.user_error_message {
+	color: map-get($theme_colors, "danger");
 }

@@ -17,12 +17,16 @@ const EditorPage = ({
 	notes,
 	currentDocument,
 	annotationNote,
+	annotationTag,
 	editorState,
 	docType,
+	tags,
 	loadingToggle,
 	onDeleteConfirm,
 	onSubmitAnnotationClick,
 	selectAnnotationNote,
+	selectAnnotationTag,
+	clearAnnotationTag,
 	selectionState,
 }) =>
 	<div id='joyce_reader' className='container-fluid'>
@@ -41,15 +45,26 @@ const EditorPage = ({
 			</Content>
 		</div>
 		<DeleteConfirmModal onDeleteConfirm={()=>onDeleteConfirm(currentDocument.id, docType)}/>
-		<AnnotationModal annotationNote={annotationNote} />
-		<ChooseAnnotationModal notes={notes} annotationNote={annotationNote} onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, selectionState, editorState)} selectAnnotationNote={selectAnnotationNote} />
+		<AnnotationModal annotationNote={annotationNote}/>
+		<ChooseAnnotationModal 
+			notes={notes}
+			tags={tags}
+			annotationNote={annotationNote} 
+			annotationTag={annotationTag} 
+			onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, annotationTag, selectionState, editorState)} 
+			selectAnnotationNote={selectAnnotationNote} 
+			selectAnnotationTag={selectAnnotationTag}
+			clearAnnotationTag={clearAnnotationTag}
+		/>
 	</div>
 
 const mapStateToProps = state => {
 	return {
 		notes: state.notes,
+		tags: state.tags,
 		currentDocument: state.currentDocument,
 		annotationNote: state.annotationNote,
+		annotationTag: state.annotationTag,
 		editorState: state.editorState,
 		selectionState: state.selectionState,
 		docType: state.docType,
@@ -65,16 +80,24 @@ const mapDispatchToProps = dispatch => {
 		selectAnnotationNote: id => {
 			dispatch(actions.selectAnnotationNote(id))
 		},
-		onSubmitAnnotationClick: (annotationNote, selectionState, editorState) => {
-			dispatch(actions.submitAnnotation(annotationNote, selectionState, editorState))
+		clearAnnotationTag: () => {
+			dispatch(actions.clearAnnotationTag())
+		},
+		selectAnnotationTag: tag => {
+			dispatch(actions.selectAnnotationTag(tag))
+		},		
+		onSubmitAnnotationClick: (annotationNote, annotationTag, selectionState, editorState) => {
+			dispatch(actions.submitAnnotation(annotationNote, annotationTag, selectionState, editorState))
 		}
 	}
 }
 
 EditorPage.propTypes = {
 	notes: PropTypes.arrayOf(PropTypes.object),
+	tags: PropTypes.arrayOf(PropTypes.object),
 	currentDocument: PropTypes.object,
 	annotationNote: PropTypes.object,
+	annotationTag: PropTypes.object,
 	editorState: PropTypes.object,
 	selectionState: PropTypes.object,
 	docType: PropTypes.string,
@@ -82,6 +105,7 @@ EditorPage.propTypes = {
 	onDeleteConfirm: PropTypes.func,
 	onSubmitAnnotationClick: PropTypes.func,
 	selectAnnotationNote: PropTypes.func,
+	selectAnnotationTag: PropTypes.func,
 }
 
 const EditorPageContainer = connect(mapStateToProps, mapDispatchToProps)(EditorPage)

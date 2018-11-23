@@ -18,12 +18,13 @@ const userActions = {
 			docType: docType
 		}),
 	// Click 'Submit' to save a document edit
-	submitDocumentEdit: (currentDocument, editorState, documentTitleInput, docType) =>
+	submitDocumentEdit: (currentDocument, editorState, documentTitleInput, colorPickerInput, docType) =>
 		({
 			type: 'SUBMIT_DOCUMENT_EDIT',
 			currentDocument: currentDocument,
 			editorState: editorState,
 			documentTitleInput: documentTitleInput,
+			colorPickerInput: colorPickerInput,
 			docType: docType
 		}),
 	// Click 'Cancel' to discard document changes
@@ -42,6 +43,12 @@ const userActions = {
 			id: id,
 			docType: docType
 
+		}),
+	// Select a color swatch to assign to a tag
+	selectColorSwatch: color =>
+		({
+			type: 'SELECT_COLOR_SWATCH',
+			data: color
 		}),
 	// Toggle the button to hide or display note highlights
 	toggleHighlight: () =>
@@ -78,10 +85,11 @@ const userActions = {
 			data: data
 		}),
 	// Click 'Submit' to save annotation
-	submitAnnotation: (annotationNote, selectionState, editorState) =>
+	submitAnnotation: (annotationNote, annotationTag, selectionState, editorState) =>
 		({
 			type: 'SUBMIT_ANNOTATION',
 			annotationNote: annotationNote,
+			annotationTag: annotationTag,
 			selectionState: selectionState,
 			editorState: editorState
 		}),
@@ -97,6 +105,16 @@ const userActions = {
 		({
 			type: 'SELECT_ANNOTATION_NOTE',
 			id: id
+		}),
+	// Select a tag from the drop down to go with your annotation
+	selectAnnotationTag: tag =>
+		({
+			type: 'SET_ANNOTATION_TAG',
+			data: tag
+		}),
+	clearAnnotationTag: () =>
+		({
+			type: 'CLEAR_ANNOTATION_TAG'
 		}),
 }
 

@@ -1,4 +1,6 @@
-import { convertToRaw } from 'draft-js'
+import { convertToRaw, ContentState, CompositeDecorator } from 'draft-js'
+
+import LinkContainer from '../containers/linkContainer'
 
 export const html_export_options = {
   blockStyleFn: (block) => {
@@ -27,6 +29,25 @@ export const html_export_options = {
     }
   }
 }
+
+const findLinkEntities = (contentBlock, callback) => {
+  contentBlock.findEntityRanges(character => {
+    const contentState = ContentState.createFromBlockArray([contentBlock])
+    const entityKey = character.getEntity()
+    return (
+      entityKey !== null &&
+      contentState.getEntity(entityKey).getType() === 'LINK'
+    )
+  },
+  callback)
+}
+
+export const linkDecorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: LinkContainer,
+  }
+])
 
 export const convertToSearchText = contentState => {
   const rawState = convertToRaw(contentState)

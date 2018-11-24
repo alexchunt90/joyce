@@ -24,6 +24,11 @@ const editorStateActions = {
 			editorState: editorState,
 			command: command
 		}),
+	annotationCreated: (editorState) =>
+		({
+			type: 'ANNOTATION_CREATED',
+			editorState: editorState
+		}),
 }
 
 export default editorStateActions

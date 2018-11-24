@@ -14,3 +14,14 @@ export const validateSubmittedDocument = (docType, documentTitleInput, colorPick
 	}
 	return errors
 }
+
+export const validateSubmittedAnnotation = (annotationNote, annotationTag) => {
+	const errors = []
+	if (!annotationNote.id) {
+		errors.push('Please choose a note.')
+	}
+	if (!annotationTag.id) {
+		errors.push('Please choose a tag.')
+	}
+	return errors
+}

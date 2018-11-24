@@ -1,35 +1,16 @@
 import React from 'react'
-import { EditorState, Modifier, ContentState, CompositeDecorator, RichUtils, Entity } from 'draft-js'
+import { EditorState, RichUtils } from 'draft-js'
 import { stateFromHTML } from 'draft-js-import-html'
 
-import LinkContainer from '../containers/linkContainer'
+import { linkDecorator } from '../modules/editorSettings.js'
 
-const blankEditor = EditorState.createEmpty(decorator)
-
-const findLinkEntities = (contentBlock, callback) => {
-	contentBlock.findEntityRanges(character => {
-		const contentState = ContentState.createFromBlockArray([contentBlock])
-		const entityKey = character.getEntity()
-		return (
-			entityKey !== null &&
-			contentState.getEntity(entityKey).getType() === 'LINK'
-		)
-	},
-	callback)
-}
-
-const decorator = new CompositeDecorator([
-	{
-	  strategy: findLinkEntities,
-	  component: LinkContainer,
-	}
-])
+const blankEditor = EditorState.createEmpty(linkDecorator)
 
 const editorState = (state=blankEditor, action) => {
 	switch(action.type) {
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
-				const editorState = EditorState.createWithContent(stateFromHTML(action.data.html_source), decorator)
+				const editorState = EditorState.createWithContent(stateFromHTML(action.data.html_source), linkDecorator)
 				return editorState
 			} else if (action.status === 'request' && action.state === 'currentDocument') {
 				return blankEditor
@@ -53,27 +34,16 @@ const editorState = (state=blankEditor, action) => {
 			} else if (action.style === 'header-two') {
 				return RichUtils.toggleBlockType(action.editorState, 'header-two')
 			}
-		case 'SUBMIT_ANNOTATION':
-			const contentState = action.editorState.getCurrentContent()
-			const contentStateWithEntity = contentState.createEntity(
-  				'LINK',
-  				'MUTABLE',
-  				{'url': action.annotationNote.id, 'data-color': action.annotationTag.color, 'data-tag': action.annotationTag.title}
-			)
-			const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-			const contentStateWithLink = Modifier.applyEntity(
-  				contentStateWithEntity,
-  				action.selectionState,
-  				entityKey
-			)
-			return EditorState.createWithContent(contentStateWithLink, decorator)
+			break
+		case 'ANNOTATION_CREATED':
+			return action.editorState
 		case 'REMOVE_ANNOTATION':
 			const contentStateWithoutLink = Modifier.applyEntity(
   				action.editorState.getCurrentContent(),
   				action.selectionState,
   				null
 			)
-			return EditorState.createWithContent(contentStateWithoutLink, decorator)			
+			return EditorState.createWithContent(contentStateWithoutLink, linkDecorator)			
 		default:
 			return state
 	}

@@ -114,7 +114,7 @@ export const EditorCancelButton = ({onClick}) =>
 	</button>
 
 export const EditorSubmitButton = ({onClick}) =>
-	<button id='editor_submit' onClick={onClick} type='button' data-dismiss='modal' className='btn btn-outline-success btn-sm'>
+	<button id='editor_submit' onClick={onClick} type='button' className='btn btn-outline-success btn-sm'>
 		Submit
 		<i className='fa fa_inline fa-check-square-o'></i>
 	</button>

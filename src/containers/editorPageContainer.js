@@ -28,6 +28,7 @@ const EditorPage = ({
 	selectAnnotationTag,
 	clearAnnotationTag,
 	selectionState,
+	userErrors,
 }) =>
 	<div id='joyce_reader' className='container-fluid'>
 		<div className="row">
@@ -55,6 +56,7 @@ const EditorPage = ({
 			selectAnnotationNote={selectAnnotationNote} 
 			selectAnnotationTag={selectAnnotationTag}
 			clearAnnotationTag={clearAnnotationTag}
+			userErrors={userErrors}
 		/>
 	</div>
 
@@ -69,6 +71,7 @@ const mapStateToProps = state => {
 		selectionState: state.selectionState,
 		docType: state.docType,
 		loadingToggle: state.loadingToggle,
+		userErrors: state.userErrors,
 	}
 }
 

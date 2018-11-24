@@ -6,7 +6,7 @@ const annotationNote = (state={}, action) => {
 			} else { return state }
 		case 'ADD_ANNOTATION':
 			return {}
-		case 'SUBMIT_ANNOTATION':
+		case 'ANNOTATION_CREATED':
 			return {}
 		default:
 			return state

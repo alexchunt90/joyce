@@ -6,12 +6,15 @@ import TagColorPreview from './tagColorPreview'
 import { DocumentList } from './list'
 import helpers from '../modules/helpers'
 
-const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, onSubmitClick, selectAnnotationNote, selectAnnotationTag, clearAnnotationTag}) =>
+const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, onSubmitClick, selectAnnotationNote, selectAnnotationTag, clearAnnotationTag, userErrors}) =>
 	<div className='modal fade' id='annotate_modal' tabIndex='-1' role='dialog'>
 		<div className='modal-dialog modal-lg' role='document'>
 			<div className='modal-content'>
 				<div className='modal-header'>
 					<h5 className='modal-title' id='exampleModalLabel'>Select a note</h5>
+			        <button id='select_annotation_modal_close' type="button" className="close" data-dismiss="modal">
+			          <i className='fa fa-times'></i>
+			        </button>
 				</div>
 				<div className='modal-body'>
 					<div className='row'>
@@ -22,30 +25,37 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, onSu
 							<div dangerouslySetInnerHTML={{__html: annotationNote.html_source}} />
 						</div>
 					</div>
-						<div className='row'>
-							<div id='annotation_tag_dropdown' className='col-md-2'>
-								<button className={annotationNote.id ? 'btn btn-primary dropdown-toggle caret-off' : 'btn btn-primary dropdown-toggle caret-off disabled'} data-toggle='dropdown' type='button'><i className='fa fa-chevron-down'></i>Tags</button>
-								<div className='dropdown-menu'>
-									{tags.map(tag =>
-							      		<div key={tag.id} className='dropdown-item'>
-							      			<TagColorPreview color={tag.color}/>
-							      			<a className='select_annotation_tag' href='#' onClick={()=>selectAnnotationTag(tag)}>{tag.title}</a>
-							      		</div>
-									)}
-							    </div>
+					<div className='row'>
+						<div id='annotation_tag_dropdown' className='col-md-2'>
+							<button className={annotationNote.id ? 'btn btn-primary dropdown-toggle caret-off' : 'btn btn-primary dropdown-toggle caret-off disabled'} data-toggle='dropdown' type='button'><i className='fa fa-chevron-down'></i>Tags</button>
+							<div className='dropdown-menu'>
+								{tags.map(tag =>
+						      		<div key={tag.id} className='dropdown-item' onClick={()=>selectAnnotationTag(tag)}>
+						      			<TagColorPreview color={tag.color}/>
+						      			<a className='select_annotation_tag'>{tag.title}</a>
+						      		</div>
+								)}
 						    </div>
-						    <div id='annotation_tag_preview' className='col-md-8 offset-md-1'>
-						    	{annotationTag.id &&
-						    		<div id='selected_annotation_tag'>
-						    			<TagColorPreview color={annotationTag.color}/> 
-						    			{annotationTag.title}
-						    			<a id='clear_anntation_tag' href='#' onClick={clearAnnotationTag}>
-					    					<i className='fa fa-times'></i>
-						    			</a>
-						    		</div>
-						    	}
-						    </div>				
-						</div>					
+					    </div>
+					    <div id='annotation_tag_preview' className='col-md-8 offset-md-1'>
+					    	{annotationTag.id &&
+					    		<div id='selected_annotation_tag'>
+					    			<TagColorPreview color={annotationTag.color}/> 
+					    			{annotationTag.title}
+					    			<a id='clear_anntation_tag' onClick={clearAnnotationTag}>
+				    					<i className='fa fa-times'></i>
+					    			</a>
+					    		</div>
+					    	}
+					    </div>				
+					</div>
+					<div className='row'>
+						<div id='user_errors' className='col-md-12'>
+							{userErrors.map(error =>
+								<div key={error} className='user_error_message'>{error}</div>
+							)}
+						</div>						
+					</div>				
 				</div>
 				<div className='modal-footer'>
 					<EditorCancelButton />

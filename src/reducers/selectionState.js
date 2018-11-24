@@ -2,7 +2,7 @@ const selectionState = (state={}, action) => {
 	switch(action.type) {
 		case 'ADD_ANNOTATION':
 			return action.data
-		case 'SUBMIT_ANNOTATION':
+		case 'ANNOTATION_CREATED':
 			return {}			
 		default:
 			return state

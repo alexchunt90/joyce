@@ -1,3 +1,4 @@
+config.py
 /static
 !/static/style.css
 /lib
@@ -13,3 +14,4 @@ pip-selfcheck.json
 .DS_Store
 .Python
 npm-debug.log
+venv/

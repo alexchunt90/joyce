@@ -1,11 +1,28 @@
 from flask import Blueprint, render_template, abort, jsonify, request
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, RequestsHttpConnection
+from requests_aws4auth import AWS4Auth
 import json
+import boto3
+import sys
+import config
 
-# Elasticsearch local connection
-# TODO: Extract to config
-ELASTICSEARCH_HOST = '127.0.0.1:9200'
-es = Elasticsearch(ELASTICSEARCH_HOST)
+sys.path.insert(0,'..')
+
+# TODO: Figure out which dependency tries to encode input to ascii
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+if config.ENV_VARIABLE == 'local':
+	es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
+
+if config.ENV_VARIABLE == 'staging':
+	es = Elasticsearch(
+	    hosts = config.ELASTICSEARCH_STAGING_HOST,
+	    http_auth = config.AWS_AUTH,
+	    use_ssl = True,
+	    verify_certs = True,
+	    connection_class = RequestsHttpConnection
+	)
 
 api = Blueprint('api', __name__)
 
@@ -15,47 +32,48 @@ def merge_id_and_source(id, source):
 	return response
 
 # Elasticsearch interface functions
-def es_document_list(doc_type):
+def es_document_list(index):
+	body = {
+		'from': 0, 'size': 10000,
+		'query': {'match_all': {}},
+	}
+	if index == 'chapters':
+		body['sort'] = [
+			{'number': {'order': 'asc'}}
+		]	
 	search = es.search(
-		index='joyce', 
-		doc_type=doc_type, 
+		index=index,
 		_source_exclude=['html_source', 'search_text'],
-		body={
-			'from': 0, 'size': 10000,
-			'query': {'match_all': {}},
-			'sort': [
-				{'number': {'order': 'asc'}}
-			]
-		}
+		body=body
 	)
 	res = []
 	for x in search['hits']['hits']:
 		res.append(merge_id_and_source(x['_id'], x['_source']))
 	return res
 
-def es_get_document(doc_type, id):
+def es_get_document(index, id):
 	res = es.get(
-		index='joyce', 
-		doc_type=doc_type, 
+		index=index,
 		id=id
 	)
 	data = merge_id_and_source(res['_id'], res['_source'])
 	return data
 
-def es_index_document(doc_type, id, body):
+def es_index_document(index, id, body):
+	print(index)
 	res = es.index(
-		index='joyce', 
-		doc_type=doc_type,
+		index=index,
+		doc_type='doc',
 		id=id,
 		refresh=True,
 		body=body
 	)
 	return res
 
-def es_create_document(doc_type, body):
+def es_create_document(index, body):
 	res = es.index(
-		index='joyce',
-		doc_type=doc_type,
+		index=index,
+		doc_type='doc',
 		refresh=True,
 		body=body
 	)
@@ -63,25 +81,25 @@ def es_create_document(doc_type, body):
 
 def es_update_number(id, number):
 	res = es.update(
-		index='joyce',
-		doc_type='chapter',
+		index='chapters',
+		doc_type='doc',
 		id=id,
 		refresh=True,
 		body={'doc': {'number': number}}
 	)
 
-def es_delete_document(doc_type, id):
+def es_delete_document(index, id):
 	res = es.delete(
-		index='joyce',
-		doc_type=doc_type,
+		index=index,
+		doc_type='doc',
 		id=id,
 		refresh=True
 	)
-	if doc_type == 'chapter':
+	if index == 'chapters':
 		return renumber_chapters()
 
 def renumber_chapters():
-	chapters = es_document_list('chapter')
+	chapters = es_document_list('chapters')
 	for index, chapter in enumerate(chapters):
 		if index + 1 != chapter['number']:
 			es_update_number(chapter['id'], index + 1)
@@ -112,7 +130,7 @@ def group_search_results(es_results):
 
 def es_search_text(body):
 	search = es.search(
-		index='joyce',
+		# index=doc_type,
 		filter_path=[
 			'hits.hits._id',
 			'hits.hits._type',
@@ -169,31 +187,32 @@ def es_search_text(body):
 ''' Get all chapters '''
 @api.route('/chapters/')
 def get_chapters():
-	return jsonify(es_document_list('chapter'))
+	return jsonify(es_document_list('chapters'))
 
 ''' Get specific chapter '''
 @api.route('/chapters/<string:id>')
 def get_chapter(id):
-	data = es_get_document('chapter', id)
+	data = es_get_document('chapters', id)
 	return jsonify(data)
 
 ''' New chapter '''
 @api.route('/chapters/', methods=['PUT'])
 def create_chapter():
-	es_create_document('chapter', request.data)
-	return jsonify(es_document_list('chapter'))
+	es_create_document('chapters', request.data)
+	return jsonify(es_document_list('chapters'))
 
 ''' Write chapter '''
 @api.route('/chapters/<string:id>', methods=['POST'])
 def write_chapter(id):
-	es_index_document('chapter', id, request.data)
-	return jsonify(es_document_list('chapter'))
+	data=json.loads(request.data)
+	es_index_document('chapters', id, data)
+	return jsonify(es_document_list('chapters'))
 
 ''' Delete chapter '''
 @api.route('/chapters/<string:id>', methods=['DELETE'])
 def delete_chapter(id):
-	es_delete_document('chapter', id)
-	return jsonify(es_document_list('chapter'))
+	es_delete_document('chapters', id)
+	return jsonify(es_document_list('chapters'))
 
 #
 # Note API Routes
@@ -202,31 +221,31 @@ def delete_chapter(id):
 ''' Get all notes '''
 @api.route('/notes/')
 def get_notes():
-	return jsonify(es_document_list('note'))
+	return jsonify(es_document_list('notes'))
 
 ''' Get specific chapter '''
 @api.route('/notes/<string:id>')
 def get_note(id):
-	data =  es_get_document('note', id)
+	data =  es_get_document('notes', id)
 	return jsonify(data)
 
 ''' New chapter '''
 @api.route('/notes/', methods=['PUT'])
 def create_note():
-	es_create_document('note', request.data)
-	return jsonify(es_document_list('note'))
+	es_create_document('notes', request.data)
+	return jsonify(es_document_list('notes'))
 
 ''' Write chapter '''
 @api.route('/notes/<string:id>', methods=['POST'])
 def write_note(id):
-	es_index_document('note', id, request.data)
-	return jsonify(es_document_list('note'))
+	es_index_document('notes', id, request.data)
+	return jsonify(es_document_list('notes'))
 
 ''' Delete chapter '''
 @api.route('/notes/<string:id>', methods=['DELETE'])
 def delete_note(id):
-	es_delete_document('note', id)
-	return jsonify(es_document_list('note'))
+	es_delete_document('notes', id)
+	return jsonify(es_document_list('notes'))
 
 #
 # Tag API Routes
@@ -235,31 +254,31 @@ def delete_note(id):
 ''' Get all tags '''
 @api.route('/tags/')
 def get_tags():
-	return jsonify(es_document_list('tag'))
+	return jsonify(es_document_list('tags'))
 
 ''' Get specific chapter '''
 @api.route('/tags/<string:id>')
 def get_tag(id):
-	data =  es_get_document('tag', id)
+	data =  es_get_document('tags', id)
 	return jsonify(data)
 
 ''' New chapter '''
 @api.route('/tags/', methods=['PUT'])
 def create_tag():
-	es_create_document('tag', request.data)
-	return jsonify(es_document_list('tag'))
+	es_create_document('tags', request.data)
+	return jsonify(es_document_list('tags'))
 
 ''' Write chapter '''
 @api.route('/tags/<string:id>', methods=['POST'])
 def write_tag(id):
-	es_index_document('tag', id, request.data)
-	return jsonify(es_document_list('tag'))
+	es_index_document('tags', id, request.data)
+	return jsonify(es_document_list('tags'))
 
 ''' Delete chapter '''
 @api.route('/tags/<string:id>', methods=['DELETE'])
 def delete_tag(id):
-	es_delete_document('tag', id)
-	return jsonify(es_document_list('tag'))
+	es_delete_document('tags', id)
+	return jsonify(es_document_list('tags'))
 
 #
 # Search API Routes

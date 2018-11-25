@@ -13,6 +13,7 @@ import searchResults from './searchResults'
 
 // User Inputs
 import editorState from './editorState'
+import modalEditorState from './modalEditorState'
 import selectionState from './selectionState'
 import documentTitleInput from './documentTitleInput'
 import colorPickerInput from './colorPickerInput'
@@ -39,6 +40,7 @@ const reduceJoyce = combineReducers({
 	searchResults,
 	// User Inputs
 	editorState,
+	modalEditorState,
 	selectionState,
 	colorPickerInput,
 	documentTitleInput,

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { EditorState } from 'draft-js'
 
 import actions from '../actions'
 import Content from '../components/content'
@@ -19,6 +18,7 @@ const EditorPage = ({
 	annotationNote,
 	annotationTag,
 	editorState,
+	modalEditorState,
 	docType,
 	tags,
 	loadingToggle,
@@ -46,12 +46,13 @@ const EditorPage = ({
 			</Content>
 		</div>
 		<DeleteConfirmModal onDeleteConfirm={()=>onDeleteConfirm(currentDocument.id, docType)}/>
-		<AnnotationModal annotationNote={annotationNote}/>
+		<AnnotationModal annotationNote={annotationNote} modalEditorState={modalEditorState} />
 		<ChooseAnnotationModal 
 			notes={notes}
 			tags={tags}
 			annotationNote={annotationNote} 
-			annotationTag={annotationTag} 
+			annotationTag={annotationTag}
+			modalEditorState={modalEditorState}
 			onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, annotationTag, selectionState, editorState)} 
 			selectAnnotationNote={selectAnnotationNote} 
 			selectAnnotationTag={selectAnnotationTag}
@@ -68,6 +69,7 @@ const mapStateToProps = state => {
 		annotationNote: state.annotationNote,
 		annotationTag: state.annotationTag,
 		editorState: state.editorState,
+		modalEditorState: state.modalEditorState,
 		selectionState: state.selectionState,
 		docType: state.docType,
 		loadingToggle: state.loadingToggle,
@@ -102,6 +104,7 @@ EditorPage.propTypes = {
 	annotationNote: PropTypes.object,
 	annotationTag: PropTypes.object,
 	editorState: PropTypes.object,
+	modalEditorState: PropTypes.object,
 	selectionState: PropTypes.object,
 	docType: PropTypes.string,
 	loadingToggle: PropTypes.bool,

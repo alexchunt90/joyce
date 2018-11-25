@@ -17,7 +17,11 @@ const joyceInterface = store => next => action => {
 			const docErrors = validateSubmittedDocument(action.docType, action.documentTitleInput, action.colorPickerInput)
 			if (docErrors.length < 1) {
 				const textContent = action.editorState.getCurrentContent()
-				const data = { title: action.documentTitleInput, html_source: stateToHTML(textContent, html_export_options), search_text: convertToSearchText(textContent) }
+				const data = { 
+					title: action.documentTitleInput, 
+					html_source: stateToHTML(textContent, html_export_options), 
+					search_text: convertToSearchText(textContent) 
+				}
 				if (action.docType === 'tags') {
 					data.color = action.colorPickerInput
 				}

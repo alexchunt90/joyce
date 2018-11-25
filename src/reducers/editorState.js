@@ -1,5 +1,5 @@
 import React from 'react'
-import { EditorState, RichUtils } from 'draft-js'
+import { EditorState, RichUtils, Modifier } from 'draft-js'
 import { stateFromHTML } from 'draft-js-import-html'
 
 import { linkDecorator } from '../modules/editorSettings.js'

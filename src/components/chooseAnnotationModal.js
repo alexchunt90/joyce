@@ -1,4 +1,5 @@
 import React from 'react'
+import { Editor } from 'draft-js'
 import PropTypes from 'prop-types'
 
 import { EditorSubmitButton, EditorCancelButton } from './button'
@@ -6,7 +7,7 @@ import TagColorPreview from './tagColorPreview'
 import { DocumentList } from './list'
 import helpers from '../modules/helpers'
 
-const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, onSubmitClick, selectAnnotationNote, selectAnnotationTag, clearAnnotationTag, userErrors}) =>
+const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, modalEditorState, onSubmitClick, selectAnnotationNote, selectAnnotationTag, clearAnnotationTag, userErrors}) =>
 	<div className='modal fade' id='annotate_modal' tabIndex='-1' role='dialog'>
 		<div className='modal-dialog modal-lg' role='document'>
 			<div className='modal-content'>
@@ -22,7 +23,7 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, onSu
 							<DocumentList docs={notes} currentDocument={annotationNote} onDocumentClick={selectAnnotationNote} docType={'notes'}/>
 						</div>
 						<div className='col-md-8 offset-md-1'>
-							<div dangerouslySetInnerHTML={{__html: annotationNote.html_source}} />
+							<Editor editorState={modalEditorState} readOnly={true} />
 						</div>
 					</div>
 					<div className='row'>

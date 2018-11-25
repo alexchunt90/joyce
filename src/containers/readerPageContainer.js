@@ -13,6 +13,7 @@ import AnnotationModal from '../components/annotationModal'
 const ReaderPage = ({
 	currentDocument, 
 	annotationNote,
+	modalEditorState,
 	loadingToggle,
 }) =>
 	<div id='joyce_reader' className='container-fluid'>
@@ -30,19 +31,21 @@ const ReaderPage = ({
 				}				
 			</Content>
 		</div>
-		<AnnotationModal annotationNote={annotationNote} />
+		<AnnotationModal annotationNote={annotationNote} modalEditorState={modalEditorState} />
 	</div>
 
 const mapStateToProps = state => {
 	return {
 		currentDocument: state.currentDocument,
 		annotationNote: state.annotationNote,
+		modalEditorState: state.modalEditorState,
 		loadingToggle: state.loadingToggle,
 	}
 }
 
 ReaderPage.propTypes = {
-	currentDocument: PropTypes.object, 
+	currentDocument: PropTypes.object,
+	modalEditorState: PropTypes.object, 
 	annotationNote: PropTypes.object,
 	loadingToggle: PropTypes.bool,
 }

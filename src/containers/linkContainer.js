@@ -8,7 +8,7 @@ const Link = (props) => {
 	const data = props.contentState.getEntity(props.entityKey).getData()
     return (
     	<a href='#' 
-    		// onClick={()=>props.onAnnotationClick(data['url'])}
+    		onClick={()=>props.onAnnotationClick(data['url'])}
     		style={{color: '#' + data['data-color']}}
     		data-toggle='modal'
     		data-target='#annotation_modal'
@@ -38,4 +38,4 @@ Link.propTypes = {
 
 const LinkContainer = connect(mapStateToProps, mapDispatchToProps)(Link)
 
-export default Link
+export default LinkContainer

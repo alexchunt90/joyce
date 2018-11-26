@@ -6,8 +6,6 @@
 
 	- Add Audio Support
 
-- Add Tagging
-
 - Deploy Process
 
 - Login System
@@ -17,14 +15,3 @@
 - Add The Logo / Contributors
 
 - CSS Work
-
-------------------------------
-
-
-- Version Tracking
-
-- Commenting
-
-- Offline Mode
-
-- Reader Settings

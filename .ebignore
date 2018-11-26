@@ -1,4 +1,3 @@
-config.py
 /static
 !/static/style.css
 /icon
@@ -10,8 +9,4 @@ config.py
 .DS_Store
 .Python
 npm-debug.log
-virt/
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+/virt

@@ -54,6 +54,7 @@ def es_document_list(index):
 def es_get_document(index, id):
 	res = es.get(
 		index=index,
+		doc_type='doc',
 		id=id
 	)
 	data = merge_id_and_source(res['_id'], res['_source'])

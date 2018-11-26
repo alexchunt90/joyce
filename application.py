@@ -11,6 +11,7 @@ application = Flask(__name__)
 WEBPACK_MANIFEST_PATH = './static/manifest.json'
 
 params = {
+    'ENV': 'staging',
     'DEBUG': True,
     'WEBPACK_MANIFEST_PATH': WEBPACK_MANIFEST_PATH
 }
@@ -26,5 +27,5 @@ application.register_blueprint(joyce)
 application.register_blueprint(api, url_prefix='/api')
 
 if __name__ == "__main__":
-	# application.debug=True
-	 run_simple('localhost', 5000, application, use_reloader=True, use_debugger=True)
+	application.run()
+	 # run_simple('localhost', 5000, application, use_reloader=True, use_debugger=True)

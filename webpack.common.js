@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const ManifestPlugin = require('webpack-manifest-plugin')
 
 const rootAssetPath = './src/'
 
@@ -12,7 +13,7 @@ module.exports = {
 	},
 	output: {
 		publicPath: "/static/js/",
-    	filename: '[name].js',
+    	filename: '[name].[hash].js',
     	path: path.resolve(__dirname, 'static/js/')
 	},		
 	module : {
@@ -65,4 +66,7 @@ module.exports = {
 	    	}]
 	    }
     ]},
+    plugins: [
+      new ManifestPlugin()
+    ]    
 };

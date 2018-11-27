@@ -3,11 +3,12 @@
 	<title>Joyce - Reader</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="/static/image/icon.png">
+    <script>const assets = {{ assets|tojson }}</script>	
 </head>
 <body>
 	<!-- Reader Layout -->
 	<div id="wrapper">
 	</div>
 	<!-- Scripts -->
-	<script src="/static/js/joyce.js"></script>
+	<script src="{{assets['joyce.js']}}"></script>
 </body>

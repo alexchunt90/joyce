@@ -1,5 +1,3 @@
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
 
@@ -12,6 +10,11 @@ module.exports = {
 			rootAssetPath + 'stylesheets/' + 'joyce.scss'
 		]
 	},
+	output: {
+		publicPath: "/static/js/",
+    	filename: '[name].js',
+    	path: path.resolve(__dirname, 'static/js/')
+	},		
 	module : {
 		rules: [
 		{
@@ -52,7 +55,7 @@ module.exports = {
 		          	]
 		        }
 		    }, {
-		      loader: 'sass-loader' // compiles SASS to CSS
+		      loader: 'sass-loader'
 		    }]
 	    },
 	    {
@@ -62,16 +65,4 @@ module.exports = {
 	    	}]
 	    }
     ]},
-	plugins: [
-        new ManifestRevisionPlugin(path.join('static/', 'manifest.json'), {
-            rootAssetPath: rootAssetPath
-        }),
-        // new webpack.ProvidePlugin({
-        	// bootstrap: 'bootstrap'
-	        // $: 'jquery',
-	        // jQuery: 'jquery',
-	       //  'window.jQuery': 'jquery',
-	       //  Popper: ['popper.js', 'default']        	
-        // }),
-	],
 };

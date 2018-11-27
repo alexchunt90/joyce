@@ -1,5 +1,3 @@
-/static
-!/static/style.css
 /icon
 /node_modules
 .pytest_cache/

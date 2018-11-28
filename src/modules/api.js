@@ -38,7 +38,14 @@ const api = {
 			return {status: 'success', data: res.data}
 		}).catch(error => {
 			return {status: 'error', data: res.data}
-		})
+		}),
+	HTTPGetRefreshList: (docType) =>
+		axios.get(apiRoute + 'refresh/').then(res => {
+			return {status: 'success', data: res.data}
+		}).catch(error => {
+			console.log(error)
+			return {status: 'error', data: error}
+		}),		
 }
 
 export default api

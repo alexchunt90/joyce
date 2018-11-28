@@ -12,10 +12,10 @@ sys.path.insert(0,'..')
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-if config.ENV_VARIABLE == 'local':
+if config.ENVIRONMENT == 'local':
 	es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
 
-if config.ENV_VARIABLE == 'staging':
+if config.ENVIRONMENT == 'staging':
 	es = Elasticsearch(
 	    hosts = config.ELASTICSEARCH_STAGING_HOST,
 	    http_auth = config.AWS_AUTH,

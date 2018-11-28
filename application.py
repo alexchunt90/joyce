@@ -1,5 +1,6 @@
 from flask import Flask
 import json
+import config
 
 from blueprints.joyce import joyce
 from blueprints.api import api
@@ -8,7 +9,7 @@ from blueprints.api import api
 application = Flask(__name__)
 
 params = {
-    'ENV': 'staging',
+    'ENV': config.ENVIRONMENT,
     'DEBUG': True,
 }
 application.config.update(params)

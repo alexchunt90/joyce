@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, abort, jsonify, request
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 from requests_aws4auth import AWS4Auth
 import json
-import boto3
 import sys
 import config
+import setup
 
 sys.path.insert(0,'..')
 
@@ -291,3 +291,11 @@ def search_text():
 	data = json.loads(request.data)
 	results = es_search_text(data.get('data'))
 	return jsonify(results)
+
+#
+# Refresh ES
+# TODO: Restrict to dev only
+@api.route('/refresh/')
+def refresh_es():
+	setup.es_setup()
+	return 'Success!'

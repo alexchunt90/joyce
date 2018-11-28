@@ -1,6 +1,7 @@
 from flask import Flask
 import json
 import config
+import setup
 
 from blueprints.joyce import joyce
 from blueprints.api import api
@@ -12,6 +13,7 @@ params = {
     'ENV': config.ENVIRONMENT,
     'DEBUG': True,
 }
+
 application.config.update(params)
 
 # Register blueprints

@@ -1,3 +1,23 @@
+V1 REQUIREMENTS:
+
+- Finish Search
+
+- Add Image Support
+
+	- Add Video Support
+
+	- Add Audio Support
+
+- Deploy Process
+
+- Login System
+
+- Pagination
+
+- Add The Logo / Contributors
+
+- CSS Work
+
 UX:
 	- Disable Title Submit Button Without Title
 	- Disable Modal Submit Button with input

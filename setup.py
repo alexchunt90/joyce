@@ -2,10 +2,12 @@ from elasticsearch import Elasticsearch, RequestsHttpConnection
 from elasticsearch.helpers import bulk
 import config
 
-if config.ENV_VARIABLE == 'local':
+# Establish Elasticsearch Connection
+
+if config.ENVIRONMENT == 'local':
 	es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
 
-if config.ENV_VARIABLE == 'staging':
+if config.ENVIRONMENT == 'staging':
 	es = Elasticsearch(
 	    hosts = config.ELASTICSEARCH_STAGING_HOST,
 	    http_auth = config.AWS_AUTH,
@@ -14,19 +16,7 @@ if config.ENV_VARIABLE == 'staging':
 	    connection_class = RequestsHttpConnection
 	)
 
-def get_chapter_text_from_seed_data(string):
-	string = string.encode('ascii', 'ignore')
-	fname = './seed_data/' + string + '.html'
-	HtmlFile = open(fname, 'r')
-	chapter_source = HtmlFile.read()
-	HtmlFile.close()
-	return chapter_source
-
-# DELETE INDEX: 
-es.indices.delete(index='chapters', ignore=[400, 404])
-es.indices.delete(index='notes', ignore=[400, 404])
-es.indices.delete(index='tags', ignore=[400, 404])
-print 'Elasticsearch index deleted!'
+# Create Index Settings
 
 default_index_settings = {
 	'index': {
@@ -80,138 +70,87 @@ chapter_index_settings = {'settings': default_index_settings, 'mappings': chapte
 note_index_settings = {'settings': default_index_settings, 'mappings': note_mappings}
 tag_index_settings = {'settings': default_index_settings, 'mappings': tag_mappings}
 
-# TODO: Bulk create
-es.indices.create(index='chapters', body=chapter_index_settings)
-es.indices.create(index='notes', body=note_index_settings)
-es.indices.create(index='tags', body=tag_index_settings)
-print 'Elasticsearch index created!'
+# Read Seed Data from Files
 
-# Sample data
+def get_chapter_text_from_seed_data(string):
+	string = string.encode('utf-8', 'ignore')
+	fname = './seed_data/' + string + '.html'
+	HtmlFile = open(fname, 'r')
+	chapter_source = HtmlFile.read()
+	HtmlFile.close()
+	return chapter_source
+
+def build_es_chapter_op(id, number, title, chap_file):
+	return {'_op_type': 'index', '_id': id, '_source': {
+			'number': number,
+			'title': title,
+			'html_source': get_chapter_text_from_seed_data(chap_file)
+		}
+	}
+
+def build_es_note_op(id, title, text):
+	return {'_op_type': 'index', '_id': id, '_source': {
+			'title': title,
+			'html_source': text,
+		}
+	}
+
 SAMPLE_CHAPTERS = [
-    {'_op_type': 'index', '_id': 'AWNM3N3mxgFi4og697un', '_source': {
-			'number': 1,
-			'title': 'Telemachus',
-			'html_source': get_chapter_text_from_seed_data('telem')
-		},
-    },	
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vA', '_source': {
-			'number': 2,
-			'title': 'Nestor',
-			'html_source': get_chapter_text_from_seed_data('nestor')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vB', '_source': {
-			'number': 3,
-			'title': 'Proteus',
-			'html_source': get_chapter_text_from_seed_data('proteus')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vC', '_source': {
-			'number': 4,
-			'title': 'Calyspo',
-			'html_source': get_chapter_text_from_seed_data('calypso')
-		},
-    },   
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vD', '_source': {
-			'number': 5,
-			'title': 'Lotus Eaters',
-			'html_source': get_chapter_text_from_seed_data('lotus')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vE', '_source': {
-			'number': 6,
-			'title': 'Hades',
-			'html_source': get_chapter_text_from_seed_data('hades')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vF', '_source': {
-			'number': 7,
-			'title': 'Aeolus',
-			'html_source': get_chapter_text_from_seed_data('aeolus')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vG', '_source': {
-			'number': 8,
-			'title': 'Lestrygonians',
-			'html_source': get_chapter_text_from_seed_data('lestry')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vH', '_source': {
-			'number': 9,
-			'title': 'Scylla and Charybdis',
-			'html_source': get_chapter_text_from_seed_data('scylla')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vI', '_source': {
-			'number': 10,
-			'title': 'Wandering Rocks',
-			'html_source': get_chapter_text_from_seed_data('wrocks')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vJ', '_source': {
-			'number': 11,
-			'title': 'Sirens',
-			'html_source': get_chapter_text_from_seed_data('sirens')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vK', '_source': {
-			'number': 12,
-			'title': 'Cyclops',
-			'html_source': get_chapter_text_from_seed_data('cyclops')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vL', '_source': {
-			'number': 13,
-			'title': 'Nausicaa',
-			'html_source': get_chapter_text_from_seed_data('nausicaa')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vM', '_source': {
-			'number': 14,
-			'title': 'Oxen of the Sun',
-			'html_source': get_chapter_text_from_seed_data('oxen')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vN', '_source': {
-			'number': 15,
-			'title': 'Circe',
-			'html_source': get_chapter_text_from_seed_data('circe')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vO', '_source': {
-			'number': 16,
-			'title': 'Eumaeus',
-			'html_source': get_chapter_text_from_seed_data('eumaeus')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vP', '_source': {
-			'number': 17,
-			'title': 'Ithaca',
-			'html_source': get_chapter_text_from_seed_data('ithaca')
-		},
-    },
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vQ', '_source': {
-			'number': 18,
-			'title': 'Penelope',
-			'html_source': get_chapter_text_from_seed_data('penelope')
-		},
-    },
+    build_es_chapter_op('AWNM3N3mxgFi4og697un', 1, 'Telemachus', 'telem'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vA', 2, 'Nestor', 'nestor'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vB', 3, 'Proteus', 'proteus'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vC', 4, 'Calyspo', 'calypso'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vD', 5, 'Lotus Eaters', 'lotus'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vE', 6, 'Hades', 'hades'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vF', 7, 'Aeolus', 'aeolus'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vG', 8, 'Lestrygonians', 'lestry'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vH', 9, 'Scylla and Charybdis', 'scylla'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vI', 10, 'Wandering Rocks', 'wrocks'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vJ', 11, 'Sirens', 'sirens'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vK', 12, 'Cyclops', 'cyclops'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vL', 13, 'Nausicaa', 'nausicaa'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vM', 14, 'Oxen of the Sun', 'oxen'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vN', 15, 'Circe', 'circe'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vO', 16, 'Eumaeus', 'eumaeus'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vP', 17, 'Ithaca', 'ithaca'),
+    build_es_chapter_op('AWNmqpdHxgFi4og697vQ', 18, 'Penelope', 'penelope'),
 ]
 
 SAMPLE_NOTES = [
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vR', '_source': {
-			'title': 'Kinch',
-			'html_source': 'A knife'
-		},
-    }, 
-    {'_op_type': 'index', '_id': 'AWNmqpdHxgFi4og697vS', '_source': {
-			'title': 'Lighthouse',
-			'html_source': 'A lighthouse'
-		},
-    },
+	build_es_note_op('AWNmqpdHxgFi4og697vR', 'Kinch', 'A knife'),
+	build_es_note_op('AWNmqpdHxgFi4og697vS', 'Lighthouse', 'A lighthouse'),
 ]
 
-bulk(es, SAMPLE_CHAPTERS, index='chapters', doc_type='doc')
-bulk(es, SAMPLE_NOTES, index='notes', doc_type='doc')
-print('Successfully loaded sample data!')
+# Manipulate Indices
+
+def delete_index(index):
+	es.indices.delete(index=index, ignore=[400, 404])
+
+def create_index(index, settings):
+	es.indices.create(index=index, body=settings)
+
+def index_seed_docs(index, docs):
+	bulk(es, docs, index=index, doc_type='doc')
+
+def refresh_all_indices():
+	delete_index('chapters')
+	delete_index('notes')
+	delete_index('tags')
+	print 'Elasticsearch index deleted!'
+	create_index('chapters', chapter_index_settings)
+	create_index('notes', note_index_settings)
+	create_index('tags', tag_index_settings)
+	print 'Elasticsearch index created!'
+
+def refresh_seed_data():
+	index_seed_docs('chapters', SAMPLE_CHAPTERS)
+	index_seed_docs('notes', SAMPLE_NOTES)
+	print 'Successfully loaded sample data!'
+
+def es_setup():
+	refresh_all_indices()
+	refresh_seed_data()
+
+if __name__ == "__main__":
+	es_setup()
 

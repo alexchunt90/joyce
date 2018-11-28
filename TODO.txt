@@ -1,11 +1,3 @@
-REFACTORING CHECKLIST:
-	- Switch to Webpack Dev Server and Remove Webpack-Flask Dependencies
-	- One Pass Through Every Module's Imports
-
-NEED:
-	- Deploy Process
-	- Testing
-
 UX:
 	- Disable Title Submit Button Without Title
 	- Disable Modal Submit Button with input
@@ -21,8 +13,6 @@ SHORT LIST:
 		- Python Unit Tests
 		- React Unit Tests
 		- ES API Tests?
-	- Create Tags and Note Tagging
-	- Review dependencies
 
 - v0.2 Reader
 	- Reader UX

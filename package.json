@@ -7,7 +7,6 @@
     "build": "rimraf static/js/ && webpack --config webpack.prod.js --mode=production",
     "build_dev": "rimraf static/js/ && webpack --config webpack.prod.js --mode=development",
     "watch": "rimraf static/js/ && webpack-cli --config webpack.dev.js --watch --mode=development",
-    "dev": "rimraf static/js/ && webpack-dev-server --hot --inline --config webpack.dev.js --mode=development",
     "test": "python setup.py && jest --config jest.config.js --no-cache && python setup.py"
   },
   "author": "Alex Hunt",
@@ -50,7 +49,6 @@
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10",
     "webpack-manifest-plugin": "^2.0.4",
     "webpack-merge": "^4.1.2"
   }

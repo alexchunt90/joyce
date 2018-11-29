@@ -44,10 +44,10 @@ export const TagButton = ({tag, currentTag, onClick}) =>
 		</button>
 	</div>
 
-export const HighlightButton = ({highlightToggle, onClick}) =>
+export const HighlightButton = ({highlightToggle, onClick, size='lg'}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>
-			<button onClick={onClick} className={highlightToggle ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'}>
+			<button onClick={onClick} className={highlightToggle ? 'btn btn-primary btn-' + size : 'btn btn-outline-primary btn-' + size}>
 				{highlightToggle ? 'Hide Notes' : 'Highlight Notes'}
 			</button>
 		</div>

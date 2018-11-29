@@ -8,6 +8,13 @@ $search_box_bg: rgba(89, 86, 83,.5);
 
 $border_color: rgba(120,120,120,0.7);
 
+$breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px
+);
+
 $theme-colors: (
 	"info": #537577,
 	"danger": #72030a,

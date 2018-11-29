@@ -8,6 +8,11 @@ import setup
 
 sys.path.insert(0,'..')
 
+# Hack to work around ascii encode error
+# TODO: Figure out which dependency tries to encode input to ascii
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 if config.ENVIRONMENT == 'local':
 	es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
 

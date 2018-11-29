@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixin";
 
 #sidebar {
     height: 100%;
@@ -81,4 +82,10 @@ button {
 
 #new_document_button > button {
     width: 100%;
+}
+
+@include respond-above(sm) {
+    #mobile_reader_sidebar {
+        display: none;
+    }
 }

@@ -35,12 +35,12 @@ const ReaderPage = ({
 			onHighlightClick={onHighlightClick}
 			onDocumentClick={onDocumentClick}
 		/>
-		<div id='content_window' className='row'>
+		<div id='content_container' className='row'>
 			<ReaderSidebarContainer />
 			<Content>
 				{loadingToggle === true &&
 					<LoadingSpinner size={4} />
-				}				
+				}
 				{(Object.keys(currentDocument).length > 0 && loadingToggle === false) &&
 					<ReaderContentContainer />
 				}

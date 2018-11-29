@@ -95,6 +95,14 @@ def build_es_note_op(id, title, text):
 		}
 	}
 
+def build_es_tag_op(id, title, text, color):
+	return {'_op_type': 'index', '_id': id, '_source': {
+			'title': title,
+			'html_source': text,
+			'color': color
+		}
+	}
+
 SAMPLE_CHAPTERS = [
     build_es_chapter_op('AWNM3N3mxgFi4og697un', 1, 'Telemachus', 'telem'),
     build_es_chapter_op('AWNmqpdHxgFi4og697vA', 2, 'Nestor', 'nestor'),
@@ -121,6 +129,15 @@ SAMPLE_NOTES = [
 	build_es_note_op('AWNmqpdHxgFi4og697vS', 'Lighthouse', 'A lighthouse'),
 ]
 
+SAMPLE_TAGS = [
+	build_es_tag_op('fZT4XWcBokFjIT8Zihhg', 'The Writer', 'These links address narrative styles, techniques, revisions, and effects, as well as textual variants, aesthetic theories, and the shaping of real lives into fictional ones.', '307EE3'),
+	build_es_tag_op('fpT4XWcBokFjIT8Zihhg', 'The Body', 'These links encompass anatomy, sexuality, childbirth, eating, drinking, excretion, clothes, personal accessories, disease, death, medicines, poisons, the physiology of emotion, the vagaries of memory, mental illness, and dreams.', 'CF2929'),
+	build_es_tag_op('f5T4XWcBokFjIT8Zihhg', 'Performances', 'Indicates notes about songs, operas, oratorios, stage plays, nursery rhymes, speeches, recitations, advertising pitches, prayers, liturgical rites, performative social gestures, and impromptu clowning.', 'AB59C2'),
+	build_es_tag_op('gJT4XWcBokFjIT8Zihhg', 'Dublin', 'These notes point to landforms like the river and bay, the built environment such as streets, canals, buildings, bridges, trams, and statues, cultural ephemera such as money, and civic institutions.', '9C632A'),
+	build_es_tag_op('gZT4XWcBokFjIT8Zihhg', 'Literature', 'These links signal allusions to published texts including poetry, fiction, drama, critical essays, history, philosophy, scripture, theology, science, biography, hagiography, travelogues, and newspapers.', 'F59627'),
+	build_es_tag_op('gpT4XWcBokFjIT8Zihhg', 'Ireland', 'These notes refer to Irish history, politics, customs, language, humor, religion, mythology, economics, geography, modes of transportation, flora, fauna, and weather. ', '40B324'),
+]
+
 # Manipulate Indices
 
 def delete_index(index):
@@ -145,6 +162,7 @@ def refresh_all_indices():
 def refresh_seed_data():
 	index_seed_docs('chapters', SAMPLE_CHAPTERS)
 	index_seed_docs('notes', SAMPLE_NOTES)
+	index_seed_docs('tags', SAMPLE_TAGS)
 	print 'Successfully loaded sample data!'
 
 def es_setup():

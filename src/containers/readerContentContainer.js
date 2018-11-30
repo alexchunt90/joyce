@@ -9,11 +9,10 @@ import LoadingSpinner from '../components/loadingSpinner'
 const ReaderContent = ({
 	currentDocument,
 	editorState,
-	loadingToggle,
-	highlightToggle,
+	toggles,
 }) =>
-	<div id="page" className={highlightToggle ? 'annotations' : 'hidden_annotations'}>
-		{loadingToggle === true &&
+	<div id="page" className={toggles.highlights ? 'annotations' : 'hidden_annotations'}>
+		{toggles.loading === true &&
 			<LoadingSpinner />
 		}
 		<br />
@@ -28,16 +27,14 @@ const mapStateToProps = state => {
 	return {
 		currentDocument: state.currentDocument,
 		editorState: state.editorState,
-		highlightToggle: state.highlightToggle,
-		loadingToggle: state.loadingToggle
+		toggles: state.toggles,
 	}
 }
 
 ReaderContent.propTypes = {
 	currentDocument: PropTypes.object,
 	editorState: PropTypes.object,
-	loadingToggle: PropTypes.bool,
-	highlightToggle: PropTypes.bool,
+	toggles: PropTypes.object,
 }
 
 const ReaderContentContainer = connect(mapStateToProps)(ReaderContent)

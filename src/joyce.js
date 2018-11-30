@@ -12,23 +12,17 @@ import 'bootstrap'
 import Navbar from './components/navbar'
 import reduceJoyce from './reducers/reduceJoyce'
 import actions from './actions'
-import api from './modules/api'
 import { logger, joyceAPI, joyceInterface, joyceRouter } from './middleware/'
 import ReaderPageContainer from './containers/readerPageContainer'
 import EditorPageContainer from './containers/editorPageContainer'
 import SearchPageContainer from './containers/searchPageContainer'
+import AdminHeader from './components/adminHeader'
 
 const history = createHistory()
 const router = routerMiddleware(history)
 const store = createStore(reduceJoyce, 
 	applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
 const state = store.getState()
-
-const refreshElasticsearch = () => {
-	api.HTTPGetRefreshList().then(response =>
-		location.reload()
-	)
-}
 
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
@@ -38,7 +32,7 @@ ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
 			<div>
-				<div id='admin_toolbar'><button type='button' className='btn btn-sm btn-outline-primary' onClick={refreshElasticsearch}>Refresh</button></div>
+				<AdminHeader toggles={state.toggles} hideAdmin={()=>store.dispatch(actions.hideAdmin())}/>
 				<Navbar />
 				<Switch>
 					<Route exact path='/' render={() =>

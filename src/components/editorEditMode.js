@@ -13,15 +13,14 @@ const EditorEditMode = ({
 	currentDocument,
 	editorState,
 	docType,
-	loadingToggle,
+	toggles,
 	handleKeyCommand,
 	onChangeEditorState,
 	onToolButtonClick,
 	setMode,
 	cancelEdit,
 	onSubmitClick,
-	colorPickerInput,
-	documentTitleInput,
+	inputs,
 	onDocumentTitleChange,
 	onColorPickerInputChange,
 	onColorSwatchClick,
@@ -29,10 +28,10 @@ const EditorEditMode = ({
 }) =>
 	<div>
 		<div id='editor_metadata'>
-			{loadingToggle === true &&
+			{toggles.loading === true &&
 				<LoadingSpinner />
 			}
-			<input type='text' value={documentTitleInput} onChange={onDocumentTitleChange}/>
+			<input type='text' value={inputs.documentTitle} onChange={onDocumentTitleChange}/>
 		</div>
 		<div id='editor_topbar'>
 			<EditModeTopBar 
@@ -50,7 +49,7 @@ const EditorEditMode = ({
 		</div>
 		<div id='editor_attributes'>
 			{docType === 'tags' &&
-				<TagColorPicker colorPickerInput={colorPickerInput} onChange={onColorPickerInputChange} onColorSwatchClick={onColorSwatchClick}/>
+				<TagColorPicker input={inputs.colorPicker} onChange={onColorPickerInputChange} onColorSwatchClick={onColorSwatchClick}/>
 			}
 		</div>		
 		<div id='editor_bottombar'>

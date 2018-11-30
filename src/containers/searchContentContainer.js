@@ -9,17 +9,17 @@ import SearchResultsBox from '../components/searchResultsBox'
 
 const SearchContent = ({
 	searchResults,
-	searchInput,
+	inputs,
 	onSearchInputChange,
 	onSearchClick,
 }) =>
 	<div className='container'>
 		<div className='row'>
 			<div className='col-sm-2'>
-				<SearchButton onClick={onSearchClick} searchInput={searchInput}/>
+				<SearchButton onClick={onSearchClick} input={inputs.search}/>
 			</div>
 			<div className='col-sm-10'>
-				<input id='search_input' type='text' value={searchInput} onChange={onSearchInputChange} />
+				<input id='search_input' type='text' value={inputs.search} onChange={onSearchInputChange} />
 			</div>
 		</div>
 		<div className='row'>
@@ -30,14 +30,14 @@ const SearchContent = ({
 const mapStateToProps = state => {
 	return {
 		searchResults: state.searchResults,
-		searchInput: state.searchInput
+		inputs: state.inputs
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onSearchInputChange: searchInput => {
-			dispatch(actions.updateSearchInput(searchInput))
+		onSearchInputChange: input => {
+			dispatch(actions.updateSearchInput(inputs))
 		},
 		onSearchClick: searchInput => {
 			dispatch(actions.clickSearch(searchInput))
@@ -47,7 +47,7 @@ const mapDispatchToProps = dispatch => {
 
 SearchContent.propTypes = {
 	searchResults: PropTypes.object,
-	searchInput: PropTypes.string,
+	inputs: PropTypes.object,
 	onSearchInputChange: PropTypes.func,
 	onSearchClick: PropTypes.func,
 }

@@ -44,19 +44,19 @@ export const TagButton = ({tag, currentTag, onClick}) =>
 		</button>
 	</div>
 
-export const HighlightButton = ({highlightToggle, onClick, size='lg'}) =>
+export const HighlightButton = ({toggle, onClick, size='lg'}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>
-			<button onClick={onClick} className={highlightToggle ? 'btn btn-primary btn-' + size : 'btn btn-outline-primary btn-' + size}>
-				{highlightToggle ? 'Hide Notes' : 'Highlight Notes'}
+			<button onClick={onClick} className={toggle ? 'btn btn-primary btn-' + size : 'btn btn-outline-primary btn-' + size}>
+				{toggle ? 'Hide Notes' : 'Highlight Notes'}
 			</button>
 		</div>
 	</div>
 
-export const SearchButton = ({searchInput, onClick}) =>
+export const SearchButton = ({input, onClick}) =>
 	<div>
 		<div id='search_button' className='text-center'>
-			<button className='btn btn-primary btn-sm' onClick={()=>onClick(searchInput)}>
+			<button className='btn btn-primary btn-sm' onClick={()=>onClick(input)}>
 				Search <i className='fa fa_inline fa-search'></i>
 			</button>
 		</div>
@@ -146,7 +146,7 @@ NoteButton.propTypes = {
 }
 
 HighlightButton.propTypes = {
-	highlightToggle: PropTypes.bool,
+	toggle: PropTypes.bool,
 	onClick: PropTypes.func,
 }
 

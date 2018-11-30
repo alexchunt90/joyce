@@ -12,7 +12,7 @@ const EditorAnnotateMode = ({
 	currentDocument,
 	editorState,
 	docType,
-	loadingToggle,
+	toggles,
 	onChangeEditorState,
 	onNewAnnotationClick,
 	annotateKeyBindings,
@@ -22,7 +22,7 @@ const EditorAnnotateMode = ({
 }) =>
 	<div>
 		<div id='editor_metadata'>
-			{loadingToggle === true &&
+			{toggles.loading === true &&
 				<LoadingSpinner />
 			}
 			<DocumentTitle docType={docType} currentDocument={currentDocument} />

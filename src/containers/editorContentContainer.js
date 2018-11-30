@@ -8,11 +8,15 @@ import EditorAnnotateMode from '../components/editorAnnotateMode'
 import EditorEditMode from '../components/editorEditMode'
 
 const EditorContent = ({
+	// State
 	currentDocument,
 	editorState,
 	docType,
 	mode,
-	loadingToggle,
+	toggles,
+	inputs,
+	userErrors,
+	//Dispatch
 	handleKeyCommand,
 	onChangeEditorState,
 	onToolButtonClick,
@@ -20,14 +24,11 @@ const EditorContent = ({
 	cancelEdit,
 	onSubmitClick,
 	onColorSwatchClick,
-	documentTitleInput,
-	colorPickerInput,
 	onDocumentTitleChange,
 	onColorPickerInputChange,
 	onNewAnnotationClick,
 	annotateKeyBindings,
 	onRemoveAnnotationClick,
-	userErrors,
 }) =>
 	<div id='editor_container'>
 		{mode === 'READ_MODE' &&
@@ -35,7 +36,7 @@ const EditorContent = ({
 				currentDocument={currentDocument} 
 				editorState={editorState} 
 				docType={docType}
-				loadingToggle={loadingToggle} 
+				toggles={toggles} 
 				setMode={setMode} 
 			/>
 		}
@@ -44,7 +45,7 @@ const EditorContent = ({
 				currentDocument={currentDocument} 
 				editorState={editorState}	
 				docType={docType} 
-				loadingToggle={loadingToggle} 
+				toggles={toggles} 
 				handleKeyCommand={handleKeyCommand}	
 				onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())}
 				onRemoveAnnotationClick={()=>onRemoveAnnotationClick(editorState)}
@@ -53,7 +54,7 @@ const EditorContent = ({
 				onToolButtonClick={onToolButtonClick} 
 				setMode={setMode}
 				cancelEdit={cancelEdit} 
-				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, colorPickerInput, docType)}	
+				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, inputs, docType)}	
 			/>
 		}
 		{mode === 'EDIT_MODE' &&
@@ -61,12 +62,11 @@ const EditorContent = ({
 				currentDocument={currentDocument}
 				editorState={editorState}
 				docType={docType}
-				loadingToggle={loadingToggle}
+				toggles={toggles}
 				onChangeEditorState={onChangeEditorState}
 				cancelEdit={cancelEdit}
-				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, documentTitleInput, colorPickerInput, docType)}
-				documentTitleInput={documentTitleInput}
-				colorPickerInput={colorPickerInput}
+				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, inputs, docType)}
+				inputs={inputs}
 				onColorSwatchClick={onColorSwatchClick}
 				onDocumentTitleChange={onDocumentTitleChange}
 				onColorPickerInputChange={onColorPickerInputChange}
@@ -81,9 +81,8 @@ const mapStateToProps = (state, props) => {
 		mode: state.mode,
 		docType: state.docType,
 		editorState: state.editorState,
-		documentTitleInput: state.documentTitleInput,
-		colorPickerInput: state.colorPickerInput,
-		loadingToggle: state.loadingToggle,
+		inputs: state.inputs,
+		toggles: state.toggles,
 		userErrors: state.userErrors,
 	}
 }
@@ -93,11 +92,11 @@ const mapDispatchToProps = dispatch => {
 		onChangeEditorState: editorState => {
 			dispatch(actions.updateEditorState(editorState))
 		},
-		onDocumentTitleChange: documentTitleInput => {
-			dispatch(actions.updateDocumentTitleInput(documentTitleInput))
+		onDocumentTitleChange: input => {
+			dispatch(actions.updateDocumentTitleInput(input))
 		},
-		onColorPickerInputChange: colorPickerInput => {
-			dispatch(actions.updateColorPickerInput(colorPickerInput))
+		onColorPickerInputChange: input => {
+			dispatch(actions.updateColorPickerInput(input))
 		},
 		handleKeyCommand: (command, editorState) => {
 			dispatch(actions.handleEditorKeyCommand(editorState, command))
@@ -124,8 +123,8 @@ const mapDispatchToProps = dispatch => {
 		onToolButtonClick: (editorState, style) => {
 			dispatch(actions.applyInlineStyles(editorState, style))
 		},
-		onSubmitClick: (currentDocument, editorState, documentTitleInput, colorPickerInput, docType) => {
-			dispatch(actions.submitDocumentEdit(currentDocument, editorState, documentTitleInput, colorPickerInput, docType))
+		onSubmitClick: (currentDocument, editorState, inputs, docType) => {
+			dispatch(actions.submitDocumentEdit(currentDocument, editorState, inputs, docType))
 		}		
 	}
 }
@@ -133,10 +132,10 @@ const mapDispatchToProps = dispatch => {
 EditorContent.propTypes = {
 	currentDocument: PropTypes.object,
 	editorState: PropTypes.object,
-	documentTitleInput: PropTypes.string,
+	inputs: PropTypes.object,
 	docType: PropTypes.string,
 	mode: PropTypes.string,
-	loadingToggle: PropTypes.bool,
+	toggles: PropTypes.object,
 	handleKeyCommand: PropTypes.func,
 	onChangeEditorState: PropTypes.func,
 	onToolButtonClick: PropTypes.func,

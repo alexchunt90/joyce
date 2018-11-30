@@ -15,15 +15,17 @@ import searchResults from './searchResults'
 import editorState from './editorState'
 import modalEditorState from './modalEditorState'
 import selectionState from './selectionState'
-import documentTitleInput from './documentTitleInput'
-import colorPickerInput from './colorPickerInput'
-import searchInput from './searchInput'
+import inputs from './inputs'
+// import documentTitleInput from './documentTitleInput'
+// import colorPickerInput from './colorPickerInput'
+// import searchInput from './searchInput'
 
-// Toggles
 import docType from './docType'
 import mode from './mode'
-import highlightToggle from './highlightToggle'
-import loadingToggle from './loadingToggle'
+// Toggles
+import toggles from './toggles'
+// import highlightToggle from './highlightToggle'
+// import loadingToggle from './loadingToggle'
 
 // Validation
 import userErrors from './userErrors'
@@ -42,14 +44,16 @@ const reduceJoyce = combineReducers({
 	editorState,
 	modalEditorState,
 	selectionState,
-	colorPickerInput,
-	documentTitleInput,
-	searchInput,
+	inputs,
+	// colorPickerInput,
+	// documentTitleInput,
+	// searchInput,
 	// Toggles
 	docType,
 	mode,
-	highlightToggle,
-	loadingToggle,
+	toggles,
+	// highlightToggle,
+	// loadingToggle,
 	// Validation
 	userErrors,
 })

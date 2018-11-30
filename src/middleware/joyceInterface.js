@@ -14,7 +14,7 @@ const joyceInterface = store => next => action => {
 			store.dispatch(actions.getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
 			break
 		case 'SUBMIT_DOCUMENT_EDIT':
-			const docErrors = validateSubmittedDocument(action.docType, action.documentTitleInput, action.colorPickerInput)
+			const docErrors = validateSubmittedDocument(action.docType, action.inputs)
 			if (docErrors.length < 1) {
 				const textContent = action.editorState.getCurrentContent()
 				const data = { 

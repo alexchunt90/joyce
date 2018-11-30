@@ -1,5 +1,9 @@
 @import "variables";
 
-#admin_toolbar {
+#admin_header {
 	padding: .3rem;
+}
+
+.admin_hide {
+	display: none;
 }

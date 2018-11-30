@@ -21,8 +21,7 @@ const ReaderPage = ({
 	docType,
 	annotationNote,
 	modalEditorState,
-	loadingToggle,
-	highlightToggle,
+	toggles,
 	onDocumentClick,
 	onHighlightClick,
 }) =>
@@ -30,7 +29,7 @@ const ReaderPage = ({
 		<ReaderSidebarOptions
 			docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
 			currentDocument={currentDocument}
-			highlightToggle={highlightToggle}
+			highlightToggle={toggles.highlights}
 			docType={docType}
 			onHighlightClick={onHighlightClick}
 			onDocumentClick={onDocumentClick}
@@ -38,13 +37,13 @@ const ReaderPage = ({
 		<div id='content_container' className='row'>
 			<ReaderSidebarContainer />
 			<Content>
-				{loadingToggle === true &&
+				{toggles.loading === true &&
 					<LoadingSpinner size={4} />
 				}
-				{(Object.keys(currentDocument).length > 0 && loadingToggle === false) &&
+				{(Object.keys(currentDocument).length > 0 && toggles.loading === false) &&
 					<ReaderContentContainer />
 				}
-				{(Object.keys(currentDocument).length === 0 && loadingToggle === false) &&
+				{(Object.keys(currentDocument).length === 0 && toggles.loading === false) &&
 					<ReaderWelcome />
 				}				
 			</Content>
@@ -61,8 +60,7 @@ const mapStateToProps = state => {
 		docType: state.docType,
 		annotationNote: state.annotationNote,
 		modalEditorState: state.modalEditorState,
-		loadingToggle: state.loadingToggle,
-		highlightToggle: state.highlightToggle,
+		toggles: state.toggles,
 	}
 }
 
@@ -73,15 +71,19 @@ const mapDispatchToProps = dispatch => {
 		},
 		onHighlightClick: () => {
 			dispatch(actions.toggleHighlight())
-		}		
+		}
 	}
 }
 
 ReaderPage.propTypes = {
+	chapters: PropTypes.arrayOf(PropTypes.object),
+	notes: PropTypes.arrayOf(PropTypes.object),
+	tags: PropTypes.arrayOf(PropTypes.object),
 	currentDocument: PropTypes.object,
-	modalEditorState: PropTypes.object, 
+	docType: PropTypes.string,
 	annotationNote: PropTypes.object,
-	loadingToggle: PropTypes.bool,
+	modalEditorState: PropTypes.object, 
+	toggles: PropTypes.object,
 }
 
 const ReaderPageContainer = connect(mapStateToProps, mapDispatchToProps)(ReaderPage)

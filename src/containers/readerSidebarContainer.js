@@ -13,13 +13,13 @@ const ReaderSidebar = ({
 	notes,
 	currentDocument,
 	docType,
-	highlightToggle,
+	toggles,
 	onDocumentClick,
 	onHighlightClick,
 }) =>
 	<div className='col-md-3 d-none d-md-block' id='sidebar'>
 		<div>
-			<HighlightButton highlightToggle={highlightToggle} onClick={onHighlightClick}/>
+			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />
 			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType}/>
 		</div>
@@ -31,7 +31,7 @@ const mapStateToProps = state => {
 		notes: state.notes,
 		docType: state.docType,
 		currentDocument: state.currentDocument,
-		highlightToggle: state.highlightToggle
+		toggles: state.toggles,
 	}
 }
 
@@ -51,7 +51,7 @@ ReaderSidebar.propTypes = {
 	notes: PropTypes.arrayOf(PropTypes.object),
 	currentDocument: PropTypes.object,
 	docType: PropTypes.string,	
-	highlightToggle: PropTypes.bool,
+	toggles: PropTypes.object,
 	onDocumentClick: PropTypes.func,
 	onHighlightClick: PropTypes.func,
 }

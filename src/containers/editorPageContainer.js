@@ -21,7 +21,7 @@ const EditorPage = ({
 	modalEditorState,
 	docType,
 	tags,
-	loadingToggle,
+	toggles,
 	onDeleteConfirm,
 	onSubmitAnnotationClick,
 	selectAnnotationNote,
@@ -34,13 +34,13 @@ const EditorPage = ({
 		<div className="row">
 			<EditorSidebarContainer />
 			<Content>
-				{loadingToggle === true &&
+				{toggles.loading === true &&
 					<LoadingSpinner size={4} />
 				}
-				{(Object.keys(currentDocument).length > 0 && loadingToggle === false) &&
+				{(Object.keys(currentDocument).length > 0 && toggles.loading === false) &&
 					<EditorContentContainer />
 				}
-				{(Object.keys(currentDocument).length === 0 && loadingToggle === false) &&
+				{(Object.keys(currentDocument).length === 0 && toggles.loading === false) &&
 					<EditorWelcome />
 				}					
 			</Content>
@@ -72,7 +72,7 @@ const mapStateToProps = state => {
 		modalEditorState: state.modalEditorState,
 		selectionState: state.selectionState,
 		docType: state.docType,
-		loadingToggle: state.loadingToggle,
+		toggles: state.toggles,
 		userErrors: state.userErrors,
 	}
 }
@@ -107,7 +107,7 @@ EditorPage.propTypes = {
 	modalEditorState: PropTypes.object,
 	selectionState: PropTypes.object,
 	docType: PropTypes.string,
-	loadingToggle: PropTypes.bool,
+	toggles: PropTypes.object,
 	onDeleteConfirm: PropTypes.func,
 	onSubmitAnnotationClick: PropTypes.func,
 	selectAnnotationNote: PropTypes.func,

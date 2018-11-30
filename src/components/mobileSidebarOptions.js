@@ -7,7 +7,7 @@ import { ReaderDocDropdown } from './dropdown'
 export const ReaderSidebarOptions = ({docs, currentDocument, highlightToggle, docType, onHighlightClick, onDocumentClick}) =>
 	<div id='mobile_reader_sidebar' className='row'>
 		<div className='col-6 d-block d-md-none'>
-			<HighlightButton highlightToggle={highlightToggle} onClick={onHighlightClick} size='md'/>
+			<HighlightButton toggle={highlightToggle} onClick={onHighlightClick} size='md'/>
 		</div>
 		<div className='col-6 d-block d-md-none'>
 			<ReaderDocDropdown currentDocument={currentDocument} docs={docs} docType={docType} onDocumentClick={onDocumentClick}/>

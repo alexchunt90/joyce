@@ -11,12 +11,12 @@ const EditorReadMode = ({
 	currentDocument,
 	editorState,
 	docType,
-	loadingToggle,
+	toggles,
 	setMode
 }) =>
 	<div id='editor_read_mode'>
 		<div id='editor_metadata'>
-			{loadingToggle === true &&
+			{toggles.loading === true &&
 				<LoadingSpinner />
 			}
 			<DocumentTitle docType={docType} currentDocument={currentDocument} />

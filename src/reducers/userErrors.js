@@ -3,7 +3,7 @@ import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modul
 const userErrors = (state=[], action) => {
 	switch(action.type) {
 		case 'SUBMIT_DOCUMENT_EDIT':
-			return validateSubmittedDocument(action.docType, action.documentTitleInput, action.colorPickerInput)
+			return validateSubmittedDocument(action.docType, action.inputs)
 		case 'SUBMIT_ANNOTATION':
 			return validateSubmittedAnnotation(action.annotationNote, action.annotationTag)
 		case 'GET_DOCUMENT_TEXT': 

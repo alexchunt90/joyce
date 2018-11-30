@@ -18,13 +18,12 @@ const userActions = {
 			docType: docType
 		}),
 	// Click 'Submit' to save a document edit
-	submitDocumentEdit: (currentDocument, editorState, documentTitleInput, colorPickerInput, docType) =>
+	submitDocumentEdit: (currentDocument, editorState, inputs, docType) =>
 		({
 			type: 'SUBMIT_DOCUMENT_EDIT',
 			currentDocument: currentDocument,
 			editorState: editorState,
-			documentTitleInput: documentTitleInput,
-			colorPickerInput: colorPickerInput,
+			inputs: inputs,
 			docType: docType
 		}),
 	// Click 'Cancel' to discard document changes
@@ -62,10 +61,10 @@ const userActions = {
 			mode: mode
 		}),
 	// Click 'Search' to request search results
-	clickSearch: searchInput =>
+	clickSearch: inputs =>
 		({
 			type: 'CLICK_SEARCH',
-			data: searchInput
+			data: inputs.search
 		}),
 	// Set the DocType to choose from in the Editor
 	setDocType: docType =>
@@ -116,6 +115,10 @@ const userActions = {
 		({
 			type: 'CLEAR_ANNOTATION_TAG'
 		}),
+	hideAdmin: () =>
+		({
+			type: 'HIDE_ADMIN_HEADER'
+		})
 }
 
 export default userActions

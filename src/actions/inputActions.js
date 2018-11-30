@@ -5,21 +5,21 @@
 
 const inputActions = {
 	// Handle changes to the document title input box
-	updateDocumentTitleInput: documentTitleInput =>
+	updateDocumentTitleInput: input =>
 		({
 			type: 'UPDATE_DOCUMENT_TITLE',
-			data: documentTitleInput.target.value
+			data: input.target.value
 		}),
-	updateColorPickerInput: colorPickerInput =>
+	updateColorPickerInput: input =>
 		({
 			type: 'UPDATE_COLOR_PICKER',
-			data: colorPickerInput.target.value
+			data: input.target.value
 		}),
 	// Handle changes to the search input box
-	updateSearchInput: searchInput =>
+	updateSearchInput: input =>
 		({
 			type: 'UPDATE_SEARCH_INPUT',
-			data: searchInput.target.value
+			data: input.target.value
 		})
 }
 

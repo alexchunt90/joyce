@@ -115,6 +115,10 @@ const userActions = {
 		({
 			type: 'CLEAR_ANNOTATION_TAG'
 		}),
+	showAdmin: () =>
+		({
+			type: 'SHOW_ADMIN_HEADER'
+		}),
 	hideAdmin: () =>
 		({
 			type: 'HIDE_ADMIN_HEADER'

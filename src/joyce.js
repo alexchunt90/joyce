@@ -16,7 +16,7 @@ import { logger, joyceAPI, joyceInterface, joyceRouter } from './middleware/'
 import ReaderPageContainer from './containers/readerPageContainer'
 import EditorPageContainer from './containers/editorPageContainer'
 import SearchPageContainer from './containers/searchPageContainer'
-import AdminHeader from './components/adminHeader'
+import AdminHeaderContainer from './containers/adminHeaderContainer'
 
 const history = createHistory()
 const router = routerMiddleware(history)
@@ -32,7 +32,7 @@ ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
 			<div>
-				<AdminHeader toggles={state.toggles} hideAdmin={()=>store.dispatch(actions.hideAdmin())}/>
+				<AdminHeaderContainer />
 				<Navbar />
 				<Switch>
 					<Route exact path='/' render={() =>

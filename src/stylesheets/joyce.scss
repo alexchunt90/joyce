@@ -10,8 +10,12 @@
 @import "dev";
 @import "node_modules/bootstrap/scss/bootstrap";
 
-$fa-font-path: "../../node_modules/font-awesome/fonts";
-@import "node_modules/font-awesome/scss/font-awesome";
+// $fa-font-path: "../../node_modules/font-awesome/fonts";
+// @import "node_modules/font-awesome/scss/font-awesome";
+
+$fa-font-path: "../../node_modules/@fortawesome/fontawesome-free/webfonts";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
 
 #joyce_reader {
 	overflow: hidden;

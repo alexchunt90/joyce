@@ -10,7 +10,7 @@ export const ReaderEditButton = ({onClick}) =>
 	<div className='edit_note_button'>
 		<button onClick={onClick} className='btn btn-outline-primary btn-sm'>
 			Edit
-			<i className='fa fa_inline fa-edit'></i>
+			<i className='fas fa_inline fa-edit'></i>
 		</button>
 	</div>
 
@@ -18,7 +18,7 @@ export const ReaderAnnotateButton = ({onClick}) =>
 	<div className='annotate_note_button'>
 		<button onClick={onClick} className='btn btn-outline-primary btn-sm'>
 			Annotate
-			<i className='fa fa_inline fa-link'></i>
+			<i className='fas fa_inline fa-link'></i>
 		</button>
 	</div>	
 
@@ -57,7 +57,7 @@ export const SearchButton = ({input, onClick}) =>
 	<div>
 		<div id='search_button' className='text-center'>
 			<button className='btn btn-primary btn-sm' onClick={()=>onClick(input)}>
-				Search <i className='fa fa_inline fa-search'></i>
+				Search <i className='fas fa_inline fa-search'></i>
 			</button>
 		</div>
 	</div>
@@ -66,7 +66,7 @@ export const NewChapterButton = ({onClick}) =>
 	<div>
 		<div id='new_chapter_button' className='text-center'>
 			<button onClick={onClick} className='btn btn-outline-success btn-lg'>
-				New Chapter <i className='fa fa_inline fa-plus-square-o'></i>
+				New Chapter <i className='fas fa_inline fa-plus-square-o'></i>
 			</button>
 		</div>
 	</div>
@@ -76,7 +76,7 @@ export const NewDocumentButton = ({onClick, docType}) =>
 		<div id='new_document_button' className='text-center'>
 			<button onClick={onClick} className='btn btn-outline-success btn-sm'>
 				New {helpers.docTypeName(docType)}
-				<i className='fa fa_inline fa-plus-square-o'></i>
+				<i className='fas fa_inline fa-plus-square-o'></i>
 			</button>
 		</div>
 	</div>
@@ -86,43 +86,43 @@ export const NewDocumentButton = ({onClick, docType}) =>
 export const AnnotatorNewButton = ({onClick, disabled}) =>
 	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-toggle='modal' data-target='#annotate_modal'>
 		New Annotation
-		<i className='fa fa_inline fa-link'></i>
+		<i className='fas fa_inline fa-link'></i>
 	</button>
 
 export const AnnotatorRemoveButton = ({onClick, disabled}) =>
 	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-secondary btn-sm'>
 		Remove Annotation
-		<i className='fa fa_inline fa-unlink'></i>		
+		<i className='fas fa_inline fa-unlink'></i>		
 	</button>
 
 export const EditorToolButton = ({glyph, onClick}) =>
 	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
-		<i className={'fa fa-' + glyph}></i>
+		<i className={'fas fa-' + glyph}></i>
 	</button>
 
 
 export const EditorDeleteToolButton = ({disabled}) =>
 	<button className='btn btn-info btn-sm' disabled={disabled} data-toggle='modal' data-target='#delete_confirm_modal' type='button'>
 		Delete
-		<i className='fa fa_inline fa-trash-o'></i>
+		<i className='fas fa_inline fa-trash-o'></i>
 	</button>
 
 export const EditorCancelButton = ({onClick}) =>
 	<button type='button' onClick={onClick} className='btn btn-outline-secondary btn-sm' data-dismiss='modal'>
 		Cancel
-		<i className='fa fa_inline fa-times'></i>
+		<i className='fas fa_inline fa-times'></i>
 	</button>
 
 export const EditorSubmitButton = ({onClick}) =>
 	<button id='editor_submit' onClick={onClick} type='button' className='btn btn-outline-success btn-sm'>
 		Submit
-		<i className='fa fa_inline fa-check-square-o'></i>
+		<i className='fas fa_inline fa-check-square-o'></i>
 	</button>
 
 export const EditorDeleteButton = ({onClick}) =>
 	<button id='editor_delete' onClick={onClick} type='button' data-dismiss='modal' className='btn btn-outline-danger btn-sm'>
 		Delete
-		<i className='fa fa_inline fa-trash-o'></i>
+		<i className='fas fa_inline fa-trash-o'></i>
 	</button>
 
 ReaderEditButton.propTypes = {

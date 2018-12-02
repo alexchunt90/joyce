@@ -14,7 +14,7 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, moda
 				<div className='modal-header'>
 					<h5 className='modal-title' id='exampleModalLabel'>Select a note</h5>
 			        <button id='select_annotation_modal_close' type="button" className="close" data-dismiss="modal">
-			          <i className='fa fa-times'></i>
+			          <i className='fas fa-times'></i>
 			        </button>
 				</div>
 				<div className='modal-body'>
@@ -28,7 +28,7 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, moda
 					</div>
 					<div className='row'>
 						<div id='annotation_tag_dropdown' className='col-md-2'>
-							<button className={annotationNote.id ? 'btn btn-primary dropdown-toggle caret-off' : 'btn btn-primary dropdown-toggle caret-off disabled'} data-toggle='dropdown' type='button'><i className='fa fa-chevron-down'></i>Tags</button>
+							<button className={annotationNote.id ? 'btn btn-primary dropdown-toggle caret-off' : 'btn btn-primary dropdown-toggle caret-off disabled'} data-toggle='dropdown' type='button'><i className='fas fa-chevron-down'></i>Tags</button>
 							<div className='dropdown-menu'>
 								{tags.map(tag =>
 						      		<div key={tag.id} className='dropdown-item' onClick={()=>selectAnnotationTag(tag)}>
@@ -44,7 +44,7 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, moda
 					    			<TagColorPreview color={annotationTag.color}/> 
 					    			{annotationTag.title}
 					    			<a id='clear_anntation_tag' onClick={clearAnnotationTag}>
-				    					<i className='fa fa-times'></i>
+				    					<i className='fas fa-times'></i>
 					    			</a>
 					    		</div>
 					    	}

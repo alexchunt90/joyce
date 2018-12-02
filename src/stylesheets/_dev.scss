@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixin";
 
 #admin_header {
 	padding: .3rem;
@@ -7,3 +8,29 @@
 .admin_hide {
 	display: none;
 }
+
+#open_admin_button {
+	position: absolute;
+    z-index: 1;
+    width: 6%;
+    margin: 0 auto;
+    padding: 0.4rem 0;
+    left: 0;
+    right: 0px;
+    background-color: rgba(245,245,245,0.1);
+    border: 1px solid rgba(245,245,245,0.6);
+    border-radius: 0 0 15px 15px;
+}
+
+@include respond-below(xs) {
+	#open_admin_button {
+		width: 14%;
+	}
+}
+
+#open_admin_button > button {
+	display: block;
+	margin: 0 auto;
+}
+
+

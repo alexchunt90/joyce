@@ -33,6 +33,11 @@ const toggles = (state=initialState, action) => {
 				highlights: !state.highlights
 			}
 		// Admin
+		case 'SHOW_ADMIN_HEADER':
+			return {
+				...state,
+				admin: true
+			}		
 		case 'HIDE_ADMIN_HEADER':
 			return {
 				...state,

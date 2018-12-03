@@ -1,10 +1,12 @@
 @import "variables";
+@import "mixin";
 
 #editor_content {
+    height: 72vh;
     overflow-y: auto;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
-    margin: 1.3% 0;
+    margin: 1vh 0;
     border: 1px solid $border_color;
     border-radius: 5px;
     padding: 2% 5%;
@@ -21,15 +23,93 @@
     }
 }
 
-.tall_editor {
-	height: 43em;
+@include respond-below(sm) {
+    #content_window {
+    	height: 84vh;
+    }
+
+    #editor_container {
+    	height: 84vh;
+    }
+    #editor_content {
+        height: 74vh;
+    }
+    #editor_read_mode {
+    	height: 84vh;
+    }
+}
+
+@include respond-below(xs) {
+	div#editor_container {
+		height: 81vh;
+	}
+	div#editor_container > div {
+		height: 81vh;
+	}	
+	div#content_window {
+		height: 81vh;
+	}
+	div#editor_container {
+		height: 81vh;
+	}
+	div#editor_read_mode {
+		height: 81vh;
+	}
+	div#editor_metadata > h4 {
+		font-size: 1.3rem;
+	}
+	div#editor_topbar {
+		height: 5.5vh;
+	}
+	div#editor_topbar.annotate_mode button {
+		font-size: .6rem;
+	}
+	div#editor_content {
+		height: 70vh;
+	}
+	div#editor_content.edit_mode {
+		height: 62.5vh;
+	}
+	div#editor_content.annotate_mode {
+		height: 62.5vh;
+	}
+}
+
+#editor_content.edit_mode {
+	height: 66vh;
+}
+
+#editor_content.edit_mode.tags {
+	height: 61vh;
+}
+
+
+#editor_content.annotate_mode {
+	height: 66vh;
+}
+
+#editor_attributes.tags {
+	height: 5vh;
 }
 
 .short_editor {
 	height: 30em;
 }
 
+#editor_container {
+    height: 82vh;	
+}
+
+#editor_container > div {
+    height: 82vh;	
+}
+
+#editor_read_mode {
+	height: 82vh;
+}
+
 #editor_metadata {
+    height: 5vh;
 	h4 {
 		font-size: 1.75rem
 	}
@@ -40,6 +120,7 @@
 }
 
 #editor_topbar {	
+    height: 4vh;	
 	button {
 		width: 100%;
 	}	
@@ -52,7 +133,8 @@
 }
 
 #editor_bottombar {
-	margin: 0.8% 0;
+	height: 4vh;
+	margin: 0.5vh 0;
 	button {
 		width: 100%;
 	}

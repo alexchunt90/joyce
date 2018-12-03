@@ -32,10 +32,10 @@ export const EditModeTopBar = ({editorState, onToolButtonClick, disabled}) =>
 
 export const AnnotateModeTopBar = ({onNewAnnotationClick, onRemoveAnnotationClick, addDisabled, removeDisabled}) =>
 	<div className='row'>
-		<div className='col-md-5'>
+		<div className='col--5'>
 			<AnnotatorNewButton onClick={onNewAnnotationClick} disabled={addDisabled}/>
 		</div>
-		<div className='col-md-5 offset-md-2'>
+		<div className='col-5 offset-2'>
 			<AnnotatorRemoveButton onClick={onRemoveAnnotationClick} disabled={removeDisabled} />
 		</div>	
 	</div>

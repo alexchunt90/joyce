@@ -40,14 +40,14 @@ const EditorEditMode = ({
 				disabled={!currentDocument.id ? true : false}
 			/>
 		</div>	
-		<div id='editor_content' className={docType === 'tags' ? 'short_editor' : 'tall_editor'}>
+		<div id='editor_content' className={'edit_mode ' + docType}>
 			<Editor 
 				editorState={editorState} 
 				handleKeyCommand={handleKeyCommand}
 				onChange={onChangeEditorState}
 			/>	
 		</div>
-		<div id='editor_attributes'>
+		<div id='editor_attributes' className={'edit_mode ' + docType}>
 			{docType === 'tags' &&
 				<TagColorPicker input={inputs.colorPicker} onChange={onColorPickerInputChange} onColorSwatchClick={onColorSwatchClick}/>
 			}

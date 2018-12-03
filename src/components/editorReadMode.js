@@ -24,7 +24,7 @@ const EditorReadMode = ({
 		<div id='editor_topbar'>
 			<ReadModeTopBar docType={docType} setMode={setMode} />
 		</div>	
-		<div id='editor_content' className={docType === 'tags' ? 'short_editor' : 'tall_editor'}>
+		<div id='editor_content' className={'read_mode ' + docType}>
 			<Editor editorState={editorState} readOnly={true}/>
 		</div>
 	</div>

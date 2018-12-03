@@ -1,6 +1,6 @@
 import React from 'react'
 
-import defaultTagColors from '../modules/editorSettings'
+import { defaultTagColors } from '../modules/editorSettings'
 
 const TagColorPicker = ({input, onChange, onColorSwatchClick}) =>
 	<div className='input-group'>

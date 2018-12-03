@@ -27,7 +27,7 @@ const EditorAnnotateMode = ({
 			}
 			<DocumentTitle docType={docType} currentDocument={currentDocument} />
 		</div>
-		<div id='editor_topbar'>
+		<div id='editor_topbar' className='annotate_mode'>
 			<AnnotateModeTopBar 
 				onNewAnnotationClick={onNewAnnotationClick}
 				onRemoveAnnotationClick={onRemoveAnnotationClick}
@@ -35,7 +35,7 @@ const EditorAnnotateMode = ({
 				removeDisabled={(editorState.getSelection().isCollapsed() ) ? true : false}
 			/>
 		</div>	
-		<div id='editor_content' className={docType === 'tags' ? 'short_editor' : 'tall_editor'}>
+		<div id='editor_content' className={'annotate_mode ' + docType}>
 			<Editor editorState={editorState} onChange={onChangeEditorState} keyBindingFn={annotateKeyBindings} />
 		</div>
 		<div id='editor_bottombar'>

@@ -1,6 +1,9 @@
 @import "variables";
 
+
+
 nav.navbar {
+	height: 9vh;
 	background-color: rgba(10,10,10,1);
 	background: -webkit-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Safari 5.1 to 6.0 */
 	background: -o-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Opera 11.1 to 12.0 */

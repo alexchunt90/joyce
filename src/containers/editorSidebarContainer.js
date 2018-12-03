@@ -46,7 +46,7 @@ const mapDispatchToProps = dispatch => {
 		},
 		onNewDocumentClick: docType => {
 			dispatch(actions.createNewDocument(docType))
-		},		
+		},
 		onDocumentClick: (id, docType) => {
 			dispatch(actions.setCurrentDocument(id, docType))
 		},

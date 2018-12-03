@@ -85,7 +85,7 @@ button {
 }
 
 @include respond-above(sm) {
-    #mobile_reader_sidebar {
+    .mobile_sidebar {
         display: none;
     }
 }

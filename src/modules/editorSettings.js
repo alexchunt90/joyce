@@ -1,6 +1,7 @@
 import { convertToRaw, ContentState, CompositeDecorator } from 'draft-js'
 
 import LinkContainer from '../containers/linkContainer'
+import ModalLinkContainer from '../containers/linkModalContainer'
 
 export const html_export_options = {
   blockStyleFn: (block) => {
@@ -46,6 +47,13 @@ export const linkDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: LinkContainer,
+  }
+])
+
+export const modalLinkDecorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: ModalLinkContainer,
   }
 ])
 

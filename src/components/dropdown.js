@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const DocTypeDropdown = ({docType, setDocType}) =>
+import helpers from '../modules/helpers'
+import TagColorPreview from './tagColorPreview'
+
+export const DocTypeDropdown = ({docType, setDocType, size='sm'}) =>
 	<div className='dropdown'>
-		<button className='btn btn-primary btn-sm dropdown-toggle' type='button' id='doc_type_select' data-toggle='dropdown'>
+		<button className={'btn btn-primary dropdown-toggle btn-' + size} type='button' id='doc_type_select' data-toggle='dropdown'>
 			{docType.charAt(0).toUpperCase() + docType.slice(1)}
 		</button>
 		<div className='dropdown-menu'>
@@ -13,15 +16,27 @@ export const DocTypeDropdown = ({docType, setDocType}) =>
 		</div>
 	</div>
 
-export const ReaderDocDropdown = ({currentDocument, docs, docType, onDocumentClick}) =>
+export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick, editMode=false, onNewDocumentClick}) =>
 	<div className='dropdown'>
 		<button className='btn btn-primary btn-md dropdown-toggle' type='button' id='doc_type_select' data-toggle='dropdown'>
-			{docType=='chapters' && currentDocument.number ? currentDocument.number + '. ' : ''}{currentDocument.title}
+			{docType==='chapters' && currentDocument.number ? currentDocument.number + '. ' : ''}{currentDocument.title}
 		</button>
 		<div className='dropdown-menu'>
 	    	{docs.map(doc =>
-				<a key={doc.id} className='dropdown-item' onClick={()=>onDocumentClick(doc.id, docType)}>{docType=='chapters' ? doc.number + '. ' : ''}{doc.title}</a>
-	    	)}				
+				<a key={doc.id} className='dropdown-item' onClick={()=>onDocumentClick(doc.id, docType)}>
+					{docType==='tags' &&
+						<TagColorPreview color={doc.color}/>
+					}
+					{docType==='chapters' ? doc.number + '. ' : ''}
+					{doc.title}
+				</a>
+	    	)}
+	    	{editMode=true &&
+	    		<a className='dropdown-item' onClick={onNewDocumentClick}>
+					<i className='fas fa-plus-square'></i>&nbsp;
+					New {helpers.docTypeName(docType)}
+	    		</a>
+	    	}
 		</div>
 	</div>
 

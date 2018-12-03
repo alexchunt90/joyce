@@ -1,7 +1,7 @@
 const initialState = {
 	loading: true,
 	highlights: true,
-	admin: true,
+	admin: false,
 }
 
 const toggles = (state=initialState, action) => {

@@ -9,6 +9,14 @@
 	display: none;
 }
 
+#admin_title {
+    display: inline;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-top: 25px;
+    padding: 0 1rem;
+}
+
 #open_admin_button {
 	position: absolute;
     z-index: 1;

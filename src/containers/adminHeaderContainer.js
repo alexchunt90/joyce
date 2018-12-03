@@ -15,6 +15,7 @@ const AdminHeader = ({toggles, hideAdmin, showAdmin}) => {
 	if (toggles.admin === true) {
 		return (
 			<div id='admin_header' className={toggles.admin ? 'admin_show' : 'admin_hide'}>
+				<div id='admin_title'>Admin Tools:</div>
 				<button type='button' className='btn btn-sm btn-outline-primary' onClick={refreshElasticsearch}>
 					Refresh Seed Data
 				</button>

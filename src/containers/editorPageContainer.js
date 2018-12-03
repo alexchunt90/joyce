@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import actions from '../actions'
+import helpers from '../modules/helpers'
 import Content from '../components/content'
 import { EditorWelcome } from '../components/welcome'
 import LoadingSpinner from '../components/loadingSpinner'
@@ -11,8 +12,10 @@ import EditorContentContainer from './editorContentContainer'
 import DeleteConfirmModal from '../components/deleteConfirmModal'
 import AnnotationModal from '../components/annotationModal'
 import ChooseAnnotationModal from '../components/chooseAnnotationModal'
+import { EditorSidebarOptions } from '../components/mobileSidebarOptions'
 
 const EditorPage = ({
+	chapters,
 	notes,
 	currentDocument,
 	annotationNote,
@@ -22,6 +25,9 @@ const EditorPage = ({
 	docType,
 	tags,
 	toggles,
+	setDocType,
+	onDocumentClick,
+	onNewDocumentClick,
 	onDeleteConfirm,
 	onSubmitAnnotationClick,
 	selectAnnotationNote,
@@ -31,7 +37,15 @@ const EditorPage = ({
 	userErrors,
 }) =>
 	<div id='joyce_reader' className='container-fluid'>
-		<div className="row">
+		<EditorSidebarOptions
+			docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
+			currentDocument={currentDocument}
+			docType={docType}
+			setDocType={setDocType}
+			onDocumentClick={onDocumentClick}
+			onNewDocumentClick={()=>onNewDocumentClick(docType)}
+		/>	
+		<div id='content_container' className="row">
 			<EditorSidebarContainer />
 			<Content>
 				{toggles.loading === true &&
@@ -63,6 +77,7 @@ const EditorPage = ({
 
 const mapStateToProps = state => {
 	return {
+		chapters: state.chapters,
 		notes: state.notes,
 		tags: state.tags,
 		currentDocument: state.currentDocument,
@@ -79,6 +94,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		setDocType: docType => {
+			dispatch(actions.setEditorDocType(docType))
+		},
+		onNewDocumentClick: docType => {
+			dispatch(actions.createNewDocument(docType))
+		},		
+		onDocumentClick: (id, docType) => {
+			dispatch(actions.setCurrentDocument(id, docType))
+		},
 		onDeleteConfirm: (id, docType) => {
 			dispatch(actions.deleteCurrentDocument(id, docType))
 		},
@@ -90,7 +114,8 @@ const mapDispatchToProps = dispatch => {
 		},
 		selectAnnotationTag: tag => {
 			dispatch(actions.selectAnnotationTag(tag))
-		},		
+		},
+
 		onSubmitAnnotationClick: (annotationNote, annotationTag, selectionState, editorState) => {
 			dispatch(actions.submitAnnotation(annotationNote, annotationTag, selectionState, editorState))
 		}

@@ -9,6 +9,11 @@ import { html_export_options, convertToSearchText, linkDecorator } from '../modu
 
 const joyceInterface = store => next => action => {
 	next(action)
+	const chapters = store.getState().chapters
+	const notes = store.getState().notes
+	const tags = store.getState().tags
+	const docType = store.getState().docType
+	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags)
 	switch(action.type) {
 		case 'SET_CURRENT_DOCUMENT':
 			store.dispatch(actions.getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
@@ -18,12 +23,12 @@ const joyceInterface = store => next => action => {
 			if (docErrors.length < 1) {
 				const textContent = action.editorState.getCurrentContent()
 				const data = { 
-					title: action.documentTitleInput, 
+					title: action.inputs.documentTitle, 
 					html_source: stateToHTML(textContent, html_export_options), 
 					search_text: convertToSearchText(textContent) 
 				}
 				if (action.docType === 'tags') {
-					data.color = action.colorPickerInput
+					data.color = action.inputs.color
 				}
 				if (action.currentDocument.id) {
 					data.id = action.currentDocument.id
@@ -48,7 +53,7 @@ const joyceInterface = store => next => action => {
 			if (currentDocument.id) {
 				store.dispatch(actions.getDocumentText({id: currentDocument.id, docType: docType, state: 'currentDocument'}))
 			} else {
-				store.dispatch(actions.getDocumentText({id: notes[0].id, docType: docType, state: 'currentDocument'}))
+				store.dispatch(actions.getDocumentText({id: docs[0].id, docType: docType, state: 'currentDocument'}))
 			}
 			break
 		case 'SET_DOC_TYPE':

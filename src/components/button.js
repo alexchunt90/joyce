@@ -76,7 +76,7 @@ export const NewDocumentButton = ({onClick, docType}) =>
 		<div id='new_document_button' className='text-center'>
 			<button onClick={onClick} className='btn btn-outline-success btn-sm'>
 				New {helpers.docTypeName(docType)}
-				<i className='fas fa_inline fa-plus-square-o'></i>
+				<i className='fas fa_inline fa-plus-square'></i>
 			</button>
 		</div>
 	</div>

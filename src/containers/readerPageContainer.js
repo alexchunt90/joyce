@@ -26,17 +26,17 @@ const ReaderPage = ({
 	onHighlightClick,
 }) =>
 	<div id='joyce_reader' className='container-fluid'>
-		<ReaderSidebarOptions
-			docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
-			currentDocument={currentDocument}
-			highlightToggle={toggles.highlights}
-			docType={docType}
-			onHighlightClick={onHighlightClick}
-			onDocumentClick={onDocumentClick}
-		/>
 		<div id='content_container' className='row'>
 			<ReaderSidebarContainer />
 			<Content>
+				<ReaderSidebarOptions
+					docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
+					currentDocument={currentDocument}
+					highlightToggle={toggles.highlights}
+					docType={docType}
+					onHighlightClick={onHighlightClick}
+					onDocumentClick={onDocumentClick}
+				/>			
 				{toggles.loading === true &&
 					<LoadingSpinner size={4} />
 				}

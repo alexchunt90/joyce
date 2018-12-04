@@ -37,17 +37,17 @@ const EditorPage = ({
 	userErrors,
 }) =>
 	<div id='joyce_reader' className='container-fluid'>
-		<EditorSidebarOptions
-			docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
-			currentDocument={currentDocument}
-			docType={docType}
-			setDocType={setDocType}
-			onDocumentClick={onDocumentClick}
-			onNewDocumentClick={()=>onNewDocumentClick(docType)}
-		/>	
 		<div id='content_container' className="row">
 			<EditorSidebarContainer />
 			<Content>
+				<EditorSidebarOptions
+					docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
+					currentDocument={currentDocument}
+					docType={docType}
+					setDocType={setDocType}
+					onDocumentClick={onDocumentClick}
+					onNewDocumentClick={()=>onNewDocumentClick(docType)}
+				/>				
 				{toggles.loading === true &&
 					<LoadingSpinner size={4} />
 				}

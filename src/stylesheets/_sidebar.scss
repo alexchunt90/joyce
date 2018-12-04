@@ -83,6 +83,11 @@ button {
     overflow-y: auto;
 }
 
+#doc_list_dropdown {
+    overflow: scroll;
+    height: 80vh;
+}
+
 #new_document_button > button {
     width: 100%;
 }
@@ -93,11 +98,19 @@ button {
     }
 }
 
+#mobile_editor_sidebar > div {
+    padding: 0 1em;
+}
+
 @include respond-below(xs) {
     .mobile_sidebar {
-        height: 10vh;
+        height: 8vh;
         button {
             font-size: .8rem;
         }
     }
+}
+
+.topbar_button {
+    padding: 0 1em;
 }

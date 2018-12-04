@@ -21,7 +21,7 @@ export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick
 		<button className='btn btn-primary btn-md dropdown-toggle' type='button' id='doc_type_select' data-toggle='dropdown'>
 			{docType==='chapters' && currentDocument.number ? currentDocument.number + '. ' : ''}{currentDocument.title}
 		</button>
-		<div className='dropdown-menu'>
+		<div id='doc_list_dropdown' className='dropdown-menu'>
 	    	{docs.map(doc =>
 				<a key={doc.id} className='dropdown-item' onClick={()=>onDocumentClick(doc.id, docType)}>
 					{docType==='tags' &&

@@ -25,7 +25,8 @@
 
 @include respond-below(sm) {
     #content_window {
-    	height: 84vh;
+    	height: 91vh;
+    	margin: 0;
     }
 
     #editor_container {
@@ -47,7 +48,7 @@
 		height: 81vh;
 	}	
 	div#content_window {
-		height: 81vh;
+		height: 91vh;
 	}
 	div#editor_container {
 		height: 81vh;

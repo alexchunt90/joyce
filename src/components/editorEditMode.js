@@ -31,7 +31,7 @@ const EditorEditMode = ({
 			{toggles.loading === true &&
 				<LoadingSpinner />
 			}
-			<input type='text' value={inputs.documentTitle} onChange={onDocumentTitleChange}/>
+			<input type='text' value={inputs.documentTitle} placeholder='Document Title' onChange={onDocumentTitleChange}/>
 		</div>
 		<div id='editor_topbar'>
 			<EditModeTopBar 

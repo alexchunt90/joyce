@@ -21,6 +21,8 @@ const ReaderContent = ({
 		<br />
 		<br />
 		<Editor editorState={editorState} readOnly={true} />
+		<br />
+		<br />		
 	</div>
 
 const mapStateToProps = state => {

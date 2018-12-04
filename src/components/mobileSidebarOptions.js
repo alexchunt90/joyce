@@ -7,20 +7,20 @@ import { DocListDropdown } from './dropdown'
 
 export const ReaderSidebarOptions = ({docs, currentDocument, highlightToggle, docType, onHighlightClick, onDocumentClick}) =>
 	<div id='mobile_reader_sidebar' className='mobile_sidebar row'>
-		<div className='col-6 d-block d-md-none'>
+		<div id='mobile_highlight_options' className='col-6 d-block d-md-none'>
 			<HighlightButton toggle={highlightToggle} onClick={onHighlightClick} size='md'/>
 		</div>
-		<div className='col-6 d-block d-md-none'>
+		<div id='mobile_read_options' className='mobile_list_options col-6 d-block d-md-none'>
 			<DocListDropdown currentDocument={currentDocument} docs={docs} docType={docType} onDocumentClick={onDocumentClick}/>
 		</div>
 	</div>
 
 export const EditorSidebarOptions = ({docType, setDocType, currentDocument, docs, onDocumentClick, onNewDocumentClick}) =>
 	<div id='mobile_editor_sidebar' className='mobile_sidebar row'>
-		<div className='col-6 d-block d-md-none'>
+		<div id='mobile_doctype_options' className='col-6 d-block d-md-none'>
 			<DocTypeDropdown docType={docType} setDocType={setDocType} size='md'/>
 		</div>
-		<div className='col-6 d-block d-md-none'>
+		<div id='mobile_edit_options' className='mobile_list_options col-6 d-block d-md-none'>
 			<DocListDropdown currentDocument={currentDocument} docs={docs} docType={docType} onDocumentClick={onDocumentClick} editMode={true} onNewDocumentClick={onNewDocumentClick}/>
 		</div>
 	</div>

@@ -6,11 +6,11 @@ import { ReaderAnnotateButton, ReaderEditButton, EditorToolButton, EditorDeleteT
 export const ReadModeTopBar = ({docType, setMode}) =>
 	<div className='row'>
 		{['chapters', 'notes'].indexOf(docType) >= 0 &&
-			<div className='col-5'>
+			<div className='topbar_button col-5'>
 				<ReaderAnnotateButton onClick={()=>setMode('ANNOTATE_MODE')}/>
 			</div>
 		}
-		<div className='col-5 ml-auto'>
+		<div className='topbar_button col-5 ml-auto'>
 			<ReaderEditButton onClick={()=>setMode('EDIT_MODE')} />
 		</div>
 	</div>

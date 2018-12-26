@@ -17,7 +17,7 @@ const ReaderSidebar = ({
 	onDocumentClick,
 	onHighlightClick,
 }) =>
-	<div className='col-md-3 d-none d-md-block' id='sidebar'>
+	<div id='sidebar' className='col-md-3 d-none d-md-block'>
 		<div>
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />

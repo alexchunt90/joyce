@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixin";
 
 html {
 	height: 100%;
@@ -20,12 +21,26 @@ html body {
 	height: 100vh;
 }
 
-#wrapper > div {
+#inner_wrapper {
 	height: 100vh;
 	overflow: hidden;
 }
 
-#content_window {
+#joyce_page {
+	overflow: hidden;
+	width: 95%;
+    height: 91vh;
+    background-color: rgba(256,256,256,0.5);
+    border-left: 1px solid $border_color;
+    border-right: 1px solid $border_color;
+}
+
+#page_wrapper {
+    height: 90vh;
+    margin-top: 1vh;    
+}
+
+#content_wrapper {
     height: 88vh;
     overflow: hidden;
     background-color: rgba(250,250,250,.8);
@@ -36,12 +51,22 @@ html body {
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
-.fa_inline {
-	padding-left: 0.5rem;	
-}
+// Media queries
 
-.loading_spinner {
-	margin: 0 auto;
-	text-align:center;
-	color: $nav_gradient1
+@include respond-below(sm) {
+    #joyce_page {
+        width: 100%;
+    }
+
+    #page_wrapper {
+    	margin-top: 0 !important;
+    }
+
+    #content_wrapper {
+    	margin-left: 0;
+    	margin-right: 0;
+    	padding: 0;
+    	box-shadow: none;
+    	border: none;
+    }
 }

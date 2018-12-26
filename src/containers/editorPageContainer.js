@@ -23,6 +23,7 @@ const EditorPage = ({
 	editorState,
 	modalEditorState,
 	docType,
+	mode,
 	tags,
 	toggles,
 	setDocType,
@@ -36,18 +37,20 @@ const EditorPage = ({
 	selectionState,
 	userErrors,
 }) =>
-	<div id='joyce_reader' className='container-fluid'>
-		<div id='content_container' className="row">
+	<div id='joyce_page' className='container-fluid'>
+		<div id='page_wrapper' className="row">
 			<EditorSidebarContainer />
 			<Content>
-				<EditorSidebarOptions
-					docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
-					currentDocument={currentDocument}
-					docType={docType}
-					setDocType={setDocType}
-					onDocumentClick={onDocumentClick}
-					onNewDocumentClick={()=>onNewDocumentClick(docType)}
-				/>				
+				{mode === 'READ_MODE' &&
+					<EditorSidebarOptions
+						docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
+						currentDocument={currentDocument}
+						docType={docType}
+						setDocType={setDocType}
+						onDocumentClick={onDocumentClick}
+						onNewDocumentClick={()=>onNewDocumentClick(docType)}
+					/>
+				}
 				{toggles.loading === true &&
 					<LoadingSpinner size={4} />
 				}
@@ -80,6 +83,7 @@ const mapStateToProps = state => {
 		chapters: state.chapters,
 		notes: state.notes,
 		tags: state.tags,
+		mode: state.mode,
 		currentDocument: state.currentDocument,
 		annotationNote: state.annotationNote,
 		annotationTag: state.annotationTag,

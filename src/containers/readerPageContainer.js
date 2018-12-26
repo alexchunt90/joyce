@@ -25,8 +25,8 @@ const ReaderPage = ({
 	onDocumentClick,
 	onHighlightClick,
 }) =>
-	<div id='joyce_reader' className='container-fluid'>
-		<div id='content_container' className='row'>
+	<div id='joyce_page' className='container-fluid'>
+		<div id='page_wrapper' className='row'>
 			<ReaderSidebarContainer />
 			<Content>
 				<ReaderSidebarOptions

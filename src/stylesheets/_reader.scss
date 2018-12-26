@@ -1,6 +1,7 @@
 @import "variables";
+@import "mixin";
 
-#page {
+#reader_container {
     height: 100%;
     overflow-y: auto;
     background-color: rgba(256,256,256,.8);
@@ -41,8 +42,14 @@
 		text-decoration: none;		
 	}
 	to {
-		// color: map-get($theme_colors, "primary");
-		// background-color: #f2e9de;
 		border-radius: 3px;
 	}
+}
+
+// Media queries
+
+@include respond-below(sm) {
+    #reader_container {
+    	border: none;
+    }
 }

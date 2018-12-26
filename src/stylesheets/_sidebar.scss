@@ -15,63 +15,13 @@
     height: 7vh;
 }
 
-#highlight_button > button {
-	width: 100%;    
+#mobile_editor_sidebar > div {
+    padding: 0 1em;
 }
 
 .sidebar_spacer {
     margin: 1.8% 0;
     border: 1px solid $border_color;	
-}
-
-button {
-    background-color: rgba(250, 250, 250, 0.8);
-}
-
-%sidebar_button {
-    width: 100%;
-    box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
-}
-
-.note_button > button {
-    @extend %sidebar_button;
-    white-space: normal;
-    margin: 0.325% 0;
-    padding: 0.5rem;
-    font-size: 0.8rem;
-    text-align: left;
-}
-
-.chapter_button > button {
-    @extend %sidebar_button;
-    margin: 0.25% 0;
-    padding: 0.2rem 0;
-    font-size: 1.5vw;
-}
-
-.tag_button > button {
-    @extend %sidebar_button;
-    white-space: normal;
-    margin: 0.325% 0;
-    padding: 0.5rem;
-    font-size: 0.8rem;
-    text-align: left;
-}
-
-.chapter_button > button.inactive_button:not(:hover) {
-    background-color: rgba(250, 250, 250, 1);
-}
-
-.note_button > button.inactive_button:not(:hover) {
-    background-color: rgba(250, 250, 250, 0.8);
-}
-
-.tag_button > button.inactive_button:not(:hover) {
-    background-color: rgba(250, 250, 250, 0.8);
-}
-
-.dropdown > button {
-    width: 100%;
 }
 
 #document_list > div {
@@ -88,9 +38,7 @@ button {
     height: 80vh;
 }
 
-#new_document_button > button {
-    width: 100%;
-}
+// Media queries
 
 @include respond-above(sm) {
     .mobile_sidebar {
@@ -98,8 +46,12 @@ button {
     }
 }
 
-#mobile_editor_sidebar > div {
-    padding: 0 1em;
+@include respond-below(sm) {
+    .mobile_sidebar {
+        background-color: rgba(255, 255, 255, 0.8);
+        margin-top: 0 !important;
+        padding: 1vh 2.5% 0 2.5%;
+    }
 }
 
 @include respond-below(xs) {
@@ -109,8 +61,4 @@ button {
             font-size: .8rem;
         }
     }
-}
-
-.topbar_button {
-    padding: 0 1em;
 }

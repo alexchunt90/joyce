@@ -11,7 +11,7 @@ const ReaderContent = ({
 	editorState,
 	toggles,
 }) =>
-	<div id="page" className={toggles.highlights ? 'annotations' : 'hidden_annotations'}>
+	<div id="reader_container" className={toggles.highlights ? 'annotations' : 'hidden_annotations'}>
 		{toggles.loading === true &&
 			<LoadingSpinner />
 		}

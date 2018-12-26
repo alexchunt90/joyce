@@ -20,7 +20,7 @@ const EditorAnnotateMode = ({
 	cancelEdit,
 	onSubmitClick,
 }) =>
-	<div>
+	<div id='editor_annotate_mode'  className='editor_wrapper'>
 		<div id='editor_metadata'>
 			{toggles.loading === true &&
 				<LoadingSpinner />

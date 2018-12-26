@@ -31,7 +31,7 @@ store.dispatch(actions.getDocumentList({docType: 'tags'}))
 ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
-			<div>
+			<div id='inner_wrapper'>
 				<AdminHeaderContainer />
 				<Navbar />
 				<Switch>

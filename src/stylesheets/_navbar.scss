@@ -1,9 +1,8 @@
 @import "variables";
-
-
+@import "mixin";
 
 nav.navbar {
-	height: 9vh;
+	min-height: 9vh;
 	background-color: rgba(10,10,10,1);
 	background: -webkit-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Safari 5.1 to 6.0 */
 	background: -o-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Opera 11.1 to 12.0 */
@@ -22,9 +21,8 @@ nav a:hover {
 	color: #b7b7b7;
 }
 
-// Bootstrap override
-// .collapsing {
-//     -webkit-transition: none;
-//     transition: none;
-//     display: none;
-// }
+@include respond-below(xs) {
+    a.navbar-brand{
+    	font-size: 1.5em;
+    }
+}

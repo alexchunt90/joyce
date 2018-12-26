@@ -14,7 +14,7 @@ const EditorReadMode = ({
 	toggles,
 	setMode
 }) =>
-	<div id='editor_read_mode'>
+	<div id='editor_read_mode'  className='editor_wrapper'>
 		<div id='editor_metadata'>
 			{toggles.loading === true &&
 				<LoadingSpinner />

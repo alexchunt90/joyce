@@ -1,0 +1,23 @@
+@import "variables";
+@import "mixin";
+
+#search_input {
+	width: 100%;
+}
+
+#search_results_box {
+    overflow-y: auto;
+	margin-top: 3%;
+	height: 75vh;
+	border: 1px solid $border_color;
+	border-radius: 5px;
+	background-color: $search_box_bg;
+}
+
+.result_type_group {
+	background-color: rgba(250, 250, 250, 0.9);
+    margin: 0 -2%;
+    padding: 2%;
+    border-radius: 5px;
+    border: 1px solid $border_color;
+}

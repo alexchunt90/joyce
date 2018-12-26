@@ -1,5 +1,67 @@
 @import "variables";
 
+button {
+    background-color: rgba(250, 250, 250, 0.8);
+}
+
+#highlight_button > button {
+    width: 100%;    
+}
+
+%sidebar_button {
+    width: 100%;
+    box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.note_button > button {
+    @extend %sidebar_button;
+    white-space: normal;
+    margin: 0.325% 0;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.chapter_button > button {
+    @extend %sidebar_button;
+    margin: 0.25% 0;
+    padding: 0.2rem 0;
+    font-size: 1.5vw;
+}
+
+.tag_button > button {
+    @extend %sidebar_button;
+    white-space: normal;
+    margin: 0.325% 0;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.chapter_button > button.inactive_button:not(:hover) {
+    background-color: rgba(250, 250, 250, 1);
+}
+
+.note_button > button.inactive_button:not(:hover) {
+    background-color: rgba(250, 250, 250, 0.8);
+}
+
+.tag_button > button.inactive_button:not(:hover) {
+    background-color: rgba(250, 250, 250, 0.8);
+}
+
+.dropdown > button {
+    width: 100%;
+}
+
+.topbar_button {
+    padding: 0 1em;
+}
+
+#new_document_button > button {
+    width: 100%;
+}
+
 .color_preview {
 	display: block;
 	height: 2em;
@@ -13,4 +75,11 @@
     display: inline-flex;
     margin-right: 0.5em;
     border: 1px solid black;
+}
+
+button.caret-off::before {
+    display: none;
+}
+button.caret-off::after {
+    display: none;
 }

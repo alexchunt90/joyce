@@ -28,7 +28,7 @@ const joyceInterface = store => next => action => {
 					search_text: convertToSearchText(textContent) 
 				}
 				if (action.docType === 'tags') {
-					data.color = action.inputs.color
+					data.color = action.inputs.colorPicker
 				}
 				if (action.currentDocument.id) {
 					data.id = action.currentDocument.id

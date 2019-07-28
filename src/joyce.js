@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router'
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import 'bootstrap'
 
@@ -27,6 +27,7 @@ const state = store.getState()
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
 store.dispatch(actions.getDocumentList({docType: 'tags'}))
+store.dispatch(actions.getDocumentList({docType: 'media'}))
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -38,6 +39,9 @@ ReactDOM.render(
 					<Route exact path='/' render={() =>
 						<Redirect to={'/:id'}/>
 					}/>
+					<Route exact path='/notes' render={() =>
+						<Redirect to={'/notes/:id'}/>
+					}/>
 					<Route exact path='/edit' render={() =>
 						<Redirect to={'/edit/:id'}/>
 					}/>
@@ -46,14 +50,15 @@ ReactDOM.render(
 					}/>
 					<Route exact path='/edit/tags' render={() =>
 						<Redirect to={'/edit/tags/:id'}/>
-					}/>										
-					<Route exact path='/notes' render={() =>
-						<Redirect to={'/notes/:id'}/>
 					}/>
+					<Route exact path='/edit/media' render={() =>
+						<Redirect to={'/edit/media/:id'}/>
+					}/>															
 					<Route exact path='/notes/:id' component={ReaderPageContainer} />
 					<Route exact path='/edit/:id' component={EditorPageContainer} />
 					<Route exact path='/edit/notes/:id' component={EditorPageContainer} />
 					<Route exact path='/edit/tags/:id' component={EditorPageContainer} />
+					<Route exact path='/edit/media/:id' component={EditorPageContainer} />
 					<Route exact path='/search/' component={SearchPageContainer} />
 					<Route exact path='/:id' component={ReaderPageContainer} />	
 				</Switch>

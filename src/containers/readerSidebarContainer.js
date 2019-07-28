@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import actions from '../actions'
 import { DocumentList } from '../components/list'
 import { HighlightButton } from '../components/button'

@@ -44,6 +44,13 @@ export const TagButton = ({tag, currentTag, onClick}) =>
 		</button>
 	</div>
 
+export const MediaButton = ({media, currentMedia, onClick}) =>
+	<div className ='media_button'>
+		<button onClick={onClick} className={currentMedia.id === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+			{media.title}
+		</button>
+	</div>
+
 export const HighlightButton = ({toggle, onClick, size='lg'}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>

@@ -188,12 +188,12 @@ def es_search_text(body):
 
 ''' Get all chapters '''
 @api.route('/chapters/')
-def get_chapters():
+def get_chapter_list():
 	return jsonify(es_document_list('chapters'))
 
 ''' Get specific chapter '''
 @api.route('/chapters/<string:id>')
-def get_chapter(id):
+def get_chapter_doc(id):
 	data = es_get_document('chapters', id)
 	return jsonify(data)
 
@@ -222,28 +222,28 @@ def delete_chapter(id):
 
 ''' Get all notes '''
 @api.route('/notes/')
-def get_notes():
+def get_note_list():
 	return jsonify(es_document_list('notes'))
 
-''' Get specific chapter '''
+''' Get specific note '''
 @api.route('/notes/<string:id>')
-def get_note(id):
+def get_note_doc(id):
 	data =  es_get_document('notes', id)
 	return jsonify(data)
 
-''' New chapter '''
+''' New note '''
 @api.route('/notes/', methods=['PUT'])
 def create_note():
 	es_create_document('notes', request.data)
 	return jsonify(es_document_list('notes'))
 
-''' Write chapter '''
+''' Write note '''
 @api.route('/notes/<string:id>', methods=['POST'])
 def write_note(id):
 	es_index_document('notes', id, request.data)
 	return jsonify(es_document_list('notes'))
 
-''' Delete chapter '''
+''' Delete note '''
 @api.route('/notes/<string:id>', methods=['DELETE'])
 def delete_note(id):
 	es_delete_document('notes', id)
@@ -255,32 +255,65 @@ def delete_note(id):
 
 ''' Get all tags '''
 @api.route('/tags/')
-def get_tags():
+def get_tag_list():
 	return jsonify(es_document_list('tags'))
 
-''' Get specific chapter '''
+''' Get specific tag '''
 @api.route('/tags/<string:id>')
-def get_tag(id):
+def get_tag_doc(id):
 	data =  es_get_document('tags', id)
 	return jsonify(data)
 
-''' New chapter '''
+''' New tag '''
 @api.route('/tags/', methods=['PUT'])
 def create_tag():
 	es_create_document('tags', request.data)
 	return jsonify(es_document_list('tags'))
 
-''' Write chapter '''
+''' Write tag '''
 @api.route('/tags/<string:id>', methods=['POST'])
 def write_tag(id):
 	es_index_document('tags', id, request.data)
 	return jsonify(es_document_list('tags'))
 
-''' Delete chapter '''
+''' Delete tag '''
 @api.route('/tags/<string:id>', methods=['DELETE'])
 def delete_tag(id):
 	es_delete_document('tags', id)
 	return jsonify(es_document_list('tags'))
+
+#
+# Media API Routes
+#
+
+''' Get all media '''
+@api.route('/media/')
+def get_media_list():
+	return jsonify(es_document_list('media'))
+
+''' Get specific media '''
+@api.route('/media/<string:id>')
+def get_media_doc(id):
+	data =  es_get_document('media', id)
+	return jsonify(data)
+
+''' New media '''
+@api.route('/media/', methods=['PUT'])
+def create_media():
+	es_create_document('media', request.data)
+	return jsonify(es_document_list('media'))
+
+''' Write media '''
+@api.route('/media/<string:id>', methods=['POST'])
+def write_media(id):
+	es_index_document('media', id, request.data)
+	return jsonify(es_document_list('media'))
+
+''' Delete media '''
+@api.route('/media/<string:id>', methods=['DELETE'])
+def delete_media(id):
+	es_delete_document('media', id)
+	return jsonify(es_document_list('media'))
 
 #
 # Search API Routes

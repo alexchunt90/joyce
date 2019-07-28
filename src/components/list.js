@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ChapterButton, NoteButton, TagButton } from './button'
+import { ChapterButton, NoteButton, TagButton, MediaButton } from './button'
 
 export const DocumentList = ({docs, currentDocument, onDocumentClick, docType}) =>
 	<div id='document_list'>
@@ -13,6 +13,9 @@ export const DocumentList = ({docs, currentDocument, onDocumentClick, docType}) 
 		}
 		{(docType === 'tags' && docs.length > 0) &&
 			<TagList tags={docs} currentTag={currentDocument} onTagClick={onDocumentClick}/>
+		}
+		{(docType === 'media' && docs.length > 0) &&
+			<MediaList media={docs} currentMedia={currentDocument} onMediaClick={onDocumentClick}/>
 		}		
 	</div>
 
@@ -34,6 +37,13 @@ export const TagList = ({tags, currentTag, onTagClick}) =>
 	<div>
     	{tags.map(tag =>
 			<TagButton key={tag.id} currentTag={currentTag} tag={tag} onClick={()=>onTagClick(tag.id, 'tags')} />
+    	)}
+	</div>
+
+export const MediaList = ({media, currentMedia, onMediaClick}) =>
+	<div>
+    	{media.map(media =>
+			<MediaButton key={media.id} currentMedia={currentMedia} media={media} onClick={()=>onMediaClick(media.id, 'media')} />
     	)}
 	</div>
 

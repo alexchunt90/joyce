@@ -32,12 +32,20 @@ const inputs = (state=initialState, action) => {
 			}
 		// Color Picker
 		case 'GET_DOCUMENT_TEXT': 
-			if (action.status === 'success' && action.state === 'currentDocument' && action.docType === 'tags') {
+			if (action.status === 'success' && action.docType === 'tags') {
+				console.log('SOMETHING!')
 				return {
 					...state,
 					colorPicker: action.data.color
 				}
 			} else { return state }
+		case 'SAVE_DOCUMENT': 
+			if (action.status === 'success' && action.docType === 'tags') {
+				return {
+					...state,
+					colorPicker: ''
+				}
+			} else { return state }			
 		case 'CREATE_DOCUMENT':
 			return {
 				...state,

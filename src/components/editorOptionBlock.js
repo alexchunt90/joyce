@@ -20,7 +20,7 @@ export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, d
 				<EditorToolButton glyph='bold' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
 				<EditorToolButton glyph='italic' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
 				<EditorToolButton glyph='underline' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
-				<EditorToolButton glyph='header' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
+				<EditorToolButton glyph='heading' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
 			</div>
 		</div>
 		<div className='col-5 offset-2'>

@@ -1,4 +1,4 @@
-import { go, push } from 'react-router-redux'
+import { push } from 'react-router-redux'
 
 import actions from '../actions'
 import helpers from '../modules/helpers'
@@ -35,9 +35,11 @@ const joyceRouter = store => next => action => {
 				if (currentDocument.hasOwnProperty('id')) {
 					store.dispatch(push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))	
 				}
-				// And path is /:id and chapters are loaded, set currentDocument to first chapter
+				// And path is /:id or /edit/:id and chapters are loaded, set currentDocument to first chapter
 				else if (regex.checkIfRootPath(path) && chapters.length > 0) {
-					console.log('THIS IS HAPPENING')
+						store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
+				}
+				else if (regex.checkEditRoute(path) && !checkIfDocTypePath(path) && chapters.length > 0 ) {
 					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 				}
 				// And path has a docType and docs are loaded, set currentDocument to first doc of that type

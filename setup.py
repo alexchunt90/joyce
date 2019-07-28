@@ -66,9 +66,19 @@ tag_mappings = {
     }	    
 }
 
+media_mappings = {
+    'doc': {
+    	'properties': {
+    		'title': {'type': 'keyword'},
+    		'src': {'type': 'keyword'}
+    	}
+    }	    
+}
+
 chapter_index_settings = {'settings': default_index_settings, 'mappings': chapter_mappings}
 note_index_settings = {'settings': default_index_settings, 'mappings': note_mappings}
 tag_index_settings = {'settings': default_index_settings, 'mappings': tag_mappings}
+tag_index_settings = {'settings': default_index_settings, 'mappings': media_mappings}
 
 # Read Seed Data from Files
 

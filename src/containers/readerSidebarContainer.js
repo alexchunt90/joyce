@@ -27,8 +27,10 @@ const ReaderSidebar = ({
 
 const mapStateToProps = state => {
 	return {
-		chapters: state.chapters,
 		notes: state.notes,
+		chapters: state.chapters,
+		tags: state.tags,
+		media: state.media,
 		docType: state.docType,
 		currentDocument: state.currentDocument,
 		toggles: state.toggles,

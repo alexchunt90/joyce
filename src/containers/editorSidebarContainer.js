@@ -13,6 +13,7 @@ const EditorSidebar = ({
 	chapters,
 	notes,
 	tags,
+	media,
 	docType,
 	currentDocument,
 	onDocumentClick,
@@ -25,7 +26,7 @@ const EditorSidebar = ({
 			<SidebarSpacer />
 			<NewDocumentButton onClick={()=>onNewDocumentClick(docType)} docType={docType}/>
 			<SidebarSpacer />
-			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, tags)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} path={'/edit/'}/>
+			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, tags, media)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} path={'/edit/'}/>
 		</div>
 	</div>
 
@@ -34,6 +35,7 @@ const mapStateToProps = state => {
 		notes: state.notes,
 		chapters: state.chapters,
 		tags: state.tags,
+		media: state.media,
 		docType: state.docType,
 		currentDocument: state.currentDocument,
 	}
@@ -57,6 +59,7 @@ EditorSidebar.propTypes = {
 	chapters: PropTypes.arrayOf(PropTypes.object),
 	notes: PropTypes.arrayOf(PropTypes.object),
 	tags: PropTypes.arrayOf(PropTypes.object),
+	media: PropTypes.arrayOf(PropTypes.object),
 	currentDocument: PropTypes.object,
 	docType: PropTypes.string,
 	onDocumentClick: PropTypes.func,

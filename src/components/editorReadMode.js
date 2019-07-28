@@ -16,9 +16,6 @@ const EditorReadMode = ({
 }) =>
 	<div id='editor_read_mode'  className='editor_wrapper'>
 		<div id='editor_metadata'>
-			{toggles.loading === true &&
-				<LoadingSpinner />
-			}
 			<DocumentTitle docType={docType} currentDocument={currentDocument} />
 		</div>
 		<div id='editor_topbar'>

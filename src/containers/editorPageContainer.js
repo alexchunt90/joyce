@@ -17,6 +17,8 @@ import { EditorSidebarOptions } from '../components/mobileSidebarOptions'
 const EditorPage = ({
 	chapters,
 	notes,
+	tags,
+	media,
 	currentDocument,
 	annotationNote,
 	annotationTag,
@@ -24,7 +26,6 @@ const EditorPage = ({
 	modalEditorState,
 	docType,
 	mode,
-	tags,
 	toggles,
 	setDocType,
 	onDocumentClick,
@@ -43,7 +44,7 @@ const EditorPage = ({
 			<Content>
 				{mode === 'READ_MODE' &&
 					<EditorSidebarOptions
-						docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
+						docs={helpers.documentsOfDocType(docType, chapters, notes, tags, media)}
 						currentDocument={currentDocument}
 						docType={docType}
 						setDocType={setDocType}
@@ -83,6 +84,7 @@ const mapStateToProps = state => {
 		chapters: state.chapters,
 		notes: state.notes,
 		tags: state.tags,
+		media: state.media,
 		mode: state.mode,
 		currentDocument: state.currentDocument,
 		annotationNote: state.annotationNote,
@@ -129,6 +131,7 @@ const mapDispatchToProps = dispatch => {
 EditorPage.propTypes = {
 	notes: PropTypes.arrayOf(PropTypes.object),
 	tags: PropTypes.arrayOf(PropTypes.object),
+	media: PropTypes.arrayOf(PropTypes.object),
 	currentDocument: PropTypes.object,
 	annotationNote: PropTypes.object,
 	annotationTag: PropTypes.object,

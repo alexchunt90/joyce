@@ -6,6 +6,7 @@ import { routerReducer } from 'react-router-redux'
 import chapters from './chapters'
 import notes from './notes'
 import tags from './tags'
+import media from './media'
 import currentDocument from './currentDocument'
 import annotationNote from './annotationNote'
 import annotationTag from './annotationTag'
@@ -36,6 +37,7 @@ const reduceJoyce = combineReducers({
 	chapters,
 	notes,
 	tags,
+	media,
 	currentDocument,
 	annotationNote,
 	annotationTag,

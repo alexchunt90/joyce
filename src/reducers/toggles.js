@@ -21,11 +21,17 @@ const toggles = (state=initialState, action) => {
 			}
 		case 'GET_DOCUMENT_LIST':
 			if (action.status === 'success' && !action.data[0] && action.state === 'currentDocType') {
+			// if (action.status === 'success' && action.state === 'currentDocType') {
 				return {
 					...state,
 					loading: false
 				}
 			}
+		case 'CREATE_DOCUMENT':
+			return {
+				...state,
+				loading: false
+			}		
 		// Highlights
 		case 'TOGGLE_HIGHLIGHT':
 			return {

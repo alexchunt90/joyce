@@ -7,60 +7,61 @@ const regexCheckBaseFunction = (path, pattern) => {
 	}	
 }
 
-const regexParseBaseFunction = (path, pattern) => {
+const regexParseBaseFunction = (path, pattern, n=1) => {
 	const match = pattern.exec(path)
 	if (match) {
-		return match[1]
+		return match[n]
 	} else {
 		return null
 	}
 }
 
+const patterns = {
+	PATH_WITH_NUMBER: /\/([0-9]{1,3})$/,
+	PATH_WITH_ID: /\/([0-9A-Za-z0-9\-\_]{18,})$/,
+	PATH_WITH_DOC_TYPE: /^\/(edit\/)*(notes|tags|chapters|media)/,
+	PATH_WITH_ID_REDIRECT: /\/(\:id)$/,
+	PATH_ROOT: /^\/(\:id)*$/,
+	PATH_EDITOR: /^\/edit(\/)*/,
+	PATH_BASE_EDITOR: /^\/edit$/,
+	HEX_COLOR: /(^[0-9A-F]{6})$|(^[0-9A-F]{3}$)/,
+}
+
 const regex = {
 	// Route Checks
-	checkIfRedirectPath: path => {
-		return regexCheckBaseFunction(path, /\/(\:id)$/)
-	},
-	checkNoteBaseRoute: path => {
-		return regexCheckBaseFunction(path, /^\/notes$/)
-	},
-	checkEditBaseRoute: path => {
-		return regexCheckBaseFunction(path, /^\/edit$/)
-	},
-	checkEditRoute: path => {
-		return regexCheckBaseFunction(path, /^\/edit\//)
-	},		
-	checkNoteReaderRoute: path => {
-		return regexCheckBaseFunction(path, /^\/notes\/([0-9a-zA-Z\-\_]{18,}|\:id)/)
-	},
-	checkChapterEditorRoute: path => {
-		return regexCheckBaseFunction(path, /^\/edit\/([0-9]{1,3}|\:id)/)
-	},	
-	checkNoteEditorRoute: path => {
-		return regexCheckBaseFunction(path, /^\/edit\/notes\/([0-9a-zA-Z\-\_]{18,}|\:id)/)
-	},
-	checkTagEditorRoute	: path => {
-		return regexCheckBaseFunction(path, /^\/edit\/tags\/([0-9a-zA-Z\-\_]{18,}|\:id)/)
-	},
 	checkPathForNumber: path => {
-		return regexCheckBaseFunction(path, /\/[0-9]{1,3}$/)
-	},
-	checkRootRedirectRoute: path => {
-		return regexCheckBaseFunction(path, /^\/\:id$/)
+		return regexCheckBaseFunction(path, patterns.PATH_WITH_NUMBER)
 	},
 	checkPathForID: path => {
-		return regexCheckBaseFunction(path, /\/([0-9A-Za-z0-9\-\_]{18,})$/)
+		return regexCheckBaseFunction(path, patterns.PATH_WITH_ID)
+	},
+	checkIfDocTypePath: path => {
+		return regexCheckBaseFunction(path, patterns.PATH_WITH_DOC_TYPE)
+	},
+	checkIfRedirectPath: path => {
+		return regexCheckBaseFunction(path, patterns.PATH_WITH_ID_REDIRECT)
+	},
+	checkIfRootPath: path => {
+		return regexCheckBaseFunction(path, patterns.PATH_ROOT)
+	},
+	checkEditRoute: path => {
+		return regexCheckBaseFunction(path, patterns.PATH_EDITOR)
+	},		
+	checkEditBaseRoute: path => {
+		return regexCheckBaseFunction(path, patterns.PATH_BASE_EDITOR)
 	},
 	// Route Parsers
 	parseNumberFromPath: path => {
-		return Number(regexParseBaseFunction(path, /\/([0-9]{1,3})$/))
+		return Number(regexParseBaseFunction(path, patterns.PATH_WITH_NUMBER))
 	},
 	parseIDFromPath: path => {
-		return regexParseBaseFunction(path, /\/([0-9A-Za-z0-9\-\_]{18,})$/)
+		return regexParseBaseFunction(path, patterns.PATH_WITH_ID)
 	},
-	// Validation Checks
+	parseDocTypeFromPath: path => {
+		return regexParseBaseFunction(path, patterns.PATH_WITH_DOC_TYPE, 2)
+	},
 	checkColorPickerHexValue: input => {
-		return regexCheckBaseFunction(input, /(^[0-9A-F]{6})$|(^[0-9A-F]{3}$)/)
+		return regexCheckBaseFunction(input, patterns.HEX_COLOR)
 	}
 }
 

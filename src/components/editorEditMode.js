@@ -26,7 +26,7 @@ const EditorEditMode = ({
 	onColorSwatchClick,
 	userErrors,
 }) =>
-	<div id='editor_read_mode' className='editor_wrapper'>
+	<div id='editor_edit_mode' className='editor_wrapper'>
 		<div id='editor_metadata'>
 			{toggles.loading === true &&
 				<LoadingSpinner />
@@ -39,7 +39,7 @@ const EditorEditMode = ({
 				onToolButtonClick={onToolButtonClick}
 				disabled={!currentDocument.id ? true : false}
 			/>
-		</div>	
+		</div>
 		<div id='editor_content' className={'edit_mode ' + docType}>
 			<Editor 
 				editorState={editorState} 

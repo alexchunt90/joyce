@@ -1,6 +1,24 @@
 @import "variables";
 @import "mixin";
 
+.text_editor {
+    max-height: 72vh;
+    overflow-y: auto;
+    background-color: rgba(256,256,256,.8);
+    box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
+    margin: 1vh 0;
+    border: 1px solid $border_color;
+    border-radius: 5px;
+    padding: 2% 5%;
+    font-size: 0.8em;
+}
+
+
+
+
+// PRE-FACTOR
+
+
 #editor_container {
     height: 82vh;	
 }

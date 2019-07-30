@@ -20,6 +20,12 @@ const inputActions = {
 		({
 			type: 'UPDATE_SEARCH_INPUT',
 			data: input.target.value
+		}),
+	// Handle changes to the file upload input for media docs
+	updateMediaInput: input => 
+		({
+			type: 'UPDATE_MEDIA_INPUT',
+			data: input.target.files
 		})
 }
 

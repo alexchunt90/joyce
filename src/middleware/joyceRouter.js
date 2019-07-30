@@ -39,7 +39,8 @@ const joyceRouter = store => next => action => {
 				else if (regex.checkIfRootPath(path) && chapters.length > 0) {
 						store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 				}
-				else if (regex.checkEditRoute(path) && !checkIfDocTypePath(path) && chapters.length > 0 ) {
+				// And path is /edit/:id and chapters are loaded, set currentDocument to first chapter
+				else if (regex.checkEditRoute(path) && !regex.checkIfDocTypePath(path) && chapters.length > 0 ) {
 					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 				}
 				// And path has a docType and docs are loaded, set currentDocument to first doc of that type

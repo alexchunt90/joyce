@@ -2,6 +2,7 @@ const initialState = {
 	documentTitle: '',
 	search: '',
 	colorPicker: '',
+	fileUpload: undefined
 }
 
 const inputs = (state=initialState, action) => {
@@ -33,7 +34,6 @@ const inputs = (state=initialState, action) => {
 		// Color Picker
 		case 'GET_DOCUMENT_TEXT': 
 			if (action.status === 'success' && action.docType === 'tags') {
-				console.log('SOMETHING!')
 				return {
 					...state,
 					colorPicker: action.data.color
@@ -60,6 +60,12 @@ const inputs = (state=initialState, action) => {
 			return {
 				...state,
 				colorPicker: action.data.toUpperCase()
+			}
+		// Media Upload
+		case 'UPDATE_MEDIA_INPUT':
+			return {
+				...state,
+				fileUpload: action.data
 			}
 		default:
 			return state

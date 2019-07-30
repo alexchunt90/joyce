@@ -6,7 +6,9 @@ import { EditorTitleContentBlock, EditorTopBarContentBlock, EditorTextContentBlo
 import { EditorEditModeRichTextOptions, EditorSubmitOptions } from '../components/editorOptionBlock'
 import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
+import DocumentTitleInput from '../components/documentTitleInput'
 import TagColorPicker from '../components/tagColorPicker'
+import MediaUploadInput from '../components/mediaUploadInput'
 import LoadingSpinner from '../components/loadingSpinner'
 
 const EditorEditMode = ({
@@ -20,16 +22,15 @@ const EditorEditMode = ({
 	onDocumentTitleChange,
 	onColorPickerInputChange,
 	onColorSwatchClick,
+	onMediaInputChange,
 	cancelEdit,
 	onSubmitClick,
 	onToolButtonClick,
 }) =>
 	<div id='editor_edit_mode'  className='editor_wrapper'>
 		<EditorTitleContentBlock>
-			<input 
-				type='text' 
-				value={inputs.documentTitle} 
-				placeholder='Document Title' 
+			<DocumentTitleInput
+				input={inputs.documentTitle}
 				onChange={onDocumentTitleChange}
 			/>
 		</EditorTitleContentBlock>
@@ -55,6 +56,9 @@ const EditorEditMode = ({
 					onColorSwatchClick={onColorSwatchClick}
 				/>
 			}
+			{docType === 'media' &&
+				<MediaUploadInput input={inputs.fileUpload} onChange={onMediaInputChange}/>
+			}			
 		</EditorAttributeContentBlock>
 		<EditorBottomBarContentBlock>
 			<EditorSubmitOptions 
@@ -92,6 +96,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		handleKeyCommand: (command, editorState) => {
 			dispatch(actions.handleEditorKeyCommand(editorState, command))
+		},
+		onMediaInputChange: input => {
+			dispatch(actions.updateMediaInput(input))
 		},
 		cancelEdit: () => {
 			dispatch(actions.cancelEdit())

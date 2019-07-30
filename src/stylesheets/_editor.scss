@@ -13,8 +13,21 @@
     font-size: 0.8em;
 }
 
+#editor_top_bar_block {
+	button {
+		width: 100%;
+	}
+}
 
+#editor_bottom_bar_block {
+	button {
+		width: 100%;
+	}
+}
 
+#rich_text_button_group {
+	width: 100%;
+}
 
 // PRE-FACTOR
 

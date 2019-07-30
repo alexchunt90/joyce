@@ -16,7 +16,7 @@ export const EditorReadModeOptions = ({setMode, docType}) =>
 export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, disabled}) =>
 	<div className='row'>
 		<div className='col-5'>
-			<div className='btn-group' role='group'>
+			<div id='rich_text_button_group' className='btn-group' role='group'>
 				<EditorToolButton glyph='bold' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
 				<EditorToolButton glyph='italic' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
 				<EditorToolButton glyph='underline' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
@@ -30,20 +30,20 @@ export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, d
 
 export const EditorSubmitOptions = ({cancelEdit, onSubmitClick}) =>
 	<div className='row'>
-		<div className='col-5'>
+		<div className='submit_option_button col-5'>
 			<EditorCancelButton onClick={()=>cancelEdit()}/>
 		</div>
-		<div className='col-5 offset-2'>
+		<div className='submit_option_button col-5 offset-2'>
 			<EditorSubmitButton onClick={onSubmitClick} />
 		</div>
 	</div>
 
 export const EditorAnnotateOptions = ({onNewAnnotationClick, onRemoveAnnotationClick, addDisabled, removeDisabled}) =>
 	<div className='row'>
-		<div className='col-5'>
+		<div className='annotate_option_button col-5'>
 			<AnnotatorNewButton onClick={onNewAnnotationClick} disabled={addDisabled}/>
 		</div>
-		<div className='col-5 offset-2'>
+		<div className='annotate_option_button col-5 offset-2'>
 			<AnnotatorRemoveButton onClick={onRemoveAnnotationClick} disabled={removeDisabled} />
 		</div>	
 	</div>	

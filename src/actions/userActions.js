@@ -122,6 +122,12 @@ const userActions = {
 	hideAdmin: () =>
 		({
 			type: 'HIDE_ADMIN_HEADER'
+		}),
+	// Media
+	uploadMediaInput: input =>
+		({
+			type: 'UPLOAD_MEDIA_SUBMIT',
+			data: input
 		})
 }
 

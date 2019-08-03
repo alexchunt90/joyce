@@ -43,9 +43,20 @@ const api = {
 		axios.get(apiRoute + 'refresh/').then(res => {
 			return {status: 'success', data: res.data}
 		}).catch(error => {
-			console.log(error)
 			return {status: 'error', data: error}
-		}),		
+		}),
+	HTTPGetSignedPost: () =>
+		axios.get(apiRoute + 'signed_post/').then(res=> {
+			return {status: 'success', data: res.data}
+		}).catch(error => {
+			return {status: 'error', data: error}
+		}),
+	HTTPPostMedia: (url, formData) =>
+		axios.post(url, formData, {headers: {'Content-Type': 'image/*', 'ACL': 'public-read'}}).then(res=> {
+			return {status: 'success', url: url + formData.get('key')}
+		}).catch(error => {
+			return {status: 'error', data: error}
+		})
 }
 
 export default api

@@ -47,7 +47,19 @@ const apiActions = {
 			type: 'GET_SEARCH_RESULTS',
 			data: response.data,
 			status: response.status ? response.status : 'request'
-		})
+		}),
+	uploadMediaToS3Request: (response, data) =>
+		({
+			type: 'UPLOAD_TO_S3_REQUEST',
+			file: data,
+			signed_post: response.data
+		}),
+	uploadMediaToS3Response: (response) =>
+		({
+			type: 'UPLOAD_TO_S3_RESPONSE',
+			status: response.status,
+			url: response.url ? response.url : undefined
+		}),
 }
 
 export default apiActions

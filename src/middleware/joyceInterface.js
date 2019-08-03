@@ -3,6 +3,7 @@ import { EditorState, Modifier } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
 
 import actions from '../actions'
+import api from '../modules/api'
 import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
 import { html_export_options, convertToSearchText, linkDecorator } from '../modules/editorSettings.js'
@@ -25,10 +26,13 @@ const joyceInterface = store => next => action => {
 				const data = { 
 					title: action.inputs.documentTitle, 
 					html_source: stateToHTML(textContent, html_export_options), 
-					search_text: convertToSearchText(textContent) 
+					search_text: convertToSearchText(textContent),
 				}
 				if (action.docType === 'tags') {
 					data.color = action.inputs.colorPicker
+				}
+				if (action.docType === 'media') {
+					data.s3Path = action.inputs.s3Path
 				}
 				if (action.currentDocument.id) {
 					data.id = action.currentDocument.id
@@ -90,7 +94,7 @@ const joyceInterface = store => next => action => {
 		// Search Action Middleware
 		case 'CLICK_SEARCH':
 			store.dispatch(actions.getSearchResults({data: action.data}))
-			break
+			break		
 		default:
 			break
 	}

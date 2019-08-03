@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, abort, jsonify, request
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 from requests_aws4auth import AWS4Auth
+import boto3
 import json
 import sys
 import config
 import setup
+import uuid
 
 sys.path.insert(0,'..')
 
@@ -12,6 +14,18 @@ sys.path.insert(0,'..')
 # TODO: Figure out which dependency tries to encode input to ascii
 reload(sys)
 sys.setdefaultencoding("utf-8")
+
+s3 = boto3.client('s3')
+
+def create_presigned_post():
+	bucket_name = config.JOYCE_S3_BUCKET
+	key_name = str(uuid.uuid4())
+	response = s3.generate_presigned_post(
+		bucket_name,
+		key_name,
+		ExpiresIn = 3600
+	)
+	return response
 
 if config.ENVIRONMENT == 'local':
 	es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
@@ -62,7 +76,6 @@ def es_get_document(index, id):
 	return data
 
 def es_index_document(index, id, body):
-	print(index)
 	res = es.index(
 		index=index,
 		doc_type='doc',
@@ -325,7 +338,6 @@ def search_text():
 	data = json.loads(request.data)
 	results = es_search_text(data.get('data'))
 	return jsonify(results)
-
 #
 # Refresh ES
 # TODO: Restrict to dev only
@@ -333,3 +345,13 @@ def search_text():
 def refresh_es():
 	setup.es_setup()
 	return 'Success!'
+
+#
+# Get Signed URL for Upload
+#
+@api.route('/signed_post/')
+def media_post_url():
+	data = jsonify(create_presigned_post())
+	print 'hey'
+	# + '?signature=' + url.fields.signature + '&AWSAccessKeyId=' + url.fields.AWSAccessKeyId
+	return data

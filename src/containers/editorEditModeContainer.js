@@ -23,6 +23,7 @@ const EditorEditMode = ({
 	onColorPickerInputChange,
 	onColorSwatchClick,
 	onMediaInputChange,
+	onMediaUpload,
 	cancelEdit,
 	onSubmitClick,
 	onToolButtonClick,
@@ -56,9 +57,12 @@ const EditorEditMode = ({
 					onColorSwatchClick={onColorSwatchClick}
 				/>
 			}
-			{docType === 'media' &&
-				<MediaUploadInput input={inputs.fileUpload} onChange={onMediaInputChange}/>
-			}			
+			{docType === 'media' && inputs.s3Path &&
+					<p>File uploaded!</p>
+			}
+			{docType === 'media' && !inputs.s3Path &&
+					<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange} onUpload={onMediaUpload}/>
+			}					
 		</EditorAttributeContentBlock>
 		<EditorBottomBarContentBlock>
 			<EditorSubmitOptions 
@@ -99,6 +103,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		onMediaInputChange: input => {
 			dispatch(actions.updateMediaInput(input))
+		},
+		onMediaUpload: input => {
+			dispatch(actions.uploadMediaInput(input))
 		},
 		cancelEdit: () => {
 			dispatch(actions.cancelEdit())

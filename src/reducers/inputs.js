@@ -2,17 +2,33 @@ const initialState = {
 	documentTitle: '',
 	search: '',
 	colorPicker: '',
-	fileUpload: undefined
+	uploadFile: undefined,
+	s3Path: undefined	
 }
 
 const inputs = (state=initialState, action) => {
 	switch(action.type) {
 		// Document Title
 		case 'GET_DOCUMENT_TEXT': 
-			if (action.status === 'success' && action.state === 'currentDocument') {
+			console.log('state', action.state)
+			console.log('status', action.status)
+			console.log('docType', action.docType)
+			if (action.status === 'success' && action.state === 'currentDocument' && ['tags', 'media'].indexOf(action.docType) <= 0 ) {
 				return {
 					...state,
 					documentTitle: action.data.title
+				}
+			} else if (action.status === 'success' && action.docType === 'tags') {
+				return {
+					...state,
+					documentTitle: action.data.title,
+					colorPicker: action.data.color
+				}
+			} else if (action.status === 'success' && action.state === 'currentDocument' && action.docType === 'media') {
+				return {
+					...state,
+					documentTitle: action.data.title,
+					s3Path: action.data.s3Path
 				}
 			} else { return state }
 		case 'CREATE_DOCUMENT':
@@ -32,13 +48,6 @@ const inputs = (state=initialState, action) => {
 				search: action.data
 			}
 		// Color Picker
-		case 'GET_DOCUMENT_TEXT': 
-			if (action.status === 'success' && action.docType === 'tags') {
-				return {
-					...state,
-					colorPicker: action.data.color
-				}
-			} else { return state }
 		case 'SAVE_DOCUMENT': 
 			if (action.status === 'success' && action.docType === 'tags') {
 				return {
@@ -65,10 +74,18 @@ const inputs = (state=initialState, action) => {
 		case 'UPDATE_MEDIA_INPUT':
 			return {
 				...state,
-				fileUpload: action.data
+				uploadFile: action.data
 			}
 		default:
 			return state
+		// S3 File
+		case 'UPLOAD_TO_S3_RESPONSE':
+			if (action.status === 'success') {
+				return {
+					...state,
+					s3Path: action.url
+				}
+			} else { return state }
 	}
 }
 

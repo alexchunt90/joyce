@@ -9,6 +9,11 @@ export const validateSubmittedDocument = (docType, inputs) => {
 			errors.push('Please select a valid hex code color.')
 		}
 	}
+	if (docType === 'media') {
+		if (inputs.s3Path === undefined) {
+			errors.push('Please upload an image first.')
+		}
+	}
 	if (inputs.documentTitle.length < 1) {
 		errors.push('Please enter a title.')
 	}

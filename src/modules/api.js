@@ -52,7 +52,7 @@ const api = {
 			return {status: 'error', data: error}
 		}),
 	HTTPPostMedia: (url, formData) =>
-		axios.post(url, formData, {headers: {'Content-Type': 'image/*', 'ACL': 'public-read'}}).then(res=> {
+		axios.post(url, formData, {headers: {'Content-Type': formData.get('file').type}}).then(res=> {
 			return {status: 'success', url: url + formData.get('key')}
 		}).catch(error => {
 			return {status: 'error', data: error}

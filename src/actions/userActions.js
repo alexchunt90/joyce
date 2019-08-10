@@ -128,7 +128,11 @@ const userActions = {
 		({
 			type: 'UPLOAD_MEDIA_SUBMIT',
 			data: input
-		})
+		}),
+	clearLoadedMedia: () =>
+		({
+			type: 'CLEAR_LOADED_MEDIA'
+		}),
 }
 
 export default userActions

@@ -8,10 +8,12 @@ import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import DocumentTitleInput from '../components/documentTitleInput'
 import TagColorPicker from '../components/tagColorPicker'
+import NoteMediaPicker from '../components/noteMediaPicker'
 import MediaUploadInput from '../components/mediaUploadInput'
 import LoadingSpinner from '../components/loadingSpinner'
 
 const EditorEditMode = ({
+	media,
 	currentDocument,
 	docType,
 	editorState,
@@ -22,6 +24,7 @@ const EditorEditMode = ({
 	onDocumentTitleChange,
 	onColorPickerInputChange,
 	onColorSwatchClick,
+	onClearLoadedMedia,
 	onMediaInputChange,
 	onMediaUpload,
 	cancelEdit,
@@ -50,6 +53,9 @@ const EditorEditMode = ({
 			/>
 		</EditorTextContentBlock>
 		<EditorAttributeContentBlock>
+			{docType === 'notes' &&
+				<NoteMediaPicker media={media} />
+			}
 			{docType === 'tags' &&
 				<TagColorPicker 
 					input={inputs.colorPicker} 
@@ -58,7 +64,14 @@ const EditorEditMode = ({
 				/>
 			}
 			{docType === 'media' && inputs.s3Path &&
-					<p>File uploaded!</p>
+				<div className='row'>
+					<div className='col-8'>File uploaded!</div>					
+					<div className='col-2 offset-2'>
+						<button type='button' onClick={onClearLoadedMedia} className='btn btn-outline-info btn-sm'>
+							<i className={'fas fa-trash-alt'}></i>
+						</button>
+					</div>
+				</div>
 			}
 			{docType === 'media' && !inputs.s3Path &&
 					<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange} onUpload={onMediaUpload}/>
@@ -79,6 +92,7 @@ const EditorEditMode = ({
 
 const mapStateToProps = (state, props) => {
 	return {
+		media: state.media,
 		currentDocument: state.currentDocument,
 		docType: state.docType,
 		editorState: state.editorState,
@@ -106,6 +120,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		onMediaUpload: input => {
 			dispatch(actions.uploadMediaInput(input))
+		},
+		onClearLoadedMedia: () => {
+			dispatch(actions.clearLoadedMedia())
 		},
 		cancelEdit: () => {
 			dispatch(actions.cancelEdit())

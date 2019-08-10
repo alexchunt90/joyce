@@ -54,8 +54,9 @@ const joyceAPI = store => next => action => {
 		case 'UPLOAD_TO_S3_REQUEST':
 			const formData = new FormData()
 			const url = action.signed_post.url
-			formData.append('AWSAccessKeyId', action.signed_post.fields.AWSAccessKeyId)
 			formData.append('key', action.signed_post.fields.key)
+			formData.append('AWSAccessKeyId', action.signed_post.fields.AWSAccessKeyId)
+			formData.append('acl', 'public-read')
 			formData.append('policy', action.signed_post.fields.policy)
 			formData.append('signature', action.signed_post.fields.signature)
 			formData.append('file', action.file)

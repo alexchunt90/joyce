@@ -13,17 +13,18 @@ sys.path.insert(0,'..')
 # Hack to work around ascii encode error
 # TODO: Figure out which dependency tries to encode input to ascii
 reload(sys)
-sys.setdefaultencoding("utf-8")
+sys.setdefaultencoding('utf-8')
 
 s3 = boto3.client('s3')
 
 def create_presigned_post():
 	bucket_name = config.JOYCE_S3_BUCKET
-	key_name = str(uuid.uuid4())
+	key_name = 'images/' + str(uuid.uuid4())
 	response = s3.generate_presigned_post(
 		bucket_name,
 		key_name,
-		ExpiresIn = 3600
+		ExpiresIn = 3600,
+		Conditions = [[ 'eq', '$acl', 'public-read' ]],
 	)
 	return response
 
@@ -158,19 +159,19 @@ def es_search_text(body):
 			'from': 0,
 			'size': 10,
 			'query': {
-				"nested": {
-					"path": "search_text",
-					"query": {
-						"bool": {
-							"must": [
-								{ "match": { "search_text.text": body}}
+				'nested': {
+					'path': 'search_text',
+					'query': {
+						'bool': {
+							'must': [
+								{ 'match': { 'search_text.text': body}}
 							]
 						}
 					},
-					"inner_hits": { 
-						"highlight": {
-							"fields": {
-								"search_text.text": {}
+					'inner_hits': { 
+						'highlight': {
+							'fields': {
+								'search_text.text': {}
 							}
 						}
 					}

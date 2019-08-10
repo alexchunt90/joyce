@@ -2,6 +2,7 @@ const initialState = {
 	documentTitle: '',
 	search: '',
 	colorPicker: '',
+	noteMediaSelection: [],
 	uploadFile: undefined,
 	s3Path: undefined	
 }
@@ -10,9 +11,6 @@ const inputs = (state=initialState, action) => {
 	switch(action.type) {
 		// Document Title
 		case 'GET_DOCUMENT_TEXT': 
-			console.log('state', action.state)
-			console.log('status', action.status)
-			console.log('docType', action.docType)
 			if (action.status === 'success' && action.state === 'currentDocument' && ['tags', 'media'].indexOf(action.docType) <= 0 ) {
 				return {
 					...state,
@@ -76,8 +74,6 @@ const inputs = (state=initialState, action) => {
 				...state,
 				uploadFile: action.data
 			}
-		default:
-			return state
 		// S3 File
 		case 'UPLOAD_TO_S3_RESPONSE':
 			if (action.status === 'success') {
@@ -86,6 +82,13 @@ const inputs = (state=initialState, action) => {
 					s3Path: action.url
 				}
 			} else { return state }
+		case 'CLEAR_LOADED_MEDIA':
+			return {
+				...state,
+				s3Path: undefined
+			}
+		default:
+			return state
 	}
 }
 

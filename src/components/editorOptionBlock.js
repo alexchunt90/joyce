@@ -29,7 +29,7 @@ export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, d
 	</div>
 
 export const EditorSubmitOptions = ({cancelEdit, onSubmitClick}) =>
-	<div className='row'>
+	<div className='row mt-2'>
 		<div className='submit_option_button col-5'>
 			<EditorCancelButton onClick={()=>cancelEdit()}/>
 		</div>
@@ -46,4 +46,4 @@ export const EditorAnnotateOptions = ({onNewAnnotationClick, onRemoveAnnotationC
 		<div className='annotate_option_button col-5 offset-2'>
 			<AnnotatorRemoveButton onClick={onRemoveAnnotationClick} disabled={removeDisabled} />
 		</div>	
-	</div>	
+	</div>

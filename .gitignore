@@ -8,6 +8,7 @@ config.py
 *.pyc
 *.sublime-project
 *.sublime-workspace
+npm-debug.*
 .DS_Store
 .Python
 npm-debug.log

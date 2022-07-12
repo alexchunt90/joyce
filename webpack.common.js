@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 
 const rootAssetPath = './src/'
 
@@ -27,8 +27,8 @@ module.exports = {
 	    	use: {
 				loader: 'babel-loader',
 				options: {
-					presets: ['env', 'react']
-	        	}
+					presets: ['@babel/preset-env', '@babel/preset-react']
+      	}
 			}
 		},
 		{
@@ -38,7 +38,7 @@ module.exports = {
 			}
 		},
 		{
-		    test: /\.(scss)$/,
+	    test: /\.(scss)$/,
 			exclude: [
 				/node_modules/,
 				/\.DS_Store/
@@ -49,12 +49,6 @@ module.exports = {
 		    	loader: 'css-loader',
 		    }, {
 		    	loader: 'postcss-loader',
-		    	options: {
-		        	plugins: [
-		            	require('precss'),
-		            	require('autoprefixer')
-		          	]
-		        }
 		    }, {
 		      loader: 'sass-loader'
 		    }]
@@ -67,6 +61,6 @@ module.exports = {
 	    }
     ]},
     plugins: [
-      new ManifestPlugin()
+      new WebpackManifestPlugin()
     ]    
 };

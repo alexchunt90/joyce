@@ -1,5 +1,8 @@
 import { convertToRaw, ContentState, CompositeDecorator } from 'draft-js'
 
+import { EditorState, Modifier } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
+
 import LinkContainer from '../containers/linkContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'
 
@@ -57,6 +60,8 @@ export const modalLinkDecorator = new CompositeDecorator([
   }
 ])
 
+
+// Function for converting DraftJS editor state to list of text blocks for Elasticsearch
 export const convertToSearchText = contentState => {
   const rawState = convertToRaw(contentState)
   const searchText = rawState.blocks.reduce(

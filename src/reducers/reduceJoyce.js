@@ -1,4 +1,4 @@
-// node_modules
+ // node_modules
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 

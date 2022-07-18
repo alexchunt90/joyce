@@ -19,10 +19,13 @@ const joyceInterface = store => next => action => {
 		case 'SET_CURRENT_DOCUMENT':
 			store.dispatch(actions.getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
 			break
+		// Submitting document edits
 		case 'SUBMIT_DOCUMENT_EDIT':
+			// Check for validation errors
 			const docErrors = validateSubmittedDocument(action.docType, action.inputs)
 			if (docErrors.length < 1) {
 				const textContent = action.editorState.getCurrentContent()
+				// Convert state to HTML and search text to be posted to Elasticsearch
 				const data = { 
 					title: action.inputs.documentTitle, 
 					html_source: stateToHTML(textContent, html_export_options), 
@@ -38,6 +41,7 @@ const joyceInterface = store => next => action => {
 					data.id = action.currentDocument.id
 				}
 				if (action.docType === 'chapters') {
+					// If user submits a chapter with no assigned id, generate the next number to assign it
 					if (!action.currentDocument.id) {
 						const nextNumber = store.getState().chapters.length + 1
 						data.number = nextNumber

@@ -32,12 +32,14 @@ const EditorEditMode = ({
 	onToolButtonClick,
 }) =>
 	<div id='editor_edit_mode'  className='editor_wrapper'>
+		{/* Doc Title */}
 		<EditorTitleContentBlock>
 			<DocumentTitleInput
 				input={inputs.documentTitle}
 				onChange={onDocumentTitleChange}
 			/>
 		</EditorTitleContentBlock>
+		{/* Topbar with rich text options */}
 		<EditorTopBarContentBlock>
 			<EditorEditModeRichTextOptions 
 				editorState={editorState} 
@@ -52,6 +54,7 @@ const EditorEditMode = ({
 				onChange={onChangeEditorState} 
 			/>
 		</EditorTextContentBlock>
+		{/* Dropdown select for attaching media or tags */}
 		<EditorAttributeContentBlock>
 			{docType === 'notes' &&
 				<NoteMediaPicker media={media} />
@@ -77,11 +80,13 @@ const EditorEditMode = ({
 					<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange} onUpload={onMediaUpload}/>
 			}					
 		</EditorAttributeContentBlock>
+		{/* Cancel and Submit buttons */}
 		<EditorBottomBarContentBlock>
 			<EditorSubmitOptions 
 				cancelEdit={cancelEdit} 
 				onSubmitClick={()=>onSubmitClick(currentDocument, editorState, inputs, docType)} 
 			/>
+		{/* Display errors to user */}
 		</EditorBottomBarContentBlock>
 		<div id='user_errors'>
 			{userErrors.map(error =>

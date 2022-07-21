@@ -1,7 +1,9 @@
 import os
 import io
 import re
+import codecs
 
+from HTMLParser import HTMLParser
 from bs4 import BeautifulSoup as bs, Tag
 
 import es_helpers
@@ -104,8 +106,11 @@ def import_note_operations(target_path):
 				if note_dict.has_key(href):
 					a['href'] = note_dict[href]
 
-		with open(note_path, 'w') as file:
-			file.write(str(soup))
+		body = soup.find('body').prettify(formatter='html').replace('\n', ' ')
+		final_text = re.sub('\s{2,}', ' ', body)
+
+		with codecs.open(note_path, 'w', encoding='utf-8') as file:
+			file.write(unicode(final_text))
 
 		# Build ES Op to Index Title
 		note_title = soup.title.get_text()

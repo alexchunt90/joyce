@@ -1,6 +1,7 @@
 import os
 import io
 import re
+import codecs
 
 from bs4 import BeautifulSoup as bs, Tag
 
@@ -59,7 +60,7 @@ def import_chap_operations(target_path):
 	for c in chapter_dict:
 		if c == '.DS_Store':
 			continue
-		print 'Processing chapter file:', c
+		print 'Generating chapter file:', c
 
 		chap_path = chapters_path + c
 		chapter_id = chapter_dict[c]
@@ -80,9 +81,10 @@ def import_chap_operations(target_path):
 					if note_dict.has_key(strip_href):
 						a['href'] = note_dict[strip_href]
 
-		# Write resulting HTML to file
-		with open(chap_path, 'w') as file:
-			file.write(str(soup))
+		body = soup.prettify(formatter='html')
+
+		with codecs.open(chap_path, 'w', encoding='utf-8') as file:
+			file.write(unicode(body))
 
 		# Build op to update ES doc with HTML
 		final_chap_file = io.open(chap_path, mode='r', encoding='utf-8')

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { EditorState } from 'draft-js'
 
 import Content from '../components/content'
 import actions from '../actions'

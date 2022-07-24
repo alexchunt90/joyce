@@ -1,8 +1,6 @@
-import { convertToRaw, ContentState, CompositeDecorator } from 'draft-js'
-
-import { EditorState, Modifier } from 'draft-js'
+// Consolidating any references to the draft-js or draft-convert libraries to this one module
+import { EditorState, Modifier, convertToRaw, ContentState, CompositeDecorator } from 'draft-js'
 import { convertFromHTML, convertToHTML } from 'draft-convert'
-import { stateToHTML } from 'draft-js-export-html'
 
 import LinkContainer from '../containers/linkContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'
@@ -47,20 +45,6 @@ const findLinkEntities = (contentBlock, callback) => {
   callback)
 }
 
-export const linkDecorator = new CompositeDecorator([
-  {
-    strategy: findLinkEntities,
-    component: LinkContainer,
-  }
-])
-
-export const modalLinkDecorator = new CompositeDecorator([
-  {
-    strategy: findLinkEntities,
-    component: ModalLinkContainer,
-  }
-])
-
 
 // Function for converting DraftJS editor state to list of text blocks for Elasticsearch
 export const convertToSearchText = contentState => {
@@ -72,15 +56,6 @@ export const convertToSearchText = contentState => {
   return searchText
 }
 
-export const defaultTagColors = [
-  '307EE3',
-  'CF2929',
-  'AB59C2',
-  '9C632A',
-  'F59627',
-  '40b324'
-]
-
 export const stateFromHTML = html => {
   const blocksFromHTML = convertFromHTML({
     htmlToEntity: (nodeName, node, createEntity) => {
@@ -90,10 +65,50 @@ export const stateFromHTML = html => {
             return createEntity(
                 'LINK',
                 'MUTABLE',
-                {url: node.getAttribute('href')}
+                {url: node.href}
             )
         }
     },    
   })(html)
   return blocksFromHTML
 }
+
+
+
+
+// joyceInterface.js
+  // case 'SUBMIT_DOCUMENT_EDIT':
+        const data = { 
+          title: action.inputs.documentTitle, 
+          html_source: stateToHTML(textContent, html_export_options), 
+          search_text: convertToSearchText(textContent),
+        }
+
+        const contentStateWithLink = Modifier.applyEntity(
+            contentStateWithEntity,
+            action.selectionState,
+            entityKey
+        )
+        const newEditorState = EditorState.createWithContent(contentStateWithLink, linkDecorator)
+        store.dispatch(actions.annotationCreated(newEditorState))
+        // This feels like a hacky way of closing the modal only after validating input
+        // But seemed more idiomatic than writing jQuery
+        document.getElementById('select_annotation_modal_close').click()
+      }        
+
+// modalEditorState.js
+EditorState.createWithContent(stateFromHTML(action.data.html_source), modalLinkDecorator)
+const blankEditor = EditorState.createEmpty(modalLinkDecorator)
+
+// editorState.js
+        RichUtils.handleKeyCommand(action.editorState, action.command)
+        RichUtils.toggleInlineStyle(action.editorState, action.style)
+        RichUtils.toggleBlockType(action.editorState, 'header-two')
+
+        const editorState = EditorState.createWithContent(stateFromHTML(action.data.html_source), modalLinkDecorator)
+      const contentStateWithoutLink = Modifier.applyEntity(
+          action.editorState.getCurrentContent(),
+          action.selectionState,
+          null
+      )
+      return EditorState.createWithContent(contentStateWithoutLink, linkDecorator)             

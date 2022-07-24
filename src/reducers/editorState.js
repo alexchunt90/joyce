@@ -1,8 +1,8 @@
 import React from 'react'
 import { EditorState, RichUtils, Modifier } from 'draft-js'
-import { stateFromHTML } from 'draft-js-import-html'
+// import { stateFromHTML } from 'draft-js-import-html'
 
-import { linkDecorator } from '../modules/editorSettings.js'
+import { stateFromHTML, linkDecorator } from '../modules/editorSettings.js'
 
 const blankEditor = EditorState.createEmpty(linkDecorator)
 

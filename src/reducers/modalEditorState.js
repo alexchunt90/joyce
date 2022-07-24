@@ -1,8 +1,7 @@
 import React from 'react'
 import { EditorState } from 'draft-js'
-import { stateFromHTML } from 'draft-js-import-html'
 
-import { modalLinkDecorator } from '../modules/editorSettings.js'
+import { stateFromHTML, modalLinkDecorator } from '../modules/editorSettings.js'
 
 const blankEditor = EditorState.createEmpty(modalLinkDecorator)
 

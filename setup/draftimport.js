@@ -25,7 +25,6 @@ global.document = window.document
 global.HTMLElement = window.HTMLElement
 global.HTMLAnchorElement = window.HTMLAnchorElement
 
-// Using draft-convert here instead of the draft-js-import-html library used in the browser because it handles server-side processing better
 function stateFromHTML (html) {
   const blocksFromHTML = convertFromHTML({
     htmlToEntity: (nodeName, node, createEntity) => {
@@ -105,7 +104,7 @@ async function importDocumentsThruDraftJS() {
 		const note_id = note_list[n].id
 		const note_response = await getDocText(note_id, 'notes')
 		const note = note_response.data
-		console.log('Processing note file', n+1, 'out of', note_list.length,': ', note.file_name)
+		console.log('Processing note file', n, 'out of', note_list.length,': ', note.file_name)
 		const payload = processHTMLForElasticsearch(note, 'notes')
 		await postDocUpdate(note.id, 'notes', payload)
 	}

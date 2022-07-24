@@ -1,17 +1,15 @@
 import React from 'react'
-import { EditorState, RichUtils, Modifier } from 'draft-js'
-// import { stateFromHTML } from 'draft-js-import-html'
 
-import { stateFromHTML, linkDecorator } from '../modules/editorSettings.js'
+import { linkDecorator, returnNewEditorState, returnEditorStateFromHTML, returnEditorStateFromKeyCommand, returnEditorStateWithInlineStyles, returnEditorStateWithoutAnnotation } from '../modules/editorSettings.js'
 
-const blankEditor = EditorState.createEmpty(linkDecorator)
+const blankEditor = returnNewEditorState(linkDecorator)
 
 const editorState = (state=blankEditor, action) => {
 	switch(action.type) {
 		// When a document has been succesfully retrieved, create editor state using stateFromHTML
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
-				const editorState = EditorState.createWithContent(stateFromHTML(action.data.html_source), linkDecorator)
+				const editorState = returnEditorStateFromHTML(action.data.html_source, linkDecorator)
 				return editorState
 			} else if (action.status === 'request' && action.state === 'currentDocument') {
 				return blankEditor
@@ -25,31 +23,16 @@ const editorState = (state=blankEditor, action) => {
 		case 'UPDATE_EDITOR_STATE':
 			return action.data
 		case 'HANDLE_EDITOR_KEY_COMMAND':
-			const editorState = RichUtils.handleKeyCommand(action.editorState, action.command)
-			// Null check to handle null editorState when backspacking empty editor
-			if (editorState !== null) {
-				return editorState
-			} else { return state }
+			return returnEditorStateFromKeyCommand(action.editorState, action.command)
 		case 'APPLY_INLINE_STYLE':
-			// Rework this when adding more inline style options to the editor
-			let inlineStyles = ['BOLD', 'ITALIC', 'UNDERLINE']
-			if (inlineStyles.indexOf(action.style) >= 0) {
-				return RichUtils.toggleInlineStyle(action.editorState, action.style)
-			} else if (action.style === 'header-two') {
-				return RichUtils.toggleBlockType(action.editorState, 'header-two')
-			}
-			break
+			return returnEditorStateWithInlineStyles(action.style, action.editorState)
 		// After creating annotation, display updated editor state
 		case 'ANNOTATION_CREATED':
 			return action.editorState
 		// When user attempts to remove an annotation, generate a new content state without that entity and return it to the editor
 		case 'REMOVE_ANNOTATION':
-			const contentStateWithoutLink = Modifier.applyEntity(
-  				action.editorState.getCurrentContent(),
-  				action.selectionState,
-  				null
-			)
-			return EditorState.createWithContent(contentStateWithoutLink, linkDecorator)			
+			const editorStateWithAnnotation = returnEditorStateWithoutAnnotation(action)
+			return editorStateWithAnnotation
 		default:
 			return state
 	}

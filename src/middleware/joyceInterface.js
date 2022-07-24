@@ -1,12 +1,8 @@
-import axios from 'axios'
-import { EditorState, Modifier } from 'draft-js'
-import { stateToHTML } from 'draft-js-export-html'
-
 import actions from '../actions'
 import api from '../modules/api'
 import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
-import { html_export_options, convertToSearchText, linkDecorator } from '../modules/editorSettings.js'
+import { stateToHTML, convertToSearchText, linkDecorator, returnEditorStateWithNewAnnotation } from '../modules/editorSettings.js'
 
 const joyceInterface = store => next => action => {
 	next(action)
@@ -28,7 +24,7 @@ const joyceInterface = store => next => action => {
 				// Convert state to HTML and search text to be posted to Elasticsearch
 				const data = { 
 					title: action.inputs.documentTitle, 
-					html_source: stateToHTML(textContent, html_export_options), 
+					html_source: stateToHTML(textContent), 
 					search_text: convertToSearchText(textContent),
 				}
 				if (action.docType === 'tags') {
@@ -77,21 +73,8 @@ const joyceInterface = store => next => action => {
 			const annotationErrors = validateSubmittedAnnotation(action.annotationNote, action.annotationTag)
 			if (annotationErrors.length < 1) {
 				const contentState = action.editorState.getCurrentContent()
-				const contentStateWithEntity = contentState.createEntity(
-	  				'LINK',
-	  				'MUTABLE',
-	  				{'url': action.annotationNote.id, 'data-color': action.annotationTag.color, 'data-tag': action.annotationTag.title}
-				)
-				const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-				const contentStateWithLink = Modifier.applyEntity(
-	  				contentStateWithEntity,
-	  				action.selectionState,
-	  				entityKey
-				)
-				const newEditorState = EditorState.createWithContent(contentStateWithLink, linkDecorator)
+				const newEditorState = returnEditorStateWithNewAnnotation(contentState, action)
 				store.dispatch(actions.annotationCreated(newEditorState))
-				// This feels like a hacky way of closing the modal only after validating input
-				// But seemed more idiomatic than writing jQuery
 				document.getElementById('select_annotation_modal_close').click()
 			}
 			break

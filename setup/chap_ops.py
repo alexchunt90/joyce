@@ -37,11 +37,6 @@ append_chapter(chapter_list, 18, 'Penelope', 'penelope')
 
 # Main Chapter import path
 def import_chap_operations(target_path):
-	# Refresh ES index
-	es_helpers.delete_index('chapters')
-	es_helpers.create_index('chapters', es_config.CHAPTER_INDEX_SETTINGS)
-	print('Chapter index refreshed in Elasticsearch!')
-
 	chap_index_ops = []
 	chap_html_ops = []
 

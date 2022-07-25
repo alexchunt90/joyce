@@ -2,8 +2,10 @@ import os
 import shutil
 
 import es_config
-import note_ops
+import clear_data
 import chap_ops
+import note_ops
+# import media_ops
 
 # Refresh Target Folder from Source Files
 os.chdir(os.path.expanduser('~/Projects/joyce_flask/setup/'))
@@ -21,6 +23,8 @@ def refresh_target_files(target_path):
 
 if __name__ == '__main__':
 	refresh_target_files(target_path)
+	clear_data.refresh_elasticsearch()
+	# media_ops.import_media_operations(target_path)
 	note_ops.import_note_operations(target_path)
 	chap_ops.import_chap_operations(target_path)
 	os.system('npm run import')

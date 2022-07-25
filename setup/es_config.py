@@ -48,13 +48,27 @@ NOTE_MAPPINGS = {
     }
 }
 
-
 MEDIA_MAPPINGS = {
     'doc': {
     	'properties': {
     		'title': {'type': 'keyword'},
     		'src': {'type': 'keyword'},
-    		'file_name': {'type': 'keyword'}
+    		'file_name': {'type': 'keyword'},
+    		'file_ext': {'type': 'keyword'},
+    		'type': {'type': 'keyword'},
+    		'caption_html': {'type': 'text', 'analyzer': 'html_analyzer'},
+    		'caption_search_text': {'type': 'nested'}    		
+    	}
+    }	    
+}
+
+TAG_MAPPINGS = {
+    'doc': {
+    	'properties': {
+    		'title': {'type': 'keyword'},
+    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+    		'search_text': {'type': 'nested'},
+    		'color': {'type': 'keyword'}
     	}
     }	    
 }
@@ -72,4 +86,9 @@ NOTE_INDEX_SETTINGS = {
 MEDIA_INDEX_SETTINGS = {
 	'settings': DEFAULT_INDEX_SETTINGS,
 	'mappings': MEDIA_MAPPINGS
+}
+
+TAG_INDEX_SETTINGS = {
+	'settings': DEFAULT_INDEX_SETTINGS,
+	'mappings': TAG_MAPPINGS
 }

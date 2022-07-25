@@ -10,10 +10,6 @@ import es_helpers
 import es_config
 
 def import_note_operations(target_path):
-	es_helpers.delete_index('notes')
-	es_helpers.create_index('notes', es_config.NOTE_INDEX_SETTINGS)
-	print('Note index refreshed in Elasticsearch!')
-
 	note_file_ops = []
 	note_title_ops = []
 	note_html_ops = []

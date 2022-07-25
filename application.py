@@ -1,11 +1,12 @@
 from flask import Flask
-import json
+import os
 import config
 import setup
 
 from blueprints.joyce import joyce
 from blueprints.doc_api import doc_api
 from blueprints.media_api import media_api
+from blueprints.static import static
 
 # Initialize application
 application = Flask(__name__)
@@ -15,12 +16,17 @@ params = {
     'DEBUG': True,
 }
 
+os.chdir(os.path.expanduser('~/Projects/joyce_flask/'))
+UPLOAD_FOLDER = './static'
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['SECRET_KEY'] = config.SECRET_KEY
 application.config.update(params)
+
 
 # Register blueprints
 application.register_blueprint(joyce)
 application.register_blueprint(doc_api, url_prefix='/api')
-application.register_blueprint(media_api, url_prefix='/static')
+application.register_blueprint(media_api, url_prefix='/media')
 
 if __name__ == "__main__":
 	application.run()

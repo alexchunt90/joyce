@@ -1,11 +1,8 @@
 from flask import Blueprint, render_template, abort, jsonify, request
 from elasticsearch import Elasticsearch, RequestsHttpConnection
-import json
 import sys
 import config
-import setup
 import es_func
-import uuid
 
 doc_api = Blueprint('api', __name__)
 
@@ -119,6 +116,11 @@ def search_text():
 	data = json.loads(request.data)
 	results = es_func.es_search_text(data.get('data'))
 	return jsonify(results)
+
+#
+# Dev Admin API Routes
+#
+
 #
 # Refresh ES
 # TODO: Restrict to dev only

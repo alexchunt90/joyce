@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MediaUploadInput = ({input, s3Path, onChange, onUpload}) =>
+const MediaUploadInput = ({input, onChange, onUpload}) =>
 	<div className="input-group mb-3">
 	  <div className="custom-file">
 	    <input type="file" className="custom-file-input" id="media_input" onChange={onChange}/>

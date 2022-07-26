@@ -1,7 +1,6 @@
 from flask import Flask
 import os
 import config
-import setup
 
 from blueprints.joyce import joyce
 from blueprints.doc_api import doc_api

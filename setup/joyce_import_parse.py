@@ -26,9 +26,9 @@ def refresh_target_files(target_path):
 if __name__ == '__main__':
 	refresh_target_files(target_path)
 	clear_data.refresh_elasticsearch()
-	media_ops.import_media_operations(target_path)
-	# note_ops.import_note_operations(target_path)
-	# chap_ops.import_chap_operations(target_path)
+	# media_ops.import_media_operations(target_path)
+	note_ops.import_note_operations(target_path)
+	chap_ops.import_chap_operations(target_path)
 	# os.system('npm run import')
 	print('HTML successufly optimized for DraftJS!')
 

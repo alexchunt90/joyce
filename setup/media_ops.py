@@ -37,4 +37,4 @@ def import_media_operations(target_path):
 					img_file = img_file.convert("RGB")
 				img_file.save(os.path.join(save_folder, 'img.' + data['file_ext']))
 
-	print 'Image files successfully imported!'	
+	print('Image files successfully imported!')

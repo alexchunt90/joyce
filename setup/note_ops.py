@@ -2,11 +2,10 @@ import os
 import io
 import re
 import codecs
-
 from bs4 import BeautifulSoup as bs, Tag
 
-from . import es_helpers
-from . import es_config
+import setup.es_helpers as es_helpers
+import setup.es_config as es_config
 
 def import_note_operations(target_path):
 	note_file_ops = []
@@ -121,6 +120,7 @@ def import_note_operations(target_path):
 
 	print('Note HTML successfully cleaned!')	
 
+	print(note_title_ops)
 
 	# Index note contents to ES
 	es_helpers.index_seed_docs('notes', note_title_ops)

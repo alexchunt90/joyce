@@ -1,7 +1,7 @@
-import es_helpers
-import es_config
+from . import es_helpers
+from . import es_config
 
-def import_note_operations():
+def refresh_elasticsearch():
 	# Chapters
 	es_helpers.delete_index('chapters')
 	es_helpers.create_index('chapters', es_config.CHAPTER_INDEX_SETTINGS)
@@ -21,4 +21,4 @@ def import_note_operations():
 
 
 if __name__ == "__main__":
-	import_note_operations()	
+	refresh_elasticsearch()	

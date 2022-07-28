@@ -5,7 +5,6 @@ import config
 from blueprints.joyce import joyce
 from blueprints.doc_api import doc_api
 from blueprints.media_api import media_api
-from blueprints.static import static
 
 # Initialize application
 application = Flask(__name__)

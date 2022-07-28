@@ -1,69 +1,40 @@
-# import os
-# import io
-# import re
-# import codecs
+import os
+import io
+import sys
+from PIL import Image
+from bs4 import BeautifulSoup as bs, Tag
 
-from blueprints.media_api import media_api
+import setup.es_helpers as es_helpers
+import blueprints.es_func as es_func
 
-media_api.hello()
+UPLOAD_FOLDER = os.path.join(os.getenv('HOME'), 'Projects', 'joyce_flask', 'static')
 
-# from HTMLParser import HTMLParser
-# from bs4 import BeautifulSoup as bs, Tag
 
-# import es_helpers
-# import es_config
+def import_media_operations(target_path):
+	images_path = target_path + 'img/'
+	episoder_folder_list = os.listdir(images_path)
+	for f in episoder_folder_list:
+		if f == '.DS_Store':
+			continue
 
-# def import_note_operations(target_path):
-# 	note_file_ops = []
-# 	note_title_ops = []
-# 	note_html_ops = []
+		# Joyce source image documents are stored in notes/episode_N_images/images
+		episode_folder = images_path + f
+		img_folder = os.listdir(episode_folder + '/images')
 
-# 	# Read in all notes and index their original file name
-# 	notes_path = target_path + 'notes/'
-# 	notes_file_list = os.listdir(notes_path)
-# 	for i in notes_file_list:
-# 		if i == '.DS_Store':
-# 			continue
-# 		op = es_helpers.build_es_create_op('file_name', i)
-# 		note_file_ops.append(op)
+		for img in img_folder:
+			if es_func.allowed_file(img):
+				data = es_func.media_data_from_file(img, f)
 
-# 	es_helpers.index_seed_docs('notes', note_file_ops)
+				file_path = os.path.join(images_path,data['file_name'])
+				img_file = Image.open(file_path)
+				response = es_func.es_create_document('media', data)
+				save_folder = os.path.join(UPLOAD_FOLDER, data['type'], response['_id'])
+				os.mkdir(save_folder)
+				# Save files to ./static/img/[ _id ]/img.ext
+				print('Importing image file:', img)
+				# I have no idea why some JoyceProject jpeg images read as RGBA to Pillow, but this keeps them from erroring:
+				if img_file.mode in ('RGBA', 'P') and data['file_ext'] in ('jpg', 'jpeg'):
+					img_file = img_file.convert("RGB")
+				img_file.save(os.path.join(save_folder, 'img.' + data['file_ext']))
 
-# 	# Get those filenames back from Elasticsearch
-
-# 	note_dict = es_helpers.es_document_dict('notes')
-
-# 	# Iterate through the note HTML files
-# 	for note in note_dict:
-# 		note_path = notes_path + note
-# 		note_id = note_dict[note]
-
-# 		if note == '.DS_Store':
-# 			continue
-
-# 		html = open(note_path)
-# 		soup = bs(html, 'html.parser')
-# 		html.close()
-
-# 		with codecs.open(note_path, 'w', encoding='utf-8') as file:
-# 			file.write(unicode(final_text))
-
-# 		# Build ES Op to Index Title
-# 		note_title = soup.title.get_text()
-# 		update_title_op = es_helpers.build_es_update_op(note_id, 'title', note_title)
-# 		note_title_ops.append(update_title_op)
-
-# 		# Build ES Op to Index HTML
-# 		final_note_file = io.open(note_path, mode='r', encoding='utf-8')
-# 		final_note_html = final_note_file.read()
-# 		update_html_op = es_helpers.build_es_update_op(note_id, 'html_source', final_note_html)
-# 		note_html_ops.append(update_html_op)
-# 		final_note_file.close()
-
-# 	print 'Note HTML successfully cleaned!'	
-
-# 	# Index note contents to ES
-# 	es_helpers.index_seed_docs('notes', note_title_ops)
-# 	print 'Note titles successfully indexed!'
-# 	es_helpers.index_seed_docs('notes', note_html_ops)
-# 	print 'Note HTML successfully indexed!'
+	print 'Image files successfully imported!'	

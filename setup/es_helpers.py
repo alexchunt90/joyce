@@ -1,30 +1,14 @@
-import es_config
-
+import os
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
+import setup.es_config as es_config
+import blueprints.es_func as es_func
+
 es = Elasticsearch(es_config.ELASTICSEARCH_LOCAL_HOST)
 
-def es_get_documents(index):
-	body = {
-		'from': 0, 'size': 10000,
-		'query': {'match_all': {}},
-	}
-	if index == 'chapters':
-		body['sort'] = [
-			{'number': {'order': 'asc'}}
-		]	
-	search = es.search(
-		index=index,
-		_source_exclude=['html_source', 'search_text'],
-		body=body
-	)
-	hits = search['hits']['hits']
-	
-	return hits
-
 def es_document_dict(index):
-	docs = es_get_documents(index)
+	docs = es_func.es_get_documents(index)
 	doc_dict = {}
 	for i in docs:
 		file_name = i['_source']['file_name']
@@ -33,7 +17,7 @@ def es_document_dict(index):
 	return doc_dict
 
 def es_document_list(index):
-	docs = es_get_documents(index)
+	docs = es_func.es_get_documents(index)
 	doc_list = []
 	for i in docs:
 		file_name = i['_source']['file_name']
@@ -52,7 +36,7 @@ def build_es_create_chap_op(title, number, file_name):
 			'number': number,
 			'file_name': file_name
 		}
-	}	
+	}
 
 def build_es_update_op(id, field, value):
 	return {
@@ -73,3 +57,10 @@ def delete_index(index):
 
 def create_index(index, settings):
 	es.indices.create(index=index, body=settings)
+
+def import_media_file(file, data):
+	response = es_func.es_create_document('media', data)
+	if id is None:
+		os.mkdir(os.path.join(current_app.config['UPLOAD_FOLDER'], data['type'], response['_id']))
+	# Save files to ./static/img/[ _id ]/img.ext
+	file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], data['type'], response['_id'], 'img.' + data['file_ext']))	

@@ -2,11 +2,10 @@ import os
 import io
 import re
 import codecs
-
 from bs4 import BeautifulSoup as bs, Tag
 
-import es_helpers
-import es_config
+from . import es_helpers
+from . import es_config
 
 # Seed with chapter data
 chapter_list = []
@@ -55,7 +54,7 @@ def import_chap_operations(target_path):
 	for c in chapter_dict:
 		if c == '.DS_Store':
 			continue
-		print 'Generating chapter file:', c
+		print('Generating chapter file:', c)
 
 		chap_path = chapters_path + c
 		chapter_id = chapter_dict[c]
@@ -73,13 +72,13 @@ def import_chap_operations(target_path):
 					del a['id']
 
 					strip_href = href[len('notes/'):]
-					if note_dict.has_key(strip_href):
+					if note_dict.__contains__(strip_href):
 						a['href'] = note_dict[strip_href]
 
 		body = soup.prettify(formatter='html')
 
 		with codecs.open(chap_path, 'w', encoding='utf-8') as file:
-			file.write(unicode(body))
+			file.write(str(body))
 
 		# Build op to update ES doc with HTML
 		final_chap_file = io.open(chap_path, mode='r', encoding='utf-8')
@@ -90,4 +89,4 @@ def import_chap_operations(target_path):
 
 	# Update ES document with HTML ops
 	es_helpers.index_seed_docs('chapters', chap_html_ops)
-	print 'Chapter HTML successfully indexed!'
+	print('Chapter HTML successfully indexed!')

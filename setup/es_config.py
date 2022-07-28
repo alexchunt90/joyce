@@ -54,6 +54,7 @@ MEDIA_MAPPINGS = {
     		'title': {'type': 'keyword'},
     		'src': {'type': 'keyword'},
     		'file_name': {'type': 'keyword'},
+    		'thumb_file': {'type': 'keyword'},
     		'file_ext': {'type': 'keyword'},
     		'type': {'type': 'keyword'},
     		'caption_html': {'type': 'text', 'analyzer': 'html_analyzer'},

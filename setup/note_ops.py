@@ -3,11 +3,10 @@ import io
 import re
 import codecs
 
-from HTMLParser import HTMLParser
 from bs4 import BeautifulSoup as bs, Tag
 
-import es_helpers
-import es_config
+from . import es_helpers
+from . import es_config
 
 def import_note_operations(target_path):
 	note_file_ops = []
@@ -99,14 +98,14 @@ def import_note_operations(target_path):
 
 			href = a['href']			
 			if href.endswith('.htm'):				
-				if note_dict.has_key(href):
+				if note_dict.__contains__(href):
 					a['href'] = note_dict[href]
 
 		body = soup.find('body').prettify(formatter='html').replace('\n', ' ')
 		final_text = re.sub('\s{2,}', ' ', body)
 
 		with codecs.open(note_path, 'w', encoding='utf-8') as file:
-			file.write(unicode(final_text))
+			file.write(str(final_text))
 
 		# Build ES Op to Index Title
 		note_title = soup.title.get_text()
@@ -120,11 +119,11 @@ def import_note_operations(target_path):
 		note_html_ops.append(update_html_op)
 		final_note_file.close()
 
-	print 'Note HTML successfully cleaned!'	
+	print('Note HTML successfully cleaned!')	
 
 
 	# Index note contents to ES
 	es_helpers.index_seed_docs('notes', note_title_ops)
-	print 'Note titles successfully indexed!'
+	print('Note titles successfully indexed!')
 	es_helpers.index_seed_docs('notes', note_html_ops)
-	print 'Note HTML successfully indexed!'
+	print('Note HTML successfully indexed!')

@@ -7,16 +7,41 @@ from bs4 import BeautifulSoup as bs, Tag
 import setup.es_helpers as es_helpers
 import setup.es_config as es_config
 
-def import_note_operations(target_path):
+# Takes an element from BS4 and checks if next_sibling is a non-"<br/>"" HTML tag
+# If yes, return tag name, if no, recurse to the next sibling
+def find_next_sibling(element):
+	if element:
+		sibling = element.next_sibling
+		if type(sibling) == Tag and sibling.name != 'br':
+			return sibling
+		else:
+			return find_next_sibling(sibling)
+
+def clear_white_space(str):
+	return str.replace('\n', '').replace('        ', ' ')
+
+def clean_html_for_export(html):
+	if html:
+		pretty_html = html.prettify(formatter='html')
+		clean_html = clear_white_space(pretty_html)
+		return clean_html
+
+
+def import_note_operations(notes_path):
 	note_file_ops = []
 	note_title_ops = []
+	note_media_ops = []
 	note_html_ops = []
+	img_caption_ops = []
 
 	# Read in all notes and index their original file name
-	notes_path = target_path + 'notes/'
 	notes_file_list = os.listdir(notes_path)
+	
+	def get_file_ext(filename):
+		return filename.rsplit('.', 1)[1].lower()
+
 	for i in notes_file_list:
-		if i == '.DS_Store':
+		if get_file_ext(i) != 'htm':
 			continue
 		op = es_helpers.build_es_create_op('file_name', i)
 		note_file_ops.append(op)
@@ -26,13 +51,16 @@ def import_note_operations(target_path):
 	# Get those filenames back from Elasticsearch
 
 	note_dict = es_helpers.es_document_dict('notes')
+	media_dict = es_helpers.es_document_dict('media')
 
 	# Iterate through the note HTML files
 	for note in note_dict:
 		note_path = notes_path + note
 		note_id = note_dict[note]
 
-		if note == '.DS_Store':
+		note_media = []
+
+		if get_file_ext(note) != 'htm':
 			continue
 
 		html = open(note_path)
@@ -47,10 +75,29 @@ def import_note_operations(target_path):
 		for script in soup.findAll('script'):	
 			script.decompose()
 
-		# Remove images
-		# // REMOVE THIS ONCE IMAGES ARE INTEGRATED
+		# Update image references to point to new location
 		images_div = find_div('images')
 		if images_div:
+			for e in images_div.children:
+				# Img files are wrapped in an anchor tag
+				if type(e) == Tag and e.name == 'a':
+					href = e['href']
+					if media_dict.__contains__(href):
+						img_id = media_dict[href]
+						next_sibling = find_next_sibling(e)
+						# Add this image to this note
+						note_media.append(img_id)
+						# Some images won't have a caption paragraph
+						if next_sibling and next_sibling.name == 'p':
+							caption_p = find_next_sibling(e)
+							img_caption_data = {
+								'id': img_id,
+								'caption_html': clean_html_for_export(caption_p),
+								'caption_search_text': clear_white_space(caption_p.get_text())
+							}
+							caption_op = es_helpers.build_es_caption_op(img_caption_data)
+							img_caption_ops.append(caption_op)
+					else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
 			images_div.decompose()
 
 		# Remove return
@@ -73,7 +120,7 @@ def import_note_operations(target_path):
 		expanded_note_div = find_div('expandednote')
 		if expanded_note_div:
 			for p in  expanded_note_div.contents:
-				## Appending breaks if NavigableStrings are included
+				## Can't append NavigableStrings
 				if type(p) == Tag:
 					note_div.append(p)
 			expanded_note_div.decompose()
@@ -100,11 +147,15 @@ def import_note_operations(target_path):
 				if note_dict.__contains__(href):
 					a['href'] = note_dict[href]
 
-		body = soup.find('body').prettify(formatter='html').replace('\n', ' ')
+		body = clean_html_for_export(soup.find('body'))
 		final_text = re.sub('\s{2,}', ' ', body)
 
 		with codecs.open(note_path, 'w', encoding='utf-8') as file:
 			file.write(str(final_text))
+
+		# Build media attachment ops for this note
+		attach_media_op = es_helpers.build_es_update_op(note_id, 'media_doc_ids', note_media)
+		note_media_ops.append(attach_media_op)
 
 		# Build ES Op to Index Title
 		note_title = soup.title.get_text()
@@ -120,10 +171,12 @@ def import_note_operations(target_path):
 
 	print('Note HTML successfully cleaned!')	
 
-	print(note_title_ops)
-
 	# Index note contents to ES
+	es_helpers.index_seed_docs('media', img_caption_ops)
+	print('Image captions successfully indexed!')
 	es_helpers.index_seed_docs('notes', note_title_ops)
 	print('Note titles successfully indexed!')
+	es_helpers.index_seed_docs('notes', note_media_ops)
+	print('Note media successfully linked!')	
 	es_helpers.index_seed_docs('notes', note_html_ops)
 	print('Note HTML successfully indexed!')

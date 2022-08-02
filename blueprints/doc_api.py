@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, abort, jsonify, request
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 import sys
 import config
+import json
 from . import es_func
 
 doc_api = Blueprint('api', __name__)

@@ -48,11 +48,31 @@ def build_es_create_op(field, value):
 		}
 	}
 
+def build_es_create_tag_op(title, html_source, color):
+	return {'_op_type': 'index', '_source': {
+			'title': title,
+			'html_source': html_source,
+			'color': color
+		}
+	}
+
 def build_es_create_chap_op(title, number, file_name):
 	return {'_op_type': 'index', '_source': {
 			'title': title,
 			'number': number,
 			'file_name': file_name
+		}
+	}
+
+def build_es_caption_op(dict):
+	return {
+		'_id': dict['id'],
+		'_op_type': 'update',
+		'_source': {
+			'doc': {
+				'caption_html': dict['caption_html'],
+				'caption_search_text': dict['caption_search_text']
+			}
 		}
 	}
 

@@ -35,7 +35,7 @@ append_chapter(chapter_list, 17, 'Ithaca', 'ithaca')
 append_chapter(chapter_list, 18, 'Penelope', 'penelope')
 
 # Main Chapter import path
-def import_chap_operations(target_path):
+def import_chap_operations(chapters_path):
 	chap_index_ops = []
 	chap_html_ops = []
 
@@ -45,7 +45,6 @@ def import_chap_operations(target_path):
 		chap_index_ops.append(index_op)
 	es_helpers.index_seed_docs('chapters', chap_index_ops)
 
-	chapters_path = target_path + 'chap/'
 	chap_file_list = os.listdir(chapters_path)
 	note_dict = es_helpers.es_document_dict('notes')
 	chapter_dict = es_helpers.es_document_dict('chapters')	

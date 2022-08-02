@@ -24,7 +24,7 @@ application.config.update(params)
 # Register blueprints
 application.register_blueprint(joyce)
 application.register_blueprint(doc_api, url_prefix='/api')
-application.register_blueprint(media_api, url_prefix='/media')
+application.register_blueprint(media_api, url_prefix='/api/media')
 
 if __name__ == "__main__":
 	application.run()

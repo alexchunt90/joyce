@@ -10,8 +10,7 @@ import blueprints.es_func as es_func
 UPLOAD_FOLDER = os.path.join(os.getenv('HOME'), 'Projects', 'joyce_flask', 'static')
 
 
-def import_media_operations(target_path):
-	images_path = target_path + 'img/'
+def import_media_operations(images_path):
 	episoder_folder_list = os.listdir(images_path)
 	for f in episoder_folder_list:
 		if f == '.DS_Store':

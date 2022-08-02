@@ -43,7 +43,8 @@ NOTE_MAPPINGS = {
     		'file_name': {'type': 'keyword'},
     		'title': {'type': 'keyword'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'search_text': {'type': 'nested'}    		
+    		'search_text': {'type': 'nested'},
+    		'media_doc_ids': {'type': 'keyword'}
     	}
     }
 }
@@ -58,7 +59,7 @@ MEDIA_MAPPINGS = {
     		'file_ext': {'type': 'keyword'},
     		'type': {'type': 'keyword'},
     		'caption_html': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'caption_search_text': {'type': 'nested'}    		
+    		'caption_search_text': {'type': 'text'}    		
     	}
     }	    
 }

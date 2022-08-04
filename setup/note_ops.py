@@ -4,6 +4,7 @@ import re
 import codecs
 from bs4 import BeautifulSoup as bs, Tag
 
+import blueprints.es_func as es_func
 import setup.es_helpers as es_helpers
 import setup.es_config as es_config
 
@@ -36,12 +37,9 @@ def import_note_operations(notes_path):
 
 	# Read in all notes and index their original file name
 	notes_file_list = os.listdir(notes_path)
-	
-	def get_file_ext(filename):
-		return filename.rsplit('.', 1)[1].lower()
 
 	for i in notes_file_list:
-		if get_file_ext(i) != 'htm':
+		if es_func.file_extension(i) != 'htm':
 			continue
 		op = es_helpers.build_es_create_op('file_name', i)
 		note_file_ops.append(op)
@@ -60,7 +58,7 @@ def import_note_operations(notes_path):
 
 		note_media = []
 
-		if get_file_ext(note) != 'htm':
+		if es_func.file_extension(note) != 'htm':
 			continue
 
 		html = open(note_path)

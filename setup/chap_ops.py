@@ -4,8 +4,10 @@ import re
 import codecs
 from bs4 import BeautifulSoup as bs, Tag
 
+import blueprints.es_func as es_func
 from . import es_helpers
 from . import es_config
+from . import tag_ops
 
 # Seed with chapter data
 chapter_list = []
@@ -47,11 +49,15 @@ def import_chap_operations(chapters_path):
 
 	chap_file_list = os.listdir(chapters_path)
 	note_dict = es_helpers.es_document_dict('notes')
-	chapter_dict = es_helpers.es_document_dict('chapters')	
+	chapter_dict = es_helpers.es_document_dict('chapters')
+
+	# Parse Swap JS files to find the hex colors for each chapter's links
+	swap_path = './target/swap/'
+	annotation_dict = tag_ops.parse_chapter_annotations(swap_path)
 
 	# Iterate through chap files
 	for c in chapter_dict:
-		if c == '.DS_Store':
+		if es_func.file_extension(c) != 'php':
 			continue
 		print('Generating chapter file:', c)
 
@@ -61,18 +67,27 @@ def import_chap_operations(chapters_path):
 		soup = bs(html, 'html.parser')
 		html.close()
 
+		chap_name = c.split('.')[0]
+		chap_annotations = annotation_dict[chap_name]
+
 		# Point hrefs to ES ids for notes
 		for a in soup.findAll('a'):
 			if a.has_attr('href'):
 				href = a['href']
-
+				strip_href = href[len('notes/'):]
+				if chap_annotations.__contains__(a['id']):
+					hex_color = chap_annotations[a['id']]
+				else:
+					print('Found a chapter link with elementId that isn\'t referenced in the swap files:', a['id'])
 				if href.endswith('.htm') and href.startswith('notes/'):
 					del a['class']
 					del a['id']
-
-					strip_href = href[len('notes/'):]
 					if note_dict.__contains__(strip_href):
+						if hex_color:
+							a['data-color'] = hex_color
 						a['href'] = note_dict[strip_href]
+					else:
+						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
 
 		body = soup.prettify(formatter='html')
 

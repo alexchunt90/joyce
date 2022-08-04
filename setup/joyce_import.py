@@ -16,7 +16,6 @@ note_path = target_path + 'notes/'
 img_path = target_path + 'img/'
 swap_path = target_path + 'swap/'
 
-
 static_path = '../static/img'
 src_path = './src/'
 
@@ -45,8 +44,9 @@ if __name__ == '__main__':
 	# media_ops.import_media_operations(img_path)
 
 	# Import Joyce tags
+	refresh_target_files('swap/')
 	refresh_elasticsearch('tags', es_config.TAG_INDEX_SETTINGS)
-	tag_ops.import_tags(swap_path)
+	tag_ops.import_tags()
 
 	# # Import Joyce note files
 	# refresh_target_files('notes/')
@@ -54,9 +54,9 @@ if __name__ == '__main__':
 	# note_ops.import_note_operations(note_path)
 
 	# # Import Joyce chapter files
-	# refresh_target_files('chap/')
-	# refresh_elasticsearch('chapters', es_config.CHAPTER_INDEX_SETTINGS)
-	# chap_ops.import_chap_operations(chap_path)
+	refresh_target_files('chap/')
+	refresh_elasticsearch('chapters', es_config.CHAPTER_INDEX_SETTINGS)
+	chap_ops.import_chap_operations(chap_path)
 	
 	# # Run Node script to process HTML files using DraftJS and produce search_text for Elasticsearch	
 	# os.system('npm run import')

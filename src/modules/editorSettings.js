@@ -16,12 +16,15 @@ export const stateFromHTML = html => {
   const blocksFromHTML = convertFromHTML({
     htmlToEntity: (nodeName, node, createEntity) => {
         if (nodeName === 'a') {        
-            console.log('WHOOOOYEEE!')
-            console.log(node.href)
+            console.log('You left something in editorsettings.js...')
             return createEntity(
                 'LINK',
                 'MUTABLE',
-                {url: node.getAttribute('href')}
+                {
+                  'url': node.getAttribute('href'),
+                  'data-color': node.getAttribute('data-color') || '40B324',
+                  'data-tag': node.getAttribute('data-tag') || 'Whoops!'
+                }
             )
         }
     },    

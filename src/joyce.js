@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router'
 import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux'
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 import 'bootstrap'
 
 // src modules
@@ -18,7 +18,7 @@ import EditorPageContainer from './containers/editorPageContainer'
 import SearchPageContainer from './containers/searchPageContainer'
 import AdminHeaderContainer from './containers/adminHeaderContainer'
 
-const history = createHistory()
+const history = createBrowserHistory()
 const router = routerMiddleware(history)
 const store = createStore(reduceJoyce, 
 	applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	

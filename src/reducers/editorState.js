@@ -9,7 +9,8 @@ const editorState = (state=blankEditor, action) => {
 		// When a document has been succesfully retrieved, create editor state using stateFromHTML
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
-				const editorState = returnEditorStateFromHTML(action.data.html_source, linkDecorator)
+				const html = action.docType === 'media' ? action.data.caption_html : action.data.html_source
+				const editorState = returnEditorStateFromHTML(html, linkDecorator)
 				return editorState
 			} else if (action.status === 'request' && action.state === 'currentDocument') {
 				return blankEditor

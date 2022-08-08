@@ -47,7 +47,7 @@ export const TagButton = ({tag, currentTag, onClick}) =>
 export const MediaButton = ({media, currentMedia, onClick}) =>
 	<div className ='media_button'>
 		<button onClick={onClick} className={currentMedia.id === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-			{media.title}
+			{media.id}
 		</button>
 	</div>
 

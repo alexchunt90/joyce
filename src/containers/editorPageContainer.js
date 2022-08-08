@@ -121,7 +121,6 @@ const mapDispatchToProps = dispatch => {
 		selectAnnotationTag: tag => {
 			dispatch(actions.selectAnnotationTag(tag))
 		},
-
 		onSubmitAnnotationClick: (annotationNote, annotationTag, selectionState, editorState) => {
 			dispatch(actions.submitAnnotation(annotationNote, annotationTag, selectionState, editorState))
 		}

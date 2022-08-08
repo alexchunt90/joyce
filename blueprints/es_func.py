@@ -33,7 +33,7 @@ def es_document_list(index):
 		]	
 	search = es.search(
 		index=index,
-		_source_exclude=['html_source', 'search_text'],
+		_source_exclude=['html_source', 'search_text', 'caption_html', 'caption_search_text', 'thumb_file', 'file_ext', 'file_name'],
 		body=body
 	)
 	res = []

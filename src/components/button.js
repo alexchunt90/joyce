@@ -44,10 +44,12 @@ export const TagButton = ({tag, currentTag, onClick}) =>
 		</button>
 	</div>
 
-export const MediaButton = ({media, currentMedia, onClick}) =>
+// TODO: Evaluate cases like this where its probably more efficient to pass a compononent
+// 			currentMedia.id instead of the full currentMedia object
+export const MediaButton = ({media, currentMediaId, onClick}) =>
 	<div className ='media_button'>
-		<button onClick={onClick} className={currentMedia.id === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-			{media.id}
+		<button onClick={onClick} className={currentMediaId === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+			{media.title}
 		</button>
 	</div>
 

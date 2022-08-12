@@ -3,8 +3,7 @@ const initialState = {
 	search: '',
 	colorPicker: '',
 	noteMediaSelection: [],
-	uploadFile: undefined,
-	s3Path: undefined	
+	uploadFile: undefined
 }
 
 const inputs = (state=initialState, action) => {
@@ -26,7 +25,6 @@ const inputs = (state=initialState, action) => {
 				return {
 					...state,
 					documentTitle: action.data.title,
-					s3Path: action.data.s3Path
 				}
 			} else { return state }
 		case 'CREATE_DOCUMENT':
@@ -34,6 +32,8 @@ const inputs = (state=initialState, action) => {
 					...state,
 					documentTitle: ''
 			}
+		case 'CANCEL_EDIT':
+			return initialState		
 		case 'UPDATE_DOCUMENT_TITLE':
 			return {
 					...state,
@@ -47,10 +47,12 @@ const inputs = (state=initialState, action) => {
 			}
 		// Color Picker
 		case 'SAVE_DOCUMENT': 
+			// TODO: Note the reference to inputs.uploadFile here, need to refactor
 			if (action.status === 'success' && action.docType === 'tags') {
 				return {
 					...state,
-					colorPicker: ''
+					colorPicker: '',
+					uploadFile: undefined
 				}
 			} else { return state }			
 		case 'CREATE_DOCUMENT':
@@ -74,18 +76,10 @@ const inputs = (state=initialState, action) => {
 				...state,
 				uploadFile: action.data
 			}
-		// S3 File
-		case 'UPLOAD_TO_S3_RESPONSE':
-			if (action.status === 'success') {
-				return {
-					...state,
-					s3Path: action.url
-				}
-			} else { return state }
 		case 'CLEAR_LOADED_MEDIA':
 			return {
 				...state,
-				s3Path: undefined
+				uploadFile: undefined,
 			}
 		default:
 			return state

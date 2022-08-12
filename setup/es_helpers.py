@@ -70,8 +70,8 @@ def build_es_caption_op(dict):
 		'_op_type': 'update',
 		'_source': {
 			'doc': {
-				'caption_html': dict['caption_html'],
-				'caption_search_text': dict['caption_search_text']
+				'html_source': dict['html_source'],
+				'search_text': dict['search_text']
 			}
 		}
 	}

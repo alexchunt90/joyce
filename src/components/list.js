@@ -43,7 +43,7 @@ export const TagList = ({tags, currentTag, onTagClick}) =>
 export const MediaList = ({media, currentMedia, onMediaClick}) =>
 	<div>
     	{media.map(media =>
-			<MediaButton key={media.id} currentMedia={currentMedia} media={media} onClick={()=>onMediaClick(media.id, 'media')} />
+			<MediaButton key={media.id} currentMediaId={currentMedia.id} media={media} onClick={()=>onMediaClick(media.id, 'media')} />
     	)}
 	</div>
 

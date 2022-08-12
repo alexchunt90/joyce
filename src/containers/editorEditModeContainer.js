@@ -26,7 +26,6 @@ const EditorEditMode = ({
 	onColorSwatchClick,
 	onClearLoadedMedia,
 	onMediaInputChange,
-	onMediaUpload,
 	cancelEdit,
 	onSubmitClick,
 	onToolButtonClick,
@@ -66,9 +65,9 @@ const EditorEditMode = ({
 					onColorSwatchClick={onColorSwatchClick}
 				/>
 			}
-			{docType === 'media' && inputs.s3Path &&
+			{docType === 'media' && inputs.uploadFile &&
 				<div className='row'>
-					<div className='col-8'>File uploaded!</div>					
+					<div className='col-8'>File ready to upload.</div>					
 					<div className='col-2 offset-2'>
 						<button type='button' onClick={onClearLoadedMedia} className='btn btn-outline-info btn-sm'>
 							<i className={'fas fa-trash-alt'}></i>
@@ -76,8 +75,8 @@ const EditorEditMode = ({
 					</div>
 				</div>
 			}
-			{docType === 'media' && !inputs.s3Path &&
-					<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange} onUpload={onMediaUpload}/>
+			{docType === 'media' && !inputs.uploadFile &&
+				<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange}/>
 			}					
 		</EditorAttributeContentBlock>
 		{/* Cancel and Submit buttons */}
@@ -122,9 +121,6 @@ const mapDispatchToProps = dispatch => {
 		},
 		onMediaInputChange: input => {
 			dispatch(actions.updateMediaInput(input))
-		},
-		onMediaUpload: input => {
-			dispatch(actions.uploadMediaInput(input))
 		},
 		onClearLoadedMedia: () => {
 			dispatch(actions.clearLoadedMedia())

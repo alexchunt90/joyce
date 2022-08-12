@@ -10,8 +10,18 @@ export const validateSubmittedDocument = (docType, inputs) => {
 		}
 	}
 	if (docType === 'media') {
-		if (inputs.s3Path === undefined) {
-			errors.push('Please upload an image first.')
+		if (inputs.uploadFile === undefined) {
+			errors.push('Please choose an image first.')
+		} else {
+			const allowedFileTypes = [
+				'image/jpeg',
+				'image/png'
+			]
+			const fileType = inputs.uploadFile[0].type
+			if (!allowedFileTypes.includes(fileType)) {
+				const file_type_error = 'You\'ve uploaded an image in an unsupported file type: '+ fileType
+				errors.push(file_type_error)
+			}
 		}
 	}
 	if (inputs.documentTitle.length < 1) {

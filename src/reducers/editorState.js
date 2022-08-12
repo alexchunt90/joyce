@@ -9,7 +9,8 @@ const editorState = (state=blankEditor, action) => {
 		// When a document has been succesfully retrieved, create editor state using stateFromHTML
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
-				const html = action.docType === 'media' ? action.data.caption_html : action.data.html_source
+				// TODO: Remove references to caption_html once image implementation is complete
+				const html = action.data.caption_html || action.data.html_source
 				const editorState = returnEditorStateFromHTML(html, linkDecorator)
 				return editorState
 			} else if (action.status === 'request' && action.state === 'currentDocument') {
@@ -21,6 +22,8 @@ const editorState = (state=blankEditor, action) => {
 		case 'CREATE_DOCUMENT':
 			return blankEditor
 		// Update editor to reflect action
+		case 'CANCEL_EDIT':
+			return blankEditor
 		case 'UPDATE_EDITOR_STATE':
 			return action.data
 		case 'HANDLE_EDITOR_KEY_COMMAND':

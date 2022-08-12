@@ -31,8 +31,9 @@ const joyceInterface = store => next => action => {
 					data.color = action.inputs.colorPicker
 				}
 				if (action.docType === 'media') {
-					data.s3Path = action.inputs.s3Path
-				}
+					data.uploadFile = action.inputs.uploadFile
+				}				
+				// Documents that haven't yet been indexed in ES will have undefined id
 				if (action.currentDocument.id) {
 					data.id = action.currentDocument.id
 				}

@@ -22,27 +22,28 @@ def get_media_doc(id):
 	return jsonify(data)
 
 ''' Index new media document '''
-@media_api.route('/', methods=['PUT'])
+@media_api.route('/', methods=['POST'])
 def create_media():
-	if 'file' in request.files:
-		file = request.files['file']
-		es_func.index_and_save_media_file(file)
-		return jsonify(es_func.es_document_list('media'))
+	if 'uploadFile' in request.files:
+		file = request.files['uploadFile']
+		form_data = request.form
+		es_func.index_and_save_media_file(file, None, form_data)
+		return get_media_list()
+	else:
+		return get_media_list()
 
-# ''' Update media document '''
+''' Update media document '''
 @media_api.route('/<string:id>', methods=['POST'])
 def write_media(id):
 	if request.data:
 		data = request.data
 		es_func.es_index_document('media', id, data)
 		return jsonify(es_func.es_document_list('media'))
-	if 'file' in request.files:
-		file = request.files['file']
-		if file.filename != '' and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
-			data = media_data_from_file(filename)
-			es_func.index_and_save_media_file(file, id)
-			return jsonify(es_func.es_document_list('media'))
+	if 'uploadFile' in request.files:
+		file = request.files['uploadFile']
+		form_data = request.form
+		es_func.index_and_save_media_file(file, id, form_data)
+		return jsonify(es_func.es_document_list('media'))
 
 ''' Delete media document '''
 @media_api.route('/<string:id>', methods=['DELETE'])

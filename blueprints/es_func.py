@@ -33,7 +33,7 @@ def es_document_list(index):
 		]	
 	search = es.search(
 		index=index,
-		_source_exclude=['html_source', 'search_text', 'caption_html', 'caption_search_text', 'thumb_file', 'file_ext', 'file_name'],
+		_source_exclude=['html_source', 'search_text', 'thumb_file', 'file_ext', 'file_name'],
 		body=body
 	)
 	res = []
@@ -198,25 +198,34 @@ def get_file_type(extension):
 def media_data_from_file(filename, joyce_folder=''):
 	image_file = filename if joyce_folder == '' else joyce_folder + '/images/' + filename
 	thumb_file = filename if joyce_folder == '' else joyce_folder + '/thumbs/' + filename
+	file_title = filename.split('.')[0]
 	data = {}
 	file_ext = file_extension(filename)
 	file_type = get_file_type(file_ext)	
 	data['file_name'] = image_file
+	data['title'] = file_title
 	data['thumb_file'] = thumb_file
 	data['file_ext'] = file_ext
 	data['type'] = file_type
 	return data	
 
-def index_and_save_media_file(file, id=None):
+def index_and_save_media_file(file, id=None, form=None):
 	if file.filename != '' and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
-		data = media_data_from_file(filename)
+		metadata = media_data_from_file(filename)
+		if form:
+			for k,v in form.items():
+				metadata[k] = v
+		print('Form data in es_func:', form)
+		print('metadata in es_func:', metadata)
 		if id is None:
-			response = es_create_document('media', data)
+			response = es_create_document('media', metadata)
 		# If passed an id, function will update an existing document
 		if id:
-			response = es_index_document('media', id, data)
+			response = es_index_document('media', id, metadata)
 		media_id = id if id is not None else response['_id']
 		if id is None:
-			os.mkdir(os.path.join(current_app.config['UPLOAD_FOLDER'], data['type'], media_id))
-		file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], data['type'], media_id, 'img.' + data['file_ext']))
+			os.mkdir(os.path.join(current_app.config['UPLOAD_FOLDER'], metadata['type'], media_id))
+		file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], metadata['type'], media_id, 'img.' + metadata['file_ext']))
+
+

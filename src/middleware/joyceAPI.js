@@ -1,6 +1,14 @@
+import React from 'react'
+
 import actions from '../actions'
 import api from '../modules/api'
 import regex from '../modules/regex'
+
+const formHeaders = {
+	headers: {
+	  "Content-Type": "multipart/form-data",
+	}
+}
 
 // API Middleware
 const joyceAPI = store => next => action => {
@@ -21,7 +29,25 @@ const joyceAPI = store => next => action => {
 			}	
 			break
 		case 'SAVE_DOCUMENT':
-			if (action.status === 'request') {
+			if (action.status === 'request' && action.docType === 'media') {
+				// Flask expects formData for image uploads
+				const mediaForm = new FormData()
+				// Select the first element from the FileList object
+				const file = action.data.uploadFile[0]
+				mediaForm.append('uploadFile', file)
+				mediaForm.append('title', action.data.title)
+				mediaForm.append('html_source', action.data.html_source)
+				mediaForm.append('search_text', action.data.search_text)
+				if (action.id) {
+					api.HTTPPostWriteMediaDocument(action.id, action.docType, mediaForm, formHeaders).then(response =>
+						store.dispatch(actions.saveDocument(response))
+				)} else {
+					api.HTTPPostCreateMediaDocument(action.docType, mediaForm, formHeaders).then(response =>
+						store.dispatch(actions.saveDocument(response))
+					)
+				}				
+			}
+			if (action.status === 'request' && action.docType !== 'media') {
 				if (action.id) {
 					api.HTTPPostWriteDocument(action.id, action.docType, action.data).then(response =>
 						store.dispatch(actions.saveDocument(response))
@@ -29,8 +55,8 @@ const joyceAPI = store => next => action => {
 					api.HTTPPutCreateDocument(action.docType, action.data).then(response =>
 						store.dispatch(actions.saveDocument(response))
 					)
-				}
-			}
+				}				
+			}			
 			break
 		case 'DELETE_DOCUMENT':
 			if (action.status === 'request') {
@@ -45,24 +71,7 @@ const joyceAPI = store => next => action => {
 					store.dispatch(actions.getSearchResults(response))
 				)
 			}
-			break	
-		case 'UPLOAD_MEDIA_SUBMIT':
-			api.HTTPGetSignedPost().then(response =>
-				store.dispatch(actions.uploadMediaToS3Request(response, action.data[0])
-			))
 			break
-		case 'UPLOAD_TO_S3_REQUEST':
-			const formData = new FormData()
-			const url = action.signed_post.url
-			formData.append('key', action.signed_post.fields.key)
-			formData.append('AWSAccessKeyId', action.signed_post.fields.AWSAccessKeyId)
-			formData.append('acl', 'public-read')
-			formData.append('policy', action.signed_post.fields.policy)
-			formData.append('signature', action.signed_post.fields.signature)
-			formData.append('file', action.file)
-			api.HTTPPostMedia(url, formData).then(response =>
-				store.dispatch(actions.uploadMediaToS3Response(response))
-			)
 		default:
 			break
 	}

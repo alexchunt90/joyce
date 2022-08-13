@@ -18,7 +18,7 @@ const joyceInterface = store => next => action => {
 		// Submitting document edits
 		case 'SUBMIT_DOCUMENT_EDIT':
 			// Check for validation errors
-			const docErrors = validateSubmittedDocument(action.docType, action.inputs)
+			const docErrors = validateSubmittedDocument(action.docType, action.inputs, action.currentDocument)
 			if (docErrors.length < 1) {
 				const textContent = action.editorState.getCurrentContent()
 				// Convert state to HTML and search text to be posted to Elasticsearch

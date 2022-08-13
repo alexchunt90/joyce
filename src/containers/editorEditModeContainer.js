@@ -76,7 +76,7 @@ const EditorEditMode = ({
 				</div>
 			}
 			{docType === 'media' && !inputs.uploadFile &&
-				<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange}/>
+				<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange} currentDocument={currentDocument}/>
 			}					
 		</EditorAttributeContentBlock>
 		{/* Cancel and Submit buttons */}

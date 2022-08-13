@@ -58,6 +58,7 @@ MEDIA_MAPPINGS = {
     		'thumb_file': {'type': 'keyword'},
     		'file_ext': {'type': 'keyword'},
     		'type': {'type': 'keyword'},
+    		'dimensions': {'type': 'integer'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
     		'search_text': {'type': 'text'}    		
     	}

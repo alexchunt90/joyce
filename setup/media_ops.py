@@ -22,19 +22,15 @@ def import_media_operations(images_path):
 
 		for img in img_folder:
 			if es_func.allowed_file(img):
+				print('Importing image file:', img)
 				metadata = es_func.media_data_from_file(img, f)
-				file_path = os.path.join(images_path,data['file_name'])
+				file_path = os.path.join(episode_folder, 'images' ,img)
 				img_file = Image.open(file_path)
 				# I have no idea why some JoyceProject jpeg images read as RGBA to Pillow, but this keeps them from erroring:
 				if img_file.mode in ('RGBA', 'P') and metadata['file_ext'] in ('jpg', 'jpeg'):
 					img_file = img_file.convert("RGB")
-
-				response = es_func.es_create_document('media', metadata)
-				
-				save_folder = os.path.join(UPLOAD_FOLDER, metadata['type'], response['_id'])
-				os.mkdir(save_folder)
-				img_file.save(os.path.join(save_folder, 'img.' + metadata['file_ext']))
-
-				print('Importing image file:', img)
+					img_file.save(file_path)
+					img_file = Image.open(file_path)
+				es_func.index_and_save_media_file(img_file, None, None, f)
 
 	print('Image files successfully imported!')

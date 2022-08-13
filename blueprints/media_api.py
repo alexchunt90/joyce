@@ -35,9 +35,10 @@ def create_media():
 ''' Update media document '''
 @media_api.route('/<string:id>', methods=['POST'])
 def write_media(id):
-	if request.data:
-		data = request.data
-		es_func.es_index_document('media', id, data)
+	if 'uploadFile' not in request.files and request.form:
+		form_data = request.form
+		print(form_data)
+		es_func.es_update_document('media', id, form_data)
 		return jsonify(es_func.es_document_list('media'))
 	if 'uploadFile' in request.files:
 		file = request.files['uploadFile']

@@ -33,8 +33,10 @@ const joyceAPI = store => next => action => {
 				// Flask expects formData for image uploads
 				const mediaForm = new FormData()
 				// Select the first element from the FileList object
-				const file = action.data.uploadFile[0]
-				mediaForm.append('uploadFile', file)
+				if (action.data.uploadFile) {
+					const file = action.data.uploadFile[0]
+					mediaForm.append('uploadFile', file)
+				}
 				mediaForm.append('title', action.data.title)
 				mediaForm.append('html_source', action.data.html_source)
 				mediaForm.append('search_text', action.data.search_text)

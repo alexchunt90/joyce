@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, current_app
 from werkzeug.utils import secure_filename
 from elasticsearch import Elasticsearch, RequestsHttpConnection
+from PIL import Image
 import os
 import config
 
@@ -69,13 +70,13 @@ def es_create_document(index, body):
 	)
 	return res
 
-def es_update_number(id, number):
+def es_update_document(index, id, data):
 	res = es.update(
-		index='chapters',
+		index=index,
 		doc_type='doc',
 		id=id,
 		refresh=True,
-		body={'doc': {'number': number}}
+		body={'doc': data}
 	)
 
 def es_delete_document(index, id):
@@ -92,7 +93,9 @@ def renumber_chapters():
 	chapters = es_document_list('chapters')
 	for index, chapter in enumerate(chapters):
 		if index + 1 != chapter['number']:
-			es_update_number(chapter['id'], index + 1)
+			n = index + 1
+			data = {'number': n}
+			es_update_document('chapters', chapter['id'], data)
 	return chapters
 
 def group_search_results(es_results):
@@ -175,6 +178,7 @@ def es_search_text(body):
 # MEDIA HANDLING
 # ______________
 
+UPLOAD_FOLDER = os.path.join(os.getenv('HOME'), 'Projects', 'joyce_flask', 'static')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'mov', 'mp4', 'mp3', 'wav'}
 
 def file_extension(filename):
@@ -195,9 +199,9 @@ def get_file_type(extension):
 	if extension in audio_ext:
 		return 'audio'
 
-def media_data_from_file(filename, joyce_folder=''):
-	image_file = filename if joyce_folder == '' else joyce_folder + '/images/' + filename
-	thumb_file = filename if joyce_folder == '' else joyce_folder + '/thumbs/' + filename
+def media_data_from_file(filename, joyce_import_folder):
+	image_file = filename if joyce_import_folder == '' else joyce_import_folder + '/images/' + filename
+	thumb_file = filename if joyce_import_folder == '' else joyce_import_folder + '/thumbs/' + filename
 	file_title = filename.split('.')[0]
 	data = {}
 	file_ext = file_extension(filename)
@@ -209,15 +213,18 @@ def media_data_from_file(filename, joyce_folder=''):
 	data['type'] = file_type
 	return data	
 
-def index_and_save_media_file(file, id=None, form=None):
+def index_and_save_media_file(file, id=None, form=None, import_folder=''):
 	if file.filename != '' and allowed_file(file.filename):
-		filename = secure_filename(file.filename)
-		metadata = media_data_from_file(filename)
+
+		basename = os.path.basename(file.filename)
+		filename = secure_filename(basename)
+		metadata = media_data_from_file(filename, import_folder)
+		metadata['dimensions'] = [file.width, file.height]
+
 		if form:
 			for k,v in form.items():
 				metadata[k] = v
-		print('Form data in es_func:', form)
-		print('metadata in es_func:', metadata)
+
 		if id is None:
 			response = es_create_document('media', metadata)
 		# If passed an id, function will update an existing document
@@ -225,7 +232,8 @@ def index_and_save_media_file(file, id=None, form=None):
 			response = es_index_document('media', id, metadata)
 		media_id = id if id is not None else response['_id']
 		if id is None:
-			os.mkdir(os.path.join(current_app.config['UPLOAD_FOLDER'], metadata['type'], media_id))
-		file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], metadata['type'], media_id, 'img.' + metadata['file_ext']))
+			save_folder = os.path.join(UPLOAD_FOLDER, metadata['type'], media_id)
+			os.mkdir(save_folder)
+		file.save(os.path.join(UPLOAD_FOLDER, metadata['type'], media_id, 'img.' + metadata['file_ext']))
 
 

@@ -1,6 +1,6 @@
 import regex from './regex'
 
-export const validateSubmittedDocument = (docType, inputs) => {
+export const validateSubmittedDocument = (docType, inputs, currentDocument) => {
 	const errors = []
 	if (docType === 'tags') {
 		if (inputs.colorPicker.length < 1) {
@@ -10,9 +10,10 @@ export const validateSubmittedDocument = (docType, inputs) => {
 		}
 	}
 	if (docType === 'media') {
-		if (inputs.uploadFile === undefined) {
+		if (inputs.uploadFile === undefined && !currentDocument.id) {
 			errors.push('Please choose an image first.')
-		} else {
+		} 
+		if (inputs.uploadFile !== undefined) {
 			const allowedFileTypes = [
 				'image/jpeg',
 				'image/png'

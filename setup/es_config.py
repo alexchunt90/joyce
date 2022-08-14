@@ -60,7 +60,7 @@ MEDIA_MAPPINGS = {
     		'type': {'type': 'keyword'},
     		'dimensions': {'type': 'integer'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'search_text': {'type': 'text'}    		
+    		'search_text': {'type': 'nested'},
     	}
     }	    
 }

@@ -2,6 +2,7 @@ import React from 'react'
 
 import actions from '../actions'
 import api from '../modules/api'
+// import {convertToSearchText} from '../modules/editorSettings'
 import regex from '../modules/regex'
 
 const formHeaders = {

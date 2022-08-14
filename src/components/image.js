@@ -6,12 +6,13 @@ import {returnEditorStateFromHTML, linkDecorator} from '../modules/editorSetting
 
 export const Image = ({document, col=12}) =>
 	<div className={'image_div col-md-'+col}>
-		<img src={'/static/img/'+document.id+'/img.'+document.file_ext} />
+		<a href={'/static/img/'+document.id+'/img.'+document.file_ext} target='_blank'>
+			<img src={'/static/img/'+document.id+'/img.'+document.file_ext} />
+		</a>
 	</div>
 
 export const ImageGroup = ({media_docs}) =>
 	<div>
-		{console.log('MA:OSJHDFA:', media_docs)}
     	{media_docs.map(doc =>
     		<div key={doc.id}>
     			<Image document={doc} col={6} />

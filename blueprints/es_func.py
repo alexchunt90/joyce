@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request, current_app
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 from PIL import Image
 import os
@@ -230,9 +231,13 @@ def media_data_from_file(filename, joyce_import_folder):
 
 def index_and_save_media_file(file, id=None, form=None, import_folder=''):
 	if file.filename != '' and allowed_file(file.filename):
-
 		basename = os.path.basename(file.filename)
 		filename = secure_filename(basename)
+		
+		if isinstance(file, FileStorage):
+			img_file = file = Image.open(file)
+			file = img_file
+
 		metadata = media_data_from_file(filename, import_folder)
 		metadata['dimensions'] = [file.width, file.height]
 

@@ -28,6 +28,9 @@ const joyceInterface = store => next => action => {
 					html_source: stateToHTML(textContent), 
 					search_text: convertToSearchText(textContent),
 				}
+				if (action.docType === 'notes') {
+					data.media_doc_ids = action.inputs.noteMediaSelection
+				}
 				if (action.docType === 'tags') {
 					data.color = action.inputs.colorPicker
 				}
@@ -59,7 +62,6 @@ const joyceInterface = store => next => action => {
 			if (currentDocument.id) {
 				store.dispatch(actions.getDocumentText({id: currentDocument.id, docType: docType, state: 'currentDocument'}))
 			} else {
-				console.log('asdfasdfa', docs)
 				store.dispatch(actions.getDocumentText({id: docs[0].id, docType: docType, state: 'currentDocument'}))
 			}
 			break

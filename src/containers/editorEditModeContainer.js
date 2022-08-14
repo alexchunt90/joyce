@@ -26,6 +26,7 @@ const EditorEditMode = ({
 	onColorSwatchClick,
 	onClearLoadedMedia,
 	onMediaInputChange,
+	onMediaCheckboxClick,
 	cancelEdit,
 	onSubmitClick,
 	onToolButtonClick,
@@ -56,7 +57,11 @@ const EditorEditMode = ({
 		{/* Dropdown select for attaching media or tags */}
 		<EditorAttributeContentBlock>
 			{docType === 'notes' &&
-				<NoteMediaPicker media={media} />
+				<NoteMediaPicker 
+					media={media} 
+					selectedMedia={inputs.noteMediaSelection}
+					onMediaCheckboxClick={onMediaCheckboxClick}
+				/>
 			}
 			{docType === 'tags' &&
 				<TagColorPicker 
@@ -121,6 +126,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		onMediaInputChange: input => {
 			dispatch(actions.updateMediaInput(input))
+		},
+		onMediaCheckboxClick: id => {
+			dispatch(actions.toggleMediaCheckbox(id))
 		},
 		onClearLoadedMedia: () => {
 			dispatch(actions.clearLoadedMedia())

@@ -21,6 +21,7 @@ const EditorPage = ({
 	media,
 	currentDocument,
 	annotationNote,
+	annotationNoteMedia,
 	annotationTag,
 	editorState,
 	modalEditorState,
@@ -64,7 +65,7 @@ const EditorPage = ({
 			</Content>
 		</div>
 		<DeleteConfirmModal onDeleteConfirm={()=>onDeleteConfirm(currentDocument.id, docType)}/>
-		<AnnotationModal annotationNote={annotationNote} modalEditorState={modalEditorState} />
+		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} />
 		<ChooseAnnotationModal 
 			notes={notes}
 			tags={tags}
@@ -88,6 +89,7 @@ const mapStateToProps = state => {
 		mode: state.mode,
 		currentDocument: state.currentDocument,
 		annotationNote: state.annotationNote,
+		annotationNoteMedia: state.annotationNoteMedia,
 		annotationTag: state.annotationTag,
 		editorState: state.editorState,
 		modalEditorState: state.modalEditorState,
@@ -133,6 +135,7 @@ EditorPage.propTypes = {
 	media: PropTypes.arrayOf(PropTypes.object),
 	currentDocument: PropTypes.object,
 	annotationNote: PropTypes.object,
+	annotationNoteMedia: PropTypes.arrayOf(PropTypes.object),
 	annotationTag: PropTypes.object,
 	editorState: PropTypes.object,
 	modalEditorState: PropTypes.object,

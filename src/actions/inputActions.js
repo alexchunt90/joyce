@@ -26,6 +26,11 @@ const inputActions = {
 		({
 			type: 'UPDATE_MEDIA_INPUT',
 			data: input.target.files
+		}),
+	toggleMediaCheckbox: id =>
+		({
+			type: 'TOGGLE_MEDIA_CHECKBOX',
+			id: id
 		})
 }
 

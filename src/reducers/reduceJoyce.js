@@ -24,6 +24,7 @@ import inputs from './inputs'
 
 import docType from './docType'
 import mode from './mode'
+import paginationState from './paginationState'
 // Toggles
 import toggles from './toggles'
 // import highlightToggle from './highlightToggle'
@@ -55,6 +56,7 @@ const reduceJoyce = combineReducers({
 	// Toggles
 	docType,
 	mode,
+	paginationState,
 	toggles,
 	// highlightToggle,
 	// loadingToggle,

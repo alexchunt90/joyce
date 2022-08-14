@@ -26,7 +26,14 @@ const joyceAPI = store => next => action => {
 				api.HTTPGetDocumentText(action.id, action.docType, action.state).then(response =>
 					store.dispatch(actions.getDocumentText(response))
 				)
-			}	
+			}
+			break
+		case 'GET_MEDIA_DOCS':
+			if (action.status === 'request') {
+				api.HTTPPostRetrieveDocuments(action.media_doc_ids, action.docType).then(response =>
+					store.dispatch(actions.getMediaDocs(response))
+				)
+			}
 			break
 		case 'SAVE_DOCUMENT':
 			if (action.status === 'request' && action.docType === 'media') {

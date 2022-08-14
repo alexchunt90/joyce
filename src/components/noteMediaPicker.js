@@ -5,15 +5,15 @@ import { MediaList } from './list'
 const NoteMediaPicker = ({media}) =>
 	<div id='note_media_picker' className='row'>
 		<div className='col-12'>
-			<div className="btn-group">
-				<button className="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+			<div className='btn-group'>
+				<button className='btn btn-secondary dropdown-toggle' type='button' data-toggle='dropdown'>
 					Select Media
 				</button>
-				<div className="dropdown-menu">
+				<div className='dropdown-menu note-picker-dropdown'>
 					{media.map(media =>
-						<div key={media.id}>
-							<input type="checkbox" />
-							<div>{media.title}</div>
+						<div key={media.id} className='row'>
+							<div className='col-2'><input type='checkbox'/></div>
+							<div className='col-6'>{media.title}</div>
 						</div>
 					)}
 				</div>

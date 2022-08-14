@@ -9,6 +9,7 @@ import tags from './tags'
 import media from './media'
 import currentDocument from './currentDocument'
 import annotationNote from './annotationNote'
+import annotationNoteMedia from './annotationNoteMedia'
 import annotationTag from './annotationTag'
 import searchResults from './searchResults'
 
@@ -40,6 +41,7 @@ const reduceJoyce = combineReducers({
 	media,
 	currentDocument,
 	annotationNote,
+	annotationNoteMedia,
 	annotationTag,
 	searchResults,
 	// User Inputs

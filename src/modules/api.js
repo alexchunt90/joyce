@@ -4,13 +4,20 @@ const apiRoute = '/api/'
 
 const api = {
 
-	// List Function
+	// List Documents of type
 	HTTPGetDocumentList: (docType) =>
 		axios.get(apiRoute + docType).then(res => {
 			return {status: 'success', docType: docType, data: res.data}
 		}).catch(error => {
 			return {status: 'error', docType: docType, data: error}
 		}),
+	// Takes an array of doc_ids, retreives full details for those documents
+	HTTPPostRetrieveDocuments: (doc_ids, docType) =>
+		axios.post(apiRoute + docType + '/bulk/', doc_ids).then(res => {
+			return {status: 'success', docType: docType, data: res.data}
+		}).catch(error => {	
+			return {status: 'error', docType: docType, data: error}
+		}),		
 
 
 	// Document CRUD

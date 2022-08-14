@@ -1,11 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Editor } from 'draft-js'
 
-export const Image = ({document}) =>
-	<div className='image_div col-md-12'>
+import {returnEditorStateFromHTML, linkDecorator} from '../modules/editorSettings'
+
+export const Image = ({document, col=12}) =>
+	<div className={'image_div col-md-'+col}>
 		<img src={'/static/img/'+document.id+'/img.'+document.file_ext} />
 	</div>
 
+export const ImageGroup = ({media_docs}) =>
+	<div>
+		{console.log('MA:OSJHDFA:', media_docs)}
+    	{media_docs.map(doc =>
+    		<div key={doc.id}>
+    			<Image document={doc} col={6} />
+    			<Editor editorState={returnEditorStateFromHTML(doc.html_source, linkDecorator)} readOnly={true} />
+    		</div>
+    	)}	
+	</div>
+
 Image.propTypes = {
-	currentDocument: PropTypes.object
+	document: PropTypes.object,
+	col: PropTypes.number
+}
+
+ImageGroup.propTypes = {
+	media_docs: PropTypes.arrayOf(PropTypes.object)
 }

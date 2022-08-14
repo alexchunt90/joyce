@@ -156,7 +156,6 @@ export const html_export_options = {
     const entityType = entity.get('type').toUpperCase()
     if (entityType === 'LINK') {
       const data = entity.getData()
-      console.log('data when saving is:', data['data-color'])
       return {
         element: 'a',
         attributes: {

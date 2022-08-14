@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, flash, current_app
 from werkzeug.utils import secure_filename
 import os
+import json
 import shutil
 from . import es_func
 
@@ -20,6 +21,13 @@ def get_media_list():
 def get_media_doc(id):
 	data =  es_func.es_get_document('media', id)
 	return jsonify(data)
+
+''' Get multiple documents '''
+@media_api.route('/bulk/', methods=['POST'])
+def get_multiple_docs():
+	data = json.loads(request.data)
+	response = es_func.es_get_multiple_document('media', data)
+	return jsonify(response)
 
 ''' Index new media document '''
 @media_api.route('/', methods=['POST'])

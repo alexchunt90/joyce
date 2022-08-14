@@ -19,6 +19,7 @@ const ReaderPage = ({
 	currentDocument, 
 	docType,
 	annotationNote,
+	annotationNoteMedia,
 	modalEditorState,
 	toggles,
 	onDocumentClick,
@@ -47,7 +48,7 @@ const ReaderPage = ({
 				}				
 			</Content>
 		</div>
-		<AnnotationModal annotationNote={annotationNote} modalEditorState={modalEditorState} />
+		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} />
 	</div>
 
 const mapStateToProps = state => {
@@ -58,6 +59,7 @@ const mapStateToProps = state => {
 		currentDocument: state.currentDocument,
 		docType: state.docType,
 		annotationNote: state.annotationNote,
+		annotationNoteMedia: state.annotationNoteMedia,
 		modalEditorState: state.modalEditorState,
 		toggles: state.toggles,
 	}
@@ -81,6 +83,7 @@ ReaderPage.propTypes = {
 	currentDocument: PropTypes.object,
 	docType: PropTypes.string,
 	annotationNote: PropTypes.object,
+	annotationNoteMedia: PropTypes.arrayOf(PropTypes.object),
 	modalEditorState: PropTypes.object, 
 	toggles: PropTypes.object,
 }

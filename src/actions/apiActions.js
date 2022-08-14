@@ -23,6 +23,15 @@ const apiActions = {
 			data: response.data,
 			state: response.state,
 		}),
+	// Requesting media docs associated with a given note
+	getMediaDocs: (response = {}) =>
+		({
+			type: 'GET_MEDIA_DOCS',
+			media_doc_ids: response.media_doc_ids,
+			docType: 'media',
+			status: response.status || 'request',
+			data: response.data || {}
+		}),
 	// Deleting a given document
 	deleteDocument: (response = {}) =>
 		({

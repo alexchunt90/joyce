@@ -17,10 +17,18 @@ if config.ENVIRONMENT == 'staging':
 	    connection_class = RequestsHttpConnection
 	)
 
+# Return response object that combines ES ID and source fields
 def merge_id_and_source(id, source):
 	response = {'id': id}
 	response.update(source)
 	return response
+
+# Iterate through ES results and construct response object
+def merge_results(response):
+	results = []
+	for x in response:
+		results.append(merge_id_and_source(x['_id'], x['_source']))
+	return results
 
 # Elasticsearch interface functions
 def es_document_list(index):
@@ -37,10 +45,8 @@ def es_document_list(index):
 		_source_exclude=['html_source', 'search_text', 'thumb_file', 'file_ext', 'file_name'],
 		body=body
 	)
-	res = []
-	for x in search['hits']['hits']:
-		res.append(merge_id_and_source(x['_id'], x['_source']))
-	return res
+	response = merge_results(search['hits']['hits'])
+	return response
 
 def es_get_document(index, id):
 	res = es.get(
@@ -50,6 +56,15 @@ def es_get_document(index, id):
 	)
 	data = merge_id_and_source(res['_id'], res['_source'])
 	return data
+
+def es_get_multiple_document(index, doc_ids):
+	docs = es.mget(
+		index=index,
+		doc_type='doc',
+		body={'ids': doc_ids}
+	)
+	response = merge_results(docs['docs'])
+	return response
 
 def es_index_document(index, id, body):
 	res = es.index(

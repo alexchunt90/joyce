@@ -22,6 +22,11 @@
 	}
 }
 
+.note-picker-dropdown {
+	max-height: 20vh;
+	overflow-y: scroll;
+}
+
 #editor_top_bar_block {
 	button {
 		width: 100%;

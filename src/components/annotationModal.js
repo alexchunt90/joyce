@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 
 import { EditorSubmitButton, EditorCancelButton } from './button'
 import { DocumentList } from './list'
+import { ImageGroup } from './image'
 
-const AnnotateModal = ({annotationNote, modalEditorState}) =>
+const AnnotateModal = ({annotationNote, annotationNoteMedia, modalEditorState}) =>
 	<div className='modal fade' id='annotation_modal' tabIndex='-1' role='dialog'>
 		<div className='modal-dialog modal-lg' role='document'>
 			<div className='modal-content'>
@@ -18,6 +19,13 @@ const AnnotateModal = ({annotationNote, modalEditorState}) =>
 							<Editor editorState={modalEditorState} readOnly={true} />
 						</div>
 					</div>
+					{annotationNote.media_doc_ids && annotationNote.media_doc_ids.length > 0 &&
+						<div className='row'>
+							<div className='col-md-10 offset-md-1'>
+								<ImageGroup media_docs={annotationNoteMedia} />
+							</div>
+						</div>						
+					}			
 				</div>
 				<div className='modal-footer'>
 					<EditorCancelButton />
@@ -27,7 +35,8 @@ const AnnotateModal = ({annotationNote, modalEditorState}) =>
 	</div>
 
 AnnotateModal.propTypes = {
-	annotationNote: PropTypes.object
+	annotationNote: PropTypes.object,
+	annotationNoteMedia: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default AnnotateModal

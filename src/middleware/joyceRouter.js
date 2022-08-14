@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 
 import actions from '../actions'
 import helpers from '../modules/helpers'
@@ -14,7 +14,7 @@ const joyceRouter = store => next => action => {
 	const currentDocument = store.getState().currentDocument
 	const docType = store.getState().docType
 	// Path
-	const path = store.getState().routerReducer.location !== null ? store.getState().routerReducer.location.pathname : '/'
+	const path = store.getState().router.location !== null ? store.getState().router.location.pathname : '/'
 	const pathID = regex.checkPathForID(path) ? regex.parseIDFromPath(path) : undefined		
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
 	switch(action.type) {

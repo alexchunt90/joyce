@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router'
-import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux'
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
 import 'bootstrap'
 
@@ -20,8 +20,8 @@ import AdminHeaderContainer from './containers/adminHeaderContainer'
 
 const history = createBrowserHistory()
 const router = routerMiddleware(history)
-const store = createStore(reduceJoyce, 
-	applyMiddleware(logger, router, joyceAPI, joyceInterface, joyceRouter))	
+const store = createStore(reduceJoyce(history), 
+	applyMiddleware(router, logger, joyceAPI, joyceInterface, joyceRouter))	
 const state = store.getState()
 
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))

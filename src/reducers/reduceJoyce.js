@@ -1,6 +1,6 @@
  // node_modules
 import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
+import { connectRouter } from 'connected-react-router'
 
 // Documents
 import chapters from './chapters'
@@ -33,35 +33,30 @@ import toggles from './toggles'
 // Validation
 import userErrors from './userErrors'
 
-const reduceJoyce = combineReducers({
-	routerReducer,
+const reduceJoyce = (history) => combineReducers({
+	router: connectRouter(history),
 	// Documents
-	chapters,
-	notes,
-	tags,
-	media,
-	currentDocument,
-	annotationNote,
-	annotationNoteMedia,
-	annotationTag,
-	searchResults,
+	chapters: chapters,
+	notes: notes,
+	tags: tags,
+	media: media,
+	currentDocument: currentDocument,
+	annotationNote: annotationNote,
+	annotationNoteMedia: annotationNoteMedia,
+	annotationTag: annotationTag,
+	searchResults: searchResults,
 	// User Inputs
-	editorState,
-	modalEditorState,
-	selectionState,
-	inputs,
-	// colorPickerInput,
-	// documentTitleInput,
-	// searchInput,
+	editorState: editorState,
+	modalEditorState: modalEditorState,
+	selectionState: selectionState,
+	inputs: inputs,
 	// Toggles
-	docType,
-	mode,
-	paginationState,
-	toggles,
-	// highlightToggle,
-	// loadingToggle,
+	docType: docType,
+	mode: mode,
+	paginationState: paginationState,
+	toggles: toggles,
 	// Validation
-	userErrors,
+	userErrors: userErrors,
 })
 
 export default reduceJoyce

@@ -56,6 +56,14 @@ def build_es_create_tag_op(title, html_source, color):
 		}
 	}
 
+def build_es_create_edition_op(title, year, html_source):
+	return {'_op_type': 'index', '_source': {
+			'title': title,
+			'year': year,
+			'html_source': html_source
+		}
+	}
+
 def build_es_create_chap_op(title, number, file_name):
 	return {'_op_type': 'index', '_source': {
 			'title': title,

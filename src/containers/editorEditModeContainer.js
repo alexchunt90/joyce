@@ -8,6 +8,7 @@ import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import DocumentTitleInput from '../components/documentTitleInput'
 import TagColorPicker from '../components/tagColorPicker'
+import EditionYearInput from '../components/EditionYearInput'
 import NoteMediaPicker from '../components/noteMediaPicker'
 import MediaUploadInput from '../components/mediaUploadInput'
 import LoadingSpinner from '../components/loadingSpinner'
@@ -22,6 +23,7 @@ const EditorEditMode = ({
 	handleKeyCommand,
 	onChangeEditorState,
 	onDocumentTitleChange,
+	onEditionYearInputChange,
 	onColorPickerInputChange,
 	onColorSwatchClick,
 	onClearLoadedMedia,
@@ -70,6 +72,12 @@ const EditorEditMode = ({
 					onColorSwatchClick={onColorSwatchClick}
 				/>
 			}
+			{docType === 'editions' &&
+				<EditionYearInput 
+					input={inputs.editionYear} 
+					onChange={onEditionYearInputChange} 
+				/>
+			}			
 			{docType === 'media' && inputs.uploadFile &&
 				<div className='row'>
 					<div className='col-8'>File ready to upload.</div>					
@@ -117,6 +125,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		onDocumentTitleChange: input => {
 			dispatch(actions.updateDocumentTitleInput(input))
+		},
+		onEditionYearInputChange: input => {
+			dispatch(actions.updateEditionYearInput(input))
 		},
 		onColorPickerInputChange: input => {
 			dispatch(actions.updateColorPickerInput(input))

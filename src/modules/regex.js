@@ -19,12 +19,13 @@ const regexParseBaseFunction = (path, pattern, n=1) => {
 const patterns = {
 	PATH_WITH_NUMBER: /\/([0-9]{1,3})$/,
 	PATH_WITH_ID: /\/([0-9A-Za-z0-9\-\_]{18,})$/,
-	PATH_WITH_DOC_TYPE: /^\/(edit\/)*(notes|tags|chapters|media)/,
+	PATH_WITH_DOC_TYPE: /^\/(edit\/)*(notes|tags|chapters|editions|media)/,
 	PATH_WITH_ID_REDIRECT: /\/(\:id)$/,
 	PATH_ROOT: /^\/(\:id)*$/,
 	PATH_EDITOR: /^\/edit(\/)*/,
 	PATH_BASE_EDITOR: /^\/edit$/,
 	HEX_COLOR: /(^[0-9A-F]{6})$|(^[0-9A-F]{3}$)/,
+	IS_INTEGER: /^[0-9]*$/
 }
 
 const regex = {
@@ -62,7 +63,12 @@ const regex = {
 	},
 	checkColorPickerHexValue: input => {
 		return regexCheckBaseFunction(input, patterns.HEX_COLOR)
+	},
+	// Input Checks
+	checkIntegerInput: input => {
+		return regexCheckBaseFunction(input, patterns.IS_INTEGER)
 	}
+
 }
 
 export default regex

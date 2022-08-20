@@ -107,6 +107,40 @@ def delete_tag(id):
 	es_func.es_delete_document('tags', id)
 	return jsonify(es_func.es_document_list('tags'))
 
+
+#
+# Edition API Routes
+#
+
+''' Get all editions '''
+@doc_api.route('/editions/')
+def get_edition_list():
+	return jsonify(es_func.es_document_list('editions'))
+
+''' Get specific edition '''
+@doc_api.route('/editions/<string:id>')
+def get_edition_doc(id):
+	data =  es_func.es_get_document('editions', id)
+	return jsonify(data)
+
+''' New edition '''
+@doc_api.route('/editions/', methods=['PUT'])
+def create_edition():
+	es_func.es_create_document('editions', request.data)
+	return jsonify(es_func.es_document_list('editions'))
+
+''' Write edition '''
+@doc_api.route('/editions/<string:id>', methods=['POST'])
+def write_edition(id):
+	es_func.es_index_document('editions', id, request.data)
+	return jsonify(es_func.es_document_list('editions'))
+
+''' Delete edition '''
+@doc_api.route('/editions/<string:id>', methods=['DELETE'])
+def delete_edition(id):
+	es_func.es_delete_document('editions', id)
+	return jsonify(es_func.es_document_list('edtions'))	
+
 #
 # Search API Routes
 #

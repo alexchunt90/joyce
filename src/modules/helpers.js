@@ -24,7 +24,8 @@ const helpers = {
 				break
 		}	
 	},
-	documentsOfDocType: (docType, chapters, notes, tags, media) => {
+	// TODO: I hate this function and need to reevaluate anywhere its used
+	documentsOfDocType: (docType, chapters, notes, tags, editions, media) => {
 		switch(docType) {
 			case 'chapters':
 				return chapters
@@ -34,6 +35,8 @@ const helpers = {
 				break
 			case 'tags':
 				return tags
+			case 'editions':
+				return editions
 			case 'media':
 				return media
 				break

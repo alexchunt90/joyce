@@ -9,9 +9,10 @@ const joyceInterface = store => next => action => {
 	const chapters = store.getState().chapters
 	const notes = store.getState().notes
 	const tags = store.getState().tags
+	const editions = store.getState().editions
 	const media = store.getState().media
 	const docType = store.getState().docType
-	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, media)
+	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)
 	switch(action.type) {
 		case 'SET_CURRENT_DOCUMENT':
 			store.dispatch(actions.getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
@@ -36,7 +37,10 @@ const joyceInterface = store => next => action => {
 				}
 				if (action.docType === 'media') {
 					data.uploadFile = action.inputs.uploadFile
-				}				
+				}
+				if (action.docType === 'editions') {
+					data.year = action.inputs.editionYear
+				}
 				// Documents that haven't yet been indexed in ES will have undefined id
 				if (action.currentDocument.id) {
 					data.id = action.currentDocument.id

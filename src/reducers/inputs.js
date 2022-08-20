@@ -1,9 +1,12 @@
+import regex from '../modules/regex'
+
 const initialState = {
 	documentTitle: '',
 	search: '',
 	colorPicker: '',
 	noteMediaSelection: [],
-	uploadFile: undefined
+	editionYear: undefined,
+	uploadFile: undefined,
 }
 
 const inputs = (state=initialState, action) => {
@@ -26,7 +29,13 @@ const inputs = (state=initialState, action) => {
 					...state,
 					documentTitle: action.data.title,
 					colorPicker: action.data.color
-				}						
+				}
+			} else if (action.status === 'success' && action.docType === 'editions') {
+				return {
+					...state,
+					documentTitle: action.data.title,
+					editionYear: action.data.year
+				}									
 			} else if (action.status === 'success' && action.docType === 'media' && action.state === 'currentDocument') {
 				return {
 					...state,
@@ -64,6 +73,18 @@ const inputs = (state=initialState, action) => {
 			return {
 				...state,
 				noteMediaSelection: newSelection
+			}
+		// Edition Year Input
+		case 'UPDATE_EDITION_YEAR':
+			if (regex.checkIntegerInput(action.data)) {
+				console.log('checkIntegerInput TRUE')
+				return {
+				...state,
+				editionYear: action.data
+				} 
+			} else { 
+				console.log('checkIntegerInput FALSE')
+				return state 
 			}
 		// Search
 		case 'UPDATE_SEARCH_INPUT':

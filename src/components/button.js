@@ -44,6 +44,13 @@ export const TagButton = ({tag, currentTag, onClick}) =>
 		</button>
 	</div>
 
+export const EditionButton = ({edition, currentEdition, onClick}) =>
+	<div className ='edition_button'>
+		<button onClick={onClick} className={currentEdition.id === edition.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+			{edition.title} ({edition.year})
+		</button>
+	</div>	
+
 // TODO: Evaluate cases like this where its probably more efficient to pass a compononent
 // 			currentMedia.id instead of the full currentMedia object
 export const MediaButton = ({media, currentMediaId, onClick}) =>

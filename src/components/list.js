@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ChapterButton, NoteButton, TagButton, MediaButton } from './button'
+import { ChapterButton, NoteButton, TagButton, EditionButton, MediaButton } from './button'
 
 export const DocumentList = ({docs, currentDocument, onDocumentClick, docType}) =>
 	<div id='document_list'>
@@ -14,9 +14,12 @@ export const DocumentList = ({docs, currentDocument, onDocumentClick, docType}) 
 		{(docType === 'tags' && docs.length > 0) &&
 			<TagList tags={docs} currentTag={currentDocument} onTagClick={onDocumentClick}/>
 		}
+		{(docType === 'editions' && docs.length > 0) &&
+			<EditionList editions={docs} currentEdition={currentDocument} onEditionClick={onDocumentClick}/>
+		}		
 		{(docType === 'media' && docs.length > 0) &&
 			<MediaList media={docs} currentMedia={currentDocument} onMediaClick={onDocumentClick}/>
-		}		
+		}
 	</div>
 
 export const ChapterList = ({chapters, currentChapter, onChapterClick}) =>
@@ -39,6 +42,14 @@ export const TagList = ({tags, currentTag, onTagClick}) =>
 			<TagButton key={tag.id} currentTag={currentTag} tag={tag} onClick={()=>onTagClick(tag.id, 'tags')} />
     	)}
 	</div>
+
+export const EditionList = ({editions, currentEdition, onEditionClick}) =>
+	<div>
+    	{editions.map(edition =>
+			<EditionButton key={edition.id} currentEdition={currentEdition} edition={edition} onClick={()=>onEditionClick(edition.id, 'editions')} />
+    	)}
+	</div>
+
 
 export const MediaList = ({media, currentMedia, onMediaClick}) =>
 	<div>
@@ -65,4 +76,22 @@ NoteList.propTypes = {
 	notes: PropTypes.arrayOf(PropTypes.object),
 	currentDocument: PropTypes.object,
 	onNoteClick: PropTypes.func,
+}
+
+TagList.propTypes = {
+	tags: PropTypes.arrayOf(PropTypes.object),
+	currentTag: PropTypes.object,
+	onTagClick: PropTypes.func,
+}
+
+EditionList.propTypes = {
+	editions: PropTypes.arrayOf(PropTypes.object),
+	currentEdition: PropTypes.object,
+	onEditionClick: PropTypes.func,
+}
+
+MediaList.propTypes = {
+	media: PropTypes.arrayOf(PropTypes.object),
+	currentMedia: PropTypes.object,
+	onMediaClick: PropTypes.func,
 }

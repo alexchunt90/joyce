@@ -28,6 +28,7 @@ store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
 store.dispatch(actions.getDocumentList({docType: 'tags'}))
 store.dispatch(actions.getDocumentList({docType: 'media'}))
+store.dispatch(actions.getDocumentList({docType: 'editions'}))
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -51,13 +52,17 @@ ReactDOM.render(
 					<Route exact path='/edit/tags' render={() =>
 						<Redirect to={'/edit/tags/:id'}/>
 					}/>
+					<Route exact path='/edit/editions' render={() =>
+						<Redirect to={'/edit/editions/:id'}/>
+					}/>					
 					<Route exact path='/edit/media' render={() =>
 						<Redirect to={'/edit/media/:id'}/>
-					}/>															
+					}/>																
 					<Route exact path='/notes/:id' component={ReaderPageContainer} />
 					<Route exact path='/edit/:id' component={EditorPageContainer} />
 					<Route exact path='/edit/notes/:id' component={EditorPageContainer} />
 					<Route exact path='/edit/tags/:id' component={EditorPageContainer} />
+					<Route exact path='/edit/editions/:id' component={EditorPageContainer} />
 					<Route exact path='/edit/media/:id' component={EditorPageContainer} />
 					<Route exact path='/search/' component={SearchPageContainer} />
 					<Route exact path='/:id' component={ReaderPageContainer} />	

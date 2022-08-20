@@ -76,6 +76,17 @@ TAG_MAPPINGS = {
     }	    
 }
 
+EDITION_MAPPINGS = {
+    'doc': {
+    	'properties': {
+    		'title': {'type': 'keyword'},
+    		'year': {'type': 'integer'},
+    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+    		'search_text': {'type': 'nested'},
+    	}
+    }	    
+}
+
 CHAPTER_INDEX_SETTINGS = {
 	'settings': DEFAULT_INDEX_SETTINGS,
 	'mappings': CHAPTER_MAPPINGS
@@ -94,4 +105,9 @@ MEDIA_INDEX_SETTINGS = {
 TAG_INDEX_SETTINGS = {
 	'settings': DEFAULT_INDEX_SETTINGS,
 	'mappings': TAG_MAPPINGS
+}
+
+EDITION_INDEX_SETTINGS = {
+	'settings': DEFAULT_INDEX_SETTINGS,
+	'mappings': EDITION_MAPPINGS
 }

@@ -10,6 +10,11 @@ const inputActions = {
 			type: 'UPDATE_DOCUMENT_TITLE',
 			data: input.target.value
 		}),
+	updateEditionYearInput: input =>
+		({
+			type: 'UPDATE_EDITION_YEAR',
+			data: input.target.value
+		}),	
 	updateColorPickerInput: input =>
 		({
 			type: 'UPDATE_COLOR_PICKER',

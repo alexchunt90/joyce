@@ -6,6 +6,7 @@ import { connectRouter } from 'connected-react-router'
 import chapters from './chapters'
 import notes from './notes'
 import tags from './tags'
+import editions from './editions'
 import media from './media'
 import currentDocument from './currentDocument'
 import annotationNote from './annotationNote'
@@ -39,6 +40,7 @@ const reduceJoyce = (history) => combineReducers({
 	chapters: chapters,
 	notes: notes,
 	tags: tags,
+	editions: editions,
 	media: media,
 	currentDocument: currentDocument,
 	annotationNote: annotationNote,

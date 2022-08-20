@@ -1,7 +1,15 @@
+import paginate from '../modules/paginate'
+
 const currentDocument = (state={}, action) => {
 	switch(action.type) {
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
+				// TEMPORARY PAGINATION TESTING 
+				if (action.docType === 'chapters') {
+					paginate.testPaginate(action.data)
+				}
+				// 
+				
 				return action.data
 			} else if (action.status ==='request' && action.state === 'currentDocument') {
 				return {}

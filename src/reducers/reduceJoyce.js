@@ -15,21 +15,16 @@ import annotationTag from './annotationTag'
 import searchResults from './searchResults'
 
 // User Inputs
+import inputs from './inputs'
 import editorState from './editorState'
 import modalEditorState from './modalEditorState'
 import selectionState from './selectionState'
-import inputs from './inputs'
-// import documentTitleInput from './documentTitleInput'
-// import colorPickerInput from './colorPickerInput'
-// import searchInput from './searchInput'
 
 import docType from './docType'
 import mode from './mode'
 import paginationState from './paginationState'
 // Toggles
 import toggles from './toggles'
-// import highlightToggle from './highlightToggle'
-// import loadingToggle from './loadingToggle'
 
 // Validation
 import userErrors from './userErrors'

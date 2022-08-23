@@ -12,10 +12,14 @@ import ReaderContentContainer from '../containers/readerContentContainer'
 import AnnotationModal from '../components/annotationModal'
 import { ReaderSidebarOptions } from '../components/mobileSidebarOptions'
 
+// TODO: ReaderSidebar being a container while mobile sidebar options take props from ReaderPage container
+// 		 creates a lot of redunancy. DRY this up by making mobile sidebar a container?
+
 const ReaderPage = ({
 	chapters,
 	notes,
 	tags,
+	editions,
 	currentDocument, 
 	docType,
 	annotationNote,
@@ -24,18 +28,23 @@ const ReaderPage = ({
 	toggles,
 	onDocumentClick,
 	onHighlightClick,
+	onPaginationToggle,
+	setPaginationEdition,
 }) =>
 	<div id='joyce_page' className='container-fluid'>
 		<div id='page_wrapper' className='row'>
 			<ReaderSidebarContainer />
 			<Content>
 				<ReaderSidebarOptions
-					docs={helpers.documentsOfDocType(docType, chapters, notes, tags)}
+					docs={helpers.documentsOfDocType(docType, chapters, notes, tags, editions)}
+					editions={editions}
 					currentDocument={currentDocument}
-					highlightToggle={toggles.highlights}
+					toggles={toggles}
 					docType={docType}
 					onHighlightClick={onHighlightClick}
 					onDocumentClick={onDocumentClick}
+					onPaginationToggle={onPaginationToggle}
+					setPaginationEdition={setPaginationEdition}
 				/>			
 				{toggles.loading === true &&
 					<LoadingSpinner size={4} />
@@ -56,6 +65,7 @@ const mapStateToProps = state => {
 		chapters: state.chapters,
 		notes: state.notes,
 		tags: state.tags,
+		editions: state.editions,
 		currentDocument: state.currentDocument,
 		docType: state.docType,
 		annotationNote: state.annotationNote,
@@ -72,7 +82,13 @@ const mapDispatchToProps = dispatch => {
 		},
 		onHighlightClick: () => {
 			dispatch(actions.toggleHighlight())
-		}
+		},
+		onPaginationToggle: () => {
+			dispatch(actions.togglePagination())
+		},
+		setPaginationEdition: (edition) => {
+			dispatch(actions.setPaginationEdition(edition))
+		}		
 	}
 }
 
@@ -86,6 +102,8 @@ ReaderPage.propTypes = {
 	annotationNoteMedia: PropTypes.arrayOf(PropTypes.object),
 	modalEditorState: PropTypes.object, 
 	toggles: PropTypes.object,
+	onPaginationClick: PropTypes.func,
+	setPaginationEdition: PropTypes.func,
 }
 
 const ReaderPageContainer = connect(mapStateToProps, mapDispatchToProps)(ReaderPage)

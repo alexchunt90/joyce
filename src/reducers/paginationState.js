@@ -1,16 +1,13 @@
 const initialState = {
-	paginationToggle: false,
-	paginationEdition: 'ed1932',
-	currentPage: 0,
-	currentPageEditionNumber: undefined
+	paginationEdition: {},
 }
 
 const paginationState = (state=initialState, action) => {
 	switch(action.type) {
-		case 'TOGGLE_PAGINATION_MODE':
+		case 'SET_PAGINATION_EDITION':
 			return {
 				...state,
-				paginationToggle: !state.paginationToggle,
+				paginationEdition: action.data,
 			}
 		default:
 			return state

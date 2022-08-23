@@ -10,7 +10,7 @@ const EditionYearInput = ({input, onChange}) =>
 	</div>
 
 EditionYearInput.propTypes = {
-	input: PropTypes.number,
+	input: PropTypes.string,
 	onCHange: PropTypes.func
 }
 

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import actions from '../actions'
 import EditorReadModeContainer from '../containers/editorReadModeContainer'
 import EditorAnnotateModeContainer from '../containers/editorAnnotateModeContainer'
+import EditorPaginateModeContainer from '../containers/editorPaginateModeContainer'
 import EditorEditModeContainer from '../containers/editorEditModeContainer'
 
 const EditorContent = ({mode}) =>
@@ -18,6 +19,9 @@ const EditorContent = ({mode}) =>
 		{mode === 'EDIT_MODE' &&
 			<EditorEditModeContainer />
 		}
+		{mode === 'PAGINATE_MODE' &&
+			<EditorPaginateModeContainer />
+		}		
 	</div>	
 
 const mapStateToProps = (state, props) => {

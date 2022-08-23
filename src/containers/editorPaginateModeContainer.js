@@ -9,16 +9,13 @@ import DocumentTitle from '../components/documentTitle'
 import TagColorPicker from '../components/tagColorPicker'
 import LoadingSpinner from '../components/loadingSpinner'
 
-const EditorAnnotateMode = ({
+const EditorPaginateMode = ({
 	currentDocument,
 	editorState,
 	docType,
-	toggles,
 	inputs,
 	onChangeEditorState,
-	onNewAnnotationClick,
-	annotateKeyBindings,
-	onRemoveAnnotationClick,
+	paginateKeyBindings,
 	cancelEdit,
 	onSubmitClick,
 }) =>
@@ -29,21 +26,15 @@ const EditorAnnotateMode = ({
 				currentDocument={currentDocument} 
 			/>
 		</EditorTitleContentBlock>
-		<EditorTopBarContentBlock>
-			<EditorAnnotateOptions 
-				onNewAnnotationClick={()=>onNewAnnotationClick(editorState.getSelection())}
-				onRemoveAnnotationClick={()=>onRemoveAnnotationClick(editorState)}
-				addDisabled={editorState.getSelection().isCollapsed() ? true : false}
-				removeDisabled={(editorState.getSelection().isCollapsed() ) ? true : false}
-			/>
-		</EditorTopBarContentBlock>
+
 		<EditorTextContentBlock>
 			<TextEditor 
 				editorState={editorState} 
 				onChange={onChangeEditorState} 
-				keyBindingFn={annotateKeyBindings} 
+				keyBindingFn={paginateKeyBindings} 
 			/>
 		</EditorTextContentBlock>
+
 		<EditorBottomBarContentBlock>
 			<EditorSubmitOptions 
 				cancelEdit={cancelEdit} 
@@ -57,7 +48,6 @@ const mapStateToProps = (state, props) => {
 		currentDocument: state.currentDocument,
 		docType: state.docType,
 		editorState: state.editorState,
-		toggles: state.toggles,
 		inputs: state.inputs,
 	}
 }
@@ -67,18 +57,12 @@ const mapDispatchToProps = dispatch => {
 		onChangeEditorState: editorState => {
 			dispatch(actions.updateEditorState(editorState))
 		},
-		annotateKeyBindings: () => {
+		paginateKeyBindings: () => {
 			// Prevents editor input in Annotation Mode
 			return 'handled'
 		},
 		cancelEdit: () => {
 			dispatch(actions.cancelEdit())
-		},
-		onNewAnnotationClick: (selectionState) => {
-			dispatch(actions.addAnnotation(selectionState))
-		},
-		onRemoveAnnotationClick: (editorState) => {
-			dispatch(actions.removeAnnotation(editorState))
 		},
 		onSubmitClick: (currentDocument, editorState, inputs, docType) => {
 			dispatch(actions.submitDocumentEdit(currentDocument, editorState, inputs, docType))
@@ -86,6 +70,6 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const EditorAnnotateModeContainer = connect(mapStateToProps, mapDispatchToProps)(EditorAnnotateMode)	
+const EditorPaginateModeContainer = connect(mapStateToProps, mapDispatchToProps)(EditorPaginateMode)	
 
-export default EditorAnnotateModeContainer
+export default EditorPaginateModeContainer

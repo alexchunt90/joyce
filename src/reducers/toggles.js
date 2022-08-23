@@ -1,6 +1,7 @@
 const initialState = {
 	loading: true,
 	highlights: true,
+	pagination: false,
 	admin: false,
 }
 
@@ -37,6 +38,12 @@ const toggles = (state=initialState, action) => {
 			return {
 				...state,
 				highlights: !state.highlights
+			}
+		// Pagination in chapter reader
+		case 'TOGGLE_PAGINATION':
+			return {
+				...state,
+				pagination: !state.pagination
 			}
 		// Admin
 		case 'SHOW_ADMIN_HEADER':

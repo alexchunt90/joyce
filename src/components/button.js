@@ -20,6 +20,14 @@ export const ReaderAnnotateButton = ({onClick}) =>
 			Annotate
 			<i className='fas fa_inline fa-link'></i>
 		</button>
+	</div>
+
+export const ReaderPaginateButton = ({onClick}) =>
+	<div className='paginate_note_button'>
+		<button onClick={onClick} className='btn btn-outline-primary btn-sm'>
+			Paginate
+			<i className='fas fa_inline fa-file-lines'></i>
+		</button>
 	</div>	
 
 export const ChapterButton = ({chapter, currentChapter, onClick}) =>

@@ -9,6 +9,15 @@ export const validateSubmittedDocument = (docType, inputs, currentDocument) => {
 			errors.push('Please select a valid hex code color.')
 		}
 	}
+	if (docType === 'editions') {
+		const year = inputs.editionYear
+		if (!year) {
+			errors.push('Please enter the edition year.')
+		}
+		if (year && parseInt(year) === NaN) {
+			errors.push('Year must be an integer.')
+		}
+	}
 	if (docType === 'media') {
 		if (inputs.uploadFile === undefined && !currentDocument.id) {
 			errors.push('Please choose an image first.')

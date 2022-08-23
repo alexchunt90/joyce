@@ -34,7 +34,7 @@ const inputs = (state=initialState, action) => {
 				return {
 					...state,
 					documentTitle: action.data.title,
-					editionYear: action.data.year
+					editionYear: action.data.year.toString()
 				}									
 			} else if (action.status === 'success' && action.docType === 'media' && action.state === 'currentDocument') {
 				return {
@@ -45,10 +45,7 @@ const inputs = (state=initialState, action) => {
 
 		// Doc Title
 		case 'CREATE_DOCUMENT':
-			return {
-				...state,
-				documentTitle: ''
-			}
+			return initialState
 		case 'CANCEL_EDIT':
 			return initialState		
 		case 'UPDATE_DOCUMENT_TITLE':
@@ -77,13 +74,11 @@ const inputs = (state=initialState, action) => {
 		// Edition Year Input
 		case 'UPDATE_EDITION_YEAR':
 			if (regex.checkIntegerInput(action.data)) {
-				console.log('checkIntegerInput TRUE')
 				return {
-				...state,
-				editionYear: action.data
+					...state,
+					editionYear: action.data
 				} 
 			} else { 
-				console.log('checkIntegerInput FALSE')
 				return state 
 			}
 		// Search

@@ -1,16 +1,26 @@
 import React from 'react'
-import { ReaderAnnotateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, AnnotatorNewButton, AnnotatorRemoveButton, EditorCancelButton, EditorSubmitButton} from './button'
+import { ReaderAnnotateButton, ReaderPaginateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, AnnotatorNewButton, AnnotatorRemoveButton, EditorCancelButton, EditorSubmitButton} from './button'
 
 export const EditorReadModeOptions = ({setMode, docType}) =>
 	<div className='row'>
+		
+		<div className='topbar_button col-4 ml-auto'>
+			<ReaderEditButton onClick={()=>setMode('EDIT_MODE')} />
+		</div>
+
+		{docType === 'chapters' && 
+			<div className='topbar_button col-4 ml-auto'>
+				<ReaderPaginateButton onClick={()=>setMode('PAGINATE_MODE')}/>
+			</div>
+		}
+
+
 		{['chapters', 'notes'].indexOf(docType) >= 0 &&
-			<div className='topbar_button col-5'>
+			<div className='topbar_button col-4 ml-auto'>
 				<ReaderAnnotateButton onClick={()=>setMode('ANNOTATE_MODE')}/>
 			</div>
 		}
-		<div className='topbar_button col-5 ml-auto'>
-			<ReaderEditButton onClick={()=>setMode('EDIT_MODE')} />
-		</div>
+
 	</div>
 
 export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, disabled}) =>

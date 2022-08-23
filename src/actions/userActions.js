@@ -54,6 +54,16 @@ const userActions = {
 		({
 			type: 'TOGGLE_HIGHLIGHT'
 		}),
+	// Toggle the pagination mode in chapter reader
+	togglePagination: () =>
+		({
+			type: 'TOGGLE_PAGINATION'
+		}),
+	setPaginationEdition: edition =>
+		({
+			type: 'SET_PAGINATION_EDITION',
+			data: edition
+		}),
 	// Select 'Read', 'Edit' or 'Annotate' modes in the Editor
 	setMode: mode =>
 		({

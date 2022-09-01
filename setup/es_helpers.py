@@ -29,9 +29,12 @@ def es_document_dict(index):
 	docs = es_get_documents(index)
 	doc_dict = {}
 	for i in docs:
-		file_name = i['_source']['file_name']
-		doc_id = i['_id']
-		doc_dict[file_name] = doc_id
+		print(i)
+		source = i['_source']
+		if source['file_name']:
+			file_name = source['file_name']
+			doc_id = i['_id']
+			doc_dict[file_name] = doc_id
 	return doc_dict
 
 def es_document_list(index):

@@ -5,6 +5,7 @@ import { convertFromHTML, convertToHTML } from 'draft-convert'
 
 import LinkContainer from '../containers/linkContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'
+import PageBreakContainer from '../containers/pageBreakContainer'
 
 // _________________________________________________
 // 
@@ -15,17 +16,27 @@ import ModalLinkContainer from '../containers/linkModalContainer'
 export const stateFromHTML = html => {
   const blocksFromHTML = convertFromHTML({
     htmlToEntity: (nodeName, node, createEntity) => {
-        if (nodeName === 'a') {        
-            return createEntity(
-                'LINK',
-                'MUTABLE',
-                {
-                  'url': node.getAttribute('href'),
-                  'data-color': node.getAttribute('data-color') || '05E4f0',
-                  'data-tag': node.getAttribute('data-tag') || ''
-                }
-            )
-        }
+      if (nodeName === 'a') {        
+          return createEntity(
+            'LINK',
+            'MUTABLE',
+            {
+              'url': node.getAttribute('href'),
+              'color': node.getAttribute('data-color') || '05E4f0',
+              'tag': node.getAttribute('data-tag') || ''
+            }
+          )
+      }
+      if (nodeName === 'span') {
+        return createEntity(
+          'PAGEBREAK',
+          'MUTABLE',
+          {
+            edition: node.getAttribute('data-edition'),
+            pageNumber: node.getAttribute('data-page')
+          }
+        )
+      }
     },    
   })(html)
   return blocksFromHTML
@@ -40,7 +51,10 @@ export const stateToHTML = contentState => {
     },
     entityToHTML: (entity, originalText) => {
       if (entity.type === 'LINK') {
-        return <a href={entity.data.url}>{originalText}</a>;
+        return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag}>{originalText}</a>;
+      }
+      if (entity.type === 'PAGEBREAK') {
+        return <span data-edition={entity.data.edition} data-page={entity.data.pageNumber}>{originalText}</span>;
       }
       return originalText;
     }
@@ -85,7 +99,7 @@ export const returnEditorStateWithNewAnnotation = (contentState, data) => {
       data.selectionState,
       entityKey
   )
-  const newEditorState = returnEditorStateFromContentState(contentStateWithLink, linkDecorator)
+  const newEditorState = returnEditorStateFromContentState(contentStateWithLink, readerDecorator)
   return newEditorState
 }
 
@@ -96,7 +110,7 @@ export const returnEditorStateWithoutAnnotation = (data) => {
     data.selectionState,
     null
   )
-  const editorState = returnEditorStateFromContentState(contentStateWithoutLink, linkDecorator)
+  const editorState = returnEditorStateFromContentState(contentStateWithoutLink, readerDecorator)
   return editorState
 }
 
@@ -143,53 +157,38 @@ export const defaultTagColors = [
   '40b324'
 ]
 
-export const html_export_options = {
-  blockStyleFn: (block) => {
-    const key = block.getKey()
-    return {
-      attributes: {
-        id: key
-      }
-    }
-  },
-  entityStyleFn: (entity) => {
-    const entityType = entity.get('type').toUpperCase()
-    if (entityType === 'LINK') {
-      const data = entity.getData()
-      return {
-        element: 'a',
-        attributes: {
-          'href': data['url'],
-          'data-target': '#annotation_modal',
-          'data-toggle': 'modal',
-          'data-color': data['data-color'],
-          'data-tag': data['data-tag']
-        }
-      }
-    }
-  }
-}
-
-const findLinkEntities = (contentBlock, callback) => {
+const findEntities = (contentBlock, callback, entityType) => {
   contentBlock.findEntityRanges(character => {
     const contentState = ContentState.createFromBlockArray([contentBlock])
     const entityKey = character.getEntity()
     return (
       entityKey !== null &&
-      contentState.getEntity(entityKey).getType() === 'LINK'
+      contentState.getEntity(entityKey).getType() === entityType
     )
   },
-  callback)
+  callback)}
+
+const findLinkEntities = (contentBlock, callback) => {
+  findEntities(contentBlock, callback, 'LINK')
 }
 
-export const linkDecorator = new CompositeDecorator([
+const findPagebreakEntities = (contentBlock, callback) => {
+  findEntities(contentBlock, callback, 'PAGEBREAK')
+}
+
+
+export const readerDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: LinkContainer,
+  },
+  {
+    strategy: findPagebreakEntities,
+    component: PageBreakContainer,
   }
 ])
 
-export const modalLinkDecorator = new CompositeDecorator([
+export const modalDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: ModalLinkContainer,

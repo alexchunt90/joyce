@@ -37,33 +37,33 @@ def refresh_elasticsearch(index, mapping):
 	print('Refreshed the following Elasticsearch index:', index)
 
 if __name__ == '__main__':
-	# # Import Joyce media files
-	# refresh_target_files('img/')
-	# # Delete existing media assets
-	# # clear_static_assets(static_path)
-	# refresh_elasticsearch('media', es_config.MEDIA_INDEX_SETTINGS) 
-	# media_ops.import_media_operations(img_path)
+	# Import Joyce media files
+	refresh_target_files('img/')
+	# Delete existing media assets
+	clear_static_assets(static_path)
+	refresh_elasticsearch('media', es_config.MEDIA_INDEX_SETTINGS) 
+	media_ops.import_media_operations(img_path)
 
 	# Create Joyce editions
 	refresh_elasticsearch('editions', es_config.EDITION_INDEX_SETTINGS)
 	edition_ops.import_editions()
 
 	# # Import Joyce tags
-	# refresh_target_files('swap/')
-	# refresh_elasticsearch('tags', es_config.TAG_INDEX_SETTINGS)
-	# tag_ops.import_tags()
+	refresh_target_files('swap/')
+	refresh_elasticsearch('tags', es_config.TAG_INDEX_SETTINGS)
+	tag_ops.import_tags()
 
-	# # Import Joyce note files
-	# refresh_target_files('notes/')
-	# refresh_elasticsearch('notes', es_config.NOTE_INDEX_SETTINGS)
-	# note_ops.import_note_operations(note_path)
+	# Import Joyce note files
+	refresh_target_files('notes/')
+	refresh_elasticsearch('notes', es_config.NOTE_INDEX_SETTINGS)
+	note_ops.import_note_operations(note_path)
 
-	# # # Import Joyce chapter files
-	# refresh_target_files('chap/')
-	# refresh_elasticsearch('chapters', es_config.CHAPTER_INDEX_SETTINGS)
-	# chap_ops.import_chap_operations(chap_path)
+	# Import Joyce chapter files
+	refresh_target_files('chap/')
+	refresh_elasticsearch('chapters', es_config.CHAPTER_INDEX_SETTINGS)
+	chap_ops.import_chap_operations(chap_path)
 	
-	# # Run Node script to process HTML files using DraftJS and produce search_text for Elasticsearch	
+	# Run Node script to process HTML files using DraftJS and produce search_text for Elasticsearch	
 	# os.system('npm run import')
 	# print('HTML successufly optimized for DraftJS!')
 

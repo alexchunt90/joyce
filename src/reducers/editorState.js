@@ -1,17 +1,16 @@
 import React from 'react'
 
-import { linkDecorator, returnNewEditorState, returnEditorStateFromHTML, returnEditorStateFromKeyCommand, returnEditorStateWithInlineStyles, returnEditorStateWithoutAnnotation } from '../modules/editorSettings.js'
+import { readerDecorator, returnNewEditorState, returnEditorStateFromHTML, returnEditorStateFromKeyCommand, returnEditorStateWithInlineStyles, returnEditorStateWithoutAnnotation } from '../modules/editorSettings.js'
 
-const blankEditor = returnNewEditorState(linkDecorator)
+const blankEditor = returnNewEditorState(readerDecorator)
 
 const editorState = (state=blankEditor, action) => {
 	switch(action.type) {
 		// When a document has been succesfully retrieved, create editor state using stateFromHTML
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
-				// TODO: Remove references to caption_html once image implementation is complete
-				const html = action.data.caption_html || action.data.html_source
-				const editorState = returnEditorStateFromHTML(html, linkDecorator)
+				const html = action.data.html_source
+				const editorState = returnEditorStateFromHTML(html, readerDecorator)
 				return editorState
 			} else if (action.status === 'request' && action.state === 'currentDocument') {
 				return blankEditor

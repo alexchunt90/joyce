@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Editor } from 'draft-js'
 
-import {returnEditorStateFromHTML, linkDecorator} from '../modules/editorSettings'
+import {returnEditorStateFromHTML} from '../modules/editorSettings'
 
 export const Image = ({document, col=12}) =>
 	<div className={'image_div col-md-'+col}>
@@ -16,7 +16,9 @@ export const ImageGroup = ({media_docs}) =>
     	{media_docs.map(doc =>
     		<div key={doc.id}>
     			<Image document={doc} col={6} />
-    			<Editor editorState={returnEditorStateFromHTML(doc.html_source, linkDecorator)} readOnly={true} />
+    			{doc.html_source &&
+    				<Editor editorState={returnEditorStateFromHTML(doc.html_source)} readOnly={true} />
+    			}
     		</div>
     	)}	
 	</div>

@@ -3,17 +3,20 @@ import { connect } from 'react-redux'
 
 import { TextEditor } from '../components/textEditor'
 import { EditorTitleContentBlock, EditorTopBarContentBlock, EditorTextContentBlock, EditorBottomBarContentBlock } from '../components/editorContentBlock'
-import { EditorEditModeRichTextOptions, EditorSubmitOptions, EditorAnnotateOptions } from '../components/editorOptionBlock'
+import { EditorEditModeRichTextOptions, EditorSubmitOptions } from '../components/editorOptionBlock'
+import EditorPaginateOptions from '../components/editorPaginateOptionsBlock'
 import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import TagColorPicker from '../components/tagColorPicker'
 import LoadingSpinner from '../components/loadingSpinner'
 
 const EditorPaginateMode = ({
+	editions,
 	currentDocument,
 	editorState,
 	docType,
 	inputs,
+	setPaginationEdition,
 	onChangeEditorState,
 	paginateKeyBindings,
 	cancelEdit,
@@ -26,6 +29,13 @@ const EditorPaginateMode = ({
 				currentDocument={currentDocument} 
 			/>
 		</EditorTitleContentBlock>
+
+		<EditorTopBarContentBlock>
+			<EditorPaginateOptions 
+				editions={editions}
+				setPaginationEdition={setPaginationEdition}
+			/>
+		</EditorTopBarContentBlock>
 
 		<EditorTextContentBlock>
 			<TextEditor 
@@ -45,6 +55,7 @@ const EditorPaginateMode = ({
 
 const mapStateToProps = (state, props) => {
 	return {
+		editions: state.editions,
 		currentDocument: state.currentDocument,
 		docType: state.docType,
 		editorState: state.editorState,
@@ -59,7 +70,11 @@ const mapDispatchToProps = dispatch => {
 		},
 		paginateKeyBindings: () => {
 			// Prevents editor input in Annotation Mode
+			// To-do: Rework to allow cursor with arrow keys
 			return 'handled'
+		},
+		setPaginationEdition: (edition) => {
+			dispatch(actions.setPaginationEdition(edition))
 		},
 		cancelEdit: () => {
 			dispatch(actions.cancelEdit())

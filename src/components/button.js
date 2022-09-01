@@ -107,18 +107,6 @@ export const NewDocumentButton = ({onClick, docType}) =>
 
 // Fairly abstracted
 
-export const AnnotatorNewButton = ({onClick, disabled}) =>
-	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-toggle='modal' data-target='#annotate_modal'>
-		New Annotation
-		<i className='fas fa_inline fa-link'></i>
-	</button>
-
-export const AnnotatorRemoveButton = ({onClick, disabled}) =>
-	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-secondary btn-sm'>
-		Remove Annotation
-		<i className='fas fa_inline fa-unlink'></i>		
-	</button>
-
 export const EditorToolButton = ({glyph, onClick}) =>
 	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
 		<i className={'fas fa-' + glyph}></i>
@@ -185,16 +173,6 @@ NewChapterButton.propTypes = {
 
 NewDocumentButton.propTypes = {
 	docType: PropTypes.string,
-	onClick: PropTypes.func,
-}
-
-AnnotatorNewButton.propTypes = {
-	disabled: PropTypes.bool,
-	onClick: PropTypes.func,
-}
-
-AnnotatorRemoveButton.propTypes = {
-	disabled: PropTypes.bool,
 	onClick: PropTypes.func,
 }
 

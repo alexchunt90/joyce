@@ -1,5 +1,5 @@
 import React from 'react'
-import { ReaderAnnotateButton, ReaderPaginateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, AnnotatorNewButton, AnnotatorRemoveButton, EditorCancelButton, EditorSubmitButton} from './button'
+import { ReaderAnnotateButton, ReaderPaginateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, EditorCancelButton, EditorSubmitButton} from './button'
 
 export const EditorReadModeOptions = ({setMode, docType}) =>
 	<div className='row'>
@@ -8,16 +8,15 @@ export const EditorReadModeOptions = ({setMode, docType}) =>
 			<ReaderEditButton onClick={()=>setMode('EDIT_MODE')} />
 		</div>
 
-		{docType === 'chapters' && 
-			<div className='topbar_button col-4 ml-auto'>
-				<ReaderPaginateButton onClick={()=>setMode('PAGINATE_MODE')}/>
-			</div>
-		}
-
-
 		{['chapters', 'notes'].indexOf(docType) >= 0 &&
 			<div className='topbar_button col-4 ml-auto'>
 				<ReaderAnnotateButton onClick={()=>setMode('ANNOTATE_MODE')}/>
+			</div>
+		}
+
+		{docType === 'chapters' && 
+			<div className='topbar_button col-4 ml-auto'>
+				<ReaderPaginateButton onClick={()=>setMode('PAGINATE_MODE')}/>
 			</div>
 		}
 
@@ -46,14 +45,4 @@ export const EditorSubmitOptions = ({cancelEdit, onSubmitClick}) =>
 		<div className='submit_option_button col-5 offset-2'>
 			<EditorSubmitButton onClick={onSubmitClick} />
 		</div>
-	</div>
-
-export const EditorAnnotateOptions = ({onNewAnnotationClick, onRemoveAnnotationClick, addDisabled, removeDisabled}) =>
-	<div className='row'>
-		<div className='annotate_option_button col-5'>
-			<AnnotatorNewButton onClick={onNewAnnotationClick} disabled={addDisabled}/>
-		</div>
-		<div className='annotate_option_button col-5 offset-2'>
-			<AnnotatorRemoveButton onClick={onRemoveAnnotationClick} disabled={removeDisabled} />
-		</div>	
 	</div>

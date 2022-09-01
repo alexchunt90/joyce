@@ -88,10 +88,11 @@ def import_note_operations(notes_path):
 						# Some images won't have a caption paragraph
 						if next_sibling and next_sibling.name == 'p':
 							caption_p = find_next_sibling(e)
+							caption_search_text = clear_white_space(caption_p.get_text())
 							img_caption_data = {
 								'id': img_id,
 								'html_source': clean_html_for_export(caption_p),
-								'search_text': clear_white_space(caption_p.get_text())
+								'search_text': {'text': caption_search_text}
 							}
 							caption_op = es_helpers.build_es_caption_op(img_caption_data)
 							img_caption_ops.append(caption_op)

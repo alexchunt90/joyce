@@ -1,5 +1,6 @@
 const initialState = {
-	paginationEdition: {},
+	paginationEdition: undefined,
+	documents: {}
 }
 
 const paginationState = (state=initialState, action) => {

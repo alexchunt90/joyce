@@ -9,10 +9,10 @@ const Link = (props) => {
     return (
     	<a href='#' 
     		onClick={()=>props.onAnnotationClick(data['url'])}
-    		style={{color: '#' + data['data-color']}}
+    		style={{color: '#' + data['color']}}
     		data-toggle='modal'
     		data-target='#annotation_modal'
-    		data-color={data['data-color']}
+    		data-color={data['color']}
     		data-url={data['url']}
 		>
     		{props.children}

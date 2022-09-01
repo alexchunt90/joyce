@@ -2,7 +2,8 @@ import actions from '../actions'
 import api from '../modules/api'
 import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
-import { stateToHTML, convertToSearchText, linkDecorator, returnEditorStateWithNewAnnotation } from '../modules/editorSettings.js'
+import { stateToHTML, convertToSearchText, returnEditorStateWithNewAnnotation,returnEditorStateFromHTML, readerDecorator } from '../modules/editorSettings.js'
+import paginate from '../modules/paginate'
 
 const joyceInterface = store => next => action => {
 	next(action)
@@ -80,6 +81,14 @@ const joyceInterface = store => next => action => {
 			break
 		// 
 		case 'GET_DOCUMENT_TEXT':
+			
+			// TEMPORARY SHIM FOR TESTING PAGINATION
+			if (action.status === 'success' && action.docType === 'chapters') {
+				const es = returnEditorStateFromHTML(action.data.html_source, readerDecorator)
+				paginate.testPaginate(es, editions[0])
+			}
+			// TODO: CLEAN UP!
+
 			// Upon successfully retrieving a annotationNote to display, retrieve details for associated media
 			if (action.status === 'success' && action.docType === 'notes' && action.state === 'annotationNote') {
 				if (action.data.media_doc_ids.length > 0) {

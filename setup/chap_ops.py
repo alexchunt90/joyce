@@ -70,6 +70,18 @@ def import_chap_operations(chapters_path):
 		chap_name = c.split('.')[0]
 		chap_annotations = annotation_dict[chap_name]
 
+		# Reformat page break span tags into expected format
+		for s in soup.findAll('span'):
+			if s.has_attr('data-edition'):
+				edition_string = s['data-edition']
+				page_string = s['data-page']
+				edition_int = re.sub('ed', '', edition_string)
+
+				del s['class']
+				s['data-edition'] = edition_int
+				span_text = '{}#{}'.format(edition_int, page_string)
+				s.string = span_text
+
 		# Point hrefs to ES ids for notes
 		for a in soup.findAll('a'):
 			if a.has_attr('href'):

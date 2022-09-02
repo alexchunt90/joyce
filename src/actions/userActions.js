@@ -1,4 +1,4 @@
-// ------------
+  // ------------
 // User Actions
 // ------------
 // These actions are initiated by user action
@@ -64,6 +64,27 @@ const userActions = {
 			type: 'SET_PAGINATION_EDITION',
 			data: edition
 		}),
+	addPaginatedDoc: doc =>
+		({
+			type: 'ADD_PAGINATED_DOCUMENT',
+			data: doc
+		}),
+	setPageNumber: number =>
+		({
+			type: 'CHANGE_SELECTED_PAGE',
+			data: number
+		}),
+	createPageBreak: (pageNumber, year, selectionState) => {
+		console.log('pageNumber', pageNumber)
+		console.log('year', year)
+		console.log('selectionState', selectionState)		
+		return ({
+			type: 'SUBMIT_NEW_PAGE_BREAK',
+			pageNumber: pageNumber,
+			year: year,
+			selectionState: selectionState
+		})
+	},		
 	// Select 'Read', 'Edit' or 'Annotate' modes in the Editor
 	setMode: mode =>
 		({

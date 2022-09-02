@@ -9,6 +9,59 @@ import PageBreakContainer from '../containers/pageBreakContainer'
 
 // _________________________________________________
 // 
+// Editor defaults
+// _________________________________________________
+
+export const defaultTagColors = [
+  '307EE3',
+  'CF2929',
+  'AB59C2',
+  '9C632A',
+  'F59627',
+  '40b324'
+]
+
+const findEntities = (contentBlock, callback, entityType) => {
+  contentBlock.findEntityRanges(character => {
+    const contentState = ContentState.createFromBlockArray([contentBlock])
+    const entityKey = character.getEntity()
+    return (
+      entityKey !== null &&
+      contentState.getEntity(entityKey).getType() === entityType
+    )
+  },
+  callback)}
+
+const findLinkEntities = (contentBlock, callback) => {
+  findEntities(contentBlock, callback, 'LINK')
+}
+
+const findPagebreakEntities = (contentBlock, callback) => {
+  findEntities(contentBlock, callback, 'PAGEBREAK')
+}
+
+
+export const readerDecorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: LinkContainer,
+  },
+  {
+    strategy: findPagebreakEntities,
+    component: PageBreakContainer,
+  }
+])
+
+export const modalDecorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: ModalLinkContainer,
+  }
+])
+
+
+// _________________________________________________
+// 
 // State conversion functions using draft-convert library
 // _________________________________________________
 
@@ -68,14 +121,21 @@ export const stateToHTML = contentState => {
 // _________________________________________________
 
 // Return blank editor
-export const returnNewEditorState = (decorator) => {
+export const returnNewEditorState = (decorator=readerDecorator) => {
   const blankEditor = EditorState.createEmpty(decorator)
   return blankEditor
 }
 
 // Return editorState given a contentState
-export const returnEditorStateFromContentState = (contentState, decorator) => {
+export const returnEditorStateFromContentState = (contentState, decorator=readerDecorator) => {
   const editorState = EditorState.createWithContent(contentState, decorator)
+  return editorState
+}
+
+// Return editorState given an array of blocks and an entityMap
+export const returnEditorStateFromBlocksArray = (blocksArray, entityMap, decorator=readerDecorator) => {
+  const contentState = ContentState.createFromBlockArray(blocksArray, entityMap)
+  const editorState = returnEditorStateFromContentState(contentState, decorator)
   return editorState
 }
 
@@ -100,6 +160,25 @@ export const returnEditorStateWithNewAnnotation = (contentState, data) => {
       entityKey
   )
   const newEditorState = returnEditorStateFromContentState(contentStateWithLink, readerDecorator)
+  return newEditorState
+}
+
+// When user submits a new page break, create an entity with the action details and apply it to the contentState
+export const returnEditorStateWithNewPageBreak = (contentState, data) => {
+  const contentStateWithEntity = contentState.createEntity(
+    'PAGEBREAK',
+    'MUTABLE',
+    {'edition': data.year, 'pageNumber': data.number}
+  )
+  console.log('contentStateWithEntity', contentStateWithEntity)
+  console.log('data', data)
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+  const contentStateWithPageBreak = Modifier.applyEntity(
+      contentStateWithEntity,
+      data.selectionState,
+      entityKey
+  )
+  const newEditorState = returnEditorStateFromContentState(contentStateWithPageBreak, readerDecorator)
   return newEditorState
 }
 
@@ -142,55 +221,3 @@ export const convertToSearchText = contentState => {
   )
   return searchText
 }
-
-// _________________________________________________
-// 
-// Editor defaults
-// _________________________________________________
-
-export const defaultTagColors = [
-  '307EE3',
-  'CF2929',
-  'AB59C2',
-  '9C632A',
-  'F59627',
-  '40b324'
-]
-
-const findEntities = (contentBlock, callback, entityType) => {
-  contentBlock.findEntityRanges(character => {
-    const contentState = ContentState.createFromBlockArray([contentBlock])
-    const entityKey = character.getEntity()
-    return (
-      entityKey !== null &&
-      contentState.getEntity(entityKey).getType() === entityType
-    )
-  },
-  callback)}
-
-const findLinkEntities = (contentBlock, callback) => {
-  findEntities(contentBlock, callback, 'LINK')
-}
-
-const findPagebreakEntities = (contentBlock, callback) => {
-  findEntities(contentBlock, callback, 'PAGEBREAK')
-}
-
-
-export const readerDecorator = new CompositeDecorator([
-  {
-    strategy: findLinkEntities,
-    component: LinkContainer,
-  },
-  {
-    strategy: findPagebreakEntities,
-    component: PageBreakContainer,
-  }
-])
-
-export const modalDecorator = new CompositeDecorator([
-  {
-    strategy: findLinkEntities,
-    component: ModalLinkContainer,
-  }
-])

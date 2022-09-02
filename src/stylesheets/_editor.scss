@@ -1,6 +1,15 @@
 @import "variables";
 @import "mixin";
 
+.paginated_reader_content {
+	height: 55vh;
+}
+
+.page_number {
+	margin-top: 6px;
+    font-size: 1.1em;
+}
+
 .text_editor {
     max-height: 60vh;
     overflow-y: auto;

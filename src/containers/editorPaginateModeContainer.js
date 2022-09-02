@@ -14,6 +14,7 @@ const EditorPaginateMode = ({
 	editions,
 	currentDocument,
 	editorState,
+	paginationState,
 	docType,
 	inputs,
 	setPaginationEdition,
@@ -21,6 +22,8 @@ const EditorPaginateMode = ({
 	paginateKeyBindings,
 	cancelEdit,
 	onSubmitClick,
+	updatePageNumberInput,
+	createPageBreak,
 }) =>
 	<div id='editor_edit_mode'  className='editor_wrapper'>
 		<EditorTitleContentBlock>
@@ -33,7 +36,12 @@ const EditorPaginateMode = ({
 		<EditorTopBarContentBlock>
 			<EditorPaginateOptions 
 				editions={editions}
+				currentEdition={paginationState.paginationEdition}
+				selectionState={editorState.getSelection()}
 				setPaginationEdition={setPaginationEdition}
+				pageNumberInput={inputs.pageNumber}
+				onPageNumberInputChange={updatePageNumberInput}
+				createPageBreak={createPageBreak}
 			/>
 		</EditorTopBarContentBlock>
 
@@ -59,6 +67,7 @@ const mapStateToProps = (state, props) => {
 		currentDocument: state.currentDocument,
 		docType: state.docType,
 		editorState: state.editorState,
+		paginationState: state.paginationState,
 		inputs: state.inputs,
 	}
 }
@@ -67,6 +76,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onChangeEditorState: editorState => {
 			dispatch(actions.updateEditorState(editorState))
+		},
+		updatePageNumberInput: input => {
+			dispatch(actions.updatePageNumberInput(input))
 		},
 		paginateKeyBindings: () => {
 			// Prevents editor input in Annotation Mode
@@ -81,7 +93,10 @@ const mapDispatchToProps = dispatch => {
 		},
 		onSubmitClick: (currentDocument, editorState, inputs, docType) => {
 			dispatch(actions.submitDocumentEdit(currentDocument, editorState, inputs, docType))
-		}		
+		},
+		createPageBreak: (pageNumber, year, selectionState) => {
+			dispatch(actions.createPageBreak(pageNumber, year, selectionState))
+		}
 	}
 }
 

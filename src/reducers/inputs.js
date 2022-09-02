@@ -3,6 +3,7 @@ import regex from '../modules/regex'
 const initialState = {
 	documentTitle: '',
 	search: '',
+	pageNumber: '',
 	colorPicker: '',
 	noteMediaSelection: [],
 	editionYear: undefined,
@@ -53,6 +54,11 @@ const inputs = (state=initialState, action) => {
 				...state,
 				documentTitle: action.data
 			}
+		case 'UPDATE_PAGE_NUMBER_INPUT':
+			return {
+				...state,
+				pageNumber: action.data
+			}			
 		// Note-attached media
 		case 'TOGGLE_MEDIA_CHECKBOX':
 			const note_media_id = action.id

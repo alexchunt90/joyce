@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { readerDecorator, returnNewEditorState, returnEditorStateFromHTML, returnEditorStateFromKeyCommand, returnEditorStateWithInlineStyles, returnEditorStateWithoutAnnotation } from '../modules/editorSettings.js'
+import { readerDecorator, returnNewEditorState, returnEditorStateFromHTML, returnEditorStateFromKeyCommand, returnEditorStateWithInlineStyles, returnEditorStateWithoutAnnotation, returnEditorStateWithNewPageBreak} from '../modules/editorSettings.js'
 
 const blankEditor = returnNewEditorState(readerDecorator)
 
@@ -24,7 +24,7 @@ const editorState = (state=blankEditor, action) => {
 		case 'CANCEL_EDIT':
 			return blankEditor
 		case 'UPDATE_EDITOR_STATE':
-			return action.data
+			return action.data			
 		case 'HANDLE_EDITOR_KEY_COMMAND':
 			return returnEditorStateFromKeyCommand(action.editorState, action.command)
 		case 'APPLY_INLINE_STYLE':
@@ -32,6 +32,17 @@ const editorState = (state=blankEditor, action) => {
 		// After creating annotation, display updated editor state
 		case 'ANNOTATION_CREATED':
 			return action.editorState
+		case 'SUBMIT_NEW_PAGE_BREAK':
+			const contentState = state.getCurrentContent()
+			const editorStateWithPageBreak = returnEditorStateWithNewPageBreak(
+				contentState, 
+				{
+					year: action.year,
+					number: action.pageNumber,
+					selectionState: action.selectionState
+				}
+			)
+			return editorStateWithPageBreak
 		// When user attempts to remove an annotation, generate a new content state without that entity and return it to the editor
 		case 'REMOVE_ANNOTATION':
 			const editorStateWithAnnotation = returnEditorStateWithoutAnnotation(action)

@@ -7,12 +7,16 @@ import paginate from '../modules/paginate'
 
 const joyceInterface = store => next => action => {
 	next(action)
-	const chapters = store.getState().chapters
-	const notes = store.getState().notes
-	const tags = store.getState().tags
-	const editions = store.getState().editions
-	const media = store.getState().media
-	const docType = store.getState().docType
+	const state = store.getState()
+	const chapters = state.chapters
+	const notes = state.notes
+	const tags = state.tags
+	const editions = state.editions
+	const media = state.media
+	const currentDocument = state.currentDocument
+	const docType = state.docType
+	const mode = state.mode
+	const paginationState = state.paginationState
 	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)
 	switch(action.type) {
 		case 'SET_CURRENT_DOCUMENT':
@@ -49,7 +53,7 @@ const joyceInterface = store => next => action => {
 				if (action.docType === 'chapters') {
 					// If user submits a chapter with no assigned id, generate the next number to assign it
 					if (!action.currentDocument.id) {
-						const nextNumber = store.getState().chapters.length + 1
+						const nextNumber = chapters.length + 1
 						data.number = nextNumber
 					} else {
 						data.number = action.currentDocument.number
@@ -62,8 +66,6 @@ const joyceInterface = store => next => action => {
 			store.dispatch(actions.deleteDocument({id: action.id, docType: action.docType}))
 			break
 		case 'CANCEL_EDIT':
-			const docType = store.getState().docType
-			const currentDocument = store.getState().currentDocument
 			if (currentDocument.id) {
 				store.dispatch(actions.getDocumentText({id: currentDocument.id, docType: docType, state: 'currentDocument'}))
 			} else {
@@ -71,7 +73,7 @@ const joyceInterface = store => next => action => {
 			}
 			break
 		case 'SET_DOC_TYPE':
-			if (action.docType !== store.getState().docType) {
+			if (action.docType !== docType) {
 				store.dispatch(actions.clearCurrentDocument())
 			}
 			break
@@ -81,14 +83,6 @@ const joyceInterface = store => next => action => {
 			break
 		// 
 		case 'GET_DOCUMENT_TEXT':
-			
-			// TEMPORARY SHIM FOR TESTING PAGINATION
-			if (action.status === 'success' && action.docType === 'chapters') {
-				const es = returnEditorStateFromHTML(action.data.html_source, readerDecorator)
-				paginate.testPaginate(es, editions[0])
-			}
-			// TODO: CLEAN UP!
-
 			// Upon successfully retrieving a annotationNote to display, retrieve details for associated media
 			if (action.status === 'success' && action.docType === 'notes' && action.state === 'annotationNote') {
 				if (action.data.media_doc_ids.length > 0) {
@@ -103,6 +97,26 @@ const joyceInterface = store => next => action => {
 				const newEditorState = returnEditorStateWithNewAnnotation(contentState, action)
 				store.dispatch(actions.annotationCreated(newEditorState))
 				document.getElementById('select_annotation_modal_close').click()
+			}
+			break
+	// Pagination Action Middleware
+		case 'GET_DOCUMENT_LIST':
+			// TODO: Figure out how to delay this till currentDoc and editions BOTH load, preventing race condition
+			if (action.status === 'success' && action.docType === 'editions' && currentDocument.html_source) {
+				const firstEdition = action.data[0]
+				const editorState = returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
+				const paginatedDoc = paginate(editorState, firstEdition)
+				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
+			}
+			break
+		case 'SET_PAGINATION_EDITION':
+			// Set the current edition and generate a new paginated doc if needed
+			// Ignore if in editor pagination mode, as paginated doc isn't used
+			if (paginationState.documents[action.data.year] === undefined && mode !== 'PAGINATION_MODE') {
+				const selectedEdition = action.data
+				const editorState = returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
+				const paginatedDoc = paginate(editorState, selectedEdition)
+				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
 			}
 			break
 	// Search Action Middleware

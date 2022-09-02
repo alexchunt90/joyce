@@ -20,7 +20,8 @@ const newPaginatedDoc = (edition) => {
 	return {
 		year: edition.year,
 		title: edition.title,
-		doc: []
+		doc: [],
+		entityMap: undefined
 	}}
 // Returns a template object for a page of the paginated documenty
 // with an array which contains the contentBlocks for a given page
@@ -28,7 +29,7 @@ const newPaginatedDoc = (edition) => {
 const newPage = () => {
 	return {
 		number: undefined,
-		blocks: []
+		blocks: [],
 	}
 }
 
@@ -53,9 +54,7 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 			const entity = contentState.getEntity(entityKey)
 			if (
 				entity.type === 'PAGEBREAK'
-				// TODO: REMOVE SHIM
-				&& entity.data.edition ==='ed1932'
-				// && contentState.getEntity(entityKey).data.edition === edition.year)
+				&& entity.data.edition === edition.year.toString()
 			) {
 				selectedEntity = {
 					blockKey: currentBlock.getKey(),
@@ -126,20 +125,23 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 
 	// If this is the last contentBlock in the contentState, nextBlock will be null
 	if (nextBlock) {
-		recursivePagination(nextContentState, edition, nextBlock, currentPage, paginatedDoc)
+		return recursivePagination(nextContentState, edition, nextBlock, currentPage, paginatedDoc)
 	} else {
-		return paginatedDoc
+		// When we're done recursing, export the final entityMap for the contentState, as
+		// we'll need to construct page-scoped contentBlocks from the arrays later
+		const entityMap = nextContentState.getEntityMap()
+		const finalDocument = {...paginatedDoc, entityMap: entityMap}
+		return finalDocument
 	}
 }
 
-const paginate = {
-	testPaginate: (editorState, edition) => {
-		console.log('TESTING PAGINATION:')
-		console.log('PAGINATING THIS EDITION:', edition)
-		const contentState = editorState.getCurrentContent()
-		const paginatedEditionDocument = recursivePagination(contentState, edition)
-		console.log('RESULT DOC:', paginatedEditionDocument)
-	}
+const paginate = (editorState, edition) => {
+	console.log('TESTING PAGINATION:')
+	console.log('PAGINATING THIS EDITION:', edition)
+	const contentState = editorState.getCurrentContent()
+	const paginatedEditionDocument = recursivePagination(contentState, edition)
+	console.log('RESULT DOC:', paginatedEditionDocument)
+	return paginatedEditionDocument
 }
 
 export default paginate

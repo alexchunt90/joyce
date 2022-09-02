@@ -5,7 +5,7 @@ import { convertFromHTML, convertToHTML } from 'draft-convert'
 
 import LinkContainer from '../containers/linkContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'
-import PageBreakContainer from '../containers/pageBreakContainer'
+import {PageBreak,VisiblePageBreak} from '../containers/pageBreakContainer'
 
 // _________________________________________________
 // 
@@ -48,7 +48,7 @@ export const readerDecorator = new CompositeDecorator([
   },
   {
     strategy: findPagebreakEntities,
-    component: PageBreakContainer,
+    component: PageBreak,
   }
 ])
 
@@ -59,6 +59,12 @@ export const modalDecorator = new CompositeDecorator([
   }
 ])
 
+export const editPaginateDecorator = new CompositeDecorator([
+  {
+    strategy: findPagebreakEntities,
+    component: VisiblePageBreak,
+  }
+])
 
 // _________________________________________________
 // 
@@ -124,6 +130,11 @@ export const stateToHTML = contentState => {
 export const returnNewEditorState = (decorator=readerDecorator) => {
   const blankEditor = EditorState.createEmpty(decorator)
   return blankEditor
+}
+
+export const returnEditorStateWithNewDecorator = (editorState, decorator) => {
+  const newEditorState = EditorState.set(editorState, {decorator: decorator})
+  return newEditorState
 }
 
 // Return editorState given a contentState

@@ -1,6 +1,16 @@
 import React from 'react'
 
-import { readerDecorator, returnNewEditorState, returnEditorStateFromHTML, returnEditorStateFromKeyCommand, returnEditorStateWithInlineStyles, returnEditorStateWithoutAnnotation, returnEditorStateWithNewPageBreak} from '../modules/editorSettings.js'
+import { 
+	readerDecorator,
+	editPaginateDecorator,
+	returnNewEditorState, 
+	returnEditorStateFromHTML, 
+	returnEditorStateFromKeyCommand, 
+	returnEditorStateWithInlineStyles, 
+	returnEditorStateWithoutAnnotation, 
+	returnEditorStateWithNewPageBreak,
+	returnEditorStateWithNewDecorator
+} from '../modules/editorSettings.js'
 
 const blankEditor = returnNewEditorState(readerDecorator)
 
@@ -20,6 +30,14 @@ const editorState = (state=blankEditor, action) => {
 			return blankEditor
 		case 'CREATE_DOCUMENT':
 			return blankEditor
+		// When we enter paginate mode, we want to display page breaks and hide links
+		case 'SET_MODE':
+			if (action.mode === 'PAGINATE_MODE') {
+				return returnEditorStateWithNewDecorator(state, editPaginateDecorator)
+			} else {
+				return returnEditorStateWithNewDecorator(state, readerDecorator)
+			}
+			break
 		// Update editor to reflect action
 		case 'CANCEL_EDIT':
 			return blankEditor

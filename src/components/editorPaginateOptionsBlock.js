@@ -20,7 +20,7 @@ const SetPageBreakButton = ({onClick, selectionState, pageNumberInput, currentEd
 		disabled = false
 	}
 	return <button 
-		className={'btn btn-block btn-primary btn-sm'} 
+		className={'btn btn-block btn-primary btn-md'} 
 		onClick={()=>onClick(pageNumberInput, currentEdition.year, selectionState)} 
 		type='button' 
 		disabled={disabled}
@@ -49,7 +49,7 @@ const EditorPaginateOptions = ({
 	<div className='row'>
 		<div className='paginate_option_buttons col-4'>
 			<div className='dropdown'>
-				<button className={'btn btn-primary dropdown-toggle btn-sm'} type='button' data-toggle='dropdown'>
+				<button className={'btn btn-primary dropdown-toggle btn-md'} type='button' data-toggle='dropdown'>
 					{currentEdition ? currentEdition.title : 'Select Edition'}
 				</button>
 				<div className='dropdown-menu'>

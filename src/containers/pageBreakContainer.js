@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import actions from '../actions'
 
-const PageBreak = (props) => {
+export const PageBreak = (props) => {
 	const data = props.contentState.getEntity(props.entityKey).getData()
     return (
     	<span
@@ -12,15 +12,20 @@ const PageBreak = (props) => {
     		data-edition={data['edition']}
     		data-page={data['pageNumber']}
 		>
-    		{data['pageNumber']} {props.children}
+    		{props.children}
     	</span>
     )
 }
 
-// PageBreak.propTypes = {
-// 	onAnnotationClick: PropTypes.func,
-// }
-
-// const PageBreakContainer = connect(mapStateToProps, mapDispatchToProps)(PageBreak)
-
-export default PageBreak
+export const VisiblePageBreak = (props) => {
+	const data = props.contentState.getEntity(props.entityKey).getData()
+    return (
+    	<span
+    		style={{backgroundColor: '#6edbc0'}}
+    		data-edition={data['edition']}
+    		data-page={data['pageNumber']}
+		>
+    		{props.children}
+    	</span>
+    )
+}

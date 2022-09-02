@@ -1,6 +1,6 @@
 // Consolidating any references to the draft-js or draft-convert libraries to this one module
 import React from 'react'
-import { EditorState, Modifier, RichUtils, convertToRaw, ContentState, CompositeDecorator } from 'draft-js'
+import { EditorState, Modifier, RichUtils, convertToRaw, ContentState, CompositeDecorator, SelectionState } from 'draft-js'
 import { convertFromHTML, convertToHTML } from 'draft-convert'
 
 import LinkContainer from '../containers/linkContainer'
@@ -175,21 +175,23 @@ export const returnEditorStateWithNewAnnotation = (contentState, data) => {
 }
 
 // When user submits a new page break, create an entity with the action details and apply it to the contentState
-export const returnEditorStateWithNewPageBreak = (contentState, data) => {
+export const returnEditorStateWithNewPageBreak = (contentState, data, decorator) => {
+  const textString = data.year + '#' + data.number
+  console.log('WERE', data)
   const contentStateWithEntity = contentState.createEntity(
     'PAGEBREAK',
     'MUTABLE',
     {'edition': data.year, 'pageNumber': data.number}
   )
-  console.log('contentStateWithEntity', contentStateWithEntity)
-  console.log('data', data)
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-  const contentStateWithPageBreak = Modifier.applyEntity(
-      contentStateWithEntity,
-      data.selectionState,
-      entityKey
+  const contentStateWithPageBreak = Modifier.insertText(
+    contentStateWithEntity,
+    data.selectionState,
+    textString,
+    null, // No inlineStyle
+    entityKey,
   )
-  const newEditorState = returnEditorStateFromContentState(contentStateWithPageBreak, readerDecorator)
+  const newEditorState = returnEditorStateFromContentState(contentStateWithPageBreak, decorator)
   return newEditorState
 }
 
@@ -231,4 +233,47 @@ export const convertToSearchText = contentState => {
     []
   )
   return searchText
+}
+
+// Takes in an editorState, and if the selectionState is a cursor within a pagebreak entity,
+// force the selection of the entire entity. Used in editor paginate mode.
+export const returnEditorStateWithExpandedPageBreakSelection = editorState => {
+  const contentState = editorState.getCurrentContent()
+  const selectionState = editorState.getSelection()
+  // Check that the selectionState is collapsed
+  let returnValue = undefined
+  if (selectionState.isCollapsed()) {
+    // Check if the cursor selectionState falls within a pagebreak entity
+    const blockKey = selectionState.getStartKey()
+    const offset = selectionState.getStartOffset()
+    const contentBlock = contentState.getBlockForKey(blockKey)
+    const cursorEntityKey = contentBlock.getEntityAt(offset)
+    if(cursorEntityKey) {
+      const cursorEntity = contentState.getEntity(cursorEntityKey)
+      if (cursorEntity.getType() === 'PAGEBREAK') {
+        // If so, use findEntityRanges to return the range of that entity
+        contentBlock.findEntityRanges(character => {
+          const characterEntityKey = character.getEntity()
+          if (cursorEntityKey === characterEntityKey) {
+            return true
+          } else { return false }         
+        },
+        (start, end) => {
+          // Entities can apply to multiple parts of the text, so check that
+          // offset falls within range
+          if (offset >= start && offset <= end) {
+            const emptySelection = SelectionState.createEmpty(blockKey)
+            const entitySelectionState = emptySelection
+              .set('focusOffset', end)
+              .set('anchorOffset', start)
+            console.log('offsets', start, end)
+            console.log('entitySelectionState', entitySelectionState)
+            const newEditorState = EditorState.forceSelection(editorState, entitySelectionState)
+            returnValue = newEditorState
+          }
+        })
+      }
+    }
+  }
+  return returnValue
 }

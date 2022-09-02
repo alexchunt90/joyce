@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const buildSnippetLink = (key, docType, route) => {
-	console.log('DocType is ', docType)
 	if (docType === 'chapter') {
 		return '/' + route + '#' + key
 	} else {

@@ -1,4 +1,4 @@
-  // ------------
+// ------------
 // User Actions
 // ------------
 // These actions are initiated by user action
@@ -74,17 +74,13 @@ const userActions = {
 			type: 'CHANGE_SELECTED_PAGE',
 			data: number
 		}),
-	createPageBreak: (pageNumber, year, selectionState) => {
-		console.log('pageNumber', pageNumber)
-		console.log('year', year)
-		console.log('selectionState', selectionState)		
-		return ({
+	createPageBreak: (pageNumber, year, selectionState) =>
+		({
 			type: 'SUBMIT_NEW_PAGE_BREAK',
 			pageNumber: pageNumber,
 			year: year,
 			selectionState: selectionState
-		})
-	},		
+		}),
 	// Select 'Read', 'Edit' or 'Annotate' modes in the Editor
 	setMode: mode =>
 		({

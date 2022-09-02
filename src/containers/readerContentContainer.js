@@ -46,7 +46,6 @@ const ReaderContent = ({
 	</div>
 
 const mapStateToProps = state => {
-	console.log('mapStateToProps PaginationState', state.paginationState)
 	const baseState = {
 		currentDocument: state.currentDocument,
 		editorState: state.editorState,
@@ -60,7 +59,6 @@ const mapStateToProps = state => {
 		const currentPage = paginationState.currentPage
 		const paginationEdition = paginationState.paginationEdition
 		const currentPaginatedDoc = paginationState.documents[paginationEdition.year]
-		console.log('currentPaginatedDoc', currentPaginatedDoc)
 		const pagesArray = currentPaginatedDoc.doc.map(p => p.number)
 		const hydratedState = {
 			...baseState,
@@ -68,7 +66,6 @@ const mapStateToProps = state => {
 			currentPageNumber: currentPage,
 			pagesArray: pagesArray,
 		}
-		console.log('HYDRATED STATE', hydratedState)
 		return hydratedState
 	} else {
 		return baseState

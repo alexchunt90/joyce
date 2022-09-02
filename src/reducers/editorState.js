@@ -58,7 +58,8 @@ const editorState = (state=blankEditor, action) => {
 					year: action.year,
 					number: action.pageNumber,
 					selectionState: action.selectionState
-				}
+				},
+				editPaginateDecorator
 			)
 			return editorStateWithPageBreak
 		// When user attempts to remove an annotation, generate a new content state without that entity and return it to the editor

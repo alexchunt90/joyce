@@ -117,12 +117,6 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 	
 	// Select the subsequent contentBlock to be passed into the next function call
 	const nextBlock = nextContentState.getBlockAfter(currentBlock.getKey())
-
-
-		// console.log('Current block:', currentBlock.key, currentBlock.text)
-	if (contentStateWithSplitBlock) {
-	}
-
 	// If this is the last contentBlock in the contentState, nextBlock will be null
 	if (nextBlock) {
 		return recursivePagination(nextContentState, edition, nextBlock, currentPage, paginatedDoc)
@@ -136,11 +130,8 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 }
 
 const paginate = (editorState, edition) => {
-	console.log('TESTING PAGINATION:')
-	console.log('PAGINATING THIS EDITION:', edition)
 	const contentState = editorState.getCurrentContent()
 	const paginatedEditionDocument = recursivePagination(contentState, edition)
-	console.log('RESULT DOC:', paginatedEditionDocument)
 	return paginatedEditionDocument
 }
 

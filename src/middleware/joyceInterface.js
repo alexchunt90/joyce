@@ -2,7 +2,14 @@ import actions from '../actions'
 import api from '../modules/api'
 import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
-import { stateToHTML, convertToSearchText, returnEditorStateWithNewAnnotation,returnEditorStateFromHTML, readerDecorator } from '../modules/editorSettings.js'
+import { 
+	stateToHTML, 
+	convertToSearchText, 
+	returnEditorStateWithNewAnnotation,
+	returnEditorStateFromHTML, 
+	readerDecorator,
+	returnEditorStateWithExpandedPageBreakSelection
+} from '../modules/editorSettings.js'
 import paginate from '../modules/paginate'
 
 const joyceInterface = store => next => action => {
@@ -100,6 +107,18 @@ const joyceInterface = store => next => action => {
 			}
 			break
 	// Pagination Action Middleware
+		// This handles selecting the whole pagebreak entity if the cursor moves inside it
+		case 'UPDATE_EDITOR_STATE':
+			if (mode === 'PAGINATE_MODE') {
+				// Take the incoming editorState and retrieve the selectionState
+				const editorState = action.data
+				const newEditorState = returnEditorStateWithExpandedPageBreakSelection(editorState)
+				// returnEditorStateWithExpandedPageBreakSelection returns undefined if editorState doesn't meet criteria
+				if (newEditorState) {
+					store.dispatch(actions.updateEditorState(newEditorState))
+				}
+			}
+			break
 		case 'GET_DOCUMENT_LIST':
 			// TODO: Figure out how to delay this till currentDoc and editions BOTH load, preventing race condition
 			if (action.status === 'success' && action.docType === 'editions' && currentDocument.html_source) {

@@ -18,4 +18,4 @@ s3transfer==0.1.13
 six==1.11.0
 soupsieve==2.3.2.post1
 urllib3==1.24.1
-Werkzeug==0.14.1
+Werkzeug==2.2.3

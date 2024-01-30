@@ -1,7 +1,8 @@
  import React from 'react'
+ import { connect } from 'react-redux'
  import { Link } from 'react-router-dom'
 
-const Navbar = () =>
+const Navbar = ({user}) =>
 	<nav className='navbar navbar-dark navbar-static-top navbar-expand-lg'>
 		<Link to='/' className='navbar-brand'>The Joyce Project</Link>
 		<button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarItems'>
@@ -13,13 +14,29 @@ const Navbar = () =>
 					<Link to='/notes' className='nav-link'>Notes</Link>
 				</li>
 				<li className='nav-item' data-toggle='collapse'>
-					<Link to='/edit' className='nav-link'>Edit</Link>
-				</li>
-				<li className='nav-item' data-toggle='collapse'>
 					<Link to='/search' className='nav-link'>Search</Link>
-				</li>					      	
+				</li>
+				{user.isLoggedIn &&
+					<li className='nav-item' data-toggle='collapse'>
+						<Link to='/edit' className='nav-link'>Edit</Link>
+					</li>
+				}
+				{user.isLoggedIn &&
+					<li className='nav-item' data-toggle='collapse'>
+						<Link to='/admin' className='nav-link'>Admin</Link>
+					</li>
+				}
 			</ul>
 		</div>
 	</nav>
 
-export default Navbar
+
+const mapStateToProps = state => {
+	return {
+		user: state.user
+	}
+}
+
+const NavbarContainer = connect(mapStateToProps)(Navbar)
+
+export default NavbarContainer

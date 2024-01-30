@@ -155,6 +155,32 @@ const userActions = {
 		({
 			type: 'CLEAR_LOADED_MEDIA'
 		}),
+	// Admin Google Login
+	consentSuccess: response =>
+		({
+			type: 'OAUTH_CONSENT_SUCCESS',
+			credential: response.credential
+		}),
+	googleTokenAuthorization: response =>
+		({
+			type: 'OAUTH_TOKEN_AUTHORIZATION',
+			status: response.status,
+			data: response.data.data
+		}),
+	userLogout: () =>
+		({
+			type: 'USER_LOGOUT_REQUEST'
+		}),
+	userLogoutResponse: (status) =>
+		({
+			type: 'USER_LOGOUT_RESPONSE',
+			status: status
+		}),
+	resumeUserSession: (user_name) =>
+		({
+			type: 'USER_LOGIN_REFRESH',
+			user_name: user_name
+		})
 }
 
 export default userActions

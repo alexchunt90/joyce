@@ -1,7 +1,10 @@
 import regex from './regex'
 
-export const validateSubmittedDocument = (docType, inputs, currentDocument) => {
+export const validateSubmittedDocument = (docType, inputs, currentDocument, user) => {
 	const errors = []
+	if (user.isLoggedIn === false) {
+		errors.push('You must log in to make edits.')
+	}
 	if (docType === 'tags') {
 		if (inputs.colorPicker.length < 1) {
 			errors.push('Please select a tag color.')

@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, current_app
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
-from elasticsearch import Elasticsearch, RequestsHttpConnection
+from elasticsearch import Elasticsearch
 from PIL import Image
 import os
 import config
@@ -9,14 +9,9 @@ import config
 if config.ENVIRONMENT == 'local':
 	es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
 
-if config.ENVIRONMENT == 'staging':
-	es = Elasticsearch(
-	    hosts = config.ELASTICSEARCH_STAGING_HOST,
-	    http_auth = config.AWS_AUTH,
-	    use_ssl = True,
-	    verify_certs = True,
-	    connection_class = RequestsHttpConnection
-	)
+if config.ENVIRONMENT == 'docker':
+	es = Elasticsearch(config.ELASTICSEARCH_DOCKER_HOST)
+
 
 # Return response object that combines ES ID and source fields
 def merge_id_and_source(id, source):
@@ -43,7 +38,7 @@ def es_document_list(index):
 		]	
 	search = es.search(
 		index=index,
-		_source_exclude=['html_source', 'search_text', 'thumb_file', 'file_ext', 'file_name'],
+		_source_excludes=['html_source', 'search_text', 'thumb_file', 'file_ext', 'file_name'],
 		body=body
 	)
 	response = merge_results(search['hits']['hits'])
@@ -194,6 +189,7 @@ def es_search_text(body):
 # MEDIA HANDLING
 # ______________
 
+# TODO: This path sucks
 UPLOAD_FOLDER = os.path.join(os.getenv('HOME'), 'Projects', 'joyce_flask', 'static')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'mov', 'mp4', 'mp3', 'wav'}
 

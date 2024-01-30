@@ -1,5 +1,3 @@
-import React from 'react'
-
 import actions from '../actions'
 import api from '../modules/api'
 // import {convertToSearchText} from '../modules/editorSettings'

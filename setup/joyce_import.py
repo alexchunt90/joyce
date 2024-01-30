@@ -10,15 +10,14 @@ import setup.es_config as es_config
 import setup.es_helpers as es_helpers
 
 # Refresh Target Folder from Source Files
-os.chdir(os.path.expanduser('~/Projects/joyce_flask/setup/'))
-target_path = './target/'
+target_path = 'setup/target/'
 chap_path = target_path + 'chap/'
 note_path = target_path + 'notes/'
 img_path = target_path + 'img/'
 swap_path = target_path + 'swap/'
 
-static_path = '../static/img'
-src_path = './src/'
+static_path = 'static/img'
+src_path = 'setup/src/'
 
 def clear_static_assets(static_path):
 	shutil.rmtree(static_path)
@@ -36,7 +35,8 @@ def refresh_elasticsearch(index, mapping):
 	es_helpers.create_index(index, mapping)
 	print('Refreshed the following Elasticsearch index:', index)
 
-if __name__ == '__main__':
+
+def joyce_import():
 	# Import Joyce media files
 	refresh_target_files('img/')
 	# Delete existing media assets
@@ -67,6 +67,8 @@ if __name__ == '__main__':
 	# os.system('npm run import')
 	# print('HTML successufly optimized for DraftJS!')
 
+if __name__ == '__main__':
+	joyce_import()
 
 # TODO:
 # Error checking for failed links

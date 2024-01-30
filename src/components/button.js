@@ -137,6 +137,17 @@ export const EditorDeleteButton = ({onClick}) =>
 		<i className='fas fa_inline fa-trash-o'></i>
 	</button>
 
+
+
+
+
+// Logout
+
+export const LogoutButton = ({onClick}) =>
+	<button id='admin_signout_button' onClick={onClick} type='button' className='btn btn-outline-danger'>
+		Logout
+	</button>
+
 ReaderEditButton.propTypes = {
 	onClick: PropTypes.func,
 }

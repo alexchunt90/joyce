@@ -2,13 +2,29 @@ import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modul
 
 const userErrors = (state=[], action) => {
 	switch(action.type) {
-		case 'SUBMIT_DOCUMENT_EDIT':
-			return validateSubmittedDocument(action.docType, action.inputs, action.currentDocument)
+		case 'RETURN_EDITOR_VALIDATION_ERRORS':
+			return action.errors
 		case 'SUBMIT_ANNOTATION':
 			return validateSubmittedAnnotation(action.annotationNote, action.annotationTag)
 		case 'GET_DOCUMENT_TEXT': 
 			if (action.status === 'success' && action.state === 'currentDocument') {
 				return []
+			}
+		case 'OAUTH_TOKEN_AUTHORIZATION':
+			if (action.status === 'error') {
+				return ['Login Failed.']
+			} else if (action.status === 'success') {
+				return []
+			}
+		case 'USER_LOGOUT_RESPONSE':
+			if (action.status === 'error') {
+				return ['Logout failed. Clear your cookies or contact system admin.']
+			} else if (action.status === 'success') {
+				return []
+			}
+		case 'SAVE_DOCUMENT':
+			if (action.status === 'error') {
+				return [...state, 'The API refused your edit. Try logging out and back in again in another tab.']
 			}
 		default:
 			return state

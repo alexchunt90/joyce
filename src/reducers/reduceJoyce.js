@@ -28,6 +28,7 @@ import toggles from './toggles'
 
 // Validation
 import userErrors from './userErrors'
+import user from './user'
 
 const reduceJoyce = (history) => combineReducers({
 	router: connectRouter(history),
@@ -54,6 +55,7 @@ const reduceJoyce = (history) => combineReducers({
 	toggles: toggles,
 	// Validation
 	userErrors: userErrors,
+	user: user,
 })
 
 export default reduceJoyce

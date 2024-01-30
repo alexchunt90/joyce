@@ -34,7 +34,12 @@ const newPage = () => {
 }
 
 // Trying to implement this as a recursive funciton, let's see how it goes
-const recursivePagination = (contentState, edition, block=undefined, page=undefined, resultDoc=undefined) => {
+const recursivePagination = (contentState, edition, block=undefined, page=undefined, resultDoc=undefined, number=1) => {
+	if (number === 1) {
+		console.log('Initial Block Count:', contentState.getBlocksAsArray().length)
+	}
+	console.log('Iteration #', number)
+
 	// The initial call to this function doesn't receive a resultDoc argument, so the first call initalizes a paginatedDoc
 	const paginatedDoc = resultDoc ? resultDoc : newPaginatedDoc(edition)
 	// The initial call to this function doesn't receive a currentBlock argument
@@ -97,12 +102,10 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 				const entitySelectionState = emptySelection
 					.set('focusOffset', pageBreak.end)
 					.set('anchorOffset', pageBreak.end)
-				// Split the block at the selection
+				// Split the block at the selection. Key for currentBlock will remain the same,
+				// and the other half of the block will be returned by getBlockAfer()
 				contentStateWithSplitBlock = Modifier.splitBlock(contentState, entitySelectionState)		
 			}
-
-			// Split block based on the entity range
-				// Used Modifier.splitBlock(contentSate, selectionState)
 
 			// Get the page number from the entity
 			currentPage = {...currentPage, number: pageBreak.number}
@@ -119,7 +122,7 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 	const nextBlock = nextContentState.getBlockAfter(currentBlock.getKey())
 	// If this is the last contentBlock in the contentState, nextBlock will be null
 	if (nextBlock) {
-		return recursivePagination(nextContentState, edition, nextBlock, currentPage, paginatedDoc)
+		return recursivePagination(nextContentState, edition, nextBlock, currentPage, paginatedDoc, number + 1)
 	} else {
 		// When we're done recursing, export the final entityMap for the contentState, as
 		// we'll need to construct page-scoped contentBlocks from the arrays later

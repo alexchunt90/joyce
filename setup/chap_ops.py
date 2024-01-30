@@ -52,7 +52,7 @@ def import_chap_operations(chapters_path):
 	chapter_dict = es_helpers.es_document_dict('chapters')
 
 	# Parse Swap JS files to find the hex colors for each chapter's links
-	swap_path = './target/swap/'
+	swap_path = 'setup/target/swap/'
 	annotation_dict = tag_ops.parse_chapter_annotations(swap_path)
 
 	# Iterate through chap files

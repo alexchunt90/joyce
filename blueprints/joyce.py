@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, redirect
+from flask import Blueprint, render_template, make_response
 import os
 import json
 import config
@@ -12,5 +12,7 @@ manifest_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 def show_joyce(path):
 	with joyce.open_resource(manifest_path, 'r') as assets_json:
 		assets = json.load(assets_json)
-	print(assets['joyce.js'])
-	return render_template('joyce.html', assets=assets)
+	template = render_template('joyce.html', assets=assets)
+	# response = make_response(template)
+	# response.headers.add('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
+	return template

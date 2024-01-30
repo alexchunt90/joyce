@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, flash, current_app
+from flask_jwt_extended import jwt_required
 from werkzeug.utils import secure_filename
 import os
 import json
@@ -31,6 +32,7 @@ def get_multiple_docs():
 
 ''' Index new media document '''
 @media_api.route('/', methods=['POST'])
+@jwt_required()
 def create_media():
 	if 'uploadFile' in request.files:
 		file = request.files['uploadFile']
@@ -42,6 +44,7 @@ def create_media():
 
 ''' Update media document '''
 @media_api.route('/<string:id>', methods=['POST'])
+@jwt_required()
 def write_media(id):
 	if 'uploadFile' not in request.files and request.form:
 		form_data = request.form
@@ -56,6 +59,7 @@ def write_media(id):
 
 ''' Delete media document '''
 @media_api.route('/<string:id>', methods=['DELETE'])
+@jwt_required()
 def delete_media(id):
 	document =  es_func.es_get_document('media', id)
 	shutil.rmtree(os.path.join(current_app.config['UPLOAD_FOLDER'], document['type'], id))

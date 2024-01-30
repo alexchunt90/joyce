@@ -23,6 +23,12 @@ const joyceInterface = store => next => action => {
 	const currentDocument = state.currentDocument
 	const docType = state.docType
 	const mode = state.mode
+	console.log('State is', state)
+	console.log(state.mode)
+	console.log(state.user)
+	console.log(state.docType)
+	const user = state.user
+	console.log('user is', user)
 	const paginationState = state.paginationState
 	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)
 	switch(action.type) {
@@ -32,8 +38,9 @@ const joyceInterface = store => next => action => {
 	// Submitting document edits
 		case 'SUBMIT_DOCUMENT_EDIT':
 			// Check for validation errors
-			const docErrors = validateSubmittedDocument(action.docType, action.inputs, action.currentDocument)
-			if (docErrors.length < 1) {
+			console.log('user is', user)
+			const validationErrors = validateSubmittedDocument(action.docType, action.inputs, action.currentDocument, user)
+			if (validationErrors.length < 1) {
 				const textContent = action.editorState.getCurrentContent()
 				// Convert state to HTML and search text to be posted to Elasticsearch
 				const data = { 
@@ -67,6 +74,8 @@ const joyceInterface = store => next => action => {
 					} 
 				}
 				store.dispatch(actions.saveDocument({id: data.id ? data.id : null, docType: action.docType, data: data}))
+			} else {
+				store.dispatch(actions.returnValidationErrors(validationErrors))
 			}
 			break
 		case 'DELETE_CURRENT_DOCUMENT':
@@ -96,6 +105,21 @@ const joyceInterface = store => next => action => {
 					store.dispatch(actions.getMediaDocs({media_doc_ids: action.data.media_doc_ids}))
 				}
 			}
+
+			// TODO: THIS IS PAGINATION LOGIC: SPLIT UP YOUR MIDDLEWARES!
+			if (
+				action.status === 'success' && 
+				action.docType === 'chapters' && 
+				action.state === 'currentDocument' && 
+				editions.length > 0
+			) {
+				const firstEdition = editions[0]
+				const editorState = returnEditorStateFromHTML(action.data.html_source, readerDecorator)
+				const paginatedDoc = paginate(editorState, firstEdition)
+				store.dispatch(actions.addPaginatedDoc(paginatedDoc))		
+				store.dispatch(actions.setPaginationEdition(firstEdition))
+			}
+
 			break			
 		case 'SUBMIT_ANNOTATION':
 			const annotationErrors = validateSubmittedAnnotation(action.annotationNote, action.annotationTag)

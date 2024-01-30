@@ -7,6 +7,7 @@ import config
 from blueprints.joyce import joyce
 from blueprints.doc_api import doc_api
 from blueprints.media_api import media_api
+from blueprints.search_api import search_api
 from blueprints.google_auth import google_auth_api
 
 # Initialize application
@@ -27,14 +28,15 @@ config_params = {
 }
 application.config.update(config_params)
 
-jwt = JWTManager(application)
-CORS(application, origins=['http://localhost:5000'])
-
 # Register blueprints
 application.register_blueprint(joyce)
 application.register_blueprint(doc_api, url_prefix='/api')
 application.register_blueprint(media_api, url_prefix='/api/media')
+application.register_blueprint(search_api, url_prefix='/api/search')
 application.register_blueprint(google_auth_api, url_prefix='/auth')
+
+jwt = JWTManager(application)
+CORS(application, origins=['http://localhost:5000'])
 
 if __name__ == "__main__":
 	application.run(debug=False, threaded=True, host="0.0.0.0")

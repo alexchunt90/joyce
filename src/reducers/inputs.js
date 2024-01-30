@@ -8,6 +8,12 @@ const initialState = {
 	noteMediaSelection: [],
 	editionYear: undefined,
 	uploadFile: undefined,
+	searchResultCount: 10,
+	searchDocTypes: {
+		'chapters': true,
+		'notes': true,
+		'media': true,
+	}
 }
 
 const inputs = (state=initialState, action) => {
@@ -88,6 +94,18 @@ const inputs = (state=initialState, action) => {
 				return state 
 			}
 		// Search
+		case 'TOGGLE_SEARCH_DOCTYPE':
+			let docTypeToggles = state.searchDocTypes
+			docTypeToggles[action.docType] = !docTypeToggles[action.docType]
+			return {
+				...state,
+				searchDocTypes: docTypeToggles
+			}
+		case 'UPDATE_SEARCH_RESULT_COUNT':
+			return {
+				...state,
+				searchResultCount: action.count
+			}
 		case 'UPDATE_SEARCH_INPUT':
 			return {
 				...state,

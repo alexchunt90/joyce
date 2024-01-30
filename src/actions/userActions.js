@@ -87,11 +87,24 @@ const userActions = {
 			type: 'SET_MODE',
 			mode: mode
 		}),
+	// Toggle a checkbox for the doctypes to include in search results
+	toggleSearchDocType: docType =>
+		({
+			type: 'TOGGLE_SEARCH_DOCTYPE',
+			docType: docType
+		}),
+	onResultCountDropdownClick: count =>
+		({
+			type: 'UPDATE_SEARCH_RESULT_COUNT',
+			count: count
+		}),
 	// Click 'Search' to request search results
-	clickSearch: inputs =>
+	clickSearch: (searchInput, docTypes, resultCount) =>
 		({
 			type: 'CLICK_SEARCH',
-			data: inputs.search
+			searchInput: searchInput,
+			docTypes: docTypes,
+			resultCount: resultCount
 		}),
 	// Set the DocType to choose from in the Editor
 	setDocType: docType =>

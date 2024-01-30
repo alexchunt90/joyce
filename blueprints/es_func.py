@@ -132,7 +132,7 @@ def group_search_results(es_results):
 		output_results[type] = documents
 	return output_results
 
-def es_search_text(body):
+def es_search_text(search_input, doc_types, result_count):
 	search = es.search(
 		# index=doc_type,
 		filter_path=[
@@ -145,14 +145,14 @@ def es_search_text(body):
 		],
 		body={
 			'from': 0,
-			'size': 10,
+			'size': result_count,
 			'query': {
 				'nested': {
 					'path': 'search_text',
 					'query': {
 						'bool': {
 							'must': [
-								{ 'match': { 'search_text.text': body}}
+								{ 'match': { 'search_text.text': search_input}}
 							]
 						}
 					},

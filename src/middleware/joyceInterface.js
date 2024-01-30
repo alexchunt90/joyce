@@ -23,12 +23,7 @@ const joyceInterface = store => next => action => {
 	const currentDocument = state.currentDocument
 	const docType = state.docType
 	const mode = state.mode
-	console.log('State is', state)
-	console.log(state.mode)
-	console.log(state.user)
-	console.log(state.docType)
 	const user = state.user
-	console.log('user is', user)
 	const paginationState = state.paginationState
 	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)
 	switch(action.type) {
@@ -38,7 +33,6 @@ const joyceInterface = store => next => action => {
 	// Submitting document edits
 		case 'SUBMIT_DOCUMENT_EDIT':
 			// Check for validation errors
-			console.log('user is', user)
 			const validationErrors = validateSubmittedDocument(action.docType, action.inputs, action.currentDocument, user)
 			if (validationErrors.length < 1) {
 				const textContent = action.editorState.getCurrentContent()
@@ -164,7 +158,7 @@ const joyceInterface = store => next => action => {
 			break
 	// Search Action Middleware
 		case 'CLICK_SEARCH':
-			store.dispatch(actions.getSearchResults({data: action.data}))
+			store.dispatch(actions.getSearchResults({searchInput: action.searchInput, docTypes: action.docTypes, resultCount: action.resultCount}))
 			break		
 		default:
 			break

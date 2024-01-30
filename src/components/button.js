@@ -77,10 +77,10 @@ export const HighlightButton = ({toggle, onClick, size='lg'}) =>
 		</div>
 	</div>
 
-export const SearchButton = ({input, onClick}) =>
+export const SearchButton = ({onClick, searchInput, docTypes, resultCount}) =>
 	<div>
 		<div id='search_button' className='text-center'>
-			<button className='btn btn-primary btn-sm' onClick={()=>onClick(input)}>
+			<button className='btn btn-primary btn-sm' onClick={()=>onClick(searchInput, docTypes, resultCount)}>
 				Search <i className='fas fa_inline fa-search'></i>
 			</button>
 		</div>

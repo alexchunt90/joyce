@@ -155,17 +155,6 @@ def delete_edition(id):
 	return jsonify(es_func.es_document_list('edtions'))	
 
 #
-# Search API Routes
-#
-
-''' Basic Text Search '''
-@doc_api.route('/search/', methods=['POST'])
-def search_text():
-	data = json.loads(request.data)
-	results = es_func.es_search_text(data.get('data'))
-	return jsonify(results)
-
-#
 # Dev Admin API Routes
 #
 

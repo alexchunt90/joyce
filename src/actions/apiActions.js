@@ -54,7 +54,11 @@ const apiActions = {
 	getSearchResults: (response={}) =>
 		({
 			type: 'GET_SEARCH_RESULTS',
-			data: response.data,
+			data: {
+				searchInput: response.searchInput,
+				docTypes: response.docTypes,
+				resultCount: response.resultCount,
+			},
 			status: response.status ? response.status : 'request'
 		})
 }

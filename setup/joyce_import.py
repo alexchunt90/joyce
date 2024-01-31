@@ -20,7 +20,8 @@ static_path = 'static/img'
 src_path = 'setup/src/'
 
 def clear_static_assets(static_path):
-	shutil.rmtree(static_path)
+	if os.path.isdir(target_folder_path):
+		shutil.rmtree(static_path)
 	os.mkdir(static_path)
 
 def refresh_target_files(target_folder):

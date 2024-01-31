@@ -5,7 +5,7 @@ from elasticsearch.helpers import bulk
 import setup.es_config as es_config
 import blueprints.es_func as es_func
 
-es = Elasticsearch(es_config.ELASTICSEARCH_LOCAL_HOST)
+es = Elasticsearch(es_config.ELASTICSEARCH_LOCAL_HOST, verify_certs=False)
 
 def es_get_documents(index):
 	body = {

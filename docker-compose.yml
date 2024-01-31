@@ -7,7 +7,7 @@ services:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-    restart: unless-stopped      
+    restart: unless-stopped
 
   web:
     build: .

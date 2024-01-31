@@ -8,9 +8,6 @@ services:
     ports:
       - 9200:9200
     restart: unless-stopped      
-    depends_on:
-      set-vm-map:
-        condition: service_completed_successfully
 
   web:
     build: .

@@ -7,6 +7,7 @@ config.py
 /setup/src/*
 /setup/target
 .pytest_cache/
+.python-version
 *.pyc
 *.sublime-project
 *.sublime-workspace

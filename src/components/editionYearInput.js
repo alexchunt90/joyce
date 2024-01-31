@@ -11,7 +11,7 @@ const EditionYearInput = ({input, onChange}) =>
 
 EditionYearInput.propTypes = {
 	input: PropTypes.string,
-	onCHange: PropTypes.func
+	onChange: PropTypes.func
 }
 
 export default EditionYearInput

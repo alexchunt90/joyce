@@ -1,6 +1,6 @@
 # Local
 # TODO: This needs to be consolidated into config.py
-ELASTICSEARCH_LOCAL_HOST = '127.0.0.1:9200'
+ELASTICSEARCH_LOCAL_HOST = 'https://127.0.0.1:9200'
 
 DEFAULT_INDEX_SETTINGS = {
 	'index': {

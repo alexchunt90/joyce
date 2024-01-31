@@ -5,6 +5,7 @@ config.py
 /icon
 /node_modules
 /setup/src/
+/joyce-env/
 /setup/target
 .pytest_cache/
 .python-version

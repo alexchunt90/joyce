@@ -7,53 +7,18 @@ Joyce uses Python and Flask for the backend, Elasticsearch for the datastore, an
 
 ## Setup
 
-This assumes you have Node, npm, pip and optionall virtualenv installed.
+This assumes you have npm and python 3.11.
 
-Install Elasticsearch:
-```
-brew install elasticsearch
-```
+- To ensure that elasticsearch doesn't crash, run `sysctl -w vm.max_map_count=262144` and append your host system's /etc/sysctl.conf with `vm.max_map_count=262144`
+- Clone the repo with `git clone https://github.com/alexchunt90/joyce.git`
+- Setup a python3 venv in the repo folder and activate
+- Build the docker image with `docker compose build`
+- Run the docker image with `docker compose d`
+- 
 
-Joyce requires Python 2.7:
-```
-virtualenv -p /usr/bin/python2.7 joyce_flask
 
-source bin/activate
-```
+- For local development use `npm run watch` to rebuild JS on the fly with webpack.
+- For a production server use `npm run build` to create JS. 
 
-Install the Python backend:
-```
-pip install -r requirements.txt
-```
 
-Install the Javascript frontend:
-```
-npm install
-```
 
-Setup the Elasticsearch indexes:
-```
-python setup.py
-```
-
-## Run Locally
-
-Start Elasticsearch:
-```
-elasticsearch
-```
-
-Start Webpack in watch mode:
-```
-npm run watch
-```
-
-Start Python application:
-```
-python application.py
-```
-
-You should now find Joyce running locally at:
-```
-localhost:5000
-```

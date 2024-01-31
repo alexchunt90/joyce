@@ -11,8 +11,7 @@ RUN apk --update add \
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 # RUN npm run build
-RUN python -m joyce_flask.setup.joyce_import
-RUN sysctl -w vm.max_map_count=262144
+# RUN python -m joyce_flask.setup.joyce_import
 EXPOSE 5000
 COPY . .
 CMD ["python", "-m", "application"]

@@ -20,6 +20,7 @@ const editorState = (state=blankEditor, action) => {
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
 				const html = action.data.html_source
+				console.log('HTML IS', html)
 				const editorState = returnEditorStateFromHTML(html, readerDecorator)
 				return editorState
 			} else if (action.status === 'request' && action.state === 'currentDocument') {

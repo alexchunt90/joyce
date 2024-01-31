@@ -34,6 +34,7 @@ def get_multiple_docs():
 @media_api.route('/', methods=['POST'])
 @jwt_required()
 def create_media():
+	print('Were in the create media path!')
 	if 'uploadFile' in request.files:
 		file = request.files['uploadFile']
 		form_data = request.form
@@ -46,12 +47,16 @@ def create_media():
 @media_api.route('/<string:id>', methods=['POST'])
 @jwt_required()
 def write_media(id):
+	print('Were in the update media path!')
 	if 'uploadFile' not in request.files and request.form:
+		print('Were in the no-upload media path!')
 		form_data = request.form
+		print('We have the form_data!')
 		print(form_data)
-		es_func.es_update_document('media', id, form_data)
+		es_func.updating_existing_media_file(id, form_data)
 		return jsonify(es_func.es_document_list('media'))
 	if 'uploadFile' in request.files:
+		print('Were in the upload media path!')
 		file = request.files['uploadFile']
 		form_data = request.form
 		es_func.index_and_save_media_file(file, id, form_data)

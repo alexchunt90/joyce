@@ -9,6 +9,7 @@ import tags from './tags'
 import editions from './editions'
 import media from './media'
 import currentDocument from './currentDocument'
+import currentBlock from './currentBlock'
 import annotationNote from './annotationNote'
 import annotationNoteMedia from './annotationNoteMedia'
 import annotationTag from './annotationTag'
@@ -39,6 +40,7 @@ const reduceJoyce = (history) => combineReducers({
 	editions: editions,
 	media: media,
 	currentDocument: currentDocument,
+	currentBlock: currentBlock,
 	annotationNote: annotationNote,
 	annotationNoteMedia: annotationNoteMedia,
 	annotationTag: annotationTag,

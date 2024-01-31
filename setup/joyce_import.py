@@ -64,8 +64,8 @@ def joyce_import():
 	chap_ops.import_chap_operations(chap_path)
 	
 	# Run Node script to process HTML files using DraftJS and produce search_text for Elasticsearch	
-	# os.system('npm run import')
-	# print('HTML successufly optimized for DraftJS!')
+	os.system('npm run import')
+	print('HTML successufly optimized for DraftJS!')
 
 if __name__ == '__main__':
 	joyce_import()

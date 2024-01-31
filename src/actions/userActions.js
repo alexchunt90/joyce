@@ -106,6 +106,12 @@ const userActions = {
 			docTypes: docTypes,
 			resultCount: resultCount
 		}),
+	// Click 'Search' to request search results
+	clickSearchLink: (id) =>
+		({
+			type: 'SELECT_CURRENT_BLOCK',
+			id: id
+		}),		
 	// Set the DocType to choose from in the Editor
 	setDocType: docType =>
 		({

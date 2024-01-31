@@ -4,6 +4,7 @@ from werkzeug.datastructures import FileStorage
 from elasticsearch import Elasticsearch
 from PIL import Image
 import os
+import json
 import config
 
 if config.ENVIRONMENT == 'local':
@@ -72,6 +73,7 @@ def es_index_document(index, id, body):
 	)
 	return res
 
+
 def es_create_document(index, body):
 	res = es.index(
 		index=index,
@@ -89,6 +91,20 @@ def es_update_document(index, id, data):
 		refresh=True,
 		body={'doc': data}
 	)
+
+def es_update_search_text(id, data):
+	res = es.update(
+		index=data['doc_type'],
+		doc_type='doc',
+		id=id,
+		body={
+			'doc': {
+				'search_text': data['search_text']
+			}
+		}
+
+	)
+	return res
 
 def es_delete_document(index, id):
 	res = es.delete(
@@ -109,32 +125,16 @@ def renumber_chapters():
 			es_update_document('chapters', chapter['id'], data)
 	return chapters
 
-def group_search_results(es_results):
-	types = set([])
-	output_results = {}
-	for result in es_results:
-		types.add(result['_type'])
-	for type in types:
-		documents = []
-		for result in es_results:
-			if result['_type'] == type:
-				hits = []
-				for hit in result['inner_hits']['search_text']['hits']['hits']:
-					hits.append(hit['_source'])
-				entry = {
-					'id': result['_id'],
-					'title': result['_source']['title'],
-					'hits': hits
-				}
-				if type == 'chapter':
-					entry['number'] = result['_source']['number']
-				documents.append(entry)
-		output_results[type] = documents
-	return output_results
-
 def es_search_text(search_input, doc_types, result_count):
+	results = {}
+	for doc_type in doc_types:
+		doc_specific_results = search_index(search_input, doc_type, result_count)
+		results[doc_type] = doc_specific_results
+	return results
+
+def search_index(search_input, doc_type, result_count):
 	search = es.search(
-		# index=doc_type,
+		index=doc_type,
 		filter_path=[
 			'hits.hits._id',
 			'hits.hits._type',
@@ -178,10 +178,51 @@ def es_search_text(search_input, doc_types, result_count):
 		    }			
 		}
 	)
-	results = search['hits']['hits'] if search else {}
-	grouped_results = group_search_results(results) 
-	return grouped_results
 
+	results = search['hits']['hits'] if search else []
+
+
+	resultDocs = []
+	for result in results:
+		id = result['_id']
+		title = result['_source']['title']
+		number = result['_source']['number'] if doc_type == 'chapters' else None
+		hits = result['inner_hits']['search_text']['hits']['hits']
+		print(id)
+		print(title)
+		resultHits = []
+		for hit in hits:
+			key = hit['_source']['key']
+			text = hit['_source']['text']
+			resultHits.append({'key': key, 'text': text})
+			print(resultHits)
+		resultDocs.append({
+			'id': id,
+			'title': title,
+			'number': number,
+			'hits': resultHits	
+		})
+	return resultDocs
+
+
+
+'''
+{'chapters':
+	[
+		{
+			'title': 'telemachus'
+			'numbers': 1
+			'hits': [
+				{
+					'key':
+					'text':
+				}
+			]
+		}
+
+	]
+}
+'''
 
 
 # ______________
@@ -223,7 +264,7 @@ def media_data_from_file(filename, joyce_import_folder):
 	data['thumb_file'] = thumb_file
 	data['file_ext'] = file_ext
 	data['type'] = file_type
-	return data	
+	return data
 
 def index_and_save_media_file(file, id=None, form=None, import_folder=''):
 	if file.filename != '' and allowed_file(file.filename):
@@ -236,11 +277,12 @@ def index_and_save_media_file(file, id=None, form=None, import_folder=''):
 
 		metadata = media_data_from_file(filename, import_folder)
 		metadata['dimensions'] = [file.width, file.height]
-
 		if form:
 			for k,v in form.items():
-				metadata[k] = v
-
+				if k != 'search_text':
+					metadata[k] = v
+				else:
+					metadata[k] = json.loads(v)
 		if id is None:
 			response = es_create_document('media', metadata)
 		# If passed an id, function will update an existing document
@@ -251,5 +293,14 @@ def index_and_save_media_file(file, id=None, form=None, import_folder=''):
 			save_folder = os.path.join(UPLOAD_FOLDER, metadata['type'], media_id)
 			os.mkdir(save_folder)
 		file.save(os.path.join(UPLOAD_FOLDER, metadata['type'], media_id, 'img.' + metadata['file_ext']))
+		return response
 
-
+def updating_existing_media_file(id, form_data):
+	metadata = {}
+	for k,v in form_data.items():
+		if k != 'search_text':
+			metadata[k] = v
+		else:
+			metadata[k] = json.loads(v)
+	response = es_index_document('media', id, metadata)
+	return response

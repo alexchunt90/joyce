@@ -14,6 +14,7 @@ const SearchContent = ({
 	onSearchClick,
 	onToggleSearchDocType,
 	onResultCountDropdownClick,
+	onSearchLinkClick,
 }) =>
 	<div className='container'>
 		<div className='row'>
@@ -67,7 +68,9 @@ const SearchContent = ({
 			</div>													
 		</div>
 		<div className='row'>
-			<SearchResultsBox searchResults={searchResults} />
+			{searchResults.chapters && 
+				<SearchResultsBox searchResults={searchResults} onLinkClick={onSearchLinkClick}/>
+			}
 		</div>
 	</div>
 
@@ -93,6 +96,9 @@ const mapDispatchToProps = dispatch => {
 		onToggleSearchDocType: docType => {
 			dispatch(actions.toggleSearchDocType(docType))
 		},
+		onSearchLinkClick: id => {
+			dispatch(actions.clickSearchLink(id))
+		}
 	}
 }
 

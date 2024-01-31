@@ -158,7 +158,7 @@ const joyceInterface = store => next => action => {
 			break
 	// Search Action Middleware
 		case 'CLICK_SEARCH':
-			store.dispatch(actions.getSearchResults({searchInput: action.searchInput, docTypes: action.docTypes, resultCount: action.resultCount}))
+			store.dispatch(actions.getSearchResults({data: {searchInput: action.searchInput, docTypes: action.docTypes, resultCount: action.resultCount}}))
 			break		
 		default:
 			break

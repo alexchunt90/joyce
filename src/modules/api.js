@@ -2,13 +2,18 @@ import axios from 'axios'
 
 const apiRoute = '/api/'
 const authRoute = '/auth/'
+const baseURL= 'http://localhost:5000'
 
 // TODO: Docs suggest Axios can do this automatically with withXSRFToken but I couldn't get it working
 const getCSRFToken = () => {
-	const cookies = document.cookie
-	if (cookies.includes('csrf_access_token')) {
-		const token = cookies.match(/csrf_access_token=([a-z0-9\-]*)/g).toString().split(/\=/g)[1]
-		return token
+	if (typeof document !== 'undefined') {
+		const cookies = document.cookie
+		if (cookies.includes('csrf_access_token')) {
+			const token = cookies.match(/csrf_access_token=([a-z0-9\-]*)/g).toString().split(/\=/g)[1]
+			return token
+		} else {
+			return null
+		}
 	} else {
 		return null
 	}
@@ -34,7 +39,7 @@ const api = {
 
 	// List Documents of type
 	HTTPGetDocumentList: (docType) =>
-		axios.get(apiRoute + docType).then(res => {
+		axios.get(baseURL + apiRoute + docType).then(res => {
 			return {status: 'success', docType: docType, data: res.data}
 		}).catch(error => {
 			return {status: 'error', docType: docType, data: error}
@@ -45,12 +50,19 @@ const api = {
 			return {status: 'success', docType: docType, data: res.data}
 		}).catch(error => {	
 			return {status: 'error', docType: docType, data: error}
-		}),		
+		}),
 
+	// Update search text fields. Only used during setup.
+	HTTPUpdateSearchText: (id, data) =>
+		axios.post(baseURL + apiRoute + 'search_text/' + id, data).then(res => {
+			return {status: 'success'}
+		}).catch(error => {	
+			return {status: 'error'}
+		}),
 
 	// Document CRUD
 	HTTPGetDocumentText: (id, docType, state) =>
-		axios.get(apiRoute + docType + '/' + id).then(res => {
+		axios.get(baseURL + apiRoute + docType + '/' + id).then(res => {
 			return {id: id, status: 'success', docType: docType, state: state, data: res.data}
 		}).catch(error => {
 			return {id: id, status: 'error', docType: docType, state: state, data: error}

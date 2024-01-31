@@ -45,7 +45,7 @@ const joyceAPI = store => next => action => {
 				}
 				mediaForm.append('title', action.data.title)
 				mediaForm.append('html_source', action.data.html_source)
-				mediaForm.append('search_text', action.data.search_text)
+				mediaForm.append('search_text', JSON.stringify(action.data.search_text))
 				if (action.id) {
 					api.HTTPPostWriteMediaDocument(action.id, action.docType, mediaForm, formHeaders).then(response =>
 						store.dispatch(actions.saveDocument(response))

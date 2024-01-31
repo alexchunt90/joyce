@@ -166,3 +166,10 @@ def delete_edition(id):
 def refresh_es():
 	joyce_import()
 	return 'Success!'
+
+# TODO: This should only be accessible in dev
+@doc_api.route('/search_text/<string:id>', methods=['POST'])
+def update_search_text(id):
+	data = json.loads(request.data.decode('utf-8')) 
+	es_func.es_update_search_text(id, data)
+	return jsonify()

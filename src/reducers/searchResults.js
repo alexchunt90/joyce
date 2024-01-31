@@ -3,7 +3,7 @@ const searchResults = (state={}, action) => {
 		case 'GET_SEARCH_RESULTS':
 			if (action.status === 'success') {
 				return action.data
-			} else { return state }		
+			} else { return state }
 		default:
 			return state
 	}

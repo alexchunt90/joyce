@@ -92,7 +92,7 @@ def import_note_operations(notes_path):
 							img_caption_data = {
 								'id': img_id,
 								'html_source': clean_html_for_export(caption_p),
-								'search_text': {'text': caption_search_text}
+								'search_text': [{'key': img_id, 'text': caption_search_text}]
 							}
 							caption_op = es_helpers.build_es_caption_op(img_caption_data)
 							img_caption_ops.append(caption_op)

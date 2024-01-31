@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.2
+    container_name: elasticsearch
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+
+volumes:
+  elasticsearch-data:
+    driver: local
+
+# STAGING VM NOTES
+# /etc/sysctl.conf: vm.max_map_count = 262144

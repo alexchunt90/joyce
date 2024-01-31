@@ -26,10 +26,8 @@ const ReaderContent = ({
 
 		{toggles.pagination === false &&
 			<div>
-				<DocumentTitle docType={'chapters'} currentDocument={currentDocument} />
-				<br />
-				<br />
 				<Editor editorState={editorState} readOnly={true} />
+				{/*<div id='dangerous' dangerouslySetInnerHTML={{ __html: currentDocument.html_source }}></div>*/}
 			</div>
 		}
 		{toggles.pagination === true &&

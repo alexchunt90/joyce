@@ -27,7 +27,8 @@ def refresh_target_files(target_folder):
 	target_folder_path = target_path + target_folder
 	if os.path.isdir(target_folder_path):
 		shutil.rmtree(target_folder_path)
-	shutil.copytree(src_path + target_folder, target_folder_path)
+	if os.path.isdir(src_path + target_folder):
+		shutil.copytree(src_path + target_folder, target_folder_path)
 	print('Target folder created:', target_folder_path)
 
 def refresh_elasticsearch(index, mapping):

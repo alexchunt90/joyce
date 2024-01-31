@@ -4,7 +4,7 @@ config.py
 !/static/style.css
 /icon
 /node_modules
-/setup/src/*
+/setup/src/
 /setup/target
 .pytest_cache/
 .python-version

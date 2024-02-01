@@ -3,7 +3,7 @@ import axios from 'axios'
 const env = process.env.HOST_ENVIRONMENT
 const host = (env) => {
 	if (env === 'local') {
-		return 'https://localhost:5000'
+		return 'https://localhost'
 	} else if (env === 'staging') {
 		return 'https://joyce-staging.net'
 	}

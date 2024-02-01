@@ -14,6 +14,7 @@ def envElasticsearch(env):
 		host = config.ELASTICSEARCH_LOCAL_HOST
 	if env == 'staging':
 		host = config.ELASTICSEARCH_STAGING_HOST
+	print(host)
 	es = Elasticsearch(
 		host,
 	    # # ['localhost'],

@@ -3,6 +3,7 @@ FROM python:3.11.7-alpine
 WORKDIR /Users/alexhunt/Projects/joyce_flask
 ENV FLASK_APP=application.py
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=443
 RUN apk add --no-cache gcc musl-dev linux-headers
 RUN apk --update add \
     build-base \

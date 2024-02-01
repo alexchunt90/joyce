@@ -1,6 +1,6 @@
 module.exports = {
 	verbose: true,
-	testURL: 'http://localhost:5000',
+	testURL: 'https://localhost',
 	testEnvironment: 'jsdom',
     moduleNameMapper: {
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)$': '<rootDir>/tests/__mocks__/fileMock.js',

@@ -5,6 +5,7 @@ services:
     container_name: elasticsearch
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
+      - ~/Projects/joyce_flask/elasticsearch.yml:/usr/elasticsearch/elasticsearch.yml
     ports:
       - 9200:9200
     restart: unless-stopped

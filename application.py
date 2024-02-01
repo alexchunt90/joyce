@@ -39,4 +39,4 @@ jwt = JWTManager(application)
 CORS(application, origins=['http://localhost:5000'])
 
 if __name__ == "__main__":
-	application.run(debug=False, threaded=True, host="0.0.0.0")
+	application.run(debug=False, threaded=True, host="0.0.0.0", ssl_context=('server.crt', 'server.key'))

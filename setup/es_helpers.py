@@ -2,10 +2,10 @@ import os
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
-import setup.es_config as es_config
+import config
 import blueprints.es_func as es_func
 
-es = Elasticsearch(es_config.ELASTICSEARCH_LOCAL_HOST, verify_certs=False)
+es = es_func.envElasticsearch(config.ENVIRONMENT)
 
 def es_get_documents(index):
 	body = {
@@ -29,7 +29,6 @@ def es_document_dict(index):
 	docs = es_get_documents(index)
 	doc_dict = {}
 	for i in docs:
-		print(i)
 		source = i['_source']
 		if source['file_name']:
 			file_name = source['file_name']

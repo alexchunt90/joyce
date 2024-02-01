@@ -6,12 +6,26 @@ from PIL import Image
 import os
 import json
 import config
+# from ssl import create_default_context
 
-if config.ENVIRONMENT == 'local':
-	es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
+def envElasticsearch(env):
+	# context = create_default_context(cafile="server.crt")
+	if env == 'local':
+		host = config.ELASTICSEARCH_LOCAL_HOST
+	if env == 'staging':
+		host = config.ELASTICSEARCH_STAGING_HOST
+	es = Elasticsearch(
+		host,
+	    # # ['localhost'],
+	    # scheme="https",
+	    # use_ssl=True, 
+	    # ca_certs='server.crt',
+	    # port=443,
+	    # ssl_context=context
+    )		
+	return es
 
-if config.ENVIRONMENT == 'docker':
-	es = Elasticsearch(config.ELASTICSEARCH_DOCKER_HOST)
+es = envElasticsearch(config.ENVIRONMENT)
 
 
 # Return response object that combines ES ID and source fields

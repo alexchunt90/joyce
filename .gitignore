@@ -10,6 +10,10 @@ config.py
 .pytest_cache/
 .python-version
 *.pyc
+*.crt
+*.srl
+*.csr
+*.key
 *.sublime-project
 *.sublime-workspace
 npm-debug.*

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const apiRoute = '/api/'
 const authRoute = '/auth/'
-const baseURL= 'http://localhost:5000'
+const baseURL= 'https://localhost:5000'
 
 // TODO: Docs suggest Axios can do this automatically with withXSRFToken but I couldn't get it working
 const getCSRFToken = () => {
@@ -20,7 +20,7 @@ const getCSRFToken = () => {
 }
 
 const authedInstance = axios.create({
-	baseURL: 'http://localhost:5000',
+	baseURL: baseURL,
 	withCredentials: true,
 	headers: {'X-CSRF-TOKEN': getCSRFToken()},
 	withXSRFToken: true,

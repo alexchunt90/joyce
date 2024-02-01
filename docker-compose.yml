@@ -13,7 +13,7 @@ services:
   web:
     build: .
     ports:
-      - "80:5000"
+      - "443:5000"
     restart: unless-stopped     
     depends_on:
       - elasticsearch

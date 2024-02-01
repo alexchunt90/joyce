@@ -20,7 +20,6 @@ import ReaderPageContainer from './containers/readerPageContainer'
 import EditorPageContainer from './containers/editorPageContainer'
 import SearchPageContainer from './containers/searchPageContainer'
 import AdminPageContainer from './containers/adminPageContainer'
-import AdminHeaderContainer from './containers/adminHeaderContainer'
 
 const history = createBrowserHistory()
 const router = routerMiddleware(history)
@@ -45,7 +44,6 @@ ReactDOM.render(
 		<Provider store={store}>
 			<ConnectedRouter history={history}>
 				<div id='inner_wrapper'>
-					<AdminHeaderContainer />
 					<NavbarContainer/>
 					<Switch>
 						<Route exact path='/' render={() =>

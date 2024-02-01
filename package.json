@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "rimraf static/js/ && webpack --config webpack.prod.js --env production",
-    "staging": "rimraf static/js/ && webpack --config webpack.dev.js --no-watch --env staging",
+    "stage": "rimraf static/js/ && webpack --config webpack.dev.js --no-watch --env staging",
     "watch": "rimraf static/js/ && webpack-cli --config webpack.dev.js --env local",
     "test": "python setup.py && jest --config jest.config.js --no-cache && python setup.py",
     "import": "npx -p @babel/core -p @babel/node babel-node --presets @babel/preset-env setup/draftimport.js"

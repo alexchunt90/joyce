@@ -41,7 +41,7 @@ if (cookies.includes('csrf_access_token')) {
 
 
 ReactDOM.render(
-	<GoogleOAuthProvider clientId='872741088218-5ooer62cvh4v2i9592buqplcorq8e571.apps.googleusercontent.com'>
+	<GoogleOAuthProvider clientId={process.env.GOOGLE_AUTH_CLIENT_ID}>
 		<Provider store={store}>
 			<ConnectedRouter history={history}>
 				<div id='inner_wrapper'>

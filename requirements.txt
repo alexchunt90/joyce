@@ -5,6 +5,7 @@ cachetools==5.3.2
 certifi==2023.11.17
 charset-normalizer==3.3.2
 click==8.1.7
+elastic-transport==8.12.0
 elasticsearch==6.8.2
 Flask==3.0.1
 Flask-Cors==4.0.0
@@ -21,6 +22,7 @@ protobuf==4.25.2
 pyasn1==0.5.1
 pyasn1-modules==0.3.0
 PyJWT==2.8.0
+python-dotenv==1.0.1
 requests==2.31.0
 rsa==4.9
 soupsieve==2.5

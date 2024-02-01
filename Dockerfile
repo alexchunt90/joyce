@@ -12,6 +12,6 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 # RUN npm run build
 # RUN python -m joyce_flask.setup.joyce_import
-EXPOSE 5000
+EXPOSE 80
 COPY . .
 CMD ["python", "-m", "application"]

@@ -1,3 +1,9 @@
+elasticsearch.yml
+package-lock.json
+
+
+
+.env
 .aws/
 config.py
 /static

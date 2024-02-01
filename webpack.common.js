@@ -1,6 +1,7 @@
  const webpack = require('webpack')
 const path = require('path')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
+const Dotenv = require('dotenv-webpack');
 
 const rootAssetPath = './src/'
 
@@ -61,6 +62,7 @@ module.exports = {
 	    }
     ]},
     plugins: [
-      new WebpackManifestPlugin()
-    ]    
+      new WebpackManifestPlugin(),
+   		new Dotenv()
+    ]
 };

@@ -1,8 +1,20 @@
 import axios from 'axios'
 
+
+
+console.log(process.env.ENVIRONMENT)
+const env = process.env.ENVIRONMENT
+const host = (env) => {
+	if (env === 'local') {
+		return 'https://localhost:5000'
+	} else if (env === 'staging') {
+		return 'https://joyce-staging.net'
+	}
+}
+
 const apiRoute = '/api/'
 const authRoute = '/auth/'
-const baseURL= 'https://localhost:5000'
+const baseURL= host(env)
 
 // TODO: Docs suggest Axios can do this automatically with withXSRFToken but I couldn't get it working
 const getCSRFToken = () => {

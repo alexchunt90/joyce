@@ -230,16 +230,12 @@ def search_index(search_input, doc_type, result_count):
 # MEDIA HANDLING
 # ______________
 
-# TODO: This path sucks
-UPLOAD_FOLDER = os.path.join(os.getenv('HOME'), 'Projects', 'joyce_flask', 'static')
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'mov', 'mp4', 'mp3', 'wav'}
-
 def file_extension(filename):
 	return filename.rsplit('.', 1)[1].lower()
 
 def allowed_file(filename):
 	return '.' in filename and \
-		file_extension(filename) in ALLOWED_EXTENSIONS
+		file_extension(filename) in config.ALLOWED_EXTENSIONS
 
 def get_file_type(extension):
 	image_ext = {'png', 'jpg', 'jpeg', 'gif'}
@@ -290,9 +286,9 @@ def index_and_save_media_file(file, id=None, form=None, import_folder=''):
 			response = es_index_document('media', id, metadata)
 		media_id = id if id is not None else response['_id']
 		if id is None:
-			save_folder = os.path.join(UPLOAD_FOLDER, metadata['type'], media_id)
+			save_folder = os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id)
 			os.mkdir(save_folder)
-		file.save(os.path.join(UPLOAD_FOLDER, metadata['type'], media_id, 'img.' + metadata['file_ext']))
+		file.save(os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id, 'img.' + metadata['file_ext']))
 		return response
 
 def updating_existing_media_file(id, form_data):

@@ -17,7 +17,6 @@ def envElasticsearch(env):
 	print(host)
 	es = Elasticsearch(
 		host,
-	    # # ['localhost'],
 	    # scheme="https",
 	    # use_ssl=True, 
 	    # ca_certs='server.crt',
@@ -27,7 +26,9 @@ def envElasticsearch(env):
 	return es
 
 es = envElasticsearch(config.ENVIRONMENT)
-
+print('This is ES:')
+print(es)
+print(type(es))
 
 # Return response object that combines ES ID and source fields
 def merge_id_and_source(id, source):

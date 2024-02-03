@@ -5,18 +5,27 @@ services:
     container_name: elasticsearch
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
-      - ~/Projects/joyce_flask/elasticsearch.yml:/usr/elasticsearch/elasticsearch.yml
     ports:
-      - 9200:9200
+      - "9200:9200"
+    expose:
+      - "9200"
     restart: unless-stopped
 
+  #nginx
+
   web:
+    container_name: flask_backend
     build: .
     ports:
       - "443:443"
-    restart: unless-stopped     
+      - "80:80"
+    restart: unless-stopped
     depends_on:
       - elasticsearch
+    volumes:
+      - ./static:./static
+      - ./templates:./templates
+
 
 
 volumes:

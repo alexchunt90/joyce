@@ -11,8 +11,6 @@ RUN apk --update add \
     zlib-dev
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-# RUN npm run build
-# RUN python -m joyce_flask.setup.joyce_import
 EXPOSE 443
 COPY . .
 CMD ["python", "-m", "application"]

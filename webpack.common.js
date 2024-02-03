@@ -2,6 +2,8 @@
 const path = require('path')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const Dotenv = require('dotenv-webpack');
+// const CopyPlugin = require("copy-webpack-plugin");
+
 
 const rootAssetPath = './src/'
 
@@ -63,6 +65,11 @@ module.exports = {
     ]},
     plugins: [
       new WebpackManifestPlugin(),
-   		new Dotenv()
+   		new Dotenv(),
+   		// new CopyPlugin({
+	    //   patterns: [
+	    //     { from: "source", to: "dest" },
+	    //   ],
+    	// }),
     ]
 };

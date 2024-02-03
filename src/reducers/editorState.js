@@ -3,8 +3,7 @@ import React from 'react'
 import { 
 	readerDecorator,
 	editPaginateDecorator,
-	returnNewEditorState, 
-	returnEditorStateFromHTML, 
+	returnNewEditorState,
 	returnEditorStateFromKeyCommand, 
 	returnEditorStateWithInlineStyles, 
 	returnEditorStateWithoutAnnotation, 
@@ -16,14 +15,11 @@ const blankEditor = returnNewEditorState(readerDecorator)
 
 const editorState = (state=blankEditor, action) => {
 	switch(action.type) {
-		// When a document has been succesfully retrieved, create editor state using stateFromHTML
+		// When a document has been succesfully retrieved, joyceInterface creates the editorState
+		case 'SET_EDITOR_STATE':
+			return action.data
 		case 'GET_DOCUMENT_TEXT':
-			if (action.status === 'success' && action.state === 'currentDocument') {
-				const html = action.data.html_source
-				console.log('HTML IS', html)
-				const editorState = returnEditorStateFromHTML(html, readerDecorator)
-				return editorState
-			} else if (action.status === 'request' && action.state === 'currentDocument') {
+			if (action.status === 'request' && action.state === 'currentDocument') {
 				return blankEditor
 			} else { return state }
 		// When creating a new chapter, present a blank editor

@@ -14,7 +14,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 // src modules
 import reduceJoyce from './reducers/reduceJoyce'
 import actions from './actions'
-import { logger, joyceAPI, joyceInterface, joyceRouter, googleAuth } from './middleware/'
+import { logger, joyceAPI, joyceInterface, joyceRouter, joycePaginate, googleAuth } from './middleware/'
 import NavbarContainer from './containers/navbarContainer'
 import ReaderPageContainer from './containers/readerPageContainer'
 import EditorPageContainer from './containers/editorPageContainer'
@@ -24,7 +24,7 @@ import AdminPageContainer from './containers/adminPageContainer'
 const history = createBrowserHistory()
 const router = routerMiddleware(history)
 const store = createStore(reduceJoyce(history), 
-	applyMiddleware(router, logger, joyceAPI, joyceInterface, joyceRouter, googleAuth))
+	applyMiddleware(router, logger, joyceAPI, joyceInterface, joyceRouter, joycePaginate, googleAuth))
 
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))

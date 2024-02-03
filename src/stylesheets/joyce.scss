@@ -29,3 +29,10 @@ $fa-font-path: "../../node_modules/@fortawesome/fontawesome-free/webfonts";
 .user_error_message {
     color: map-get($theme_colors, "danger");
 }
+
+.joyce_logo {
+    max-width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

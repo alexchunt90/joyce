@@ -35,10 +35,8 @@ const newPage = () => {
 
 // Trying to implement this as a recursive funciton, let's see how it goes
 const recursivePagination = (contentState, edition, block=undefined, page=undefined, resultDoc=undefined, number=1) => {
-	if (number === 1) {
-		console.log('Initial Block Count:', contentState.getBlocksAsArray().length)
-	}
-	console.log('Iteration #', number)
+
+	const recursionLimit = 500
 
 	// The initial call to this function doesn't receive a resultDoc argument, so the first call initalizes a paginatedDoc
 	const paginatedDoc = resultDoc ? resultDoc : newPaginatedDoc(edition)
@@ -120,21 +118,48 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 	
 	// Select the subsequent contentBlock to be passed into the next function call
 	const nextBlock = nextContentState.getBlockAfter(currentBlock.getKey())
-	// If this is the last contentBlock in the contentState, nextBlock will be null
-	if (nextBlock) {
+	if (nextBlock && number < recursionLimit) {
+		// If we're under the recursion limit, proceed with recursion
 		return recursivePagination(nextContentState, edition, nextBlock, currentPage, paginatedDoc, number + 1)
+	} else if (nextBlock && number === recursionLimit) {
+		// If we're at the recursion limit, return an object to break the loop
+		return {
+			status: 'in_progress',
+			nextContentState: nextContentState,
+			edition: edition,
+			nextBlock: nextBlock,
+			currentPage: currentPage,
+			paginatedDoc: paginatedDoc,
+			number: 1}
+	// If this is the last contentBlock in the contentState, nextBlock will be null
 	} else {
 		// When we're done recursing, export the final entityMap for the contentState, as
 		// we'll need to construct page-scoped contentBlocks from the arrays later
 		const entityMap = nextContentState.getEntityMap()
-		const finalDocument = {...paginatedDoc, entityMap: entityMap}
+		const finalDocument = {...paginatedDoc, entityMap: entityMap, status: 'complete'}
 		return finalDocument
 	}
 }
 
+// So, you ignored all the SO posts telling you to use a `while` loop instead, and 
+// you wrote a big clever recursive function. Here's why you shouldn't have:
+// 1. Debugging is a pain and 2. Big documents max out the browser's call stack
+// Unfortunately now the big clever recursive function works, so I'm not rewriting it
+// This limitRecursion() function exists to reset the call stack after 500 calls, preventing browser errors
+const limitRecursion = (contentState, edition, block=undefined, page=undefined, resultDoc=undefined, number=undefined) => {
+  let constructor = () => {return null}
+  while (typeof constructor === 'function') { 
+  	constructor = recursivePagination(contentState, edition, block, page, resultDoc, number)
+  }
+  if (constructor.status === 'in_progress') {
+  	constructor = limitRecursion(constructor.nextContentState, constructor.edition, constructor.nextBlock, constructor.currentPage, constructor.paginatedDoc, 1)
+  }
+  return constructor
+}
+
 const paginate = (editorState, edition) => {
 	const contentState = editorState.getCurrentContent()
-	const paginatedEditionDocument = recursivePagination(contentState, edition)
+	const paginatedEditionDocument = limitRecursion(contentState, edition)
 	return paginatedEditionDocument
 }
 

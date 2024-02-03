@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import actions from '../actions'
 import { DocumentList } from '../components/list'
+import Logo from '../components/logo'
 import { HighlightButton } from '../components/button'
 import PaginationReaderButton from '../components/paginationReaderButton'
 import SidebarSpacer from '../components/sidebarSpacer'
@@ -24,7 +25,9 @@ const ReaderSidebar = ({
 		<div>
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />
-			<PaginationReaderButton toggle={toggles.pagination} editions={editions} onPaginationToggle={onPaginationToggle} setPaginationEdition={setPaginationEdition}/>
+			<PaginationReaderButton toggle={toggles.pagination} loading={toggles.loadingPagination} editions={editions} onPaginationToggle={onPaginationToggle} setPaginationEdition={setPaginationEdition}/>
+			<SidebarSpacer />
+			<Logo />
 			<SidebarSpacer />
 			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType}/>
 		</div>

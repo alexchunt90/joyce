@@ -1,5 +1,6 @@
 const initialState = {
 	loading: true,
+	loadingPagination: true,
 	highlights: true,
 	pagination: false,
 	admin: false,
@@ -44,6 +45,12 @@ const toggles = (state=initialState, action) => {
 			return {
 				...state,
 				pagination: !state.pagination
+			}
+		// Pagination loading while frontend builds pagination object
+		case 'SET_PAGINATION_EDITION':
+			return {
+				...state,
+				loadingPagination: true
 			}
 		// Admin
 		case 'SHOW_ADMIN_HEADER':

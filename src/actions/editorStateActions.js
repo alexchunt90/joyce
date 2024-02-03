@@ -4,6 +4,12 @@
 // These actions handle state changes for the DraftJS editor
 
 const editorStateActions = {
+	// This is called when the joyceInterface middleware successfully loads a new currentDocument
+	setEditorState: editorState => 
+		({
+			type: 'SET_EDITOR_STATE',
+			data: editorState
+		}),
 	// Update EditorState on change
 	updateEditorState: editorState =>
 		({

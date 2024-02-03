@@ -3,11 +3,11 @@ import api from '../modules/api'
 import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
 import { 
-	stateToHTML, 
+	stateToHTML,
 	convertToSearchText, 
+	returnEditorStateFromHTML, 	
+	readerDecorator,	
 	returnEditorStateWithNewAnnotation,
-	returnEditorStateFromHTML, 
-	readerDecorator,
 	returnEditorStateWithExpandedPageBreakSelection
 } from '../modules/editorSettings.js'
 import paginate from '../modules/paginate'
@@ -27,6 +27,15 @@ const joyceInterface = store => next => action => {
 	const paginationState = state.paginationState
 	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)
 	switch(action.type) {
+		// Upon successfully loading currentDocument, create a DraftJS editor state
+		// Doing this here lets us call returnEditorStateFromHTML once, and pass the result
+		// 	to both the editorState reducer and the pagination middleware.
+		case 'GET_DOCUMENT_TEXT':
+			if (action.status === 'success' && action.docType === 'chapters' && action.state === 'currentDocument') {
+				const editorState = returnEditorStateFromHTML(action.data.html_source, readerDecorator)
+				store.dispatch(actions.setEditorState(editorState))
+			}
+			break
 		case 'SET_CURRENT_DOCUMENT':
 			store.dispatch(actions.getDocumentText({id: action.id, docType: action.docType, state: 'currentDocument'}))
 			break
@@ -100,20 +109,6 @@ const joyceInterface = store => next => action => {
 				}
 			}
 
-			// TODO: THIS IS PAGINATION LOGIC: SPLIT UP YOUR MIDDLEWARES!
-			if (
-				action.status === 'success' && 
-				action.docType === 'chapters' && 
-				action.state === 'currentDocument' && 
-				editions.length > 0
-			) {
-				const firstEdition = editions[0]
-				const editorState = returnEditorStateFromHTML(action.data.html_source, readerDecorator)
-				const paginatedDoc = paginate(editorState, firstEdition)
-				store.dispatch(actions.addPaginatedDoc(paginatedDoc))		
-				store.dispatch(actions.setPaginationEdition(firstEdition))
-			}
-
 			break			
 		case 'SUBMIT_ANNOTATION':
 			const annotationErrors = validateSubmittedAnnotation(action.annotationNote, action.annotationTag)
@@ -122,38 +117,6 @@ const joyceInterface = store => next => action => {
 				const newEditorState = returnEditorStateWithNewAnnotation(contentState, action)
 				store.dispatch(actions.annotationCreated(newEditorState))
 				document.getElementById('select_annotation_modal_close').click()
-			}
-			break
-	// Pagination Action Middleware
-		// This handles selecting the whole pagebreak entity if the cursor moves inside it
-		case 'UPDATE_EDITOR_STATE':
-			if (mode === 'PAGINATE_MODE') {
-				// Take the incoming editorState and retrieve the selectionState
-				const editorState = action.data
-				const newEditorState = returnEditorStateWithExpandedPageBreakSelection(editorState)
-				// returnEditorStateWithExpandedPageBreakSelection returns undefined if editorState doesn't meet criteria
-				if (newEditorState) {
-					store.dispatch(actions.updateEditorState(newEditorState))
-				}
-			}
-			break
-		case 'GET_DOCUMENT_LIST':
-			// TODO: Figure out how to delay this till currentDoc and editions BOTH load, preventing race condition
-			if (action.status === 'success' && action.docType === 'editions' && currentDocument.html_source) {
-				const firstEdition = action.data[0]
-				const editorState = returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
-				const paginatedDoc = paginate(editorState, firstEdition)
-				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
-			}
-			break
-		case 'SET_PAGINATION_EDITION':
-			// Set the current edition and generate a new paginated doc if needed
-			// Ignore if in editor pagination mode, as paginated doc isn't used
-			if (paginationState.documents[action.data.year] === undefined && mode !== 'PAGINATION_MODE') {
-				const selectedEdition = action.data
-				const editorState = returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
-				const paginatedDoc = paginate(editorState, selectedEdition)
-				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
 			}
 			break
 	// Search Action Middleware

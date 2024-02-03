@@ -152,8 +152,11 @@ export const returnEditorStateFromBlocksArray = (blocksArray, entityMap, decorat
 
 // Return editorState from HTML using draft-convert
 export const returnEditorStateFromHTML = (html, decorator) => {
+  console.log('CALLED EDITOR STATE CONSTRUCTOR')
   const contentState = stateFromHTML(html)
+  console.log('CONSTRUCTOR MADE CONTENT STATE')
   const editorState = returnEditorStateFromContentState(contentState, decorator)
+  console.log('CONSTRUCTOR MADE EDITOR STATE')
   return editorState
 }
 

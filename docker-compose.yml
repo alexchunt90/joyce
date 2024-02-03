@@ -22,9 +22,9 @@ services:
     restart: unless-stopped
     depends_on:
       - elasticsearch
-    volumes:
-      - ./static:./static
-      - ./templates:./templates
+    # volumes:
+    #   - ./static:./static
+    #   - ./templates:./templates
 
 
 

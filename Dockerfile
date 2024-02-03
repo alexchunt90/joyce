@@ -12,5 +12,13 @@ RUN apk --update add \
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 EXPOSE 443
-COPY . .
+COPY static/ static/
+COPY setup/ setup/
+COPY blueprints/ blueprints/
+COPY templates/ templates/
+COPY config.py config.py
+COPY application.py application.py
+COPY .env .env
+COPY server.crt server.crt
+COPY server.key server.key
 CMD ["python", "-m", "application"]

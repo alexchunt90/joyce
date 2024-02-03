@@ -4,7 +4,6 @@ import sys
 import config
 import json
 from . import es_func
-from setup.joyce_import import joyce_import
 
 doc_api = Blueprint('api', __name__)
 
@@ -158,18 +157,10 @@ def delete_edition(id):
 # Dev Admin API Routes
 #
 
-#
-# Refresh ES
-# TODO: Restrict to dev only
-@doc_api.route('/refresh/')
-@jwt_required()
-def refresh_es():
-	joyce_import()
-	return 'Success!'
-
-# TODO: This should only be accessible in dev
-@doc_api.route('/search_text/<string:id>', methods=['POST'])
-def update_search_text(id):
-	data = json.loads(request.data.decode('utf-8')) 
-	es_func.es_update_search_text(id, data)
-	return jsonify()
+if config.ENVIRONMENT != 'production':
+	@doc_api.route('/search_text/<string:id>', methods=['POST'])
+	def update_search_text(id):
+		from setup.joyce_import import joyce_import
+		data = json.loads(request.data.decode('utf-8')) 
+		es_func.es_update_search_text(id, data)
+		return jsonify()

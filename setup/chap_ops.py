@@ -18,23 +18,23 @@ def append_chapter(list, number, title, file_name):
 	return list
 
 append_chapter(chapter_list, 1, 'Telemachus', 'telem')
-append_chapter(chapter_list, 2, 'Nestor', 'nestor')
-append_chapter(chapter_list, 3, 'Proteus', 'proteus')
-append_chapter(chapter_list, 4, 'Calyspo', 'calypso')
-append_chapter(chapter_list, 5, 'Lotus Eaters', 'lotus')
-append_chapter(chapter_list, 6, 'Hades', 'hades')
-append_chapter(chapter_list, 7, 'Aeolus', 'aeolus')
-append_chapter(chapter_list, 8, 'Lestrygonians', 'lestry')
-append_chapter(chapter_list, 9, 'Scylla and Charybdis', 'scylla')
-append_chapter(chapter_list, 10, 'Wandering Rocks', 'wrocks')
-append_chapter(chapter_list, 11, 'Sirens', 'sirens')
-append_chapter(chapter_list, 12, 'Cyclops', 'cyclops')
-append_chapter(chapter_list, 13, 'Nausicaa', 'nausicaa')
-append_chapter(chapter_list, 14, 'Oxen of the Sun', 'oxen')
-append_chapter(chapter_list, 15, 'Circe', 'circe')
-append_chapter(chapter_list, 16, 'Eumaeus', 'eumaeus')
-append_chapter(chapter_list, 17, 'Ithaca', 'ithaca')
-append_chapter(chapter_list, 18, 'Penelope', 'penelope')
+# append_chapter(chapter_list, 2, 'Nestor', 'nestor')
+# append_chapter(chapter_list, 3, 'Proteus', 'proteus')
+# append_chapter(chapter_list, 4, 'Calyspo', 'calypso')
+# append_chapter(chapter_list, 5, 'Lotus Eaters', 'lotus')
+# append_chapter(chapter_list, 6, 'Hades', 'hades')
+# append_chapter(chapter_list, 7, 'Aeolus', 'aeolus')
+# append_chapter(chapter_list, 8, 'Lestrygonians', 'lestry')
+# append_chapter(chapter_list, 9, 'Scylla and Charybdis', 'scylla')
+# append_chapter(chapter_list, 10, 'Wandering Rocks', 'wrocks')
+# append_chapter(chapter_list, 11, 'Sirens', 'sirens')
+# append_chapter(chapter_list, 12, 'Cyclops', 'cyclops')
+# append_chapter(chapter_list, 13, 'Nausicaa', 'nausicaa')
+# append_chapter(chapter_list, 14, 'Oxen of the Sun', 'oxen')
+# append_chapter(chapter_list, 15, 'Circe', 'circe')
+# append_chapter(chapter_list, 16, 'Eumaeus', 'eumaeus')
+# append_chapter(chapter_list, 17, 'Ithaca', 'ithaca')
+# append_chapter(chapter_list, 18, 'Penelope', 'penelope')
 
 # Main Chapter import path
 def import_chap_operations(chapters_path):
@@ -64,7 +64,7 @@ def import_chap_operations(chapters_path):
 		chap_path = chapters_path + c
 		chapter_id = chapter_dict[c]
 		html = open(chap_path)
-		soup = bs(html, 'html.parser')
+		soup = bs(html, 'html.parser', preserve_whitespace_tags=['a', 'p'])
 		html.close()
 
 		chap_name = c.split('.')[0]
@@ -84,6 +84,7 @@ def import_chap_operations(chapters_path):
 
 		# Point hrefs to ES ids for notes
 		for a in soup.findAll('a'):
+			print(a)
 			if a.has_attr('href'):
 				href = a['href']
 				strip_href = href[len('notes/'):]
@@ -98,13 +99,15 @@ def import_chap_operations(chapters_path):
 						if hex_color:
 							a['data-color'] = hex_color
 						a['href'] = note_dict[strip_href]
+						print(a)
 					else:
 						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
 
-		body = soup.prettify(formatter='html')
+		# prettify() seems to add newline characters that mess with the formatting
+		# body = soup.prettify(formatter='html')
 
 		with codecs.open(chap_path, 'w', encoding='utf-8') as file:
-			file.write(str(body))
+			file.write(str(soup))
 
 		# Build op to update ES doc with HTML
 		final_chap_file = io.open(chap_path, mode='r', encoding='utf-8')

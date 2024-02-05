@@ -20,4 +20,4 @@ COPY server.crt server.crt
 COPY server.key server.key
 
 EXPOSE 8080
-CMD ["waitress-serve", "application:application"]
+CMD ["waitress-serve", "--url-scheme=https", "application:application"]

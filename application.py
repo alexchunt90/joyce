@@ -39,5 +39,5 @@ application.register_blueprint(search_api, url_prefix='/api/search')
 application.register_blueprint(google_auth_api, url_prefix='/auth')
 
 if __name__ == "__main__":
-	# application.run(debug=False, threaded=True, host="0.0.0.0", port=443, ssl_context=('server.crt', 'server.key'))
-    application.run(debug=False, threaded=True, host="0.0.0.0")
+	application.run(debug=False, threaded=True, host="0.0.0.0", port=443, ssl_context=('server.crt', 'server.key'))
+    # application.run(debug=False, threaded=True, host="0.0.0.0" port=8080)

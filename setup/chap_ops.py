@@ -84,7 +84,6 @@ def import_chap_operations(chapters_path):
 
 		# Point hrefs to ES ids for notes
 		for a in soup.findAll('a'):
-			print(a)
 			if a.has_attr('href'):
 				href = a['href']
 				strip_href = href[len('notes/'):]
@@ -99,7 +98,6 @@ def import_chap_operations(chapters_path):
 						if hex_color:
 							a['data-color'] = hex_color
 						a['href'] = note_dict[strip_href]
-						print(a)
 					else:
 						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
 

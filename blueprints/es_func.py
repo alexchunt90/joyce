@@ -198,14 +198,11 @@ def search_index(search_input, doc_type, result_count):
 		title = result['_source']['title']
 		number = result['_source']['number'] if doc_type == 'chapters' else None
 		hits = result['inner_hits']['search_text']['hits']['hits']
-		print(id)
-		print(title)
 		resultHits = []
 		for hit in hits:
 			key = hit['_source']['key']
 			text = hit['_source']['text']
 			resultHits.append({'key': key, 'text': text})
-			print(resultHits)
 		resultDocs.append({
 			'id': id,
 			'title': title,

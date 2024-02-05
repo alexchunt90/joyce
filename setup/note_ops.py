@@ -49,7 +49,7 @@ def import_note_operations(notes_path):
 	# Get those filenames back from Elasticsearch
 
 	note_dict = es_helpers.es_document_dict('notes')
-	media_dict = es_helpers.es_document_dict('media')
+#	media_dict = es_helpers.es_document_dict('media')
 
 	# Iterate through the note HTML files
 	for note in note_dict:
@@ -73,31 +73,31 @@ def import_note_operations(notes_path):
 		for script in soup.findAll('script'):	
 			script.decompose()
 
-		# Update image references to point to new location
-		images_div = find_div('images')
-		if images_div:
-			for e in images_div.children:
-				# Img files are wrapped in an anchor tag
-				if type(e) == Tag and e.name == 'a':
-					href = e['href']
-					if media_dict.__contains__(href):
-						img_id = media_dict[href]
-						next_sibling = find_next_sibling(e)
-						# Add this image to this note
-						note_media.append(img_id)
-						# Some images won't have a caption paragraph
-						if next_sibling and next_sibling.name == 'p':
-							caption_p = find_next_sibling(e)
-							caption_search_text = clear_white_space(caption_p.get_text())
-							img_caption_data = {
-								'id': img_id,
-								'html_source': clean_html_for_export(caption_p),
-								'search_text': [{'key': img_id, 'text': caption_search_text}]
-							}
-							caption_op = es_helpers.build_es_caption_op(img_caption_data)
-							img_caption_ops.append(caption_op)
-					else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
-			images_div.decompose()
+		# # Update image references to point to new location
+		# images_div = find_div('images')
+		# if images_div:
+		# 	for e in images_div.children:
+		# 		# Img files are wrapped in an anchor tag
+		# 		if type(e) == Tag and e.name == 'a':
+		# 			href = e['href']
+		# 			if media_dict.__contains__(href):
+		# 				img_id = media_dict[href]
+		# 				next_sibling = find_next_sibling(e)
+		# 				# Add this image to this note
+		# 				note_media.append(img_id)
+		# 				# Some images won't have a caption paragraph
+		# 				if next_sibling and next_sibling.name == 'p':
+		# 					caption_p = find_next_sibling(e)
+		# 					caption_search_text = clear_white_space(caption_p.get_text())
+		# 					img_caption_data = {
+		# 						'id': img_id,
+		# 						'html_source': clean_html_for_export(caption_p),
+		# 						'search_text': [{'key': img_id, 'text': caption_search_text}]
+		# 					}
+		# 					caption_op = es_helpers.build_es_caption_op(img_caption_data)
+		# 					img_caption_ops.append(caption_op)
+		# 			else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
+		# 	images_div.decompose()
 
 		# Remove return
 		return_div = find_div('return')

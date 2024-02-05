@@ -6,7 +6,8 @@ load_dotenv()
 MANIFEST_PATH = './static/js/manifest.json'
 
 ENVIRONMENT = os.getenv('HOST_ENVIRONMENT')
-ELASTICSEARCH_LOCAL_HOST = 'http://127.0.0.1:9200'
+ELASTICSEARCH_LOCAL_HOST = 'http://localhost:9200'
+ELASTICSEARCH_DOCKER_HOST = 'http://elasticsearch:9200'
 ELASTICSEARCH_STAGING_HOST = 'http://joyce-staging.net:9200'
 
 SECRET_KEY = 'STATELY_PLUMP_BUCK_MULLIGAN'

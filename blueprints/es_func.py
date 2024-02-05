@@ -9,26 +9,20 @@ import config
 # from ssl import create_default_context
 
 def envElasticsearch(env):
-	# context = create_default_context(cafile="server.crt")
+	in_docker = os.environ.get('IN_DOCKER_CONTAINER', False)
+	if in_docker:
+		print('Using docker host.')
+		host = config.ELASTICSEARCH_DOCKER_HOST
 	if env == 'local':
+		print('Using local host.')
 		host = config.ELASTICSEARCH_LOCAL_HOST
 	if env == 'staging':
+		print('Using staging host.')
 		host = config.ELASTICSEARCH_STAGING_HOST
-	print(host)
-	es = Elasticsearch(
-		host,
-	    # scheme="https",
-	    # use_ssl=True, 
-	    # ca_certs='server.crt',
-	    # port=443,
-	    # ssl_context=context
-    )		
+	es = Elasticsearch(host)		
 	return es
 
 es = envElasticsearch(config.ENVIRONMENT)
-print('This is ES:')
-print(es)
-print(type(es))
 
 # Return response object that combines ES ID and source fields
 def merge_id_and_source(id, source):

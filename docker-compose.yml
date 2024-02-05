@@ -7,25 +7,31 @@ services:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
-    expose:
-      - "9200"
     restart: unless-stopped
-
-  #nginx
 
   web:
     container_name: flask_backend
     build: .
     ports:
-      - "443:443"
-      - "80:80"
+      - "8080:8080"
     restart: unless-stopped
     depends_on:
       - elasticsearch
-    # volumes:
-    #   - ./static:./static
-    #   - ./templates:./templates
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "5000:5000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./server.key:/etc/nginx/server.key
+      - ./server.crt:/etc/nginx/server.crt
+    restart: unless-stopped
+    depends_on:
+      - web
 
 
 volumes:

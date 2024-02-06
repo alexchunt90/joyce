@@ -5,6 +5,7 @@ elasticsearch.yml
 /static
 !/static/style.css
 /icon
+/certbot
 /node_modules
 /setup/src/
 /joyce-env/

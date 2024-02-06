@@ -1,7 +1,6 @@
 import os
 import re
 
-import blueprints.es_func as es_func
 import setup.es_helpers as es_helpers
 
 default_tag_ops = [
@@ -20,7 +19,7 @@ def parse_chapter_annotations(swap_path):
 	swap_files = os.listdir(swap_path)
 	annotations = {}
 	for js in swap_files:
-		if es_func.file_extension(js) == 'js':
+		if es_helpers.check_file_extension(js) == 'js':
 			
 			chap_name = js.split('.')[0]
 

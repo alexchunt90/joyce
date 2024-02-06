@@ -4,7 +4,6 @@ import re
 import codecs
 from bs4 import BeautifulSoup as bs, Tag
 
-import blueprints.es_func as es_func
 from . import es_helpers
 from . import es_config
 from . import tag_ops
@@ -57,7 +56,7 @@ def import_chap_operations(chapters_path):
 
 	# Iterate through chap files
 	for c in chapter_dict:
-		if es_func.file_extension(c) != 'php':
+		if es_helpers.check_file_extension(c) != 'php':
 			continue
 		print('Generating chapter file:', c)
 

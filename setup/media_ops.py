@@ -31,6 +31,6 @@ def import_media_operations(images_path):
 					img_file = img_file.convert("RGB")
 					img_file.save(file_path)
 					img_file = Image.open(file_path)
-				es_func.index_and_save_media_file(img_file, None, None, f)
+				es_func.index_and_save_media_file(img_file, None, None, f, es_helpers.es)
 
 	print('Image files successfully imported!')

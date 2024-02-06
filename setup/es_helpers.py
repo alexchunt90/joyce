@@ -5,7 +5,10 @@ from elasticsearch.helpers import bulk
 import config
 import blueprints.es_func as es_func
 
-es = es_func.envElasticsearch(config.ENVIRONMENT)
+es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
+
+def check_file_extension(filename):
+	return filename.rsplit('.', 1)[1].lower()
 
 def es_get_documents(index):
 	body = {
@@ -37,7 +40,7 @@ def es_document_dict(index):
 	return doc_dict
 
 def es_document_list(index):
-	docs = es_func.es_get_documents(index)
+	docs = es_func.es_get_documents(index, es)
 	doc_list = []
 	for i in docs:
 		file_name = i['_source']['file_name']
@@ -107,7 +110,7 @@ def create_index(index, settings):
 	es.indices.create(index=index, body=settings)
 
 def import_media_file(file, data):
-	response = es_func.es_create_document('media', data)
+	response = es_func.es_create_document('media', data, es)
 	if id is None:
 		os.mkdir(os.path.join(current_app.config['UPLOAD_FOLDER'], data['type'], response['_id']))
 	# Save files to ./static/img/[ _id ]/img.ext

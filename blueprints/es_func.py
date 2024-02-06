@@ -6,23 +6,8 @@ from PIL import Image
 import os
 import json
 import config
-# from ssl import create_default_context
 
-def envElasticsearch(env):
-	in_docker = os.environ.get('IN_DOCKER_CONTAINER', False)
-	if in_docker:
-		print('Using docker host.')
-		host = config.ELASTICSEARCH_DOCKER_HOST
-	if env == 'local':
-		print('Using local host.')
-		host = config.ELASTICSEARCH_LOCAL_HOST
-	if env == 'staging':
-		print('Using staging host.')
-		host = config.ELASTICSEARCH_STAGING_HOST
-	es = Elasticsearch(host)		
-	return es
-
-es = envElasticsearch(config.ENVIRONMENT)
+es = Elasticsearch(config.ELASTICSEARCH_DOCKER_HOST)
 
 # Return response object that combines ES ID and source fields
 def merge_id_and_source(id, source):
@@ -38,7 +23,7 @@ def merge_results(response):
 	return results
 
 # Elasticsearch interface functions
-def es_document_list(index):
+def es_document_list(index, es_client=es):
 	body = {
 		'from': 0, 'size': 10000,
 		'query': {'match_all': {}},
@@ -47,7 +32,7 @@ def es_document_list(index):
 		body['sort'] = [
 			{'number': {'order': 'asc'}}
 		]	
-	search = es.search(
+	search = es_client.search(
 		index=index,
 		_source_excludes=['html_source', 'search_text', 'thumb_file', 'file_ext', 'file_name'],
 		body=body
@@ -84,8 +69,8 @@ def es_index_document(index, id, body):
 	return res
 
 
-def es_create_document(index, body):
-	res = es.index(
+def es_create_document(index, body, es_client=es):
+	res = es_client.index(
 		index=index,
 		doc_type='doc',
 		refresh=True,
@@ -93,8 +78,8 @@ def es_create_document(index, body):
 	)
 	return res
 
-def es_update_document(index, id, data):
-	res = es.update(
+def es_update_document(index, id, data, es_client=es):
+	res = es_client.update(
 		index=index,
 		doc_type='doc',
 		id=id,
@@ -211,27 +196,6 @@ def search_index(search_input, doc_type, result_count):
 		})
 	return resultDocs
 
-
-
-'''
-{'chapters':
-	[
-		{
-			'title': 'telemachus'
-			'numbers': 1
-			'hits': [
-				{
-					'key':
-					'text':
-				}
-			]
-		}
-
-	]
-}
-'''
-
-
 # ______________
 # 
 # MEDIA HANDLING
@@ -269,7 +233,7 @@ def media_data_from_file(filename, joyce_import_folder):
 	data['type'] = file_type
 	return data
 
-def index_and_save_media_file(file, id=None, form=None, import_folder=''):
+def index_and_save_media_file(file, id=None, form=None, import_folder='', es_client=es):
 	if file.filename != '' and allowed_file(file.filename):
 		basename = os.path.basename(file.filename)
 		filename = secure_filename(basename)
@@ -287,10 +251,10 @@ def index_and_save_media_file(file, id=None, form=None, import_folder=''):
 				else:
 					metadata[k] = json.loads(v)
 		if id is None:
-			response = es_create_document('media', metadata)
+			response = es_create_document('media', metadata, es_client)
 		# If passed an id, function will update an existing document
 		if id:
-			response = es_index_document('media', id, metadata)
+			response = es_index_document('media', id, metadata, es_client)
 		media_id = id if id is not None else response['_id']
 		if id is None:
 			save_folder = os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id)

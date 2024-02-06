@@ -33,7 +33,7 @@ export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick
 					{doc.title}
 				</a>
 	    	)}
-	    	{editMode=true &&
+	    	{editMode===true &&
 	    		<a className='dropdown-item' onClick={onNewDocumentClick}>
 					<i className='fas fa-plus-square'></i>&nbsp;
 					New {helpers.docTypeName(docType)}

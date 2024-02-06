@@ -17,7 +17,7 @@ export const ReaderSidebarOptions = ({docs, editions, currentDocument, toggles, 
 			</div>
 		}
 		<div id='mobile_read_options' className='mobile_list_options col-4 d-block d-md-none'>
-			<DocListDropdown currentDocument={currentDocument} docs={docs} docType={docType} onDocumentClick={onDocumentClick}/>
+			<DocListDropdown currentDocument={currentDocument} docs={docs} docType={docType} editMode={false} onDocumentClick={onDocumentClick}/>
 		</div>
 	</div>
 

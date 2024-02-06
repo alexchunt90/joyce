@@ -31,7 +31,7 @@ const joyceInterface = store => next => action => {
 		// Doing this here lets us call returnEditorStateFromHTML once, and pass the result
 		// 	to both the editorState reducer and the pagination middleware.
 		case 'GET_DOCUMENT_TEXT':
-			if (action.status === 'success' && action.docType === 'chapters' && action.state === 'currentDocument') {
+			if (action.status === 'success' && action.state === 'currentDocument') {
 				const editorState = returnEditorStateFromHTML(action.data.html_source, readerDecorator)
 				store.dispatch(actions.setEditorState(editorState))
 			}

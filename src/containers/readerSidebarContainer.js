@@ -25,8 +25,12 @@ const ReaderSidebar = ({
 		<div>
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />
-			<PaginationReaderButton toggle={toggles.pagination} loading={toggles.loadingPagination} editions={editions} onPaginationToggle={onPaginationToggle} setPaginationEdition={setPaginationEdition}/>
-			<SidebarSpacer />
+			{docType==='chapters' &&
+				<PaginationReaderButton toggle={toggles.pagination} loading={toggles.loadingPagination} editions={editions} onPaginationToggle={onPaginationToggle} setPaginationEdition={setPaginationEdition}/>
+			}
+			{docType==='chapters' &&
+				<SidebarSpacer />
+			}			
 			<Logo />
 			<SidebarSpacer />
 			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType}/>

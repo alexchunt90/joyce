@@ -38,8 +38,8 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      # - ./server.key:/etc/nginx/server.key
-      # - ./server.crt:/etc/nginx/server.crt
+      - ./server.key:/etc/nginx/server.key
+      - ./server.crt:/etc/nginx/server.crt
       - ./certbot/www/:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/letsencrypt/:rw
     restart: unless-stopped

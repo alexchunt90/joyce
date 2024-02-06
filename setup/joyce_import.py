@@ -8,7 +8,7 @@ import setup.tag_ops as tag_ops
 import setup.edition_ops as edition_ops
 import setup.es_config as es_config
 import setup.es_helpers as es_helpers
-import setup.set_setup as es_setup
+import setup.es_setup as es_setup
 
 # Refresh Target Folder from Source Files
 target_path = 'setup/target/'

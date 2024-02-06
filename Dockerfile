@@ -10,7 +10,7 @@ RUN apk --update add \
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY static/ static/
-COPY setup/ setup/
+#COPY setup/ setup/
 COPY blueprints/ blueprints/
 COPY templates/ templates/
 COPY config.py config.py

@@ -4,7 +4,6 @@ import sys
 import config
 import json
 from . import es_func
-from setup.joyce_import import joyce_import
 
 search_api = Blueprint('search_api', __name__)
 

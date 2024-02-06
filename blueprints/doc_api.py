@@ -151,16 +151,4 @@ def write_edition(id):
 @jwt_required()
 def delete_edition(id):
 	es_func.es_delete_document('editions', id)
-	return jsonify(es_func.es_document_list('edtions'))	
-
-#
-# Dev Admin API Routes
-#
-
-if config.ENVIRONMENT != 'production':
-	@doc_api.route('/search_text/<string:id>', methods=['POST'])
-	def update_search_text(id):
-		from setup.joyce_import import joyce_import
-		data = json.loads(request.data.decode('utf-8')) 
-		es_func.es_update_search_text(id, data)
-		return jsonify()
+	return jsonify(es_func.es_document_list('edtions'))

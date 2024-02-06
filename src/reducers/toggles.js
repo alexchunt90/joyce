@@ -50,7 +50,7 @@ const toggles = (state=initialState, action) => {
 		case 'SET_PAGINATION_EDITION':
 			return {
 				...state,
-				loadingPagination: true
+				loadingPagination: false
 			}
 		// Admin
 		case 'SHOW_ADMIN_HEADER':

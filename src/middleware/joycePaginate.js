@@ -26,21 +26,35 @@ const joycePaginate = store => next => action => {
 			if (editions.length > 0) {
 				const firstEdition = editions[0]
 				// Paginated chapters take a long time to process, so we're putting them behind a promise
-				async function asyncPagination() {					
-					const paginationPromise = new Promise((resolve, reject)=> {
-						const createDocument = paginate(action.data, firstEdition)
-						if (createDocument) {
-							resolve(createDocument)
-						} else {
-							reject('Failed to paginate this chapter.')
-						}
-					})
-					const resultDoc = await paginationPromise
-					return resultDoc
-				}
-				const paginatedDoc = asyncPagination()
-				store.dispatch(actions.addPaginatedDoc(paginatedDoc))	
-				store.dispatch(actions.setPaginationEdition(firstEdition))
+				
+				// async function asyncPagination() {					
+				// 	const paginationPromise = new Promise((resolve, reject)=> {
+				// 		const createDocument = paginate(action.data, firstEdition)
+				// 		if (createDocument) {
+				// 			resolve(createDocument)
+				// 		} else {
+				// 			reject('Failed to paginate this chapter.')
+				// 		}
+				// 	})
+				// 	const resultDoc = await paginationPromise
+				// 	return resultDoc
+				// }
+				// const paginatedDoc = asyncPagination()
+
+				const paginationPromise = new Promise((resolve, reject)=> {
+					const createDocument = paginate(action.data, firstEdition)
+					if (createDocument) {
+						resolve(createDocument)
+					} else {
+						reject('Failed to paginate this chapter.')
+					}
+				})
+				paginationPromise.then(response=> {
+					store.dispatch(actions.addPaginatedDoc(response))	
+					store.dispatch(actions.setPaginationEdition(firstEdition))
+				}).catch(error=>
+					console.log(error)
+				)
 			}			
 		// This handles selecting the whole pagebreak entity if the cursor moves inside it
 		case 'UPDATE_EDITOR_STATE':

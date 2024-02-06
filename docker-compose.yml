@@ -26,7 +26,6 @@ services:
       - ./.env:/usr/joyce/.env
       - ./config.py:/usr/joyce/config.py
       - ./application.py:/usr/joyce/application.py
-
     restart: unless-stopped
     depends_on:
       - elasticsearch
@@ -41,9 +40,16 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./server.key:/etc/nginx/server.key
       - ./server.crt:/etc/nginx/server.crt
+      - ./certbot/www/:/var/www/certbot/:ro
     restart: unless-stopped
     depends_on:
       - web
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw      
 
 
 volumes:

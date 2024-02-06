@@ -41,6 +41,7 @@ services:
       # - ./server.key:/etc/nginx/server.key
       # - ./server.crt:/etc/nginx/server.crt
       - ./certbot/www/:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/letsencrypt/:rw
     restart: unless-stopped
     depends_on:
       - web
@@ -49,7 +50,7 @@ services:
     image: certbot/certbot:latest
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw      
+      - ./certbot/conf/:/etc/letsencrypt/:rw
 
 
 volumes:

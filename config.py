@@ -20,7 +20,12 @@ JWT_COOKIE_SECURE=True
 admins = os.getenv('ADMIN_EMAIL_ADDRESSES')
 ADMIN_EMAIL_ADDRESSES = admins.split(', ')
 
-UPLOAD_FOLDER = '/usr/joyce/static'
 
+if ENVIRONMENT == 'docker':
+	UPLOAD_FOLDER = '/usr/joyce/static'
+if ENVIRONMENT == 'staging':
+	UPLOAD_FOLDER = '/joyce/static'
+if ENVIRONMENT == 'local'
+	UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static')
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'mov', 'mp4', 'mp3', 'wav'}

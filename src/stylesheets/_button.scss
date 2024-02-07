@@ -67,7 +67,6 @@ button {
 }
 
 // Manually set the white background for each button type
-// TODO: Refactor to one selector for all list buttons
 .chapter_button > button.inactive_button:not(:hover) {
     background-color: rgba(250, 250, 250, 1);
 }

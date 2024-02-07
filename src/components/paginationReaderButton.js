@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const PaginationReaderButton = ({toggle, loading, editions, onPaginationToggle, setPaginationEdition, size='md'}) =>
 	<div>
-		<div id='pagination_button' className='text-center'>
+		<div id='pagination_button' className='btn-group'>
 			<button onClick={onPaginationToggle} disabled={loading} className={toggle ? 'btn btn-outline-primary btn-md' + size : 'btn btn-primary btn-' + size} id='pagination_toggle_button'>
 				{toggle ? 'Unpaginate' : 'Paginate'}
 				{loading &&

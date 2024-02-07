@@ -112,8 +112,7 @@ const inputs = (state=initialState, action) => {
 				search: action.data
 			}
 		// Color Picker
-		case 'SAVE_DOCUMENT': 
-			// TODO: Note the reference to inputs.uploadFile here, need to refactor
+		case 'SAVE_DOCUMENT':
 			if (action.status === 'success' && action.docType === 'tags') {
 				return {
 					...state,

@@ -16,6 +16,7 @@ import paginate from '../modules/paginate'
 const joycePaginate = store => next => action => {
 	next(action)
 	const state = store.getState()
+	const docType = state.docType
 	const editions = state.editions
 	const currentDocument = state.currentDocument
 	const mode = state.mode
@@ -23,7 +24,7 @@ const joycePaginate = store => next => action => {
 	switch(action.type) {		
 		// 
 		case 'SET_EDITOR_STATE':
-			if (editions.length > 0) {
+			if (editions.length > 0 && docType === 'chapters') {
 				const firstEdition = editions[0]
 				// Paginated chapters take a long time to process, so we're putting them behind a promise
 				

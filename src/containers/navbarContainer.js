@@ -10,19 +10,19 @@ const Navbar = ({user}) =>
 		</button>		
 		<div id='navbarItems' className='collapse navbar-collapse'>
 			<ul className='navbar-nav mr-auto'>
-				<li className='nav-item' data-toggle='collapse'>
+				<li className='nav-item' data-toggle='collapse' data-target=".navbar-collapse.show">
 					<Link to='/notes' className='nav-link'>Notes</Link>
 				</li>
-				<li className='nav-item' data-toggle='collapse'>
+				<li className='nav-item' data-toggle='collapse' data-target=".navbar-collapse.show">
 					<Link to='/search' className='nav-link'>Search</Link>
 				</li>
 				{user.isLoggedIn &&
-					<li className='nav-item' data-toggle='collapse'>
+					<li className='nav-item' data-toggle='collapse' data-target=".navbar-collapse.show">
 						<Link to='/edit' className='nav-link'>Edit</Link>
 					</li>
 				}
 				{user.isLoggedIn &&
-					<li className='nav-item' data-toggle='collapse'>
+					<li className='nav-item' data-toggle='collapse' data-target=".navbar-collapse.show">
 						<Link to='/admin' className='nav-link'>Admin</Link>
 					</li>
 				}

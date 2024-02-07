@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import TagColorPreview from './tagColorPreview'
-import romanize from '../modules/romanize'
 import helpers from '../modules/helpers'
 
 export const ReaderEditButton = ({onClick}) =>
@@ -33,7 +32,7 @@ export const ReaderPaginateButton = ({onClick}) =>
 export const ChapterButton = ({chapter, currentChapter, onClick}) =>
 	<div className ='chapter_button text-center'>
 		<button onClick={onClick} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg active_button' : 'btn btn-outline-dark btn-lg inactive_button'}>
-			{romanize(chapter.number)}. {chapter.title}
+			{chapter.number}. {chapter.title}
 		</button>
 	</div>
 
@@ -59,8 +58,6 @@ export const EditionButton = ({edition, currentEdition, onClick}) =>
 		</button>
 	</div>	
 
-// TODO: Evaluate cases like this where its probably more efficient to pass a compononent
-// 			currentMedia.id instead of the full currentMedia object
 export const MediaButton = ({media, currentMediaId, onClick}) =>
 	<div className ='media_button'>
 		<button onClick={onClick} className={currentMediaId === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>

@@ -27,6 +27,8 @@ services:
       - ./config.py:/usr/joyce/config.py
       - ./application.py:/usr/joyce/application.py
     restart: unless-stopped
+    environment:
+      - HOST_ENVIRONMENT=docker
     depends_on:
       - elasticsearch
 

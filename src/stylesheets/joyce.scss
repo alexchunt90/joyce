@@ -31,8 +31,10 @@ $fa-font-path: "../../node_modules/@fortawesome/fontawesome-free/webfonts";
 }
 
 .joyce_logo {
-    max-width: 90%;
+    max-width: 99%;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 0.25rem;
+    border: 1px solid #212529;
 }

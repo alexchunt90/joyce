@@ -13,7 +13,7 @@ const apiRoute = '/api/'
 const authRoute = '/auth/'
 const baseURL= host(env)
 
-// TODO: Docs suggest Axios can do this automatically with withXSRFToken but I couldn't get it working
+// Docs suggest Axios can do this automatically with withXSRFToken but I couldn't get it working
 const getCSRFToken = () => {
 	if (typeof document !== 'undefined') {
 		const cookies = document.cookie

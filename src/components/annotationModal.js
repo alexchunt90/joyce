@@ -15,17 +15,15 @@ const AnnotateModal = ({annotationNote, annotationNoteMedia, modalEditorState}) 
 				</div>
 				<div className='modal-body'>
 					<div className='row'>
-						<div className='col-md-10 offset-md-1'>
+						<div className='col-md-7 offset-md-1'>
 							<Editor editorState={modalEditorState} readOnly={true} />
 						</div>
-					</div>
-					{annotationNote.media_doc_ids && annotationNote.media_doc_ids.length > 0 &&
-						<div className='row'>
-							<div className='col-md-10 offset-md-1'>
+						{annotationNote.media_doc_ids && annotationNote.media_doc_ids.length > 0 &&
+							<div className='col-md-3 offset-md-1'>
 								<ImageGroup media_docs={annotationNoteMedia} />
 							</div>
-						</div>						
-					}			
+						}
+					</div>
 				</div>
 				<div className='modal-footer'>
 					<EditorCancelButton />

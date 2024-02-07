@@ -25,6 +25,10 @@
     border: 1px solid $border_color;	
 }
 
+#pagination_button {
+    width: 100%;
+}
+
 #document_list > div {
     padding: 1%;
     border: 1px solid $border_color;

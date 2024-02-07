@@ -2,8 +2,8 @@ import React from 'react'
 
 export const ReaderWelcome = () =>
 	<div id='reader_container'>
-		<p>Welcome to Joyce, an interactive reader and annotator for literature.</p>
-		<p>You can use the Edit page to add a book and start annotating.</p>
+		<p>Welcome to the Joyce Project, an interactive reader for James Joyce's Ulysses.</p>
+		<p>You can click the highlighted notes to read annotations, and paginate based on your physical edition.</p>
 	</div>
 
 export const EditorWelcome = () =>

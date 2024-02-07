@@ -8,6 +8,9 @@ const document = jsdomWindow.document
 global.document = document
 global.HTMLElement = jsdomWindow.HTMLElement
 
+// TODO: Figure out why TLS is getting rejected
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
+
 // Iterate through docTypes
 const relevantDocTypes = ['chapters', 'notes']
 for (const docType of relevantDocTypes) {
@@ -15,7 +18,7 @@ for (const docType of relevantDocTypes) {
 
 	// Get all the documents	
 	api.HTTPGetDocumentList(docType).then(response => {
-		console.log(response.status)
+		console.log(response)
 		if (response.status === 'success') {
 			response.data.forEach((docRef, index) => {
 				const interval = 50
@@ -42,16 +45,13 @@ for (const docType of relevantDocTypes) {
 									if (response.status === 'success'){
 										console.log('===> Successfuly posted.')
 									} else {
-										console.log('===> Post failed.')
+										console.log('===> Post failed:', response.code)
 									}
 								})
 							}
 						})				
 				}, index * interval)
 			})
-
 		}
-	}
+	})
 }
-
-// // Hit a dedicated endpoint to update document search text

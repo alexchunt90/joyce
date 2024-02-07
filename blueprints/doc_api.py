@@ -152,3 +152,30 @@ def write_edition(id):
 def delete_edition(id):
 	es_func.es_delete_document('editions', id)
 	return jsonify(es_func.es_document_list('edtions'))
+
+
+#
+# Search API Routes
+#
+
+''' Basic Text Search '''
+@doc_api.route('/search/', methods=['POST'])
+def search_text():
+	data = json.loads(request.data)
+	results = es_func.es_search_text(data.get('data'))
+	return jsonify(results)
+
+# Refresh ES
+@doc_api.route('/refresh/')
+def refresh_es():
+	if config.ENVIRONMENT != 'production':
+		setup.es_setup()
+		return 'Success!'
+	else:
+		return 'No dice!'
+
+@doc_api.route('/search_text/<string:id>', methods=['POST'])
+def update_search_text(id):
+	data = json.loads(request.data.decode('utf-8')) 
+	es_func.es_update_search_text(id, data)
+	return jsonify()

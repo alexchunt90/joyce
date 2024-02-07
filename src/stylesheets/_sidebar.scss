@@ -12,6 +12,10 @@
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
+#sidebar > div {
+    max-height: 100%;
+}
+
 .mobile_sidebar {
     height: 7vh;
 }

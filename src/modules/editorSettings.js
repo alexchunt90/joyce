@@ -152,11 +152,8 @@ export const returnEditorStateFromBlocksArray = (blocksArray, entityMap, decorat
 
 // Return editorState from HTML using draft-convert
 export const returnEditorStateFromHTML = (html, decorator) => {
-  console.log('CALLED EDITOR STATE CONSTRUCTOR')
   const contentState = stateFromHTML(html)
-  console.log('CONSTRUCTOR MADE CONTENT STATE')
   const editorState = returnEditorStateFromContentState(contentState, decorator)
-  console.log('CONSTRUCTOR MADE EDITOR STATE')
   return editorState
 }
 
@@ -180,7 +177,6 @@ export const returnEditorStateWithNewAnnotation = (contentState, data) => {
 // When user submits a new page break, create an entity with the action details and apply it to the contentState
 export const returnEditorStateWithNewPageBreak = (contentState, data, decorator) => {
   const textString = data.year + '#' + data.number
-  console.log('WERE', data)
   const contentStateWithEntity = contentState.createEntity(
     'PAGEBREAK',
     'MUTABLE',

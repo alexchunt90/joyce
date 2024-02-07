@@ -29,38 +29,47 @@ const joyceRouter = store => next => action => {
 					store.dispatch(push('/edit/' + docType))
 				}
 			}
+			console.log('Path is', path)
+			console.log('Action is', action)
+			console.log('Starting :id block')
 			// If path ends in :id...
 			if (regex.checkIfRedirectPath(path)) {
-				// And currentDocument is set, push the right identifier
-				if (currentDocument.hasOwnProperty('id')) {
-					store.dispatch(push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))	
-				}
+				console.log('About to check root path')
 				// And path is /:id or /edit/:id and chapters are loaded, set currentDocument to first chapter
-				else if (regex.checkIfRootPath(path) && chapters.length > 0) {
-						store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
+				if (regex.checkIfRootPath(path) && chapters.length > 0) {
+					console.log('Hit root path!')		
+					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 				}
 				// And path is /edit/:id and chapters are loaded, set currentDocument to first chapter
-				else if (regex.checkEditRoute(path) && !regex.checkIfDocTypePath(path) && chapters.length > 0 ) {
+				else if (regex.checkEditRoute(path) && !regex.checkIfDocTypePath(path) && chapters.length > 0) {
+					console.log('Hit edit path!')		
 					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 				}
 				// And path has a docType and docs are loaded, set currentDocument to first doc of that type
 				else if (regex.checkIfDocTypePath(path)) {
-					switch(regex.parseDocTypeFromPath) {
+					switch(regex.parseDocTypeFromPath(path)) {
 						case 'notes':
 							if (notes.length > 0) {
 								store.dispatch(actions.setCurrentDocument(notes[0].id, 'notes'))
 							}
+							break
 						case 'tags':
 							if (tags.length > 0) {
 								store.dispatch(actions.setCurrentDocument(tags[0].id, 'tags'))
 							}
+							break
 						case 'media':
 							if (media.length > 0) {
 								store.dispatch(actions.setCurrentDocument(media[0].id, 'media'))
 							}
+							break
 						default:
 							break
 					}
+				}
+				// If the above conditions aren't met and currentDocument is set, push the right identifier
+				else if (currentDocument.hasOwnProperty('id')) {
+					store.dispatch(push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))	
 				}
 			}
 		case 'GET_DOCUMENT_LIST':

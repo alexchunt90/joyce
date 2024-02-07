@@ -29,20 +29,14 @@ const joyceRouter = store => next => action => {
 					store.dispatch(push('/edit/' + docType))
 				}
 			}
-			console.log('Path is', path)
-			console.log('Action is', action)
-			console.log('Starting :id block')
 			// If path ends in :id...
 			if (regex.checkIfRedirectPath(path)) {
-				console.log('About to check root path')
 				// And path is /:id or /edit/:id and chapters are loaded, set currentDocument to first chapter
 				if (regex.checkIfRootPath(path) && chapters.length > 0) {
-					console.log('Hit root path!')		
 					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 				}
 				// And path is /edit/:id and chapters are loaded, set currentDocument to first chapter
 				else if (regex.checkEditRoute(path) && !regex.checkIfDocTypePath(path) && chapters.length > 0) {
-					console.log('Hit edit path!')		
 					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
 				}
 				// And path has a docType and docs are loaded, set currentDocument to first doc of that type

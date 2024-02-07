@@ -15,6 +15,7 @@ for (const docType of relevantDocTypes) {
 
 	// Get all the documents	
 	api.HTTPGetDocumentList(docType).then(response => {
+		console.log(response.status)
 		if (response.status === 'success') {
 			response.data.forEach((docRef, index) => {
 				const interval = 50
@@ -50,7 +51,7 @@ for (const docType of relevantDocTypes) {
 			})
 
 		}
-	})
+	}
 }
 
 // // Hit a dedicated endpoint to update document search text

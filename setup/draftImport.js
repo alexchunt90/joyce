@@ -24,7 +24,7 @@ const httpsAgent = new https.Agent({
 const instance = axios.create({ httpsAgent })
 
 async function updateSearchText(id, data) {
-	const promise = instance.post('https://localhost/api/search_text/' + id, data)
+	const promise = instance.post(host + '/api/search_text/' + id, data)
 	const response = await promise
 	if (response.statusText === 'OK'){
 		console.log('===> Successfuly posted.')
@@ -34,7 +34,7 @@ async function updateSearchText(id, data) {
 }
 
 async function processSearchText(id, docType) {
-	const promise = instance.get('https://localhost/api/' + docType + '/' + id)
+	const promise = instance.get(host + '/api/' + docType + '/' + id)
 	const response = await promise
 	const fullDoc = response.data
 	// Check if it has search_text defined
@@ -60,7 +60,7 @@ async function processSearchText(id, docType) {
 
 async function processDocumentList(docType) {
 	console.log('Processing search text for', docType)
-	const promise = instance.get('https://localhost/api/' + docType)
+	const promise = instance.get(host + '/api/' + docType)
 	const response = await promise
 	if (response.statusText === 'OK') {
 		response.data.forEach((docRef, index) => {

@@ -1,6 +1,8 @@
-import { readerDecorator, convertToSearchText, returnEditorStateFromHTML } from '../src/modules/editorSettings.js'
-import api from '../src/modules/api.js'
 import { JSDOM } from 'jsdom'
+import axios from 'axios'
+import https from 'https'
+
+import { readerDecorator, convertToSearchText, returnEditorStateFromHTML } from '../src/modules/editorSettings.js'
 
 // DraftJS requires the browser DOM, so we fake it here
 const jsdomWindow = new JSDOM('<div></div>').window
@@ -8,14 +10,23 @@ const document = jsdomWindow.document
 global.document = document
 global.HTMLElement = jsdomWindow.HTMLElement
 
-// TODO: Figure out why TLS is getting rejected
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
+const env = process.env.HOST_ENVIRONMENT
+if (env === 'staging') {
+	const host = 'https://joyce-staging.net'
+} else {
+	const host = 'https://localhost'
+}
 
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false // Do not do this in production
+})
+
+const instance = axios.create({ httpsAgent })
 
 async function updateSearchText(id, data) {
-	const promise = api.HTTPUpdateSearchText(id, data)
+	const promise = instance.post('https://localhost/api/search_text/' + id, data)
 	const response = await promise
-	if (response.status === 'success'){
+	if (response.statusText === 'OK'){
 		console.log('===> Successfuly posted.')
 	} else {
 		console.log('===> Post failed:', response.code)
@@ -23,7 +34,7 @@ async function updateSearchText(id, data) {
 }
 
 async function processSearchText(id, docType) {
-	const promise = api.HTTPGetDocumentText(id, docType, 'currentDocument')
+	const promise = instance.get('https://localhost/api/' + docType + '/' + id)
 	const response = await promise
 	const fullDoc = response.data
 	// Check if it has search_text defined
@@ -42,29 +53,30 @@ async function processSearchText(id, docType) {
 			}
 			updateSearchText(id, updateData)
 		} else {
-			console.log('PROCESSING FAILED: Doc:')
-			console.log(response)
+			console.log('PROCESSING FAILED: Doc:', response.data.title)
 		}
 	} else {console.log('=> Search text exists for doc titled', response.data.title)}
-}	
+}
+
+async function processDocumentList(docType) {
+	console.log('Processing search text for', docType)
+	const promise = instance.get('https://localhost/api/' + docType)
+	const response = await promise
+	if (response.statusText === 'OK') {
+		response.data.forEach((docRef, index) => {
+			const interval = 100
+			// Apply a delay to each subsequent API call, preventing overloading connections
+			setTimeout(()=>{
+				// Get the full document text
+				processSearchText(docRef.id, docType)
+			}, index * interval)
+		})
+	} else (console.log('Failed to retrieve documents.'))
+}
 
 // Iterate through docTypes
 const relevantDocTypes = ['chapters', 'notes']
 for (const docType of relevantDocTypes) {
-	console.log('Processing search text for', docType)
 	// Get all the documents	
-	api.HTTPGetDocumentList(docType).then(response => {
-		console.log(response)
-		if (response.status === 'success') {
-			response.data.forEach((docRef, index) => {
-				// const interval = 50
-				// Apply a delay to each subsequent API call, preventing closed connecction
-				// setTimeout(()=>{
-					// Get the full document text
-					processSearchText(docRef.id, docType)
-				// }, index * interval)
-			})
-		}
-	})
+	processDocumentList(docType)
 }
-// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'

@@ -155,15 +155,8 @@ def delete_edition(id):
 
 
 #
-# Search API Routes
+# Admin Routes
 #
-
-''' Basic Text Search '''
-@doc_api.route('/search/', methods=['POST'])
-def search_text():
-	data = json.loads(request.data)
-	results = es_func.es_search_text(data.get('data'))
-	return jsonify(results)
 
 # Refresh ES
 @doc_api.route('/refresh/')
@@ -174,6 +167,7 @@ def refresh_es():
 	else:
 		return 'No dice!'
 
+# Update search string
 @doc_api.route('/search_text/<string:id>', methods=['POST'])
 def update_search_text(id):
 	data = json.loads(request.data.decode('utf-8')) 

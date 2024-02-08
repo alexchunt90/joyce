@@ -62,22 +62,13 @@ const api = {
 		}).catch(error => {	
 			return {status: 'error', docType: docType, data: error}
 		}),
-
-	// Update search text fields. Only used during setup.
-	HTTPUpdateSearchText: (id, data) =>
-		axios.post(baseURL + apiRoute + 'search_text/' + id, data).then(res => {
-			return {status: 'success'}
-		}).catch(error => {	
-			return {status: 'error'}
-		}),
-
 	// Document CRUD
 	HTTPGetDocumentText: (id, docType, state) =>
 		axios.get(baseURL + apiRoute + docType + '/' + id).then(res => {
 			return {id: id, status: 'success', docType: docType, state: state, data: res.data}
 		}).catch(error => {
 			return {id: id, status: 'error', docType: docType, state: state, data: error}
-		}),	
+		}),
 	HTTPDeleteDocument: (id, docType) =>
 		authedInstance.delete(apiRoute + docType + '/' + id).then(res => {
 			return {id: id, status: 'success', docType: docType, data: res.data}
@@ -116,7 +107,7 @@ const api = {
 		axios.post(apiRoute + 'search/', { data }).then(res => {
 			return {status: 'success', data: res.data}
 		}).catch(error => {
-			return {status: 'error', data: res.data}
+			return {status: 'error', data: error.data}
 		}),
 
 	// Admin Functions

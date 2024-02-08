@@ -17,14 +17,14 @@ def find_next_sibling(element):
 		else:
 			return find_next_sibling(sibling)
 
-def clear_white_space(str):
-	return str.replace('\n', '').replace('        ', ' ')
+def clear_white_space(html):
+	return html.replace("    ", " ")
 
 def clean_html_for_export(html):
 	if html:
-		pretty_html = html.prettify(formatter='html')
-		clean_html = clear_white_space(pretty_html)
-		return clean_html
+		string = str(html)
+		cleaned_string = re.sub('\s{2,}', ' ', string)
+		return cleaned_string
 
 
 def import_note_operations(notes_path):
@@ -61,7 +61,7 @@ def import_note_operations(notes_path):
 			continue
 
 		html = open(note_path)
-		soup = bs(html, 'html.parser')
+		soup = bs(html, 'html.parser',  preserve_whitespace_tags=['a', 'p'])
 		html.close()
 
 		def find_div(id):
@@ -91,7 +91,6 @@ def import_note_operations(notes_path):
 							img_caption_data = {
 								'id': img_id,
 								'html_source': clean_html_for_export(caption_p),
-								# 'html_source': caption_p,
 								'search_text': [{'key': img_id, 'text': caption_search_text}]
 							}
 							caption_op = es_helpers.build_es_caption_op(img_caption_data)
@@ -147,10 +146,8 @@ def import_note_operations(notes_path):
 					a['href'] = note_dict[href]
 
 		body = clean_html_for_export(soup.find('body'))
-		final_text = re.sub('\s{2,}', ' ', body)
-
 		with codecs.open(note_path, 'w', encoding='utf-8') as file:
-			file.write(str(final_text))
+			file.write(body)
 
 		# Build media attachment ops for this note
 		attach_media_op = es_helpers.build_es_update_op(note_id, 'media_doc_ids', note_media)

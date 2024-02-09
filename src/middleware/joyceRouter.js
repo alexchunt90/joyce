@@ -1,4 +1,5 @@
-import { push } from 'connected-react-router'
+import { useMatch } from 'react-router-dom'
+import { push } from '@lagunovsky/redux-react-router'
 
 import actions from '../actions'
 import helpers from '../modules/helpers'
@@ -14,19 +15,24 @@ const joyceRouter = store => next => action => {
 	const currentDocument = store.getState().currentDocument
 	const docType = store.getState().docType
 	// Path
-	const path = store.getState().router.location !== null ? store.getState().router.location.pathname : '/'
+	const path = location.pathname
 	const pathID = regex.checkPathForID(path) ? regex.parseIDFromPath(path) : undefined		
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
 	switch(action.type) {
-		case '@@router/LOCATION_CHANGE':
+		case '@@router/ON_LOCATION_CHANGED':
 			// If a docType can be parsed from the path, set it
+			console.log(path)
+			console.log('docType regex:', regex.checkIfDocTypePath(path))
+			console.log('editbaseroute regex:', regex.checkEditBaseRoute(path))
+			console.log('checkIfRedirectPath regex:', regex.checkEditBaseRoute(path))
 			if (regex.checkIfDocTypePath(path)) {
+				console.log('THIS WORKS')
 				store.dispatch(actions.setDocType(regex.parseDocTypeFromPath(path)))
 			}
-			// If path is /edit and docType isn't chapters, push the docType to the path
+			// If path is /edit and docType isn't chapters, redirect to the docType to the path
 			if (regex.checkEditBaseRoute(path)){
 				if (docType !== 'chapters') {
-					store.dispatch(push('/edit/' + docType))
+					store.dispatch(push('/edit'))
 				}
 			}
 			// If path ends in :id...
@@ -61,12 +67,14 @@ const joyceRouter = store => next => action => {
 							break
 					}
 				}
-				// If the above conditions aren't met and currentDocument is set, push the right identifier
+				// If the above conditions aren't met and currentDocument is set, redirect to the right identifier
 				else if (currentDocument.hasOwnProperty('id')) {
-					store.dispatch(push(docType === 'chapters' ? String(currentDocument.number) : currentDocument.id))	
+					const routeID = docType === 'chapters' ? String(currentDocument.number) : currentDocument.id
+					store.dispatch(push(routeID))
 				}
 			}
 		case 'GET_DOCUMENT_LIST':
+			// If no currentDocument is set, set one after receiving the list of docs
 			if (action.status === 'success' && action.docType === docType && !currentDocument.id) {
 				// If path ends in :id, set currentDocument to the first from the returned list
 				if (regex.checkIfRedirectPath(path) && action.data.length > 0) {
@@ -87,18 +95,21 @@ const joyceRouter = store => next => action => {
 			break
 		case 'SET_EDITOR_DOC_TYPE':
 			// If path starts with /edit, set the path appropriate for the docType
+			// matchPath('edit', path)
 			if (regex.checkEditRoute(path)) {
 				if (action.docType === 'chapters') {			
 					store.dispatch(push('/edit'))
 				} else {
-					store.dispatch(push('/edit/' + action.docType))
+					const docTypeEditPath = '/edit/' + action.docType;
+					store.dispatch(push(docTypeEditPath))
 				}
 			}
 			break
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
-				// After successfully retrieving a currentDocument, push its identifier to the path
-				store.dispatch(push(action.docType === 'chapters' ? String(action.data.number) : action.data.id))
+				// After successfully retrieving a currentDocument, redirect to its identifier to the path
+				const documentPath = action.docType === 'chapters' ? String(action.data.number) : action.data.id
+				store.dispatch(push(documentPath))
 			}
 			break
 		case 'SAVE_DOCUMENT':

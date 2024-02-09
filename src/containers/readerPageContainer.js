@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Navigate, matchPath } from 'react-router-dom'
 
 import Content from '../components/content'
 import actions from '../actions'
@@ -32,6 +33,12 @@ const ReaderPage = ({
 	setPaginationEdition,
 }) =>
 	<div id='joyce_page' className='container-fluid'>
+		{matchPath('/', location.pathname) &&
+			<Navigate to=':id'/>
+		}
+		{matchPath('notes', location.pathname) &&
+			<Navigate to=':id'/>
+		}
 		<div id='page_wrapper' className='row'>
 			<ReaderSidebarContainer />
 			<Content>

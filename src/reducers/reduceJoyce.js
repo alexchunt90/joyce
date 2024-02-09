@@ -1,6 +1,6 @@
  // node_modules
 import { combineReducers } from 'redux'
-import { connectRouter } from 'connected-react-router'
+import { createRouterReducer, createRouterReducerMapObject } from '@lagunovsky/redux-react-router'
 
 // Documents
 import chapters from './chapters'
@@ -31,8 +31,10 @@ import toggles from './toggles'
 import userErrors from './userErrors'
 import user from './user'
 
+
+
 const reduceJoyce = (history) => combineReducers({
-	router: connectRouter(history),
+	...createRouterReducerMapObject(history),
 	// Documents
 	chapters: chapters,
 	notes: notes,

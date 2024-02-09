@@ -1,8 +1,7 @@
- const webpack = require('webpack')
+const webpack = require('webpack')
 const path = require('path')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const Dotenv = require('dotenv-webpack');
-// const CopyPlugin = require("copy-webpack-plugin");
 
 
 const rootAssetPath = './src/'
@@ -16,9 +15,9 @@ module.exports = {
 	},
 	output: {
 		publicPath: "/static/js/",
-    	filename: '[name].[hash].js',
+    	filename: '[name].[contentHash].js',
     	path: path.resolve(__dirname, 'static/js/')
-	},		
+	},	
 	module : {
 		rules: [
 		{
@@ -64,11 +63,6 @@ module.exports = {
     ]},
     plugins: [
       new WebpackManifestPlugin(),
-   		new Dotenv(),
-   		// new CopyPlugin({
-	    //   patterns: [
-	    //     { from: "source", to: "dest" },
-	    //   ],
-    	// }),
-    ]
+   		new Dotenv()
+    ],
 };

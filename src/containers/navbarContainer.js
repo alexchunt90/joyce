@@ -4,7 +4,7 @@
 
 const Navbar = ({user}) =>
 	<nav className='navbar navbar-dark navbar-static-top navbar-expand-lg'>
-		<Link to='/' className='navbar-brand'>The Joyce Project</Link>
+		<Link to='/:id' className='navbar-brand'>The Joyce Project</Link>
 		<button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarItems'>
 			<span className='navbar-toggler-icon'></span>
 		</button>		

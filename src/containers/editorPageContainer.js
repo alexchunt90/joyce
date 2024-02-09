@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Navigate, matchPath } from 'react-router-dom'
 
 import actions from '../actions'
 import helpers from '../modules/helpers'
@@ -41,6 +42,9 @@ const EditorPage = ({
 	userErrors,
 }) =>
 	<div id='joyce_page' className='container-fluid'>
+		{matchPath('edit', location.pathname) &&
+			<Navigate to=':id'/>
+		}
 		<div id='page_wrapper' className="row">
 			<EditorSidebarContainer />
 			<Content>

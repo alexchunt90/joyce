@@ -1,15 +1,13 @@
 // node_modules
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware } from 'redux'
+import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { Route, Redirect, Switch } from 'react-router'
-import { ConnectedRouter, routerMiddleware } from 'connected-react-router'
+import { configureStore } from '@reduxjs/toolkit'
+import { Route, Routes, matchPath } from 'react-router-dom'
+import { ReduxRouter, createRouterMiddleware, createRouterReducerMapObject } from '@lagunovsky/redux-react-router'
 import { createBrowserHistory } from 'history'
-import 'bootstrap'
-
-// import { gapi } from 'gapi-script'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import 'bootstrap'
 
 // src modules
 import reduceJoyce from './reducers/reduceJoyce'
@@ -22,9 +20,12 @@ import SearchPageContainer from './containers/searchPageContainer'
 import AdminPageContainer from './containers/adminPageContainer'
 
 const history = createBrowserHistory()
-const router = routerMiddleware(history)
-const store = createStore(reduceJoyce(history), 
-	applyMiddleware(router, logger, joyceAPI, joyceInterface, joyceRouter, joycePaginate, googleAuth))
+
+const routerMiddleware = createRouterMiddleware(history)
+const store = configureStore({
+	reducer: reduceJoyce(history), 
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false, immutableCheck:false}).prepend(routerMiddleware, logger, joyceAPI, joyceInterface, joyceRouter, joycePaginate, googleAuth)
+})
 
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
@@ -38,48 +39,40 @@ if (cookies.includes('csrf_access_token')) {
 	store.dispatch(actions.resumeUserSession(user_name))
 }
 
-
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('wrapper'));
+root.render(
 	<GoogleOAuthProvider clientId={process.env.GOOGLE_AUTH_CLIENT_ID}>
 		<Provider store={store}>
-			<ConnectedRouter history={history}>
+			<ReduxRouter history={history}>
 				<div id='inner_wrapper'>
 					<NavbarContainer/>
-					<Switch>
-						<Route exact path='/' render={() =>
-							<Redirect to={'/:id'}/>
-						}/>
-						<Route exact path='/notes' render={() =>
-							<Redirect to={'/notes/:id'}/>
-						}/>
-						<Route exact path='/edit' render={() =>
-							<Redirect to={'/edit/:id'}/>
-						}/>
-						<Route exact path='/edit/notes' render={() =>
-							<Redirect to={'/edit/notes/:id'}/>
-						}/>
-						<Route exact path='/edit/tags' render={() =>
-							<Redirect to={'/edit/tags/:id'}/>
-						}/>
-						<Route exact path='/edit/editions' render={() =>
-							<Redirect to={'/edit/editions/:id'}/>
-						}/>					
-						<Route exact path='/edit/media' render={() =>
-							<Redirect to={'/edit/media/:id'}/>
-						}/>																
-						<Route exact path='/notes/:id' component={ReaderPageContainer} />
-						<Route exact path='/edit/:id' component={EditorPageContainer} />
-						<Route exact path='/edit/notes/:id' component={EditorPageContainer} />
-						<Route exact path='/edit/tags/:id' component={EditorPageContainer} />
-						<Route exact path='/edit/editions/:id' component={EditorPageContainer} />
-						<Route exact path='/edit/media/:id' component={EditorPageContainer} />
-						<Route exact path='/search/' component={SearchPageContainer} />
-						<Route exact path='/admin/' component={AdminPageContainer} />
-						<Route exact path='/:id' component={ReaderPageContainer} />	
-					</Switch>
+					<Routes>
+						<Route path='/' element={<ReaderPageContainer />} >
+							<Route path='/:id' element={<ReaderPageContainer />} />
+						</Route>
+						<Route path='notes' element={<ReaderPageContainer />} >
+							<Route path=':id' element={<ReaderPageContainer />} />
+						</Route>
+						<Route path='edit' element={<EditorPageContainer />} >
+							<Route path=':id' />
+							<Route path='notes'>
+								<Route path=':id' />
+							</Route>
+							<Route path='tags'>
+								<Route path=':id' />
+							</Route>
+							<Route path='editions'>
+								<Route path=':id' />
+							</Route>
+							<Route path='media'>
+								<Route path=':id' />
+							</Route>
+						</Route>
+						<Route path='search' element={<SearchPageContainer />} />
+						<Route path='admin' element={<AdminPageContainer />} />
+					</Routes>					
 				</div>
-			</ConnectedRouter>
+			</ReduxRouter>
 		</Provider>
-	</GoogleOAuthProvider>,
-  	document.getElementById('wrapper')
+	</GoogleOAuthProvider>
 )

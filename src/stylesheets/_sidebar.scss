@@ -47,8 +47,14 @@
     border: 1px solid $border_color;
     border-radius: 5px;
     background-color: rgba(200, 200, 200, .8);
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* for Firefox */
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+#document_list > div::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
 }
 
 #doc_list_dropdown {

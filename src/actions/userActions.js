@@ -49,6 +49,11 @@ const userActions = {
 			type: 'SELECT_COLOR_SWATCH',
 			data: color
 		}),
+	// Toggle the navbar dropdown on smaller screens
+	toggleNavCollapse: () =>
+		({
+			type: 'TOGGLE_NAV_COLLAPSE'
+		}),		
 	// Toggle the button to hide or display note highlights
 	toggleHighlight: () =>
 		({

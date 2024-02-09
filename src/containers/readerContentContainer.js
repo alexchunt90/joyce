@@ -53,21 +53,21 @@ const mapStateToProps = state => {
 		pagesArray: undefined,
 	}
 	const paginationState = state.paginationState
-	if (paginationState.paginationEdition) {
-		const currentPage = paginationState.currentPage
+	if (typeof paginationState.paginationEdition !== 'undefined') {
 		const paginationEdition = paginationState.paginationEdition
-		const currentPaginatedDoc = paginationState.documents[paginationEdition.year]
-		const pagesArray = currentPaginatedDoc.doc.map(p => p.number)
-		const hydratedState = {
-			...baseState,
-			paginationEditorState: paginationState.editorState,
-			currentPageNumber: currentPage,
-			pagesArray: pagesArray,
-		}
-		return hydratedState
-	} else {
-		return baseState
-	}
+		if (typeof paginationState.documents[paginationEdition.year] !== 'undefined') {
+			const currentPage = paginationState.currentPage
+			const currentPaginatedDoc = paginationState.documents[paginationEdition.year]
+			const pagesArray = currentPaginatedDoc.doc.map(p => p.number)
+			const hydratedState = {
+				...baseState,
+				paginationEditorState: paginationState.editorState,
+				currentPageNumber: currentPage,
+				pagesArray: pagesArray,
+			}
+			return hydratedState
+		} else {return baseState}
+	} else {return baseState}
 	const currentPage = paginationState.currentPage
 	const paginationEdition = paginationState.paginationEdition
 	const currentPaginatedDoc = paginationState.documents[paginationEdition.year]

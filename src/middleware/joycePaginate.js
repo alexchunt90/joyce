@@ -19,44 +19,25 @@ const joycePaginate = store => next => action => {
 	const docType = state.docType
 	const editions = state.editions
 	const currentDocument = state.currentDocument
+	const editorState = state.editorState
 	const mode = state.mode
 	const paginationState = state.paginationState
 	switch(action.type) {		
 		// 
 		case 'SET_EDITOR_STATE':
+			// Using set timeout to ensure setting editorState isn't delayed by pagination
+			setTimeout(()=> {
+				store.dispatch(actions.loadPagination())
+			}, 100)
+			break
+		case 'LOAD_PAGINATION':
 			if (editions.length > 0 && docType === 'chapters') {
 				const firstEdition = editions[0]
-				// Paginated chapters take a long time to process, so we're putting them behind a promise
-				
-				// async function asyncPagination() {					
-				// 	const paginationPromise = new Promise((resolve, reject)=> {
-				// 		const createDocument = paginate(action.data, firstEdition)
-				// 		if (createDocument) {
-				// 			resolve(createDocument)
-				// 		} else {
-				// 			reject('Failed to paginate this chapter.')
-				// 		}
-				// 	})
-				// 	const resultDoc = await paginationPromise
-				// 	return resultDoc
-				// }
-				// const paginatedDoc = asyncPagination()
-
-				const paginationPromise = new Promise((resolve, reject)=> {
-					const createDocument = paginate(action.data, firstEdition)
-					if (createDocument) {
-						resolve(createDocument)
-					} else {
-						reject('Failed to paginate this chapter.')
-					}
-				})
-				paginationPromise.then(response=> {
-					store.dispatch(actions.addPaginatedDoc(response))	
-					store.dispatch(actions.setPaginationEdition(firstEdition))
-				}).catch(error=>
-					console.log(error)
-				)
-			}			
+				// const paginatedDoc = paginate(action.editorState, firstEdition)
+				// store.dispatch(actions.addPaginatedDoc(paginatedDoc))
+				store.dispatch(actions.setPaginationEdition(firstEdition))
+			}
+			break	
 		// This handles selecting the whole pagebreak entity if the cursor moves inside it
 		case 'UPDATE_EDITOR_STATE':
 			if (mode === 'PAGINATE_MODE') {
@@ -82,9 +63,7 @@ const joycePaginate = store => next => action => {
 			// Set the current edition and generate a new paginated doc if needed
 			// Ignore if in editor pagination mode, as paginated doc isn't used
 			if (paginationState.documents[action.data.year] === undefined && mode !== 'PAGINATION_MODE') {
-				const selectedEdition = action.data
-				const editorState = returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
-				const paginatedDoc = paginate(editorState, selectedEdition)
+				const paginatedDoc = paginate(editorState, action.data)
 				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
 			}
 			break

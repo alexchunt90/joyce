@@ -39,6 +39,10 @@ const editorStateActions = {
 		({
 			type: 'RETURN_EDITOR_VALIDATION_ERRORS',
 			errors: validationErrors
+		}),
+	loadPagination: () =>
+		({
+			type: 'LOAD_PAGINATION',
 		})
 }
 

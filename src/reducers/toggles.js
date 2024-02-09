@@ -4,6 +4,7 @@ const initialState = {
 	highlights: true,
 	pagination: false,
 	admin: false,
+	navCollapse: true,
 }
 
 const toggles = (state=initialState, action) => {
@@ -62,6 +63,16 @@ const toggles = (state=initialState, action) => {
 			return {
 				...state,
 				admin: false
+			}
+		case '@@router/ON_LOCATION_CHANGED':
+			return {
+				...state,
+				navCollapse: true
+			}
+		case 'TOGGLE_NAV_COLLAPSE':
+			return {
+				...state,
+				navCollapse: !state.navCollapse
 			}
 		default:
 			return state

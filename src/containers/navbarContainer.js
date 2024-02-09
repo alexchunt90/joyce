@@ -1,14 +1,16 @@
- import React from 'react'
- import { connect } from 'react-redux'
- import { NavLink } from 'react-router-dom'
+import React from 'react'
+import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 
-const Navbar = ({user}) =>
+import actions from '../actions'
+
+const Navbar = ({user, navCollapse, toggleNavCollapse}) =>
 	<nav className='navbar navbar-dark navbar-static-top navbar-expand-lg'>
 		<NavLink to='/:id' className='navbar-brand'>The Joyce Project</NavLink>
-		<button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarItems'>
+		<button className='navbar-toggler' type='button' onClick={()=>toggleNavCollapse()}>
 			<span className='navbar-toggler-icon'></span>
 		</button>		
-		<div id='navbarItems' className='collapse navbar-collapse'>
+		<div id='navbarItems' className={navCollapse ? 'collapse navbar-collapse' : 'collapse navbar-collapse show'}>
 			<ul className='navbar-nav mr-auto'>
 				<li className='nav-item'>
 					<NavLink to='/notes' className='nav-link'>Notes</NavLink>
@@ -33,10 +35,19 @@ const Navbar = ({user}) =>
 
 const mapStateToProps = state => {
 	return {
-		user: state.user
+		user: state.user,
+		navCollapse: state.toggles.navCollapse,
 	}
 }
 
-const NavbarContainer = connect(mapStateToProps)(Navbar)
+const mapDispatchToProps = dispatch => {
+	return {
+		toggleNavCollapse: () => {
+			dispatch(actions.toggleNavCollapse())
+		}
+	}
+}
+
+const NavbarContainer = connect(mapStateToProps, mapDispatchToProps)(Navbar)
 
 export default NavbarContainer

@@ -31,10 +31,8 @@ const SetPageBreakButton = ({onClick, selectionState, pageNumberInput, currentEd
 
 const PageNumberInput = ({input, onChange}) =>
 	<div className="input-group mb-3">
-	  <div className="input-group-prepend">
-	    <span className="input-group-text" id="basic-addon1">Page Number:</span>
-	  </div>
-	  <input type="text" className="form-control" value={input} onChange={onChange} placeholder='#'/>
+    	<span className="input-group-text" id="basic-addon1">Page Number:</span>
+		<input type="text" className="form-control" value={input} onChange={onChange} placeholder='#'/>
 	</div>	
 
 const EditorPaginateOptions = ({
@@ -49,7 +47,7 @@ const EditorPaginateOptions = ({
 	<div className='row'>
 		<div className='paginate_option_buttons col-4'>
 			<div className='dropdown'>
-				<button className={'btn btn-primary dropdown-toggle btn-md'} type='button' data-toggle='dropdown'>
+				<button className={'btn btn-primary dropdown-toggle btn-md'} type='button' data-bs-toggle='dropdown'>
 					{currentEdition ? currentEdition.title : 'Select Edition'}
 				</button>
 				<div className='dropdown-menu'>

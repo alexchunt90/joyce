@@ -12,8 +12,7 @@ const AnnotateModal = ({annotationNote, annotationNoteMedia, modalEditorState}) 
 			<div className='modal-content'>
 				<div className='modal-header'>
 					<h5 className='modal-title' id='exampleModalLabel'>{annotationNote.title ? annotationNote.title : ''}</h5>
-			        <button id='select_annotation_modal_close' type="button" className="close" data-dismiss="modal">
-			          <i className='fas fa-times'></i>
+			        <button id='select_annotation_modal_close' type="button" className="btn-close" data-bs-dismiss="modal">
 			        </button>					
 				</div>
 				<div className='modal-body'>

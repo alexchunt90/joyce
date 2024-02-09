@@ -2,8 +2,8 @@
 @import "mixin";
 
 #sidebar {
-    max-height: 90vh;
     max-width: 18%;
+    max-height: 90vh;
     background-color: rgba(250,250,250,.8);
     margin: -1% 2% 1.5% 2%;
     padding: 1%;
@@ -14,6 +14,8 @@
 
 #sidebar > div {
     max-height: 100%;
+    display: flex;
+    flex-flow: column;
 }
 
 .mobile_sidebar {
@@ -33,12 +35,18 @@
     width: 100%;
 }
 
+#document_list {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
 #document_list > div {
+    width: 100%;
     padding: 1%;
     border: 1px solid $border_color;
     border-radius: 5px;
     background-color: rgba(200, 200, 200, .8);
-    max-height: 38em;
     overflow-y: auto;
     overflow-x: hidden;
 }

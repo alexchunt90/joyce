@@ -10,7 +10,7 @@ const PaginationReaderButton = ({toggle, loading, editions, onPaginationToggle, 
 					<i className="fa-solid fa-spinner fa-spin"></i>
 				}
 			</button>
-			<button className='btn btn-primary dropdown-toggle btn-md' type='button' id='pagination_edition_select' data-toggle='dropdown'>
+			<button className='btn btn-primary dropdown-toggle btn-md' type='button' id='pagination_edition_select' data-bs-toggle='dropdown'>
 			</button>
 			<div className='dropdown-menu'>
 				{editions.map(edition =>

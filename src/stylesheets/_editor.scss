@@ -112,6 +112,10 @@
     }
 }
 
+.text_editor a {
+	text-decoration-line: none;
+}
+
 #editor_content.edit_mode {
 	height: 73vh;
 }

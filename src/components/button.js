@@ -111,13 +111,13 @@ export const EditorToolButton = ({glyph, onClick}) =>
 
 
 export const EditorDeleteToolButton = ({disabled}) =>
-	<button className='btn btn-info btn-sm' disabled={disabled} data-toggle='modal' data-target='#delete_confirm_modal' type='button'>
+	<button className='btn btn-info btn-sm' disabled={disabled} data-bs-toggle='modal' data-bs-target='#delete_confirm_modal' type='button'>
 		Delete
 		<i className='fas fa_inline fa-trash-o'></i>
 	</button>
 
 export const EditorCancelButton = ({onClick}) =>
-	<button type='button' onClick={onClick} className='btn btn-outline-secondary btn-sm' data-dismiss='modal'>
+	<button type='button' onClick={onClick} className='btn btn-outline-secondary btn-sm' data-bs-dismiss='modal'>
 		Cancel
 		<i className='fas fa_inline fa-times'></i>
 	</button>
@@ -129,7 +129,7 @@ export const EditorSubmitButton = ({onClick}) =>
 	</button>
 
 export const EditorDeleteButton = ({onClick}) =>
-	<button id='editor_delete' onClick={onClick} type='button' data-dismiss='modal' className='btn btn-outline-danger btn-sm'>
+	<button id='editor_delete' onClick={onClick} type='button' data-bs-dismiss='modal' className='btn btn-outline-danger btn-sm'>
 		Delete
 		<i className='fas fa_inline fa-trash-o'></i>
 	</button>

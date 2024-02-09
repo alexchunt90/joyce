@@ -2,6 +2,7 @@ import React from 'react'
 
 import { 
 	readerDecorator,
+	editorDecorator,
 	editPaginateDecorator,
 	returnNewEditorState,
 	returnEditorStateFromKeyCommand, 
@@ -32,7 +33,7 @@ const editorState = (state=blankEditor, action) => {
 			if (action.mode === 'PAGINATE_MODE') {
 				return returnEditorStateWithNewDecorator(state, editPaginateDecorator)
 			} else {
-				return returnEditorStateWithNewDecorator(state, readerDecorator)
+				return returnEditorStateWithNewDecorator(state, editorDecorator)
 			}
 			break
 		// Update editor to reflect action

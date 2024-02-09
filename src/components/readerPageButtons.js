@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const ReaderPageBackButton = ({onClick, disabled}) =>
-	<button onClick={onClick} className='btn btn-block btn-outline-primary btn-sm' disabled={disabled}>
+	<button onClick={onClick} className='btn btn-outline-primary btn-sm' disabled={disabled}>
 		<i className='fas fa_inline fa-icon-double-angle-left'></i>
 		Previous Page
 	</button>
 
 const ReaderPageForwardButton = ({onClick, disabled}) =>
-	<button onClick={onClick} className='btn btn-block btn-outline-primary btn-sm' disabled={disabled}>
+	<button onClick={onClick} className='btn btn-outline-primary btn-sm' disabled={disabled}>
 		Next Page
 		<i className='fas fa_inline fa-icon-double-angle-right'></i>
 	</button>

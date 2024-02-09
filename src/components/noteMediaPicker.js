@@ -18,7 +18,7 @@ const NoteMediaPicker = ({media, selectedMedia, onMediaCheckboxClick}) =>
 	<div id='note_media_picker' className='row'>
 		<div className='col-12'>
 			<div className='btn-group'>
-				<button className='btn btn-secondary dropdown-toggle' type='button' data-toggle='dropdown'>
+				<button className='btn btn-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown'>
 					Select Media
 				</button>
 				<div className='dropdown-menu note-picker-dropdown'>

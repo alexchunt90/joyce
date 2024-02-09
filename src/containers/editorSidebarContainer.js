@@ -20,7 +20,7 @@ const EditorSidebar = ({
 	onNewDocumentClick,
 	setDocType,
 }) =>
-	<div id='sidebar' className='col-md-3 d-none d-md-block'>
+	<div id='sidebar' className='col-md-3 d-none d-md-flex'>
 		<div>
 			<DocTypeDropdown docType={docType} setDocType={setDocType} />
 			<SidebarSpacer />

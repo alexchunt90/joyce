@@ -6,7 +6,8 @@ import {
 	stateToHTML,
 	convertToSearchText, 
 	returnEditorStateFromHTML, 	
-	readerDecorator,	
+	readerDecorator,
+	returnEditorStateWithNewDecorator,
 	returnEditorStateWithNewAnnotation,
 	returnEditorStateWithExpandedPageBreakSelection
 } from '../modules/editorSettings.js'
@@ -49,7 +50,8 @@ const joyceInterface = store => next => action => {
 			// Check for validation errors
 			const validationErrors = validateSubmittedDocument(action.docType, action.inputs, action.currentDocument, user)
 			if (validationErrors.length < 1) {
-				const textContent = action.editorState.getCurrentContent()
+				const readerEditorState = returnEditorStateWithNewDecorator(action.editorState, readerDecorator)
+				const textContent = readerEditorState.getCurrentContent()
 				// Convert state to HTML and search text to be posted to Elasticsearch
 				const data = { 
 					title: action.inputs.documentTitle, 

@@ -21,7 +21,7 @@ const ReaderSidebar = ({
 	onPaginationToggle,
 	setPaginationEdition,
 }) =>
-	<div id='sidebar' className='col-md-3 d-none d-md-block'>
+	<div id='sidebar' className='col-md-3 d-none d-md-flex'>
 		<div>
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />

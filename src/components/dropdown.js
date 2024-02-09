@@ -6,7 +6,7 @@ import TagColorPreview from './tagColorPreview'
 
 export const DocTypeDropdown = ({docType, setDocType, size='sm'}) =>
 	<div className='dropdown'>
-		<button className={'btn btn-primary dropdown-toggle btn-' + size} type='button' id='doc_type_select' data-toggle='dropdown'>
+		<button className={'btn btn-primary dropdown-toggle btn-' + size} type='button' id='doc_type_select' data-bs-toggle='dropdown'>
 			{docType.charAt(0).toUpperCase() + docType.slice(1)}
 		</button>
 		<div className='dropdown-menu'>
@@ -20,7 +20,7 @@ export const DocTypeDropdown = ({docType, setDocType, size='sm'}) =>
 
 export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick, editMode=false, onNewDocumentClick}) =>
 	<div className='dropdown'>
-		<button className='btn btn-primary btn-md dropdown-toggle' type='button' id='doc_type_select' data-toggle='dropdown'>
+		<button className='btn btn-primary btn-md dropdown-toggle' type='button' id='doc_type_select' data-bs-toggle='dropdown'>
 			{docType==='chapters' && currentDocument.number ? currentDocument.number + '. ' : ''}{currentDocument.title}
 		</button>
 		<div id='doc_list_dropdown' className='dropdown-menu'>

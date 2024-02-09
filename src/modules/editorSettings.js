@@ -3,9 +3,10 @@ import React from 'react'
 import { EditorState, Modifier, RichUtils, convertToRaw, ContentState, CompositeDecorator, SelectionState } from 'draft-js'
 import { convertFromHTML, convertToHTML } from 'draft-convert'
 
-import LinkContainer from '../containers/linkContainer'
-import ModalLinkContainer from '../containers/linkModalContainer'
 import {PageBreak,VisiblePageBreak} from '../containers/pageBreakContainer'
+import ModalLinkContainer from '../containers/linkModalContainer'
+import LinkContainer from '../containers/linkContainer'
+import EditorLink from '../components/editorLink'
 
 // _________________________________________________
 // 
@@ -52,6 +53,13 @@ export const readerDecorator = new CompositeDecorator([
   }
 ])
 
+export const editorDecorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: EditorLink,
+  },
+])
+
 export const modalDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
@@ -65,6 +73,7 @@ export const editPaginateDecorator = new CompositeDecorator([
     component: VisiblePageBreak,
   }
 ])
+
 
 // _________________________________________________
 // 

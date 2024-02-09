@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const AnnotatorNewButton = ({onClick, disabled}) =>
-	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-toggle='modal' data-target='#annotate_modal'>
+	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#annotate_modal'>
 		New Annotation
 		<i className='fas fa_inline fa-link'></i>
 	</button>

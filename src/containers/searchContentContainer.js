@@ -48,7 +48,7 @@ const SearchContent = ({
 				  </div>
 				  <input type='text' className='form-control' placeholder='#' value={inputs.searchResultCount} onChange={()=>{return true}}/>
 				  <div className='input-group-append'>
-				    <button className='btn btn-primary dropdown-toggle caret-off' data-toggle='dropdown' type='button'><i className='fas fa-chevron-down'></i></button>
+				    <button className='btn btn-primary dropdown-toggle caret-off' data-bs-toggle='dropdown' type='button'><i className='fas fa-chevron-down'></i></button>
 					<div className='dropdown-menu'>
 			      		<div className='dropdown-item'>
 			      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(5)}>5</a>

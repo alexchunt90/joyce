@@ -54,18 +54,18 @@ root.render(
 							<Route path=':id' element={<ReaderPageContainer />} />
 						</Route>
 						<Route path='edit' element={<EditorPageContainer />} >
-							<Route path=':id' />
-							<Route path='notes'>
-								<Route path=':id' />
+							<Route path=':id' element={<EditorPageContainer />} />
+							<Route path='notes' element={<EditorPageContainer />} >
+								<Route path=':id' element={<EditorPageContainer />} />
 							</Route>
-							<Route path='tags'>
-								<Route path=':id' />
+							<Route path='tags' element={<EditorPageContainer />} >
+								<Route path=':id' element={<EditorPageContainer />} />
 							</Route>
-							<Route path='editions'>
-								<Route path=':id' />
+							<Route path='editions' element={<EditorPageContainer />} >
+								<Route path=':id' element={<EditorPageContainer />} />
 							</Route>
-							<Route path='media'>
-								<Route path=':id' />
+							<Route path='media' element={<EditorPageContainer />} >
+								<Route path=':id' element={<EditorPageContainer />} />
 							</Route>
 						</Route>
 						<Route path='search' element={<SearchPageContainer />} />

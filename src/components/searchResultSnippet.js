@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const buildSnippetLink = (key, docType, route) => {
@@ -11,9 +12,9 @@ const buildSnippetLink = (key, docType, route) => {
 
 const SearchResultSnippet = ({snippet, docType, route, onLinkClick}) =>
 	<div id={snippet.key}>
-		<a href={buildSnippetLink(snippet.key, docType, route)} onClick={onLinkClick}>
+		<Link to={buildSnippetLink(snippet.key, docType, route)} onClick={onLinkClick}>
 			{snippet.text}
-		</a>
+		</Link>
 	</div>
 
 SearchResultSnippet.propTypes = {

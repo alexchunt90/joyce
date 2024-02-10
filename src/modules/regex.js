@@ -18,7 +18,9 @@ const regexParseBaseFunction = (path, pattern, n=1) => {
 
 const patterns = {
 	PATH_WITH_NUMBER: /\/([0-9]{1,3})$/,
+	PATH_ROOT_WITH_NUMBER: /^\/([0-9]{1,3})$/,
 	PATH_WITH_ID: /\/([0-9A-Za-z0-9\-\_]{18,})$/,
+	PATH_ROOT_WITH_ID: /^\/([0-9A-Za-z0-9\-\_]{18,})$/,
 	PATH_WITH_DOC_TYPE: /^\/(edit\/)*(notes|tags|chapters|editions|media)/,
 	PATH_WITH_ID_REDIRECT: /\/(\:id)$/,
 	PATH_ROOT: /^\/(\:id)*$/,
@@ -33,9 +35,15 @@ const regex = {
 	checkPathForNumber: path => {
 		return regexCheckBaseFunction(path, patterns.PATH_WITH_NUMBER)
 	},
+	checkIfRootPathWithNumber: path => {
+		return regexCheckBaseFunction(path, patterns.PATH_ROOT_WITH_NUMBER)
+	},	
 	checkPathForID: path => {
 		return regexCheckBaseFunction(path, patterns.PATH_WITH_ID)
 	},
+	checkIfRootPathWithID: path => {
+		return regexCheckBaseFunction(path, patterns.PATH_ROOT_WITH_ID)
+	},	
 	checkIfDocTypePath: path => {
 		return regexCheckBaseFunction(path, patterns.PATH_WITH_DOC_TYPE)
 	},

@@ -20,10 +20,6 @@ const joyceRouter = store => next => action => {
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
 	switch(action.type) {
 		case '@@router/ON_LOCATION_CHANGED':
-			// If a docType can be parsed from the path, set it
-			if (regex.checkIfDocTypePath(path)) {
-				store.dispatch(actions.setDocType(regex.parseDocTypeFromPath(path)))
-			}
 			// If you navigate to /edit while docType=notes, redirect to /edit/notes
 			if (regex.checkEditBaseRoute(path)){
 				if (docType !== 'chapters') {
@@ -32,6 +28,7 @@ const joyceRouter = store => next => action => {
 			}
 			// If path ends in :id...
 			if (regex.checkIfRedirectPath(path)) {
+				console.log('IN THE :ID STUFF')
 				// And path is /:id or /edit/:id and chapters are loaded, set currentDocument to first chapter
 				if (regex.checkIfRootPath(path) && chapters.length > 0) {
 					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
@@ -70,6 +67,7 @@ const joyceRouter = store => next => action => {
 			}
 			// If routing to reader for a new chapter, set new currentDocument
 			if (regex.checkIfRootPathWithNumber(path)) {
+				console.log('Root path with number.')
 				for (const chapter of chapters) {
 					if (chapter.number === pathNumber && chapter.id !== currentDocument.id) {
 						if (docType !== 'chapters') {
@@ -79,23 +77,21 @@ const joyceRouter = store => next => action => {
 					}
 				}
 			}
-
-			// If 
-			// if (regex checkIfRootPathWithID(path)) {
-			// 	store.dispatch()
-			// }
-
-
-
-
-
-
-
-
-
-
-
-
+			// If routing to reader for other docTypes, set new currentDocument
+			if (regex.checkIfRootPathWithID(path)) {
+				console.log('Yeah this is happening')
+				const pathDocType = parseDocTypeFromPath(path)
+				if (docType !== pathDocType) {
+					store.dispatch(setDocType(pathDocType))
+				}
+				if (pathID !== currentDocument.id) {
+					store.dispatch(setCurrentDocument(pathId, pathDocType))
+				}
+			}
+			// If a docType can be parsed from the path, set it
+			if (regex.checkIfDocTypePath(path)) {
+				store.dispatch(actions.setDocType(regex.parseDocTypeFromPath(path)))
+			}
 			break
 		case 'GET_DOCUMENT_LIST':
 			// If no currentDocument is set, set one after receiving the list of docs

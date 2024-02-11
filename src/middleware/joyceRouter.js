@@ -13,11 +13,14 @@ const joyceRouter = store => next => action => {
 	const tags = store.getState().tags
 	const media = store.getState().media
 	const currentDocument = store.getState().currentDocument
+	const currentBlock = store.getState().currentBlock
 	const docType = store.getState().docType
 	// Path
 	const path = location.pathname
+	const hash = location.hash || undefined
 	const pathID = regex.checkPathForID(path) ? regex.parseIDFromPath(path) : undefined		
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
+
 	switch(action.type) {
 		case '@@router/ON_LOCATION_CHANGED':
 			// If you navigate to /edit while docType=notes, redirect to /edit/notes
@@ -28,7 +31,6 @@ const joyceRouter = store => next => action => {
 			}
 			// If path ends in :id...
 			if (regex.checkIfRedirectPath(path)) {
-				console.log('IN THE :ID STUFF')
 				// And path is /:id or /edit/:id and chapters are loaded, set currentDocument to first chapter
 				if (regex.checkIfRootPath(path) && chapters.length > 0) {
 					store.dispatch(actions.setCurrentDocument(chapters[0].id, 'chapters'))
@@ -67,7 +69,6 @@ const joyceRouter = store => next => action => {
 			}
 			// If routing to reader for a new chapter, set new currentDocument
 			if (regex.checkIfRootPathWithNumber(path)) {
-				console.log('Root path with number.')
 				for (const chapter of chapters) {
 					if (chapter.number === pathNumber && chapter.id !== currentDocument.id) {
 						if (docType !== 'chapters') {
@@ -79,7 +80,6 @@ const joyceRouter = store => next => action => {
 			}
 			// If routing to reader for other docTypes, set new currentDocument
 			if (regex.checkIfRootPathWithID(path)) {
-				console.log('Yeah this is happening')
 				const pathDocType = parseDocTypeFromPath(path)
 				if (docType !== pathDocType) {
 					store.dispatch(setDocType(pathDocType))
@@ -92,6 +92,10 @@ const joyceRouter = store => next => action => {
 			if (regex.checkIfDocTypePath(path)) {
 				store.dispatch(actions.setDocType(regex.parseDocTypeFromPath(path)))
 			}
+			if (typeof hash !== 'undefined') {
+				store.dispatch(actions.setCurrentBlock(currentDocument.id, hash))
+			}
+
 			break
 		case 'GET_DOCUMENT_LIST':
 			// If no currentDocument is set, set one after receiving the list of docs
@@ -115,7 +119,6 @@ const joyceRouter = store => next => action => {
 			break
 		case 'SET_EDITOR_DOC_TYPE':
 			// If path starts with /edit, set the path appropriate for the docType
-			// matchPath('edit', path)
 			if (regex.checkEditRoute(path)) {
 				if (action.docType === 'chapters') {			
 					store.dispatch(push('/edit'))
@@ -128,8 +131,18 @@ const joyceRouter = store => next => action => {
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
 				// After successfully retrieving a currentDocument, redirect to its identifier to the path
-				const documentPath = action.docType === 'chapters' ? String(action.data.number) : action.data.id
-				store.dispatch(push(documentPath))
+				const actionIdentifier = action.docType === 'chapters' ? String(action.data.number) : action.data.id
+				const pathIdentifier = action.docType === 'chapters' ? String(pathNumber) : pathID
+				if (actionIdentifier !== pathIdentifier) {
+					store.dispatch(push(actionIdentifier))
+				}
+				if (actionIdentifier === pathIdentifier && typeof hash !== undefined && typeof currentBlock.id !== undefined) {
+					store.dispatch(actions.setCurrentBlock(action.data.id, hash))
+				}				
+				// If this is a different document than the one referenced by currentBlock, unset currentBlock
+				if (typeof(currentBlock.id) !== 'undefined' && currentBlock.id !== action.data.id) {
+					store.dispatch(actions.unsetCurrentBlock())
+				}
 			}
 			break
 		case 'SAVE_DOCUMENT':

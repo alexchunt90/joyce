@@ -22,6 +22,7 @@ const joyceInterface = store => next => action => {
 	const editions = state.editions
 	const media = state.media
 	const currentDocument = state.currentDocument
+	const currentBlock = state.currentBlock
 	const docType = state.docType
 	const mode = state.mode
 	const user = state.user

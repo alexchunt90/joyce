@@ -1,11 +1,11 @@
-const currentDocument = (state=null, action) => {
+const initialState = {id: undefined, key: undefined}
+
+const currentDocument = (state=initialState, action) => {
 	switch(action.type) {
-		case 'SELECT_CURRENT_BLOCK':
-			return action.id
-		case 'GET_DOCUMENT_TEXT':
-			if (action.status === 'success' && action.state === 'currentDocument') {
-				return null
-			}
+		case 'SET_CURRENT_BLOCK':
+			return {id: action.id, key: action.key}
+		case 'UNSET_CURRENT_BLOCK':
+			return initialState
 		default:
 			return state
 	}

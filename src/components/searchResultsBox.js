@@ -16,23 +16,31 @@ const SearchResultGroup = ({docType, docTitle, results, onLinkClick}) =>
 		)}		
 	</div>
 
+const sumResults = (searchResults) => {
+	let resultCount = 0
+	for (const [key, value] of Object.entries(searchResults)) {
+		resultCount += value.length
+	}
+	return resultCount
+}
+
 const SearchResultsBox = ({searchResults, onLinkClick}) =>
-	<div id='search_results_box' className='col-sm-12'>
-		{searchResults.chapters.length > 0 &&
-			<SearchResultGroup docType='chapter' docTitle='Chapters' results={searchResults.chapters} onLinkClick={onLinkClick}/>
-		}
-		{searchResults.notes.length > 0 &&
-			<SearchResultGroup docType='note' docTitle='Notes' results={searchResults.notes} onLinkClick={onLinkClick}/>
-		}
-		{searchResults.media.length > 0 &&
-			<SearchResultGroup docType='media' docTitle='Media' results={searchResults.media} onLinkClick={onLinkClick}/>
-		}
-		{searchResults.chapters.length + searchResults.notes.length + searchResults.media.length < 1 &&
-			<div className='result_type_group'>
-				<h4>No Results Found.</h4>
-			</div>
-		}
-	</div>
+		<div id='search_results_box' className='col-sm-12'>
+			{searchResults.hasOwnProperty('chapters') && searchResults.chapters.length > 0 &&
+				<SearchResultGroup docType='chapter' docTitle='Chapters' results={searchResults.chapters} onLinkClick={onLinkClick}/>
+			}
+			{searchResults.hasOwnProperty('notes') && searchResults.notes.length > 0 &&
+				<SearchResultGroup docType='note' docTitle='Notes' results={searchResults.notes} onLinkClick={onLinkClick}/>
+			}
+			{searchResults.hasOwnProperty('media') && searchResults.media.length > 0 &&
+				<SearchResultGroup docType='media' docTitle='Media' results={searchResults.media} onLinkClick={onLinkClick}/>
+			}
+			{sumResults(searchResults) < 1 &&
+				<div className='result_type_group'>
+					<h4>No Results Found.</h4>
+				</div>
+			}
+		</div>
 
 SearchResultGroup.propType = {
 	docType: PropTypes.string,

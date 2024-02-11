@@ -43,32 +43,30 @@ const SearchContent = ({
 			</div>
 			<div className='col-sm-2'>
 				<div className='input-group'>
-				  <div className='input-group-prepend'>
-				    <span className='input-group-text'>#</span>
-				  </div>
-				  <input type='text' className='form-control' placeholder='#' value={inputs.searchResultCount} onChange={()=>{return true}}/>
-				  <div className='input-group-append'>
-				    <button className='btn btn-primary dropdown-toggle caret-off' data-bs-toggle='dropdown' type='button'><i className='fas fa-chevron-down'></i></button>
-					<div className='dropdown-menu'>
-			      		<div className='dropdown-item'>
-			      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(5)}>5</a>
-			      		</div>
-			      		<div className='dropdown-item'>
-			      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(10)}>10</a>
-			      		</div>
-			      		<div className='dropdown-item'>
-			      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(25)}>25</a>
-			      		</div>
-			      		<div className='dropdown-item'>
-			      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(50)}>50</a>
-			      		</div>			      		
-				    </div>	    
+			    	<span className='input-group-text'>#</span>
+					<input type='text' className='form-control' placeholder='#' value={inputs.searchResultCount} onChange={()=>{return true}}/>
+					<div className='input-group-append'>
+				    	<button className='btn btn-primary dropdown-toggle caret-off' data-bs-toggle='dropdown' type='button'><i className='fas fa-chevron-down'></i></button>
+						<div className='dropdown-menu'>
+			      			<div className='dropdown-item'>
+			      				<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(5)}>5</a>
+				      		</div>
+				      		<div className='dropdown-item'>
+				      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(10)}>10</a>
+				      		</div>
+				      		<div className='dropdown-item'>
+				      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(25)}>25</a>
+				      		</div>
+				      		<div className='dropdown-item'>
+				      			<a className='result_count_item' href='#' onClick={()=>onResultCountDropdownClick(50)}>50</a>
+				      		</div>			      		
+					    </div>	    
 				  </div>	  
 				</div>
 			</div>													
 		</div>
 		<div className='row'>
-			{searchResults.chapters && 
+			{Object.keys(searchResults).length !== 0 && 
 				<SearchResultsBox searchResults={searchResults} onLinkClick={onSearchLinkClick}/>
 			}
 		</div>

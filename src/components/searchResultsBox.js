@@ -10,7 +10,7 @@ const SearchResultGroup = ({docType, docTitle, results, onLinkClick}) =>
 			<div key={result.id}>
 				<h5>{result.title}</h5>
 				{result.hits.map(hit =>
-					<SearchResultSnippet key={hit.key} snippet={hit} docType={docType} route={docType === 'chapter' ? result.number : result.id} onClick={()=>{onLinkClick(hit.key)}}/>
+					<SearchResultSnippet key={hit.key} snippet={hit} docType={docType} route={docType === 'chapter' ? result.number : result.id} onClick={()=>{onLinkClick(result.id, hit.key)}}/>
 				)}
 			</div>
 		)}		

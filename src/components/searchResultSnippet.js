@@ -14,8 +14,8 @@ const buildSnippetLink = (key, docType, route) => {
 	}
 }
 
-const SearchResultSnippet = ({snippet, docType, route, onLinkClick}) =>
-	<div id={snippet.key}>
+const SearchResultSnippet = ({snippet, docType, route, onClick}) =>
+	<div id={snippet.key} onClick={onClick}>
 		<Link to={buildSnippetLink(snippet.key, docType, route)} >
 			{snippet.text}
 		</Link>

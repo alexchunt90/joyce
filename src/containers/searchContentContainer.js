@@ -94,8 +94,8 @@ const mapDispatchToProps = dispatch => {
 		onToggleSearchDocType: docType => {
 			dispatch(actions.toggleSearchDocType(docType))
 		},
-		onSearchLinkClick: id => {
-			dispatch(actions.setCurrentBlock(id))
+		onSearchLinkClick: (id, key) => {
+			dispatch(actions.setCurrentBlock(id, key))
 		}
 	}
 }

@@ -1,12 +1,12 @@
 import { useMatch } from 'react-router-dom'
 import { push } from '@lagunovsky/redux-react-router'
 
+import {returnEditorStateWithSearchTextFocus } from '../modules/editorSettings'
 import actions from '../actions'
 import helpers from '../modules/helpers'
 import regex from '../modules/regex'
 
 const joyceRouter = store => next => action => {
-	next(action)
 	// State
 	const chapters = store.getState().chapters
 	const notes = store.getState().notes
@@ -17,7 +17,7 @@ const joyceRouter = store => next => action => {
 	const docType = store.getState().docType
 	// Path
 	const path = location.pathname
-	const hash = location.hash || undefined
+	const hash = location.hash.slice(1) || undefined
 	const pathID = regex.checkPathForID(path) ? regex.parseIDFromPath(path) : undefined		
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
 
@@ -92,9 +92,9 @@ const joyceRouter = store => next => action => {
 			if (regex.checkIfDocTypePath(path)) {
 				store.dispatch(actions.setDocType(regex.parseDocTypeFromPath(path)))
 			}
-			if (typeof hash !== 'undefined') {
-				store.dispatch(actions.setCurrentBlock(currentDocument.id, hash))
-			}
+			// if (typeof hash !== 'undefined') {
+			// 	store.dispatch(actions.setCurrentBlock(currentDocument.id, hash))
+			// }
 
 			break
 		case 'GET_DOCUMENT_LIST':
@@ -136,15 +136,23 @@ const joyceRouter = store => next => action => {
 				if (actionIdentifier !== pathIdentifier) {
 					store.dispatch(push(actionIdentifier))
 				}
-				if (actionIdentifier === pathIdentifier && typeof hash !== undefined && typeof currentBlock.id !== undefined) {
+				if (actionIdentifier === pathIdentifier && typeof hash !== 'undefined') {
 					store.dispatch(actions.setCurrentBlock(action.data.id, hash))
 				}				
 				// If this is a different document than the one referenced by currentBlock, unset currentBlock
 				if (typeof(currentBlock.id) !== 'undefined' && currentBlock.id !== action.data.id) {
 					store.dispatch(actions.unsetCurrentBlock())
 				}
+
 			}
 			break
+		case 'SET_EDITOR_STATE':
+			// When the reader loads a new document, if a currentBlock is set, jump to it
+			if (typeof(currentBlock.id) !== 'undefined' && currentBlock.id === currentDocument.id ) {
+				const newEditorState = returnEditorStateWithSearchTextFocus(action.data, currentBlock.key)
+				console.log('Equality check', action.data === newEditorState)
+				action.data = newEditorState
+			}
 		case 'SAVE_DOCUMENT':
 			// If successfully saving a new document, load it by pulling the id from the last document in the list
 			if (action.status === 'success' && !action.id) {
@@ -163,6 +171,7 @@ const joyceRouter = store => next => action => {
 		default:
 			break
 	}
+	next(action)
 }
 
 export default joyceRouter

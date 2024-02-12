@@ -83,6 +83,17 @@ export const editPaginateDecorator = new CompositeDecorator([
 // Create contentState from HTML
 export const stateFromHTML = html => {
   const blocksFromHTML = convertFromHTML({
+    htmlToBlock: (nodeName, node) => {
+      if (nodeName === 'p') {
+        // console.log(node.getAttribute('data-search-key'))
+        return {
+          type: 'unstyled',
+          data: {
+            key: node.getAttribute('data-search-key')
+          }
+        }
+      }
+    },
     htmlToEntity: (nodeName, node, createEntity) => {
       if (nodeName === 'a') {        
           return createEntity(
@@ -113,9 +124,11 @@ export const stateFromHTML = html => {
 export const stateToHTML = contentState => {
   const html = convertToHTML({
     blockToHTML: (block) => {
-      if (block.type === 'PARAGRAPH') {
-        return <p />;
-      }
+      if (block.type === 'unstyled') {
+        console.log(block.data.key)
+        console.log(block.key)
+        return <p data-search-key={block.data.key || block.key}/>;
+      }      
     },
     entityToHTML: (entity, originalText) => {
       if (entity.type === 'LINK') {
@@ -233,6 +246,49 @@ export const returnEditorStateWithInlineStyles = (style, editorState) => {
   }
 }
 
+
+// 
+// Search Key 
+// 
+
+export const returnEditorStateWithSearchTextFocus = (editorState, searchKey) => {
+  // console.log('looking for', searchKey)
+  const contentState = editorState.getCurrentContent()
+  const findBlockKeyForSearchKey = (contentState, searchKey) => {
+    let searchBlockKey = undefined
+    editorState.getCurrentContent().getBlockMap().forEach(block => {
+      const blockKey = block.key
+      // console.log(block.data) 
+      block.data.forEach(blockSearchKey => {
+        // console.log(blockSearchKey)
+        if (searchKey === blockSearchKey) {
+          // console.log('Found!')
+          searchBlockKey = blockKey
+        }
+      })
+    })
+    return searchBlockKey
+  }
+
+  const searchBlockKey = findBlockKeyForSearchKey(contentState, searchKey)
+  console.log('Search key is', searchBlockKey)
+  if (searchBlockKey) {
+    // Select block after our intended block, to ensure DraftJS moves it on screen
+    const searchContentBlock = contentState.getBlockForKey(searchBlockKey)
+    const textLength = searchContentBlock.getText().length
+    const newSelection = SelectionState.createEmpty(searchBlockKey).set('anchorOffset', 0).set('focusOffset', textLength)
+    const newEditorState = EditorState.forceSelection(editorState, newSelection)
+    return newEditorState
+  } else {
+    return editorState
+  }
+
+
+}
+
+
+
+
 // Convert DraftJS contentState to list of text blocks for Elasticsearch
 export const convertToSearchText = contentState => {
   const rawState = convertToRaw(contentState)
@@ -274,8 +330,6 @@ export const returnEditorStateWithExpandedPageBreakSelection = editorState => {
             const entitySelectionState = emptySelection
               .set('focusOffset', end)
               .set('anchorOffset', start)
-            console.log('offsets', start, end)
-            console.log('entitySelectionState', entitySelectionState)
             const newEditorState = EditorState.forceSelection(editorState, entitySelectionState)
             returnValue = newEditorState
           }

@@ -78,19 +78,19 @@ const joyceRouter = store => next => action => {
 					}
 				}
 			}
-			// If routing to reader for other docTypes, set new currentDocument
-			if (regex.checkIfRootPathWithID(path)) {
-				const pathDocType = parseDocTypeFromPath(path)
-				if (docType !== pathDocType) {
-					store.dispatch(setDocType(pathDocType))
-				}
-				if (pathID !== currentDocument.id) {
-					store.dispatch(setCurrentDocument(pathId, pathDocType))
-				}
-			}
 			// If a docType can be parsed from the path, set it
 			if (regex.checkIfDocTypePath(path)) {
 				store.dispatch(actions.setDocType(regex.parseDocTypeFromPath(path)))
+			}
+			// If routing to reader for other docTypes, set new currentDocument
+			if (regex.checkIfRootPathWithID(path) && regex.checkIfDocTypePath(path)) {
+				const pathDocType = regex.parseDocTypeFromPath(path)
+				if (docType !== pathDocType) {
+					store.dispatch(actions.setDocType(pathDocType))
+				}
+				if (pathID !== currentDocument.id) {
+					store.dispatch(actions.setCurrentDocument(pathID, pathDocType))
+				}
 			}
 			// if (typeof hash !== 'undefined') {
 			// 	store.dispatch(actions.setCurrentBlock(currentDocument.id, hash))
@@ -98,6 +98,10 @@ const joyceRouter = store => next => action => {
 
 			break
 		case 'GET_DOCUMENT_LIST':
+			// 
+			if (regex.checkIfDocTypePath(path) && regex.parseDocTypeFromPath(path) !== docType) {
+				store.dispatch(actions.setDocType(regex.parseDocTypeFromPath(path)))
+			}			
 			// If no currentDocument is set, set one after receiving the list of docs
 			if (action.status === 'success' && action.docType === docType && !currentDocument.id) {
 				// If path ends in :id, set currentDocument to the first from the returned list
@@ -138,9 +142,10 @@ const joyceRouter = store => next => action => {
 				}
 				if (actionIdentifier === pathIdentifier && typeof hash !== 'undefined') {
 					store.dispatch(actions.setCurrentBlock(action.data.id, hash))
-				}				
+				}
+				const refreshCurrentBlock = store.getState().currentBlock
 				// If this is a different document than the one referenced by currentBlock, unset currentBlock
-				if (typeof(currentBlock.id) !== 'undefined' && currentBlock.id !== action.data.id) {
+				if (typeof(refreshCurrentBlock.id) !== 'undefined' && refreshCurrentBlock.id !== action.data.id) {
 					store.dispatch(actions.unsetCurrentBlock())
 				}
 

@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom'
 import axios from 'axios'
 import https from 'https'
 
-import { readerDecorator, convertToSearchText, returnEditorStateFromHTML } from '../src/modules/editorSettings.js'
+import { readerDecorator, convertToSearchText, stateToHTML, returnEditorStateFromHTML } from '../src/modules/editorSettings.js'
 
 // DraftJS requires the browser DOM, so we fake it here
 const jsdomWindow = new JSDOM('<div></div>').window
@@ -42,10 +42,13 @@ async function processSearchText(id, docType) {
 			// Instantiate a DraftJS Editor using the HTML
 			const editorState = returnEditorStateFromHTML(htmlSource, readerDecorator)
 			// Convert to searchable plain text
-			const searchText = convertToSearchText(editorState.getCurrentContent())
+			const newContentState = editorState.getCurrentContent()
+			const searchText = convertToSearchText(newContentState)
+			const searchHTML = stateToHTML(newContentState)
 			const updateData = {
 				doc_type: docType,
-				search_text: searchText
+				html_source: searchHTML,
+				search_text: searchText,
 			}
 			updateSearchText(id, updateData)
 		} else {

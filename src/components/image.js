@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Editor } from 'draft-js'
 
-import {returnEditorStateFromHTML} from '../modules/editorSettings'
+import {returnEditorStateFromHTML, blockStyleFn} from '../modules/editorSettings'
 
 export const Image = ({document, col=12}) =>
 	<div className={'image_div col-md-'+col}>
@@ -17,7 +17,7 @@ export const ImageGroup = ({media_docs}) =>
     		<div key={doc.id}>
     			<Image document={doc} col={6} />
     			{doc.html_source &&
-    				<Editor editorState={returnEditorStateFromHTML(doc.html_source)} readOnly={true} />
+    				<Editor editorState={returnEditorStateFromHTML(doc.html_source)} blockStyleFn={blockStyleFn} readOnly={true} />
     			}
     		</div>
     	)}	

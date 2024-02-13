@@ -74,6 +74,18 @@ export const editPaginateDecorator = new CompositeDecorator([
   }
 ])
 
+export const blockStyleFn = (contentBlock) => {
+  const blockStyles = []
+  const data = contentBlock.getData();
+  if (data.get('align')) {
+    blockStyles.push(data.get('align').concat('_align_block'))
+  }
+  if (data.get('indent') === 'none') {
+    blockStyles.push('no_indent_block')
+  }
+  return blockStyles.join(' ')
+}
+
 
 // _________________________________________________
 // 
@@ -82,17 +94,32 @@ export const editPaginateDecorator = new CompositeDecorator([
 
 // Create contentState from HTML
 export const stateFromHTML = html => {
+  
+  const constructBlockData = (node) => {
+    return {
+      key: node.getAttribute('data-search-key'),
+      align: node.getAttribute('data-align'),
+      indent: node.getAttribute('data-indent'),      
+    }
+  }
   const blocksFromHTML = convertFromHTML({
     htmlToBlock: (nodeName, node) => {
+      const blockData = constructBlockData(node)
       if (nodeName === 'p') {
-        // console.log(node.getAttribute('data-search-key'))
-        return {
-          type: 'unstyled',
-          data: {
-            key: node.getAttribute('data-search-key')
-          }
-        }
+        return {type: 'unstyled', data: blockData}
       }
+      if (nodeName === 'blockquote') {
+        return {type: 'blockquote', data: blockData}
+      }
+      if (nodeName === 'h1') {
+        return {type: 'header-one', data: blockData}
+      }
+      if (nodeName === 'h2') {
+        return {type: 'header-two', data: blockData}
+      }
+      if (nodeName === 'h3') {
+        return {type: 'header-three', data: blockData}
+      }                        
     },
     htmlToEntity: (nodeName, node, createEntity) => {
       if (nodeName === 'a') {        
@@ -125,10 +152,20 @@ export const stateToHTML = contentState => {
   const html = convertToHTML({
     blockToHTML: (block) => {
       if (block.type === 'unstyled') {
-        console.log(block.data.key)
-        console.log(block.key)
-        return <p data-search-key={block.data.key || block.key}/>;
-      }      
+        return <p data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined}/>;
+      }
+      if (block.type === 'blockquote') {
+        return <blockquote data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+      }
+      if (block.type === 'header-one') {
+        return <h1 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+      }
+      if (block.type === 'header-two') {
+        return <h2 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+      }
+      if (block.type === 'header-three') {
+        return <h3 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+      }             
     },
     entityToHTML: (entity, originalText) => {
       if (entity.type === 'LINK') {
@@ -236,14 +273,56 @@ export const returnEditorStateFromKeyCommand = (editorState, command) => {
   } else { return editorState }  
 }
 
+
+
+
+const applyCustomInlineStyles = (style, editorState) => {
+  const contentState = editorState.getCurrentContent()
+  const decorator = editorState.getDecorator()
+  const selectionState = editorState.getSelection()
+  const anchorBlockKey = selectionState.getAnchorKey()
+  const contentBlock = contentState.getBlockForKey(anchorBlockKey)
+  const blockData = contentBlock.getData()
+  console.log(blockData)
+  const setBlockCustomStyle = (blockData) => {
+      const newContentState = Modifier.setBlockData(contentState, selectionState, blockData.set(''))
+      return EditorState.createWithContent(newContentState, decorator)
+  }
+
+  if (style === 'left-align') {
+    return setBlockCustomStyle(blockData.remove('align'))
+  }
+  if (style === 'center-align') {
+    return setBlockCustomStyle(blockData.set('align', 'center'))
+  }
+  if (style === 'right-align') {
+    return setBlockCustomStyle(blockData.set('align', 'right'))
+  }
+  if (style === 'justify-align') {
+    return setBlockCustomStyle(blockData.set('align', 'justify'))
+  }
+  if (style === 'no-indent') {
+    return setBlockCustomStyle(blockData.set('indent', 'none'))
+  }
+  if (style === 'add-indent') {
+    return setBlockCustomStyle(blockData.remove('indent'))
+  }  
+
+  return editorState
+}
+
 // Handle toggling block types with DraftJS RichUtils
 export const returnEditorStateWithInlineStyles = (style, editorState) => {
   const inlineStyles = ['BOLD', 'ITALIC', 'UNDERLINE']
+  const blockTypes = ['header-one', 'header-two', 'header-three', 'blockquote']
+  const customStyles = ['left-align', 'center-align', 'right-align', 'justify-align', 'no-indent', 'add-indent']
   if (inlineStyles.indexOf(style) >= 0) {
     return RichUtils.toggleInlineStyle(editorState, style)
-  } else if (style === 'header-two') {
-    return RichUtils.toggleBlockType(editorState, 'header-two')
-  }
+  } else if (blockTypes.indexOf(style) >= 0) {
+    return RichUtils.toggleBlockType(editorState, style)
+  } else if (customStyles.indexOf(style) >= 0) {
+    return applyCustomInlineStyles(style, editorState)
+  } else return editorState
 }
 
 
@@ -252,17 +331,13 @@ export const returnEditorStateWithInlineStyles = (style, editorState) => {
 // 
 
 export const returnEditorStateWithSearchTextFocus = (editorState, searchKey) => {
-  // console.log('looking for', searchKey)
   const contentState = editorState.getCurrentContent()
   const findBlockKeyForSearchKey = (contentState, searchKey) => {
     let searchBlockKey = undefined
     editorState.getCurrentContent().getBlockMap().forEach(block => {
       const blockKey = block.key
-      // console.log(block.data) 
       block.data.forEach(blockSearchKey => {
-        // console.log(blockSearchKey)
         if (searchKey === blockSearchKey) {
-          // console.log('Found!')
           searchBlockKey = blockKey
         }
       })
@@ -271,7 +346,6 @@ export const returnEditorStateWithSearchTextFocus = (editorState, searchKey) => 
   }
 
   const searchBlockKey = findBlockKeyForSearchKey(contentState, searchKey)
-  console.log('Search key is', searchBlockKey)
   if (searchBlockKey) {
     // Select block after our intended block, to ensure DraftJS moves it on screen
     const searchContentBlock = contentState.getBlockForKey(searchBlockKey)

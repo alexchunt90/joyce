@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { ChapterButton, NoteButton, TagButton, EditionButton, MediaButton } from './button'
 
 export const DocumentList = ({docs, currentDocument, onDocumentClick, docType}) =>
-	<div id='document_list'>
+	<div id='document_list' className='d-flex flex-grow-1'>
 		{(docType === 'chapters' && docs.length > 0) &&
 			<ChapterList chapters={docs} currentChapter={currentDocument} onChapterClick={onDocumentClick}/>
 		}		

@@ -12,7 +12,7 @@
 }
 
 .text_editor {
-    max-height: 60vh;
+    // max-height: 60vh;
     overflow-y: auto;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
@@ -21,6 +21,7 @@
     border-radius: 5px;
     padding: 2% 5%;
     font-size: 0.8em;
+    text-indent: 3em;
 }
 
 #note_media_picker {
@@ -31,6 +32,7 @@
 		width: 100%;
 	}
 }
+
 
 .note-picker-dropdown {
 	max-height: 20vh;
@@ -43,13 +45,17 @@
 	}
 }
 
+#editor_text_block {
+	max-height: 93%;
+}
+
 #editor_bottom_bar_block {
 	button {
 		width: 100%;
 	}
 }
 
-#rich_text_button_group {
+.rich_text_button_group {
 	width: 100%;
 }
 
@@ -57,7 +63,7 @@
 
 
 #editor_container {
-    height: 82vh;	
+    height: 100%;	
 }
 
 .editor_wrapper {
@@ -91,7 +97,7 @@
 
 
 #editor_content {
-    height: 72vh;
+    // height: 72vh;
     overflow-y: auto;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
@@ -112,6 +118,11 @@
     }
 }
 
+blockquote {
+    margin: 0.5em 0 1rem 8em !important;
+    text-indent: 0;
+}
+
 .text_editor a {
 	text-decoration-line: none;
 }
@@ -124,9 +135,9 @@
 	height: 68vh;
 }
 
-// #editor_content.edit_mode.media {
-// 	height: 30vh;
-// }
+#editor_content.edit_mode.media {
+	height: 30vh;
+}
 
 #editor_content.annotate_mode {
 	height: 73vh;
@@ -142,6 +153,22 @@
 	button {
 		width: 100%;
 	}
+}
+
+.center_align_block {
+	text-align: center;
+}
+
+.right_align_block {
+	text-align: right;
+}
+
+.justify_align_block {
+	text-align: justify;
+}
+
+.no_indent_block {
+	text-indent: 0;
 }
 
 // Media queries

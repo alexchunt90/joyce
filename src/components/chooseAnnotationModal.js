@@ -2,6 +2,7 @@ import React from 'react'
 import { Editor } from 'draft-js'
 import PropTypes from 'prop-types'
 
+import { blockStyleFn } from '../modules/editorSettings'
 import { EditorSubmitButton, EditorCancelButton } from './button'
 import TagColorPreview from './tagColorPreview'
 import { DocumentList } from './list'
@@ -22,7 +23,7 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, moda
 							<DocumentList docs={notes} currentDocument={annotationNote} onDocumentClick={selectAnnotationNote} docType={'notes'}/>
 						</div>
 						<div className='col-md-8 offset-md-1'>
-							<Editor editorState={modalEditorState} readOnly={true} />
+							<Editor editorState={modalEditorState} blockStyleFn={blockStyleFn} readOnly={true} />
 						</div>
 					</div>
 					<div className='row'>

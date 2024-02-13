@@ -33,7 +33,7 @@ const EditorEditMode = ({
 	onSubmitClick,
 	onToolButtonClick,
 }) =>
-	<div id='editor_edit_mode'  className='editor_wrapper'>
+	<div id='editor_edit_mode'  className='editor_wrapper d-flex flex-column'>
 		{/* Doc Title */}
 		<EditorTitleContentBlock>
 			<DocumentTitleInput

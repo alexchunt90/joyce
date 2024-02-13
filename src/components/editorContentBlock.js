@@ -12,8 +12,10 @@ export const EditorTopBarContentBlock = (props) =>
 	</div>
 
 export const EditorTextContentBlock = (props) =>
-	<div id='editor_text_block' className='col-md-12'>
-		{props.children}
+	<div id='editor_text_block' className='col-md-12 d-flex flex-grow-1'>
+		<div className='d-flex'>
+			{props.children}
+		</div>
 	</div>
 
 export const EditorBottomBarContentBlock = (props) =>

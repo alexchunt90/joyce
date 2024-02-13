@@ -24,15 +24,36 @@ export const EditorReadModeOptions = ({setMode, docType}) =>
 
 export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, disabled}) =>
 	<div className='row'>
-		<div className='col-5'>
-			<div id='rich_text_button_group' className='btn-group' role='group'>
+		<div className='col-3'>
+			<div className='rich_text_button_group btn-group' role='group'>
+				<EditorToolButton glyph='heading fa-lg' onClick={()=>onToolButtonClick(editorState, 'header-one')}/>
+				<EditorToolButton glyph='heading fa-md' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
+				<EditorToolButton glyph='heading fa-sm' onClick={()=>onToolButtonClick(editorState, 'header-three')}/>
+			</div>
+		</div>
+		<div className='col-4'>
+			<div className='rich_text_button_group btn-group' role='group'>
 				<EditorToolButton glyph='bold' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
 				<EditorToolButton glyph='italic' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
 				<EditorToolButton glyph='underline' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
-				<EditorToolButton glyph='heading' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
 			</div>
 		</div>
-		<div className='col-5 offset-2'>
+		<div className='col-3'>
+			<div className='rich_text_button_group btn-group' role='group'>
+				<EditorToolButton glyph='align-left' onClick={()=>onToolButtonClick(editorState, 'left-align')}/>
+				<EditorToolButton glyph='align-center' onClick={()=>onToolButtonClick(editorState, 'center-align')}/>
+				<EditorToolButton glyph='align-right' onClick={()=>onToolButtonClick(editorState, 'right-align')}/>
+				<EditorToolButton glyph='align-justify' onClick={()=>onToolButtonClick(editorState, 'justify-align')}/>
+			</div>
+		</div>
+		<div className='col-1'>
+			<div className='rich_text_button_group btn-group' role='group'>
+				<EditorToolButton glyph='outdent' onClick={()=>onToolButtonClick(editorState, 'no-indent')}/>
+				<EditorToolButton glyph='indent' onClick={()=>onToolButtonClick(editorState, 'add-indent')}/>
+				<EditorToolButton glyph='quote-left' onClick={()=>onToolButtonClick(editorState, 'blockquote')}/>
+			</div>
+		</div>				
+		<div className='col-1'>
 			<EditorDeleteToolButton disabled={disabled}/>
 		</div>
 	</div>

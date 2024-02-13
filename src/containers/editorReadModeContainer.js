@@ -17,7 +17,7 @@ const EditorReadMode = ({
 	toggles,
 	setMode
 }) =>
-	<div id='editor_read_mode'  className='editor_wrapper'>
+	<div id='editor_read_mode'  className='editor_wrapper d-flex flex-column'>
 		<EditorTitleContentBlock>
 			<DocumentTitle 
 				docType={docType} 

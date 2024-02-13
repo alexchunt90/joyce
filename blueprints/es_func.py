@@ -94,7 +94,8 @@ def es_update_search_text(id, data):
 		id=id,
 		body={
 			'doc': {
-				'search_text': data['search_text']
+				'search_text': data['search_text'],
+				'html_source': data['html_source']
 			}
 		}
 

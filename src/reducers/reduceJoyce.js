@@ -5,6 +5,7 @@ import { createRouterReducer, createRouterReducerMapObject } from '@lagunovsky/r
 // Documents
 import chapters from './chapters'
 import notes from './notes'
+import info from './info'
 import tags from './tags'
 import editions from './editions'
 import media from './media'
@@ -38,6 +39,7 @@ const reduceJoyce = (history) => combineReducers({
 	// Documents
 	chapters: chapters,
 	notes: notes,
+	info: info,
 	tags: tags,
 	editions: editions,
 	media: media,

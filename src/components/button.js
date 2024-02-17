@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-import TagColorPreview from './tagColorPreview'
 import helpers from '../modules/helpers'
 
 export const ReaderEditButton = ({onClick}) =>
@@ -28,42 +27,6 @@ export const ReaderPaginateButton = ({onClick}) =>
 			<i className='fas fa_inline fa-file-lines'></i>
 		</button>
 	</div>	
-
-export const ChapterButton = ({chapter, currentChapter, onClick}) =>
-	<div className ='chapter_button text-center'>
-		<button onClick={onClick} className={currentChapter.id === chapter.id ? 'btn btn-dark btn-lg active_button' : 'btn btn-outline-dark btn-lg inactive_button'}>
-			{chapter.number}. {chapter.title}
-		</button>
-	</div>
-
-export const NoteButton = ({note, currentNote, onClick}) =>
-	<div className ='note_button'>
-		<button onClick={onClick} className={currentNote.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-			{note.title}
-		</button>
-	</div>
-
-export const TagButton = ({tag, currentTag, onClick}) =>
-	<div className ='tag_button'>
-		<button onClick={onClick} className={currentTag.id === tag.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-			<TagColorPreview color={tag.color}/>
-			{tag.title}
-		</button>
-	</div>
-
-export const EditionButton = ({edition, currentEdition, onClick}) =>
-	<div className ='edition_button'>
-		<button onClick={onClick} className={currentEdition.id === edition.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-			{edition.title} ({edition.year})
-		</button>
-	</div>	
-
-export const MediaButton = ({media, currentMediaId, onClick}) =>
-	<div className ='media_button'>
-		<button onClick={onClick} className={currentMediaId === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-			{media.title}
-		</button>
-	</div>
 
 export const HighlightButton = ({toggle, onClick, size='lg'}) =>
 	<div>
@@ -150,18 +113,6 @@ ReaderEditButton.propTypes = {
 }
 
 ReaderAnnotateButton.propTypes = {
-	onClick: PropTypes.func,
-}
-
-ChapterButton.propTypes = {
-	chapters: PropTypes.arrayOf(PropTypes.object),
-	currentChapter: PropTypes.object,
-	onClick: PropTypes.func,
-}
-
-NoteButton.propTypes = {
-	notes: PropTypes.arrayOf(PropTypes.object),
-	currentNotes: PropTypes.object,	
 	onClick: PropTypes.func,
 }
 

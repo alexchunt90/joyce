@@ -27,6 +27,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onAnnotationClick: id => {
+			console.log('id is:')
+			console.log(id)
 			dispatch(actions.selectAnnotationNote(id))
 		}
 	}

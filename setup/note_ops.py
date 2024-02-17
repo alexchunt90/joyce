@@ -72,7 +72,7 @@ def import_note_operations(notes_path):
 		for script in soup.findAll('script'):	
 			script.decompose()
 
-		# Update image references to point to new location
+		# # Update image references to point to new location
 		images_div = find_div('images')
 		if images_div:
 			for e in images_div.children:

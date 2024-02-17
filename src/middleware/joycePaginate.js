@@ -26,9 +26,11 @@ const joycePaginate = store => next => action => {
 		// 
 		case 'SET_EDITOR_STATE':
 			// Using set timeout to ensure setting editorState isn't delayed by pagination
-			setTimeout(()=> {
-				store.dispatch(actions.loadPagination())
-			}, 100)
+			if (docType === 'chapters') {
+				setTimeout(()=> {
+					store.dispatch(actions.loadPagination())
+				}, 100)
+			}
 			break
 		case 'LOAD_PAGINATION':
 			if (editions.length > 0 && docType === 'chapters') {
@@ -52,7 +54,7 @@ const joycePaginate = store => next => action => {
 			break
 		case 'GET_DOCUMENT_LIST':
 			// TODO: Figure out how to delay this till currentDoc and editions BOTH load, preventing race condition
-			if (action.status === 'success' && action.docType === 'editions' && currentDocument.html_source) {
+			if (action.status === 'success' && action.docType === 'editions' && docType ==='chapters' && currentDocument.html_source) {
 				const firstEdition = action.data[0]
 				const editorState = returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
 				const paginatedDoc = paginate(editorState, firstEdition)

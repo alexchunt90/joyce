@@ -7,5 +7,6 @@ docker compose up -d
 #docker compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d joyce-staging.net
 
 # Cron to keep them updated
+# sudo apt-get install postfix
 # crontab -e
 # 0 12 * * * /usr/bin/docker compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d joyce-staging.net

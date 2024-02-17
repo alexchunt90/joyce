@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 const buildSnippetLink = (key, docType, route) => {
 	if (docType === 'chapter') {
 		return '/' + route + '#' + key
-	} else if (docType === 'media') {
+	} else if (docType === 'info') {
 		return '/' + docType + '/' + route + '#' + key
 	} else {
 		return '/' + docType + 's/' + route + '#' + key

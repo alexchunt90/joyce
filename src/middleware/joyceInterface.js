@@ -62,6 +62,9 @@ const joyceInterface = store => next => action => {
 				if (action.docType === 'notes') {
 					data.media_doc_ids = action.inputs.noteMediaSelection
 				}
+				if (action.docType === 'info') {
+					data.number = action.inputs.documentNumber
+				}
 				if (action.docType === 'tags') {
 					data.color = action.inputs.colorPicker
 				}

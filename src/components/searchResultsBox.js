@@ -32,8 +32,8 @@ const SearchResultsBox = ({searchResults, onLinkClick}) =>
 			{searchResults.hasOwnProperty('notes') && searchResults.notes.length > 0 &&
 				<SearchResultGroup docType='note' docTitle='Notes' results={searchResults.notes} onLinkClick={onLinkClick}/>
 			}
-			{searchResults.hasOwnProperty('media') && searchResults.media.length > 0 &&
-				<SearchResultGroup docType='media' docTitle='Media' results={searchResults.media} onLinkClick={onLinkClick}/>
+			{searchResults.hasOwnProperty('info') && searchResults.info.length > 0 &&
+				<SearchResultGroup docType='info' docTitle='About Pages' results={searchResults.info} onLinkClick={onLinkClick}/>
 			}
 			{sumResults(searchResults) < 1 &&
 				<div className='result_type_group'>

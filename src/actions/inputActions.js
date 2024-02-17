@@ -10,6 +10,11 @@ const inputActions = {
 			type: 'UPDATE_DOCUMENT_TITLE',
 			data: input.target.value
 		}),
+	updateDocumentNumberInput: input =>
+		({
+			type: 'UPDATE_DOCUMENT_NUMBER',
+			data: input.target.value
+		}),		
 	updatePageNumberInput: input =>
 		({
 			type: 'UPDATE_PAGE_NUMBER_INPUT',

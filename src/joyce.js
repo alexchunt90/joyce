@@ -29,6 +29,7 @@ const store = configureStore({
 
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
+store.dispatch(actions.getDocumentList({docType: 'info'}))
 store.dispatch(actions.getDocumentList({docType: 'tags'}))
 store.dispatch(actions.getDocumentList({docType: 'media'}))
 store.dispatch(actions.getDocumentList({docType: 'editions'}))
@@ -53,14 +54,20 @@ root.render(
 						<Route path='notes' element={<ReaderPageContainer />} >
 							<Route path=':id' element={<ReaderPageContainer />} />
 						</Route>
+						<Route path='info' element={<ReaderPageContainer />} >
+							<Route path=':id' element={<ReaderPageContainer />} />
+						</Route>						
 						<Route path='edit' element={<EditorPageContainer />} >
 							<Route path=':id' element={<EditorPageContainer />} />
 							<Route path='notes' element={<EditorPageContainer />} >
 								<Route path=':id' element={<EditorPageContainer />} />
 							</Route>
+							<Route path='info' element={<EditorPageContainer />} >
+								<Route path=':id' element={<EditorPageContainer />} />
+							</Route>							
 							<Route path='tags' element={<EditorPageContainer />} >
 								<Route path=':id' element={<EditorPageContainer />} />
-							</Route>
+							</Route>							
 							<Route path='editions' element={<EditorPageContainer />} >
 								<Route path=':id' element={<EditorPageContainer />} />
 							</Route>

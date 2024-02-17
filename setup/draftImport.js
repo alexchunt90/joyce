@@ -74,7 +74,7 @@ async function processDocumentList(docType) {
 }
 
 // Iterate through docTypes
-const relevantDocTypes = ['chapters', 'notes']
+const relevantDocTypes = ['chapters', 'notes', 'info']
 for (const docType of relevantDocTypes) {
 	// Get all the documents	
 	processDocumentList(docType)

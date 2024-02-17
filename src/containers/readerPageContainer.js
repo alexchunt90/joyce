@@ -19,6 +19,7 @@ import { ReaderSidebarOptions } from '../components/mobileSidebarOptions'
 const ReaderPage = ({
 	chapters,
 	notes,
+	info,
 	tags,
 	editions,
 	currentDocument, 
@@ -43,7 +44,7 @@ const ReaderPage = ({
 			<ReaderSidebarContainer />
 			<Content>
 				<ReaderSidebarOptions
-					docs={helpers.documentsOfDocType(docType, chapters, notes, tags, editions)}
+					docs={helpers.documentsOfDocType(docType, chapters, notes, tags, editions, undefined, info)}
 					editions={editions}
 					currentDocument={currentDocument}
 					toggles={toggles}
@@ -71,6 +72,7 @@ const mapStateToProps = state => {
 	return {
 		chapters: state.chapters,
 		notes: state.notes,
+		info: state.info,
 		tags: state.tags,
 		editions: state.editions,
 		currentDocument: state.currentDocument,

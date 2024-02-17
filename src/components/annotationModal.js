@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import { blockStyleFn } from '../modules/editorSettings'
 import { EditorSubmitButton, EditorCancelButton } from './button'
-import { DocumentList } from './list'
 import { ImageGroup } from './image'
 
 const AnnotateModal = ({annotationNote, annotationNoteMedia, modalEditorState}) =>

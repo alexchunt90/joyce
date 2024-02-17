@@ -18,6 +18,7 @@ import { EditorSidebarOptions } from '../components/mobileSidebarOptions'
 const EditorPage = ({
 	chapters,
 	notes,
+	info,
 	tags,
 	editions,
 	media,
@@ -50,7 +51,7 @@ const EditorPage = ({
 			<Content>
 				{mode === 'READ_MODE' &&
 					<EditorSidebarOptions
-						docs={helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)}
+						docs={helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media, info)}
 						currentDocument={currentDocument}
 						docType={docType}
 						setDocType={setDocType}
@@ -89,6 +90,7 @@ const mapStateToProps = state => {
 	return {
 		chapters: state.chapters,
 		notes: state.notes,
+		info: state.info,
 		tags: state.tags,
 		editions: state.editions,
 		media: state.media,

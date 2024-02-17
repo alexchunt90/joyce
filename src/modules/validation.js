@@ -21,6 +21,12 @@ export const validateSubmittedDocument = (docType, inputs, currentDocument, user
 			errors.push('Year must be an integer.')
 		}
 	}
+	if (docType === 'info') {
+		const number = inputs.documentNumber
+		if (number === '') {
+			errors.push('Info pages must have a number for sorting.')
+		}
+	}
 	if (docType === 'media') {
 		if (inputs.uploadFile === undefined && !currentDocument.id) {
 			errors.push('Please choose an image first.')

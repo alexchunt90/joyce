@@ -1,60 +1,109 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { ChapterButton, NoteButton, TagButton, EditionButton, MediaButton } from './button'
+import TagColorPreview from './tagColorPreview'
 
-export const DocumentList = ({docs, currentDocument, onDocumentClick, docType}) =>
+export const AnnotationDocumentList = ({docs, currentDocument, docType, onDocumentClick}) =>
+	<div id='document_list' className='d-flex flex-grow-1'>
+		<div>
+			{docType === 'notes' && docs.length > 0 && docs.map(note =>
+				<div className ='note_button' key={note.id}>
+					<button onClick={()=>onDocumentClick(note.id)} className={currentDocument.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+						{note.title}
+					</button>
+				</div>
+			)}
+		</div>
+	</div>
+
+export const DocumentList = ({docs, currentDocument, docType, basePath}) =>
 	<div id='document_list' className='d-flex flex-grow-1'>
 		{(docType === 'chapters' && docs.length > 0) &&
-			<ChapterList chapters={docs} currentChapter={currentDocument} onChapterClick={onDocumentClick}/>
+			<ChapterList chapters={docs} currentChapter={currentDocument} basePath={basePath}/>
 		}		
 		{(docType === 'notes' && docs.length > 0) &&
-			<NoteList notes={docs} currentNote={currentDocument} onNoteClick={onDocumentClick}/>
+			<NoteList notes={docs} currentNote={currentDocument} basePath={basePath}/>
+		}
+		{(docType === 'info' && docs.length > 0) &&
+			<InfoList info={docs} currentInfo={currentDocument} basePath={basePath}/>
 		}
 		{(docType === 'tags' && docs.length > 0) &&
-			<TagList tags={docs} currentTag={currentDocument} onTagClick={onDocumentClick}/>
+			<TagList tags={docs} currentTag={currentDocument} basePath={basePath}/>
 		}
 		{(docType === 'editions' && docs.length > 0) &&
-			<EditionList editions={docs} currentEdition={currentDocument} onEditionClick={onDocumentClick}/>
+			<EditionList editions={docs} currentEdition={currentDocument} basePath={basePath}/>
 		}		
 		{(docType === 'media' && docs.length > 0) &&
-			<MediaList media={docs} currentMedia={currentDocument} onMediaClick={onDocumentClick}/>
+			<MediaList media={docs} currentMedia={currentDocument} basePath={basePath}/>
 		}
 	</div>
 
-export const ChapterList = ({chapters, currentChapter, onChapterClick}) =>
+export const ChapterList = ({chapters, currentChapter, onChapterClick, basePath='/'}) =>
 	<div>
     	{chapters.map(chapter =>
-			<ChapterButton key={chapter.id} currentChapter={currentChapter} chapter={chapter} onClick={()=>onChapterClick(chapter.id, 'chapters')}/>
+			<div className ='chapter_button text-center' key={chapter.id}>
+				<Link to={basePath + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+					{chapter.number}. {chapter.title}
+				</Link>
+			</div>    		
     	)}
 	</div>
 
-export const NoteList = ({notes, currentNote, onNoteClick}) =>
+export const NoteList = ({notes, currentNote, onNoteClick, basePath='/'}) =>
 	<div>
     	{notes.map(note =>
-			<NoteButton key={note.id} currentNote={currentNote} note={note} onClick={()=>onNoteClick(note.id, 'notes')} />
+			<div className ='note_button' key={note.id}>
+				<Link to={basePath + 'notes/' + note.id} className={currentNote.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+					{note.title}
+				</Link>
+			</div>
     	)}
 	</div>
 
-export const TagList = ({tags, currentTag, onTagClick}) =>
+export const InfoList = ({info, currentInfo, onInfoClick, basePath='/'}) =>
+	<div>
+    	{info.map(infoDoc =>
+    		<div className='info_button' key={infoDoc.id}>
+    			<Link to={basePath + 'info/' + infoDoc.id} className={currentInfo.id === infoDoc.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+    				{infoDoc.title}
+				</Link>
+			</div>
+    	)}
+	</div>
+
+export const TagList = ({tags, currentTag, onTagClick, basePath='/'}) =>
 	<div>
     	{tags.map(tag =>
-			<TagButton key={tag.id} currentTag={currentTag} tag={tag} onClick={()=>onTagClick(tag.id, 'tags')} />
+			<div className ='tag_button' key={tag.id}>
+				<Link to={basePath + 'tags/' + tag.id} className={currentTag.id === tag.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+					<TagColorPreview color={tag.color}/>
+					{tag.title}
+				</Link>
+			</div>			
     	)}
 	</div>
 
-export const EditionList = ({editions, currentEdition, onEditionClick}) =>
+export const EditionList = ({editions, currentEdition, onEditionClick, basePath='/'}) =>
 	<div>
     	{editions.map(edition =>
-			<EditionButton key={edition.id} currentEdition={currentEdition} edition={edition} onClick={()=>onEditionClick(edition.id, 'editions')} />
+			<div className ='edition_button' key={edition.id}>
+				<Link to={basePath + 'editions/' + edition.id} className={currentEdition.id === edition.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+					{edition.title} ({edition.year})
+				</Link>
+			</div>	
     	)}
 	</div>
 
 
-export const MediaList = ({media, currentMedia, onMediaClick}) =>
+export const MediaList = ({media, currentMedia, onMediaClick, basePath='/'}) =>
 	<div>
     	{media.map(media =>
-			<MediaButton key={media.id} currentMediaId={currentMedia.id} media={media} onClick={()=>onMediaClick(media.id, 'media')} />
+			<div className ='media_button'>
+				<Link to={basePath + 'media/' + media.id} className={currentMedia.id === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+					{media.title}
+				</Link>
+			</div>
     	)}
 	</div>
 

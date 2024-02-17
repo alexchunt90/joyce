@@ -104,21 +104,20 @@ export const stateFromHTML = html => {
   }
   const blocksFromHTML = convertFromHTML({
     htmlToBlock: (nodeName, node) => {
-      const blockData = constructBlockData(node)
       if (nodeName === 'p') {
-        return {type: 'unstyled', data: blockData}
+        return {type: 'unstyled', data: constructBlockData(node)}
       }
       if (nodeName === 'blockquote') {
-        return {type: 'blockquote', data: blockData}
+        return {type: 'blockquote', data: constructBlockData(node)}
       }
       if (nodeName === 'h1') {
-        return {type: 'header-one', data: blockData}
+        return {type: 'header-one', data: constructBlockData(node)}
       }
       if (nodeName === 'h2') {
-        return {type: 'header-two', data: blockData}
+        return {type: 'header-two', data: constructBlockData(node)}
       }
       if (nodeName === 'h3') {
-        return {type: 'header-three', data: blockData}
+        return {type: 'header-three', data: constructBlockData(node)}
       }                        
     },
     htmlToEntity: (nodeName, node, createEntity) => {

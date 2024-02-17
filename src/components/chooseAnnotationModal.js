@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { blockStyleFn } from '../modules/editorSettings'
 import { EditorSubmitButton, EditorCancelButton } from './button'
 import TagColorPreview from './tagColorPreview'
-import { DocumentList } from './list'
+import { AnnotationDocumentList } from './list'
 import helpers from '../modules/helpers'
 
 const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, modalEditorState, onSubmitClick, selectAnnotationNote, selectAnnotationTag, clearAnnotationTag, userErrors}) =>
@@ -20,7 +20,7 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, moda
 				<div className='modal-body'>
 					<div className='row'>
 						<div className='col-md-3'>
-							<DocumentList docs={notes} currentDocument={annotationNote} onDocumentClick={selectAnnotationNote} docType={'notes'}/>
+							<AnnotationDocumentList docs={notes} currentDocument={annotationNote} onDocumentClick={selectAnnotationNote} docType={'notes'}/>
 						</div>
 						<div className='col-md-8 offset-md-1'>
 							<Editor editorState={modalEditorState} blockStyleFn={blockStyleFn} readOnly={true} />

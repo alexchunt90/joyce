@@ -11,6 +11,7 @@ import helpers from '../modules/helpers'
 const EditorSidebar = ({
 	chapters,
 	notes,
+	info,
 	tags,
 	editions,
 	media,
@@ -26,13 +27,14 @@ const EditorSidebar = ({
 			<SidebarSpacer />
 			<NewDocumentButton onClick={()=>onNewDocumentClick(docType)} docType={docType}/>
 			<SidebarSpacer />
-			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType} path={'/edit/'}/>
+			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media, info)} currentDocument={currentDocument} docType={docType} basePath={'/edit/'}/>
 		</div>
 	</div>
 
 const mapStateToProps = state => {
 	return {
 		notes: state.notes,
+		info: state.info,
 		chapters: state.chapters,
 		tags: state.tags,
 		editions: state.editions,
@@ -59,6 +61,7 @@ const mapDispatchToProps = dispatch => {
 EditorSidebar.propTypes = {
 	chapters: PropTypes.arrayOf(PropTypes.object),
 	notes: PropTypes.arrayOf(PropTypes.object),
+	info: PropTypes.arrayOf(PropTypes.object),
 	tags: PropTypes.arrayOf(PropTypes.object),
 	editions: PropTypes.arrayOf(PropTypes.object),
 	media: PropTypes.arrayOf(PropTypes.object),

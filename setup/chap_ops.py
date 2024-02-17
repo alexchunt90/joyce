@@ -63,7 +63,9 @@ def import_chap_operations(chapters_path):
 		chap_path = chapters_path + c
 		chapter_id = chapter_dict[c]
 		html = open(chap_path)
-		soup = bs(html, 'html.parser', preserve_whitespace_tags=['a', 'p'])
+		soup = bs(html, 'html.parser'
+			# , preserve_whitespace_tags=['a', 'p']
+		)
 		html.close()
 
 		chap_name = c.split('.')[0]
@@ -80,6 +82,39 @@ def import_chap_operations(chapters_path):
 				s['data-edition'] = edition_int
 				span_text = '{}#{}'.format(edition_int, page_string)
 				s.string = span_text
+
+		# Reformat chapter numbers
+		for center in soup.findAll('center'):
+			center['data-align'] = 'center'
+			center.name = 'h1'
+
+
+
+		# Reformat lyrics
+		for p in soup.findAll('p'):
+			if p.has_attr('style'):
+				if 'text-align:center' in p['style']:
+					p['data-align'] = 'center'
+				if 'text-align:right' in p['style']:	
+					p['data-align'] = 'right'
+				if 'padding-left:9cm' in p['style']:
+					p['data-align'] = 'right'
+			if p.has_attr('class'):
+				blockquote_classes = ['lyrics', 'dialog-lyrics', 'stage-dir']
+				for c in blockquote_classes:
+					if c in p['class']:
+						if c == 'stage-dir':
+							p['data-indent'] = 'none'
+						p.name = 'blockquote'
+				center_align_classes = ['character-tag', 'break']
+				for c in center_align_classes:
+					if c in p['class']:
+						p['data-align'] = 'center'
+				if 'break' in p['class']:
+					p['data-indent'] = 'none'
+
+
+
 
 		# Point hrefs to ES ids for notes
 		for a in soup.findAll('a'):

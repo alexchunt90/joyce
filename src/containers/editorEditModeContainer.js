@@ -23,6 +23,7 @@ const EditorEditMode = ({
 	handleKeyCommand,
 	onChangeEditorState,
 	onDocumentTitleChange,
+	onDocumentNumberChange,
 	onEditionYearInputChange,
 	onColorPickerInputChange,
 	onColorSwatchClick,
@@ -37,8 +38,11 @@ const EditorEditMode = ({
 		{/* Doc Title */}
 		<EditorTitleContentBlock>
 			<DocumentTitleInput
-				input={inputs.documentTitle}
-				onChange={onDocumentTitleChange}
+				titleInput={inputs.documentTitle}
+				numberInput={inputs.documentNumber}
+				onTitleChange={onDocumentTitleChange}
+				onNumberChange={onDocumentNumberChange}
+				docType={docType}
 			/>
 		</EditorTitleContentBlock>
 		{/* Topbar with rich text options */}
@@ -126,6 +130,9 @@ const mapDispatchToProps = dispatch => {
 		onDocumentTitleChange: input => {
 			dispatch(actions.updateDocumentTitleInput(input))
 		},
+		onDocumentNumberChange: input => {
+			dispatch(actions.updateDocumentNumberInput(input))
+		},	
 		onEditionYearInputChange: input => {
 			dispatch(actions.updateEditionYearInput(input))
 		},

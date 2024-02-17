@@ -2,6 +2,7 @@ import regex from '../modules/regex'
 
 const initialState = {
 	documentTitle: '',
+	documentNumber: '',
 	search: '',
 	pageNumber: '',
 	colorPicker: '',
@@ -12,7 +13,7 @@ const initialState = {
 	searchDocTypes: {
 		'chapters': true,
 		'notes': true,
-		'media': true,
+		'info': true,
 	}
 }
 
@@ -31,6 +32,12 @@ const inputs = (state=initialState, action) => {
 					documentTitle: action.data.title,
 					noteMediaSelection: action.data.media_doc_ids,
 				}
+			} else if (action.status === 'success' && action.docType === 'info' && action.state === 'currentDocument') {
+				return {
+					...state,
+					documentTitle: action.data.title,
+					documentNumber: action.data.number,
+				}				
 			} else if (action.status === 'success' && action.docType === 'tags') {
 				return {
 					...state,
@@ -60,6 +67,13 @@ const inputs = (state=initialState, action) => {
 				...state,
 				documentTitle: action.data
 			}
+		case 'UPDATE_DOCUMENT_NUMBER':
+			if (regex.checkIntegerInput(action.data)) {
+				return {
+					...state,
+					documentNumber: action.data
+				}
+			}		
 		case 'UPDATE_PAGE_NUMBER_INPUT':
 			return {
 				...state,

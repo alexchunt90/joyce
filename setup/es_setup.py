@@ -11,6 +11,7 @@ def refresh_indices():
 	refresh_elasticsearch('editions', es_config.EDITION_INDEX_SETTINGS)
 	refresh_elasticsearch('tags', es_config.TAG_INDEX_SETTINGS)
 	refresh_elasticsearch('notes', es_config.NOTE_INDEX_SETTINGS)
+	refresh_elasticsearch('info', es_config.INFO_INDEX_SETTINGS)
 	refresh_elasticsearch('chapters', es_config.CHAPTER_INDEX_SETTINGS)
 
 if __name__ == '__main__':

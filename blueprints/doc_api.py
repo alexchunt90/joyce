@@ -81,6 +81,42 @@ def delete_note(id):
 	return jsonify(es_func.es_document_list('notes'))
 
 #
+# Info API Routes
+#
+
+''' Get all info pages '''
+@doc_api.route('/info/')
+def get_info_list():
+	return jsonify(es_func.es_document_list('info'))
+
+''' Get specific info page '''
+@doc_api.route('/info/<string:id>')
+def get_info_doc(id):
+	data =  es_func.es_get_document('info', id)
+	return jsonify(data)
+
+''' New info page '''
+@doc_api.route('/info/', methods=['PUT'])
+@jwt_required()
+def create_info():
+	es_func.es_create_document('info', request.data)
+	return jsonify(es_func.es_document_list('info'))
+
+''' Write info page '''
+@doc_api.route('/info/<string:id>', methods=['POST'])
+@jwt_required()
+def write_info(id):
+	es_func.es_index_document('info', id, request.data)
+	return jsonify(es_func.es_document_list('info'))
+
+''' Delete info page '''
+@doc_api.route('/info/<string:id>', methods=['DELETE'])
+@jwt_required()
+def delete_info(id):
+	es_func.es_delete_document('info', id)
+	return jsonify(es_func.es_document_list('info'))
+
+#
 # Tag API Routes
 #
 

@@ -12,11 +12,12 @@ import helpers from '../modules/helpers'
 const ReaderSidebar = ({
 	chapters,
 	notes,
+	info,
+	media,
 	editions,
 	currentDocument,
 	docType,
 	toggles,
-	onDocumentClick,
 	onHighlightClick,
 	onPaginationToggle,
 	setPaginationEdition,
@@ -33,7 +34,7 @@ const ReaderSidebar = ({
 			}			
 			<Logo />
 			<SidebarSpacer />
-			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes)} currentDocument={currentDocument} onDocumentClick={onDocumentClick} docType={docType}/>
+			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, undefined, undefined, media, info)} currentDocument={currentDocument} docType={docType} basePath={'/'}/>
 		</div>
 	</div>
 
@@ -41,6 +42,8 @@ const mapStateToProps = state => {
 	return {
 		chapters: state.chapters,
 		notes: state.notes,
+		info: state.info,
+		media: state.media,
 		editions: state.editions,
 		currentDocument: state.currentDocument,		
 		docType: state.docType,
@@ -50,9 +53,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onDocumentClick: (id, docType) => {
-			dispatch(actions.setCurrentDocument(id, docType))
-		},
 		onHighlightClick: () => {
 			dispatch(actions.toggleHighlight())
 		},

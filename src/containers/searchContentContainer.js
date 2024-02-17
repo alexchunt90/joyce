@@ -35,8 +35,8 @@ const SearchContent = ({
 			    <label className="form-check-label">Notes</label>			
 			</div>
 			<div className='col-sm-2'>
-				<input type="checkbox" className="form-check-input" defaultChecked={inputs.searchDocTypes.media} onClick={()=>onToggleSearchDocType('media')}/>
-			    <label className="form-check-label">Media</label>			
+				<input type="checkbox" className="form-check-input" defaultChecked={inputs.searchDocTypes.info} onClick={()=>onToggleSearchDocType('info')}/>
+			    <label className="form-check-label">About Pages</label>			
 			</div>
 			<div className='col-sm-2'>
 			    <label className="form-check-label">Result Count:</label>			

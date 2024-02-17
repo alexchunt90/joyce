@@ -48,6 +48,19 @@ NOTE_MAPPINGS = {
     }
 }
 
+INFO_MAPPINGS = {
+    'doc': {
+    	'properties': {
+    		'number': {'type': 'integer'},
+    		'file_name': {'type': 'keyword'},
+    		'title': {'type': 'keyword'},
+    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+    		'search_text': {'type': 'nested'},
+    		'media_doc_ids': {'type': 'keyword'}
+    	}
+    }
+}
+
 MEDIA_MAPPINGS = {
     'doc': {
     	'properties': {
@@ -94,6 +107,11 @@ CHAPTER_INDEX_SETTINGS = {
 NOTE_INDEX_SETTINGS = {
 	'settings': DEFAULT_INDEX_SETTINGS,
 	'mappings': NOTE_MAPPINGS
+}
+
+INFO_INDEX_SETTINGS = {
+	'settings': DEFAULT_INDEX_SETTINGS,
+	'mappings': INFO_MAPPINGS
 }
 
 MEDIA_INDEX_SETTINGS = {

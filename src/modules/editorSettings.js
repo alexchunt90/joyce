@@ -220,7 +220,7 @@ export const returnEditorStateWithNewAnnotation = (contentState, data) => {
   const contentStateWithEntity = contentState.createEntity(
     'LINK',
     'MUTABLE',
-    {'url': data.annotationNote.id, 'data-color': data.annotationTag.color, 'data-tag': data.annotationTag.title}
+    {'url': data.annotationNote.id, 'color': data.annotationTag.color, 'tag': data.annotationTag.title}
   )  
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
   const contentStateWithLink = Modifier.applyEntity(

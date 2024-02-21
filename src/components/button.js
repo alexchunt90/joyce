@@ -28,7 +28,7 @@ export const ReaderPaginateButton = ({onClick}) =>
 		</button>
 	</div>	
 
-export const HighlightButton = ({toggle, onClick, size='lg'}) =>
+export const HighlightButton = ({toggle, onClick, size='md'}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>
 			<button onClick={onClick} className={toggle ? 'btn btn-primary btn-' + size : 'btn btn-outline-primary btn-' + size}>

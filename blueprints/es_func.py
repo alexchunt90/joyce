@@ -28,10 +28,14 @@ def es_document_list(index, es_client=es):
 		'from': 0, 'size': 10000,
 		'query': {'match_all': {}},
 	}
-	if index == 'chapters':
+	if index in ['chapters', 'info']:
 		body['sort'] = [
 			{'number': {'order': 'asc'}}
-		]	
+		]
+	if index in ['notes']:
+		body['sort'] = [
+			{'title': {'order': 'asc'}}
+		]
 	search = es_client.search(
 		index=index,
 		_source_excludes=['html_source', 'search_text', 'thumb_file', 'file_ext', 'file_name'],

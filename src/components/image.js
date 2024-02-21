@@ -12,7 +12,7 @@ export const Image = ({document, col=12}) =>
 	</div>
 
 export const ImageGroup = ({media_docs}) =>
-	<div>
+	<div className='image_group'>
     	{media_docs.map(doc =>
     		<div key={doc.id}>
     			<Image document={doc} col={6} />

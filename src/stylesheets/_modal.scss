@@ -1,5 +1,16 @@
 @import "variables";
 
+.modal-body {
+    max-height: 80vh;
+    overflow: auto;
+    div:first-child {
+    	height: 68vh;
+    }
+    div > div#document_list {
+    	max-height: 60vh;
+	}
+}
+
 #annotation_modal_wrapper {
 	max-width: 90%;
 }

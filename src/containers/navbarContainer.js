@@ -6,7 +6,7 @@ import actions from '../actions'
 
 const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
 	<nav className='navbar navbar-dark navbar-static-top navbar-expand-lg'>
-		<NavLink to='/:id' className='navbar-brand'>The Joyce Project</NavLink>
+		<NavLink to='/:id' className='navbar-brand'>Home</NavLink>
 		<button className='navbar-toggler' type='button' onClick={()=>toggleNavCollapse()}>
 			<span className='navbar-toggler-icon'></span>
 		</button>		

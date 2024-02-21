@@ -1,12 +1,15 @@
 @import "variables";
 @import "mixin";
 
-
+.image_group {
+    font-size: 0.8em;
+}
 
 .image_div {
 	max-height: 30vh;
 	overflow-y: auto;
-    margin-top: 1vh;	
+    margin-top: 1vh;
+    width: 100% !important;
 }
 
 .image_div img {

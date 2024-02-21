@@ -24,6 +24,8 @@ const ReaderSidebar = ({
 }) =>
 	<div id='sidebar' className='col-md-3 d-none d-md-flex'>
 		<div>
+			<Logo />
+			<SidebarSpacer />
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />
 			{docType==='chapters' &&
@@ -32,8 +34,6 @@ const ReaderSidebar = ({
 			{docType==='chapters' &&
 				<SidebarSpacer />
 			}			
-			<Logo />
-			<SidebarSpacer />
 			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, undefined, undefined, media, info)} currentDocument={currentDocument} docType={docType} basePath={'/'}/>
 		</div>
 	</div>

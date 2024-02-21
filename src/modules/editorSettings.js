@@ -41,6 +41,10 @@ const findPagebreakEntities = (contentBlock, callback) => {
   findEntities(contentBlock, callback, 'PAGEBREAK')
 }
 
+// const findImageEntities = (contentBlock, callback) => {
+//   findEntities(contentBlock, callback, 'IMAGE')
+// }
+
 
 export const readerDecorator = new CompositeDecorator([
   {

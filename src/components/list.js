@@ -43,8 +43,8 @@ export const ChapterList = ({chapters, currentChapter, onChapterClick, basePath=
 	<div>
     	{chapters.map(chapter =>
 			<div className ='chapter_button text-center' key={chapter.id}>
-				<Link to={basePath + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-					{chapter.number}. {chapter.title}
+				<Link to={basePath + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
+					{chapter.title}
 				</Link>
 			</div>    		
     	)}
@@ -54,7 +54,7 @@ export const NoteList = ({notes, currentNote, onNoteClick, basePath='/'}) =>
 	<div>
     	{notes.map(note =>
 			<div className ='note_button' key={note.id}>
-				<Link to={basePath + 'notes/' + note.id} className={currentNote.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+				<Link to={basePath + 'notes/' + note.id} className={currentNote.id === note.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
 					{note.title}
 				</Link>
 			</div>
@@ -65,7 +65,7 @@ export const InfoList = ({info, currentInfo, onInfoClick, basePath='/'}) =>
 	<div>
     	{info.map(infoDoc =>
     		<div className='info_button' key={infoDoc.id}>
-    			<Link to={basePath + 'info/' + infoDoc.id} className={currentInfo.id === infoDoc.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+    			<Link to={basePath + 'info/' + infoDoc.id} className={currentInfo.id === infoDoc.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
     				{infoDoc.title}
 				</Link>
 			</div>
@@ -76,7 +76,7 @@ export const TagList = ({tags, currentTag, onTagClick, basePath='/'}) =>
 	<div>
     	{tags.map(tag =>
 			<div className ='tag_button' key={tag.id}>
-				<Link to={basePath + 'tags/' + tag.id} className={currentTag.id === tag.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+				<Link to={basePath + 'tags/' + tag.id} className={currentTag.id === tag.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
 					<TagColorPreview color={tag.color}/>
 					{tag.title}
 				</Link>
@@ -88,7 +88,7 @@ export const EditionList = ({editions, currentEdition, onEditionClick, basePath=
 	<div>
     	{editions.map(edition =>
 			<div className ='edition_button' key={edition.id}>
-				<Link to={basePath + 'editions/' + edition.id} className={currentEdition.id === edition.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+				<Link to={basePath + 'editions/' + edition.id} className={currentEdition.id === edition.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
 					{edition.title} ({edition.year})
 				</Link>
 			</div>	
@@ -100,7 +100,7 @@ export const MediaList = ({media, currentMedia, onMediaClick, basePath='/'}) =>
 	<div>
     	{media.map(media =>
 			<div className ='media_button'>
-				<Link to={basePath + 'media/' + media.id} className={currentMedia.id === media.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+				<Link to={basePath + 'media/' + media.id} className={currentMedia.id === media.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
 					{media.title}
 				</Link>
 			</div>

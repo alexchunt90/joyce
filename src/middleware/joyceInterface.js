@@ -1,3 +1,5 @@
+import * as bootstrap from 'bootstrap'
+
 import actions from '../actions'
 import api from '../modules/api'
 import helpers from '../modules/helpers'
@@ -117,7 +119,7 @@ const joyceInterface = store => next => action => {
 				const contentState = action.editorState.getCurrentContent()
 				const newEditorState = returnEditorStateWithNewAnnotation(contentState, action)
 				store.dispatch(actions.annotationCreated(newEditorState))
-				document.getElementById('select_annotation_modal_close').click()
+				bootstrap.Modal.getInstance(document.getElementById('annotate_modal')).hide()
 			}
 			break
 	// Search Action Middleware

@@ -38,11 +38,11 @@ def refresh_target_files(target_folder):
 def joyce_import():
 	es_setup.refresh_indices()
 
-	# Import Joyce media files
-	refresh_target_files('img/')
-	# Delete existing media assets
-	clear_static_assets(static_path)
-	media_ops.import_media_operations(img_path)
+	# # Import Joyce media files
+	# refresh_target_files('img/')
+	# # Delete existing media assets
+	# clear_static_assets(static_path)
+	# media_ops.import_media_operations(img_path)
 
 	# Create Joyce info pages
 	refresh_target_files('info/')

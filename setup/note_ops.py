@@ -98,10 +98,10 @@ def import_note_operations(notes_path):
 					else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
 			images_div.decompose()
 
-		# Remove return
-		return_div = find_div('return')
-		if return_div:
-			return_div.decompose()	
+		# # Remove return
+		# return_div = find_div('return')
+		# if return_div:
+		# 	return_div.decompose()	
 
 		# Remove button div
 		button_div = find_div('button')

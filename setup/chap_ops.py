@@ -86,9 +86,11 @@ def import_chap_operations(chapters_path):
 		# Reformat chapter numbers
 		for center in soup.findAll('center'):
 			center['data-align'] = 'center'
-			center.name = 'h1'
-
-
+			font = center.find(attrs={'size': '+3'})
+			if font:
+				center.name = 'h1'
+			else:
+				center.name = 'h2'
 
 		# Reformat lyrics
 		for p in soup.findAll('p'):

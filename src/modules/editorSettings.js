@@ -62,6 +62,10 @@ export const editorDecorator = new CompositeDecorator([
     strategy: findLinkEntities,
     component: EditorLink,
   },
+  {
+    strategy: findPagebreakEntities,
+    component: PageBreak,
+  }  
 ])
 
 export const modalDecorator = new CompositeDecorator([

@@ -102,11 +102,20 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 					.set('anchorOffset', pageBreak.end)
 				// Split the block at the selection. Key for currentBlock will remain the same,
 				// and the other half of the block will be returned by getBlockAfer()
-				contentStateWithSplitBlock = Modifier.splitBlock(contentState, entitySelectionState)		
+				contentStateWithSplitBlock = Modifier.splitBlock(contentState, entitySelectionState)
+				// Push the first half of the split block to the current page
+				const firstHalfBlock = contentStateWithSplitBlock.getBlockForKey(currentBlock.getKey())
+				currentPage.blocks.push(firstHalfBlock)
+				
+				// Remove the indent from the second half of the split block
+				const secondHalfBlock = contentStateWithSplitBlock.getBlockAfter(currentBlock.getKey())
+				const secondHalfSelection = SelectionState.createEmpty(secondHalfBlock.getKey())
+				const secondHalfData = secondHalfBlock.getData().set('indent', 'none')
+				contentStateWithSplitBlock = Modifier.setBlockData(contentStateWithSplitBlock, secondHalfSelection, secondHalfData)
 			}
-
 			// Get the page number from the entity
 			currentPage = {...currentPage, number: pageBreak.number}
+
 			// Push the currentPage to the entity and instantiate a new one
 			paginatedDoc.doc.push(currentPage)
 			currentPage = newPage()
@@ -144,7 +153,7 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 // So, you ignored all the SO posts telling you to use a `while` loop instead, and 
 // you wrote a big clever recursive function. Here's why you shouldn't have:
 // 1. Debugging is a pain and 2. Big documents max out the browser's call stack
-// Unfortunately now the big clever recursive function works, so I'm not rewriting it
+// Unfortunately the big clever recursive function works, so I'm not rewriting it
 // This limitRecursion() function exists to reset the call stack after 500 calls, preventing browser errors
 const limitRecursion = (contentState, edition, block=undefined, page=undefined, resultDoc=undefined, number=undefined) => {
   let constructor = () => {return null}

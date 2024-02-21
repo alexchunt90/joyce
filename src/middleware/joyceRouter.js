@@ -12,6 +12,7 @@ const joyceRouter = store => next => action => {
 	const notes = store.getState().notes
 	const tags = store.getState().tags
 	const media = store.getState().media
+	const editorState = store.getState().editorState
 	const currentDocument = store.getState().currentDocument
 	const currentBlock = store.getState().currentBlock
 	const docType = store.getState().docType
@@ -73,7 +74,7 @@ const joyceRouter = store => next => action => {
 				}
 			}
 			// If routing to reader for a new chapter, set new currentDocument
-			if (regex.checkIfRootPathWithNumber(path)) {
+			if (pathNumber) {
 				for (const chapter of chapters) {
 					if (chapter.number === pathNumber && chapter.id !== currentDocument.id) {
 						if (docType !== 'chapters') {
@@ -97,9 +98,9 @@ const joyceRouter = store => next => action => {
 					store.dispatch(actions.setCurrentDocument(pathID, pathDocType))
 				}
 			}
-			// if (typeof hash !== 'undefined') {
-			// 	store.dispatch(actions.setCurrentBlock(currentDocument.id, hash))
-			// }
+			if (typeof hash !== 'undefined') {
+				store.dispatch(actions.setCurrentBlock(currentDocument.id, hash))
+			}
 
 			break
 		case 'GET_DOCUMENT_LIST':
@@ -159,9 +160,16 @@ const joyceRouter = store => next => action => {
 		case 'SET_EDITOR_STATE':
 			// When the reader loads a new document, if a currentBlock is set, jump to it
 			if (typeof(currentBlock.id) !== 'undefined' && currentBlock.id === currentDocument.id ) {
+				console.log('MIDDLEWARE ENGAGED')
 				const newEditorState = returnEditorStateWithSearchTextFocus(action.data, currentBlock.key)
-				console.log('Equality check', action.data === newEditorState)
 				action.data = newEditorState
+			}
+		case 'SET_CURRENT_BLOCK':
+			// When current block is set for a document that's already loaded, refresh the editorState with new focus
+			if (typeof(currentBlock.id) !== 'undefined' && currentDocument.id === action.id && currentBlock.key !== action.key) {
+				setTimeout(()=> {
+					store.dispatch(actions.setCurrentDocument(action.id, docType))
+				}, 15)
 			}
 		case 'SAVE_DOCUMENT':
 			// If successfully saving a new document, load it by pulling the id from the last document in the list

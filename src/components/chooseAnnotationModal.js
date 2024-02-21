@@ -22,7 +22,7 @@ const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, moda
 						<div className='col-md-3'>
 							<AnnotationDocumentList docs={notes} currentDocument={annotationNote} onDocumentClick={selectAnnotationNote} docType={'notes'}/>
 						</div>
-						<div className='col-md-8 offset-md-1'>
+						<div className='select_annotation_modal_note col-md-8 offset-md-1'>
 							<Editor editorState={modalEditorState} blockStyleFn={blockStyleFn} readOnly={true} />
 						</div>
 					</div>

@@ -3,12 +3,18 @@
 .modal-body {
     max-height: 80vh;
     overflow: auto;
-    div:first-child {
+    div:first-child.row {
     	height: 68vh;
+    	overflow: hidden;
     }
     div > div#document_list {
     	max-height: 60vh;
 	}
+}
+
+.select_annotation_modal_note {
+	height: 100%;
+	overflow: auto;
 }
 
 #annotation_modal_wrapper {

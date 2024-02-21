@@ -12,6 +12,7 @@ import ReaderPageButtons from '../components/readerPageButtons'
 const ReaderContent = ({
 	currentDocument,
 	editorState,
+	docType,
 	paginationEditorState,
 	currentPageNumber,
 	pagesArray,
@@ -21,6 +22,9 @@ const ReaderContent = ({
 	<div id="reader_container" className={toggles.highlights ? 'annotations' : 'hidden_annotations'}>
 		{toggles.loading === true &&
 			<LoadingSpinner />
+		}
+		{docType !== 'chapters' &&
+			<h2>{currentDocument.title}</h2>
 		}
 		<br />
 		<br />
@@ -47,6 +51,7 @@ const mapStateToProps = state => {
 	const baseState = {
 		currentDocument: state.currentDocument,
 		editorState: state.editorState,
+		docType: state.docType,
 		toggles: state.toggles,
 		paginationEditorState: undefined,
 		currentPageNumber: undefined,

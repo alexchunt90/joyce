@@ -22,8 +22,9 @@ def clear_white_space(html):
 
 def clean_html_for_export(html):
 	if html:
-		string = str(html)
-		cleaned_string = re.sub('\s{2,}', ' ', string)
+		string = str(html).replace('\n', '').replace('<br>', '<br/>')
+		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
+		cleaned_string = re.sub('\s{2,}', ' ', string_without_tabs)
 		return cleaned_string
 
 

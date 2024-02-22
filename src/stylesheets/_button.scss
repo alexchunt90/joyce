@@ -5,7 +5,8 @@ button {
 }
 
 #highlight_button > button {
-    width: 100%;    
+    width: 100%;
+    border: 1px solid black;
 }
 
 #pagination_toggle_button {
@@ -29,6 +30,7 @@ button {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-align: left;
+    border: 1px solid black;
 }
 
 .note_button > button {
@@ -38,6 +40,7 @@ button {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-align: left;
+    border: 1px solid black;
 }
 
 .chapter_button > a {
@@ -46,6 +49,7 @@ button {
     padding: 0.2rem 0;
     font-size: 1.1em;
     font-weight: bold;
+    border: 1px solid black;
     // font-family: serif;
 }
 
@@ -55,6 +59,7 @@ button {
     margin: 0.25% 0;
     padding: 0.2rem 0;
     font-size: 1.1em;
+    border: 1px solid black;
 }
 
 
@@ -65,6 +70,7 @@ button {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-align: left;
+    border: 1px solid black;
 }
 
 .edition_button > a {
@@ -74,6 +80,7 @@ button {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-align: left;
+    border: 1px solid black;
 }
 
 
@@ -84,6 +91,7 @@ button {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-align: left;
+    border: 1px solid black;
 }
 
 // Manually set the white background for each button type

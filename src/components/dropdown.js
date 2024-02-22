@@ -19,9 +19,9 @@ export const DocTypeDropdown = ({docType, setDocType, size='sm'}) =>
 		</div>
 	</div>
 
-export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick, editMode=false, onNewDocumentClick}) =>
+export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick, editMode=false, onNewDocumentClick, theme='primary'}) =>
 	<div className='dropdown'>
-		<button className='btn btn-primary btn-md dropdown-toggle' type='button' id='doc_type_select' data-bs-toggle='dropdown'>
+		<button className={'btn btn-' + theme +' btn-md dropdown-toggle'} type='button' id='doc_type_select' data-bs-toggle='dropdown'>
 			{docType==='chapters' && currentDocument.number ? currentDocument.number + '. ' : ''}{currentDocument.title}
 		</button>
 		<div id='doc_list_dropdown' className='dropdown-menu'>

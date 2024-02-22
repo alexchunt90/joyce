@@ -21,6 +21,7 @@ const joycePaginate = store => next => action => {
 	const currentDocument = state.currentDocument
 	const editorState = state.editorState
 	const mode = state.mode
+	const toggles = state.toggles
 	const paginationState = state.paginationState
 	switch(action.type) {		
 		// 
@@ -69,6 +70,9 @@ const joycePaginate = store => next => action => {
 				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
 			}
 			break
+
+		case 'ADD_PAGINATED_DOCUMENT':
+			console.log(toggles)
 	}
 }
 

@@ -5,8 +5,11 @@ import { NavLink, Link } from 'react-router-dom'
 import actions from '../actions'
 
 const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
-	<nav className='navbar navbar-dark navbar-static-top navbar-expand-lg'>
-		<NavLink to='/:id' className='navbar-brand'>Home</NavLink>
+	<nav className='navbar navbar-light navbar-static-top navbar-expand-lg'>
+		<NavLink to='/:id' className='navbar-brand'>
+			{/*Home*/}
+			<img src="/static/icon_sheer.png" alt="" width="30" height="24" className="d-inline-block align-text-top" />
+		</NavLink>
 		<button className='navbar-toggler' type='button' onClick={()=>toggleNavCollapse()}>
 			<span className='navbar-toggler-icon'></span>
 		</button>		

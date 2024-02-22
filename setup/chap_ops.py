@@ -10,7 +10,7 @@ from . import tag_ops
 
 def clean_html_for_export(html):
 	if html:
-		string = str(html).replace('\n', '').replace('<br>', '<br/>')
+		string = str(html).replace('\n', ' ').replace('<br>', '<br/>')
 		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
 		cleaned_string = re.sub('\s{2,}', ' ', string_without_tabs)
 		return cleaned_string
@@ -26,7 +26,7 @@ def append_chapter(list, number, title, file_name):
 append_chapter(chapter_list, 1, 'Telemachus', 'telem')
 append_chapter(chapter_list, 2, 'Nestor', 'nestor')
 append_chapter(chapter_list, 3, 'Proteus', 'proteus')
-append_chapter(chapter_list, 4, 'Calyspo', 'calypso')
+append_chapter(chapter_list, 4, 'Calypso', 'calypso')
 append_chapter(chapter_list, 5, 'Lotus Eaters', 'lotus')
 append_chapter(chapter_list, 6, 'Hades', 'hades')
 append_chapter(chapter_list, 7, 'Aeolus', 'aeolus')

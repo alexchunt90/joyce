@@ -33,6 +33,7 @@ const EditorEditMode = ({
 	cancelEdit,
 	onSubmitClick,
 	onToolButtonClick,
+	onCustomClassToggle,
 }) =>
 	<div id='editor_edit_mode'  className='editor_wrapper d-flex flex-column'>
 		{/* Doc Title */}
@@ -51,6 +52,7 @@ const EditorEditMode = ({
 				editorState={editorState} 
 				onToolButtonClick={onToolButtonClick} 
 				disabled={!currentDocument.id ? true : false}
+				onCustomClassToggle={onCustomClassToggle}
 			/>
 		</EditorTopBarContentBlock>
 		<EditorTextContentBlock>
@@ -159,6 +161,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		onToolButtonClick: (editorState, style) => {
 			dispatch(actions.applyInlineStyles(editorState, style))
+		},
+		onCustomClassToggle: (editorState, className) => {
+			dispatch(actions.toggleCustomClass(editorState, className))
 		},
 		onSubmitClick: (currentDocument, editorState, inputs, docType) => {
 			dispatch(actions.submitDocumentEdit(currentDocument, editorState, inputs, docType))

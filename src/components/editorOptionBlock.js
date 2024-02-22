@@ -1,5 +1,6 @@
 import React from 'react'
-import { ReaderAnnotateButton, ReaderPaginateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, EditorCancelButton, EditorSubmitButton} from './button'
+import { ReaderAnnotateButton, ReaderPaginateButton, ReaderEditButton, EditorDeleteToolButton, EditorCancelButton, EditorSubmitButton} from './button'
+import { returnSelectionContentBlockClasses } from '../modules/editorSettings'
 
 export const EditorReadModeOptions = ({setMode, docType}) =>
 	<div className='row'>
@@ -22,7 +23,31 @@ export const EditorReadModeOptions = ({setMode, docType}) =>
 
 	</div>
 
-export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, disabled}) =>
+const EditorToolButton = ({glyph, onClick}) =>
+	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
+		<i className={'fas fa-' + glyph}></i>
+	</button>
+
+const CSSClassObject = (name, className) => {
+	return {
+		'name': name,
+		'className': className
+	}
+}
+
+const customCSSClasses = [
+	CSSClassObject('Stage Direction', 'stage-dir'),
+	CSSClassObject('Serif Font', 'serif-font'),
+	CSSClassObject('Character Tag', 'character-tag'),
+	CSSClassObject('Question', 'question'),
+	CSSClassObject('Bib', 'bib'),
+	CSSClassObject('Page Break', 'break'),
+	CSSClassObject('Dialog Lyrics', 'dialog-lyrics'),
+]
+
+const blockClassArray = editorState => returnSelectionContentBlockClasses(editorState) || []
+
+export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, disabled, onCustomClassToggle}) =>
 	<div className='row'>
 		<div className='col-5'>
 			<div className='rich_text_button_group btn-group' role='group'>
@@ -32,6 +57,17 @@ export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, d
 				<EditorToolButton glyph='bold fa-sm' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
 				<EditorToolButton glyph='italic fa-sm' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
 				<EditorToolButton glyph='underline fa-sm' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
+				<button className='btn btn-info btn-sm dropdown-toggle' type='button' data-bs-toggle='dropdown' disabled={!returnSelectionContentBlockClasses(editorState)}>
+			    	<i className='fas fa-hashtag fa-sm'></i>
+			  	</button>		  	
+				<ul className='dropdown-menu'>
+					{customCSSClasses.map(obj => 
+				    	<li key={obj.className}>
+			    			<input onChange={()=>{onCustomClassToggle(editorState, obj.className)}} checked={blockClassArray(editorState).includes(obj.className)} className='form-check-input me-1' type='checkbox' />
+				    		{obj.name}
+			    		</li>
+					)}
+				</ul>			  	
 			</div>
 		</div>
 		<div className='col-5'>

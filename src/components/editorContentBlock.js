@@ -1,5 +1,4 @@
 import React from 'react'
-import { ReaderAnnotateButton, ReaderEditButton, EditorToolButton, EditorDeleteToolButton, AnnotatorNewButton, AnnotatorRemoveButton, EditorCancelButton, EditorSubmitButton} from './button'
 
 export const EditorTitleContentBlock = (props) =>
 	<div id='editor_title_block' className='col-md-12'>

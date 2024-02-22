@@ -91,6 +91,9 @@ export const blockStyleFn = (contentBlock) => {
   if (data.get('indent') === 'none') {
     blockStyles.push('no_indent_block')
   }
+  if (data.get('classes') && data.get('classes').length > 0) {
+    blockStyles.push(data.get('classes').join(' '))
+  }
   return blockStyles.join(' ')
 }
 
@@ -102,12 +105,14 @@ export const blockStyleFn = (contentBlock) => {
 
 // Create contentState from HTML
 export const stateFromHTML = html => {
-  
+
   const constructBlockData = (node) => {
+    console.log(node.getAttribute('data-custom-classes'))
     return {
       key: node.getAttribute('data-search-key'),
       align: node.getAttribute('data-align'),
-      indent: node.getAttribute('data-indent'),      
+      indent: node.getAttribute('data-indent'),   
+      classes: node.getAttribute('data-custom-classes') ? node.getAttribute('data-custom-classes').split(' ') : [],
     }
   }
   const blocksFromHTML = convertFromHTML({
@@ -159,19 +164,19 @@ export const stateToHTML = contentState => {
   const html = convertToHTML({
     blockToHTML: (block) => {
       if (block.type === 'unstyled') {
-        return <p data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined}/>;
+        return <p data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />;
       }
       if (block.type === 'blockquote') {
-        return <blockquote data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+        return <blockquote data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }
       if (block.type === 'header-one') {
-        return <h1 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+        return <h1 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }
       if (block.type === 'header-two') {
-        return <h2 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+        return <h2 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }
       if (block.type === 'header-three') {
-        return <h3 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} />
+        return <h3 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }             
     },
     entityToHTML: (entity, originalText) => {
@@ -280,8 +285,33 @@ export const returnEditorStateFromKeyCommand = (editorState, command) => {
   } else { return editorState }  
 }
 
+export const returnSelectionContentBlockClasses = (editorState) => {
+  const contentState = editorState.getCurrentContent()
+  const selectionState = editorState.getSelection()
+  if (selectionState.isCollapsed()) {
+    const blockKey = selectionState.getAnchorKey()
+    const contentBlock = contentState.getBlockForKey(blockKey)
+    const blockData = contentBlock.getData()
+    return blockData.get('classes')
+  } else {return undefined}
+}
 
-
+export const returnEditorStateWithCustomClass = (editorState, className) => {
+  const contentState = editorState.getCurrentContent()
+  const decorator = editorState.getDecorator()
+  const selection = editorState.getSelection() 
+  const blockKey = selection.getAnchorKey()
+  const contentData = contentState.getBlockForKey(blockKey).getData()
+  let customClassesArray = contentData.get('classes')
+  if (customClassesArray.includes(className)) {
+    customClassesArray = customClassesArray.filter(c => c !== className)
+  } else {
+    const newClassesArray = customClassesArray.push(className)
+  }
+  const newContentState = Modifier.setBlockData(contentState, selection, contentData.set('classes', customClassesArray))
+  const newEditorState = EditorState.createWithContent(newContentState, decorator)
+  return newEditorState
+}
 
 const applyCustomInlineStyles = (style, editorState) => {
   const contentState = editorState.getCurrentContent()

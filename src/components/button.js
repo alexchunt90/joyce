@@ -6,7 +6,7 @@ import helpers from '../modules/helpers'
 
 export const ReaderEditButton = ({onClick}) =>
 	<div className='edit_note_button'>
-		<button onClick={onClick} className='btn btn-outline-primary btn-sm'>
+		<button onClick={onClick} className='btn btn-primary btn-sm'>
 			Edit
 			<i className='fas fa_inline fa-edit'></i>
 		</button>
@@ -14,7 +14,7 @@ export const ReaderEditButton = ({onClick}) =>
 
 export const ReaderAnnotateButton = ({onClick}) =>
 	<div className='annotate_note_button'>
-		<button onClick={onClick} className='btn btn-outline-primary btn-sm'>
+		<button onClick={onClick} className='btn btn-primary btn-sm'>
 			Annotate
 			<i className='fas fa_inline fa-link'></i>
 		</button>
@@ -22,7 +22,7 @@ export const ReaderAnnotateButton = ({onClick}) =>
 
 export const ReaderPaginateButton = ({onClick}) =>
 	<div className='paginate_note_button'>
-		<button onClick={onClick} className='btn btn-outline-primary btn-sm'>
+		<button onClick={onClick} className='btn btn-primary btn-sm'>
 			Paginate
 			<i className='fas fa_inline fa-file-lines'></i>
 		</button>
@@ -58,7 +58,7 @@ export const NewChapterButton = ({onClick}) =>
 export const NewDocumentButton = ({onClick, docType}) =>
 	<div>
 		<div id='new_document_button' className='text-center'>
-			<button onClick={onClick} className='btn btn-outline-success btn-sm'>
+			<button onClick={onClick} className='btn btn-info btn-sm'>
 				New {helpers.docTypeName(docType)}
 				<i className='fas fa_inline fa-plus-square'></i>
 			</button>
@@ -66,11 +66,6 @@ export const NewDocumentButton = ({onClick, docType}) =>
 	</div>
 
 // Fairly abstracted
-
-export const EditorToolButton = ({glyph, onClick}) =>
-	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
-		<i className={'fas fa-' + glyph}></i>
-	</button>
 
 
 export const EditorDeleteToolButton = ({disabled}) =>
@@ -131,11 +126,6 @@ NewChapterButton.propTypes = {
 
 NewDocumentButton.propTypes = {
 	docType: PropTypes.string,
-	onClick: PropTypes.func,
-}
-
-EditorToolButton.propTypes = {
-	glyph: PropTypes.string,
 	onClick: PropTypes.func,
 }
 

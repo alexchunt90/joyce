@@ -24,7 +24,7 @@ const userErrors = (state=[], action) => {
 			}
 		case 'SAVE_DOCUMENT':
 			if (action.status === 'error') {
-				if (data.response.status === 401) {
+				if (action.data.response.status === 401) {
 					return [...state, 'The API refused your request. Try logging out and back in again in another tab.']
 				} else {
 					return [...state, 'The system encountered a problem. Contact your system admin.']
@@ -32,7 +32,7 @@ const userErrors = (state=[], action) => {
 			}
 		case 'DELETE_DOCUMENT':
 			if (action.status === 'error') {
-				if (data.response.status === 401) {
+				if (action.data.response.status === 401) {
 					return [...state, 'The API refused your request. Try logging out and back in again in another tab.']
 				} else {
 					return [...state, 'The system encountered a problem. Contact your system admin.']

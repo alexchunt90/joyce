@@ -23,6 +23,12 @@ const editorStateActions = {
 			editorState: editorState,
 			style: style
 		}),
+	toggleCustomClass: (editorState, className) =>
+		({
+			type: 'TOGGLE_CUSTOM_CLASS',
+			editorState: editorState,
+			className: className
+		}),
 	// Handle key commands to apply inline styles
 	handleEditorKeyCommand: (editorState, command) =>
 		({

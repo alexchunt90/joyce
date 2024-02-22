@@ -95,10 +95,10 @@ def import_chap_operations(chapters_path):
 			center['data-align'] = 'center'
 			font = center.find(attrs={'size': '+3'})
 			if font:
+				center['data-custom-classes'] = 'serif-font'
 				center.name = 'h1'
 			else:
 				center.name = 'h2'
-
 		# Reformat lyrics
 		for p in soup.findAll('p'):
 			if p.has_attr('style'):
@@ -110,20 +110,29 @@ def import_chap_operations(chapters_path):
 					p['data-align'] = 'right'
 			if p.has_attr('class'):
 				blockquote_classes = ['lyrics', 'dialog-lyrics', 'stage-dir']
+				if p['class'] == 'character-tag':
+					p['data-custom-classes'] = 'character-tag'
+				if p['class'] == 'question':
+					p['data-custom-classes'] = 'question'
+				if p['class'] == 'bib':
+					p['data-indent'] = 'none'
+					p['data-custom-classes'] = 'bib'
 				for c in blockquote_classes:
 					if c in p['class']:
 						if c == 'stage-dir':
 							p['data-indent'] = 'none'
+							p['data-custom-classes'] = c
+						if c == 'dialog-lyrics':
+							p['data-custom-classes'] = c
 						p.name = 'blockquote'
 				center_align_classes = ['character-tag', 'break']
 				for c in center_align_classes:
 					if c in p['class']:
 						p['data-align'] = 'center'
+					if p['class'] == 'break':
+						p['data-custom-classes'] = 'break'
 				if 'break' in p['class']:
 					p['data-indent'] = 'none'
-
-
-
 
 		# Point hrefs to ES ids for notes
 		for a in soup.findAll('a'):

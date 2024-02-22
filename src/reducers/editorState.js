@@ -9,7 +9,8 @@ import {
 	returnEditorStateWithInlineStyles, 
 	returnEditorStateWithoutAnnotation, 
 	returnEditorStateWithNewPageBreak,
-	returnEditorStateWithNewDecorator
+	returnEditorStateWithNewDecorator,
+	returnEditorStateWithCustomClass
 } from '../modules/editorSettings.js'
 
 const blankEditor = returnNewEditorState(readerDecorator)
@@ -45,6 +46,8 @@ const editorState = (state=blankEditor, action) => {
 			return returnEditorStateFromKeyCommand(action.editorState, action.command)
 		case 'APPLY_INLINE_STYLE':
 			return returnEditorStateWithInlineStyles(action.style, action.editorState)
+		case 'TOGGLE_CUSTOM_CLASS':
+			return returnEditorStateWithCustomClass(action.editorState, action.className)			
 		// After creating annotation, display updated editor state
 		case 'ANNOTATION_CREATED':
 			return action.editorState

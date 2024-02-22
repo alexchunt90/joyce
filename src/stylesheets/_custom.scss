@@ -1,0 +1,34 @@
+@import "variables";
+@import "mixin";
+
+.stage-dir {
+	text-indent: -2em !important;
+}
+
+.serif-font {
+	font-family: serif;
+}
+
+.character-tag {
+	font-variant: small-caps;
+	margin-top: 1em
+}
+
+.question {
+	padding-top: 1em;
+}
+
+.bib {
+	padding-top: 0.4em;
+}
+
+.break {
+    font-size: 1.4em;
+    line-height: 35%;
+    font-weight: bold;
+    margin: 1.5em 0;
+}
+
+.dialog-lyrics {
+	text-indent: -1.2em;
+}

@@ -81,8 +81,9 @@ async function loadDocumentList(docType) {
 
 // Iterate through docTypes
 const relevantDocTypes = ['chapters', 'notes', 'info']
+// const relevantDocTypes = 'notes'
 for (const docType of relevantDocTypes) {
 	// Get all the documents	
-	const status = await processDocumentList(docType)
+	const status = loadDocumentList(docType)
 	console.log(status)
 }

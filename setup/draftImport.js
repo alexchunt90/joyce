@@ -71,11 +71,18 @@ async function processDocumentList(docType) {
 			}, index * interval)
 		})
 	} else (console.log('Failed to retrieve documents.'))
+	return 'OK!'
+}
+
+async function loadDocumentList(docType) {
+	const status = await processDocumentList(docType)
+	return 'OK!'
 }
 
 // Iterate through docTypes
 const relevantDocTypes = ['chapters', 'notes', 'info']
 for (const docType of relevantDocTypes) {
 	// Get all the documents	
-	processDocumentList(docType)
+	const status = await processDocumentList(docType)
+	console.log(status)
 }

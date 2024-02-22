@@ -2,10 +2,10 @@
 
 .modal-body {
     max-height: 80vh;
-    overflow: auto;
+    overflow: hidden;
     div:first-child.row {
     	height: 68vh;
-    	overflow: hidden;
+    	overflow: auto;
     }
     div > div#document_list {
     	max-height: 60vh;
@@ -19,6 +19,9 @@
 
 #annotation_modal_wrapper {
 	max-width: 90%;
+	div.DraftEditor-editorContainer > div > div > div {
+		padding: 0.3em 0;
+	}
 }
 
 #annotation_tag_preview {

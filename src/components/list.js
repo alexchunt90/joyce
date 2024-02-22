@@ -43,7 +43,7 @@ export const ChapterList = ({chapters, currentChapter, onChapterClick, basePath=
 	<div>
     	{chapters.map(chapter =>
 			<div className ='chapter_button text-center' key={chapter.id}>
-				<Link to={basePath + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
+				<Link to={basePath + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-primary' : 'btn btn-outline-primary inactive_button'}>
 					{chapter.title}
 				</Link>
 			</div>    		

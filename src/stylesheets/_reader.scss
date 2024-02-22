@@ -3,14 +3,17 @@
 
 #reader_container {
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: rgba(256,256,256,.8);
-    box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.3);
     padding: 3% 8%;
     border: 1px solid $border_color;
     border-radius: 5px;
     text-indent: 3em;
     font-size: 0.9em;   
-	cursor: default; 
+	cursor: default;
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* for Firefox */
 	&.annotations a {
 		cursor: pointer;
 	  	animation-duration: 1s;

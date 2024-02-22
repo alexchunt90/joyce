@@ -22,8 +22,8 @@ def clear_white_space(html):
 
 def clean_html_for_export(html):
 	if html:
-		string = str(html).replace('\n', '').replace('<br>', '<br/>')
-		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
+		string = str(html).replace('\n', '').replace('<br>', '')
+		string_without_tabs = re.sub('<br/>\s{1,}', '', string)
 		cleaned_string = re.sub('\s{2,}', ' ', string_without_tabs)
 		return cleaned_string
 
@@ -99,11 +99,6 @@ def import_note_operations(notes_path):
 					else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
 			images_div.decompose()
 
-		# # Remove return
-		# return_div = find_div('return')
-		# if return_div:
-		# 	return_div.decompose()	
-
 		# Remove button div
 		button_div = find_div('button')
 		if button_div:
@@ -146,25 +141,29 @@ def import_note_operations(notes_path):
 				if note_dict.__contains__(href):
 					a['href'] = note_dict[href]
 
-		body = clean_html_for_export(soup.find('body'))
-		with codecs.open(note_path, 'w', encoding='utf-8') as file:
-			file.write(body)
+		if note_div:
+			note_div.name = 'body'
+			cleaned_div = clean_html_for_export(note_div)
+			with codecs.open(note_path, 'w', encoding='utf-8') as file:
+				file.write(cleaned_div)
+			# Build media attachment ops for this note
+			attach_media_op = es_helpers.build_es_update_op(note_id, 'media_doc_ids', note_media)
+			note_media_ops.append(attach_media_op)
 
-		# Build media attachment ops for this note
-		attach_media_op = es_helpers.build_es_update_op(note_id, 'media_doc_ids', note_media)
-		note_media_ops.append(attach_media_op)
+			# Build ES Op to Index Title
+			note_title = soup.title.get_text()
+			update_title_op = es_helpers.build_es_update_op(note_id, 'title', note_title)
+			note_title_ops.append(update_title_op)
 
-		# Build ES Op to Index Title
-		note_title = soup.title.get_text()
-		update_title_op = es_helpers.build_es_update_op(note_id, 'title', note_title)
-		note_title_ops.append(update_title_op)
+			# Build ES Op to Index HTML
+			final_note_file = io.open(note_path, mode='r', encoding='utf-8')
+			final_note_html = final_note_file.read()
+			update_html_op = es_helpers.build_es_update_op(note_id, 'html_source', final_note_html)
+			note_html_ops.append(update_html_op)
+			final_note_file.close()
+		else:
+			print('No note found for file {}.'.format(note))
 
-		# Build ES Op to Index HTML
-		final_note_file = io.open(note_path, mode='r', encoding='utf-8')
-		final_note_html = final_note_file.read()
-		update_html_op = es_helpers.build_es_update_op(note_id, 'html_source', final_note_html)
-		note_html_ops.append(update_html_op)
-		final_note_file.close()
 
 	print('Note HTML successfully cleaned!')	
 

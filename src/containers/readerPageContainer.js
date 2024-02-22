@@ -31,7 +31,7 @@ const ReaderPage = ({
 	onDocumentClick,
 	onHighlightClick,
 	onPaginationToggle,
-	setPaginationEdition,
+	choosePaginationEdition,
 }) =>
 	<div id='joyce_page' className='container-fluid'>
 		{matchPath('/', location.pathname) &&
@@ -52,7 +52,7 @@ const ReaderPage = ({
 					onHighlightClick={onHighlightClick}
 					onDocumentClick={onDocumentClick}
 					onPaginationToggle={onPaginationToggle}
-					setPaginationEdition={setPaginationEdition}
+					choosePaginationEdition={choosePaginationEdition}
 				/>			
 				{toggles.loading === true &&
 					<LoadingSpinner size={4} />
@@ -95,8 +95,8 @@ const mapDispatchToProps = dispatch => {
 		onPaginationToggle: () => {
 			dispatch(actions.togglePagination())
 		},
-		setPaginationEdition: (edition) => {
-			dispatch(actions.setPaginationEdition(edition))
+		choosePaginationEdition: (edition) => {
+			dispatch(actions.choosePaginationEdition(edition))
 		}		
 	}
 }

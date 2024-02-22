@@ -53,12 +53,12 @@ const toggles = (state=initialState, action) => {
 				...state,
 				loadingPagination: false
 			}
-		// After adding a new paginated doc, toggle pagination on
-		
-
-
-
-
+		// After choosing a new paginated edition, toggle pagination on
+		case 'CHOOSE_PAGINATION_EDITION':
+			return {
+				...state,
+				pagination: true
+			}
 		// Admin
 		case 'SHOW_ADMIN_HEADER':
 			return {

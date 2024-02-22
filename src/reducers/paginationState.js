@@ -7,6 +7,23 @@ const initialState = {
 	documents: {}
 }
 
+const setStateWithPaginatedDoc = (edition, state) => {
+	const year = edition.year
+	const firstPage = edition.doc[0]
+	const entityMap = edition.entityMap
+	const pageEditorState = returnEditorStateFromBlocksArray(firstPage.blocks, entityMap)
+	const newDocumentsState = {
+		...state.documents,
+		[year]: edition
+	}
+	return {
+		...state,
+		currentPage: firstPage.number,
+		documents: newDocumentsState,
+		editorState: pageEditorState
+	}	
+}
+
 const paginationState = (state=initialState, action) => {
 	switch(action.type) {
 		case 'SET_PAGINATION_EDITION':
@@ -15,20 +32,9 @@ const paginationState = (state=initialState, action) => {
 				paginationEdition: action.data,
 			}
 		case 'ADD_PAGINATED_DOCUMENT':
-			const year = action.data.year
-			const firstPage = action.data.doc[0]
-			const entityMap = action.data.entityMap
-			const pageEditorState = returnEditorStateFromBlocksArray(firstPage.blocks, entityMap)
-			const newDocumentsState = {
-				...state.documents,
-				[year]: action.data
-			}
-			return {
-				...state,
-				currentPage: firstPage.number,
-				documents: newDocumentsState,
-				editorState: pageEditorState		
-			}
+			return setStateWithPaginatedDoc(action.data, state)
+		case 'CHANGE_PAGINATED_DOCUMENT':
+			return setStateWithPaginatedDoc(action.data, state)
 		case 'CHANGE_SELECTED_PAGE':
 			const currentEdition = state.paginationEdition
 			const currentDoc = state.documents[currentEdition.year]

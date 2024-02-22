@@ -6,14 +6,14 @@ import { HighlightButton } from './button'
 import PaginationReaderButton from './paginationReaderButton'
 import { DocListDropdown } from './dropdown'
 
-export const ReaderSidebarOptions = ({docs, editions, currentDocument, toggles, docType, onHighlightClick, onDocumentClick, onPaginationToggle, setPaginationEdition}) =>
+export const ReaderSidebarOptions = ({docs, editions, currentDocument, toggles, docType, onHighlightClick, onDocumentClick, onPaginationToggle, choosePaginationEdition}) =>
 	<div id='mobile_reader_sidebar' className='mobile_sidebar row'>
 		<div id='mobile_highlight_options' className='col-4 d-block d-md-none'>
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick} size='md' theme='secondary'/>
 		</div>
 		{docType === 'chapters' &&
 			<div id='mobile_pagination_options' className='col-4 d-block d-md-none'>
-				<PaginationReaderButton toggle={toggles.pagination} editions={editions} onPaginationToggle={onPaginationToggle} setPaginationEdition={setPaginationEdition} theme='secondary'/>
+				<PaginationReaderButton toggle={toggles.pagination} editions={editions} onPaginationToggle={onPaginationToggle} choosePaginationEdition={choosePaginationEdition} theme='secondary'/>
 			</div>
 		}
 		<div id='mobile_read_options' className='mobile_list_options col-4 d-block d-md-none'>

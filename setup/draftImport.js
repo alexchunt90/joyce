@@ -74,16 +74,5 @@ async function processDocumentList(docType) {
 	return 'OK!'
 }
 
-async function loadDocumentList(docType) {
-	const status = await processDocumentList(docType)
-	return 'OK!'
-}
-
-// Iterate through docTypes
-const relevantDocTypes = ['chapters', 'notes', 'info']
-// const relevantDocTypes = 'notes'
-for (const docType of relevantDocTypes) {
-	// Get all the documents	
-	const status = loadDocumentList(docType)
-	console.log(status)
-}
+const docType = process.argv[2]
+processDocumentList(docType)

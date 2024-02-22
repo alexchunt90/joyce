@@ -11,6 +11,7 @@ $border_color: black;
 
 $joyce_orange: #ce882d;
 $joyce_green: #96C7A9;
+$joyce_dark_green: #163020;
 
 
 $breakpoints: (
@@ -21,7 +22,7 @@ $breakpoints: (
 );
 
 $theme-colors: (
-	"info": #537577,
+	"info": $joyce_dark_green,
 	"danger": #72030a,
 	"success": #118734,
 	"dark": #07383a,

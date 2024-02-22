@@ -64,6 +64,11 @@ const userActions = {
 		({
 			type: 'TOGGLE_PAGINATION'
 		}),
+	choosePaginationEdition: edition =>
+		({
+			type: 'CHOOSE_PAGINATION_EDITION',
+			data: edition
+		}),
 	setPaginationEdition: edition =>
 		({
 			type: 'SET_PAGINATION_EDITION',
@@ -73,6 +78,11 @@ const userActions = {
 		({
 			type: 'ADD_PAGINATED_DOCUMENT',
 			data: doc
+		}),
+	changePaginatedDoc: edition =>
+		({
+			type: 'CHANGE_PAGINATED_DOCUMENT',
+			data: edition
 		}),
 	setPageNumber: number =>
 		({

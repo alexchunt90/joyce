@@ -62,6 +62,16 @@ const joycePaginate = store => next => action => {
 				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
 			}
 			break
+		case 'CHOOSE_PAGINATION_EDITION':
+			// If we're choosing an edition that's already paginated, render that:
+			if (action.data.year in paginationState.documents) {
+				const existingPaginatedDoc = paginationState.documents[action.data.year]
+				store.dispatch(actions.changePaginatedDoc(existingPaginatedDoc))
+			// If not, paginate the edition:
+			} else {
+				store.dispatch(actions.setPaginationEdition(action.data))
+			}
+			break
 		case 'SET_PAGINATION_EDITION':
 			// Set the current edition and generate a new paginated doc if needed
 			// Ignore if in editor pagination mode, as paginated doc isn't used
@@ -72,7 +82,8 @@ const joycePaginate = store => next => action => {
 			break
 
 		case 'ADD_PAGINATED_DOCUMENT':
-			console.log(toggles)
+			
+			break
 	}
 }
 

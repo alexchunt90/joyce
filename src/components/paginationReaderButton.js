@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PaginationReaderButton = ({toggle, loading, editions, onPaginationToggle, setPaginationEdition, size='md', theme='primary'}) =>
+const PaginationReaderButton = ({toggle, loading, editions, onPaginationToggle, choosePaginationEdition, size='md', theme='primary'}) =>
 	<div>
 		<div id='pagination_button' className='btn-group'>
-			<button onClick={onPaginationToggle} disabled={loading} className={toggle ? 'btn btn-outline-'+theme+' btn-md' + size : 'btn btn-'+theme+' btn-' + size} id='pagination_toggle_button'>
+			<button onClick={onPaginationToggle} disabled={loading} className={toggle ? 'btn btn-info btn-md' + size : 'btn btn-'+theme+' btn-' + size} id='pagination_toggle_button'>
 				{toggle ? 'Unpaginate' : 'Paginate'}
 				{loading &&
 					<i className="fa-solid fa-spinner fa-spin"></i>
@@ -14,7 +14,7 @@ const PaginationReaderButton = ({toggle, loading, editions, onPaginationToggle, 
 			</button>
 			<div className='dropdown-menu'>
 				{editions.map(edition =>
-					<a key={edition.id} className='dropdown-item' onClick={()=>setPaginationEdition(edition)}>
+					<a key={edition.id} className='dropdown-item' onClick={()=>choosePaginationEdition(edition)}>
 						{edition.title} ({edition.year})
 					</a>
 				)}

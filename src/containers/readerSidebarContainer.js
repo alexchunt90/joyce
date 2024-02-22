@@ -20,7 +20,7 @@ const ReaderSidebar = ({
 	toggles,
 	onHighlightClick,
 	onPaginationToggle,
-	setPaginationEdition,
+	choosePaginationEdition,
 }) =>
 	<div id='sidebar' className='col-md-3 d-none d-md-flex'>
 		<div>
@@ -29,7 +29,7 @@ const ReaderSidebar = ({
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />
 			{docType==='chapters' &&
-				<PaginationReaderButton toggle={toggles.pagination} loading={toggles.loadingPagination} editions={editions} onPaginationToggle={onPaginationToggle} setPaginationEdition={setPaginationEdition}/>
+				<PaginationReaderButton toggle={toggles.pagination} loading={toggles.loadingPagination} editions={editions} onPaginationToggle={onPaginationToggle} choosePaginationEdition={choosePaginationEdition}/>
 			}
 			{docType==='chapters' &&
 				<SidebarSpacer />
@@ -59,8 +59,8 @@ const mapDispatchToProps = dispatch => {
 		onPaginationToggle: () => {
 			dispatch(actions.togglePagination())
 		},
-		setPaginationEdition: (edition) => {
-			dispatch(actions.setPaginationEdition(edition))
+		choosePaginationEdition: (edition) => {
+			dispatch(actions.choosePaginationEdition(edition))
 		}
 	}
 }

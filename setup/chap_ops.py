@@ -8,6 +8,13 @@ from . import es_helpers
 from . import es_config
 from . import tag_ops
 
+def clean_html_for_export(html):
+	if html:
+		string = str(html).replace('\n', '').replace('<br>', '<br/>')
+		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
+		cleaned_string = re.sub('\s{2,}', ' ', string_without_tabs)
+		return cleaned_string
+
 # Seed with chapter data
 chapter_list = []
 def append_chapter(list, number, title, file_name):
@@ -137,11 +144,9 @@ def import_chap_operations(chapters_path):
 					else:
 						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
 
-		# prettify() seems to add newline characters that mess with the formatting
-		# body = soup.prettify(formatter='html')
-
+		html_string = clean_html_for_export(soup)
 		with codecs.open(chap_path, 'w', encoding='utf-8') as file:
-			file.write(str(soup))
+			file.write(html_string)
 
 		# Build op to update ES doc with HTML
 		final_chap_file = io.open(chap_path, mode='r', encoding='utf-8')

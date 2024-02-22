@@ -75,8 +75,7 @@ export const EditorToolButton = ({glyph, onClick}) =>
 
 export const EditorDeleteToolButton = ({disabled}) =>
 	<button className='btn btn-info btn-sm' disabled={disabled} data-bs-toggle='modal' data-bs-target='#delete_confirm_modal' type='button'>
-		Delete
-		<i className='fas fa_inline fa-trash-o'></i>
+		<i className='fas fa_inline fa-trash fa-sm'></i>
 	</button>
 
 export const EditorCancelButton = ({onClick}) =>
@@ -94,7 +93,7 @@ export const EditorSubmitButton = ({onClick}) =>
 export const EditorDeleteButton = ({onClick}) =>
 	<button id='editor_delete' onClick={onClick} type='button' data-bs-dismiss='modal' className='btn btn-outline-danger btn-sm'>
 		Delete
-		<i className='fas fa_inline fa-trash-o'></i>
+		<i className='fas fa_inline fa-trash'></i>
 	</button>
 
 

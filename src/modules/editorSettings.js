@@ -287,7 +287,6 @@ export const returnEditorStateFromKeyCommand = (editorState, command) => {
 export const returnSelectionContentBlockClasses = (editorState) => {
   const contentState = editorState.getCurrentContent()
   const selectionState = editorState.getSelection()
-  console.log('Selection for class check is', selectionState)
   if (selectionState.isCollapsed()) {
     const blockKey = selectionState.getAnchorKey()
     const contentBlock = contentState.getBlockForKey(blockKey)
@@ -309,21 +308,10 @@ export const returnEditorStateWithCustomClass = (editorState, className) => {
   const blockKey = selection.getAnchorKey()
   const contentData = contentState.getBlockForKey(blockKey).getData()
   let customClassesArray = contentData.get('classes') || []
-  // if (customClassesArray.includes(className)) {
-  //   customClassesArray = customClassesArray.filter(c => c !== className)
-  //   console.log('After filtering, array is:', customClassesArray)
-  // } else {
-  //   console.log('customClassesArray is:', customClassesArray)
-  //   customClassesArray.push(className)
-  //   console.log('After pushing, array is:', customClassesArray)
-  // }
   if (!customClassesArray.includes(className)) {
-    console.log('customClassesArray is:', customClassesArray)
     customClassesArray.push(className)
-    console.log('After pushing, array is:', customClassesArray)
   } else {
     customClassesArray = customClassesArray.filter(c => c !== className)
-    console.log('After filtering, array is:', customClassesArray)    
   }
   const newContentState = Modifier.setBlockData(contentState, selection, contentData.set('classes', customClassesArray))
   const newEditorState = EditorState.createWithContent(newContentState, decorator)

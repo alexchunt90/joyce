@@ -144,7 +144,7 @@ def import_note_operations(notes_path):
 		if note_div:
 			note_div.name = 'body'
 			cleaned_div = clean_html_for_export(note_div)
-			with codecs.open(note_path, 'w', encoding='utf-8') as file:
+			with codecs.open(note_path, 'w') as file:
 				file.write(cleaned_div)
 			# Build media attachment ops for this note
 			attach_media_op = es_helpers.build_es_update_op(note_id, 'media_doc_ids', note_media)
@@ -156,7 +156,7 @@ def import_note_operations(notes_path):
 			note_title_ops.append(update_title_op)
 
 			# Build ES Op to Index HTML
-			final_note_file = io.open(note_path, mode='r', encoding='utf-8')
+			final_note_file = io.open(note_path, mode='r')
 			final_note_html = final_note_file.read()
 			update_html_op = es_helpers.build_es_update_op(note_id, 'html_source', final_note_html)
 			note_html_ops.append(update_html_op)

@@ -109,14 +109,14 @@ def import_chap_operations(chapters_path):
 				if 'padding-left:9cm' in p['style']:
 					p['data-align'] = 'right'
 			if p.has_attr('class'):
-				blockquote_classes = ['lyrics', 'dialog-lyrics', 'stage-dir']
-				if p['class'] == 'character-tag':
+				if 'character-tag' in p['class']:
 					p['data-custom-classes'] = 'character-tag'
-				if p['class'] == 'question':
+				if 'question' in p['class']:
 					p['data-custom-classes'] = 'question'
-				if p['class'] == 'bib':
+				if 'bib' in p['class']:
 					p['data-indent'] = 'none'
 					p['data-custom-classes'] = 'bib'
+				blockquote_classes = ['lyrics', 'dialog-lyrics', 'stage-dir']
 				for c in blockquote_classes:
 					if c in p['class']:
 						if c == 'stage-dir':
@@ -154,11 +154,11 @@ def import_chap_operations(chapters_path):
 						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
 
 		html_string = clean_html_for_export(soup)
-		with codecs.open(chap_path, 'w', encoding='utf-8') as file:
+		with codecs.open(chap_path, 'w') as file:
 			file.write(html_string)
 
 		# Build op to update ES doc with HTML
-		final_chap_file = io.open(chap_path, mode='r', encoding='utf-8')
+		final_chap_file = io.open(chap_path, mode='r')
 		final_chap_html = final_chap_file.read()
 		update_html_op = es_helpers.build_es_update_op(chapter_id, 'html_source', final_chap_html)
 		chap_html_ops.append(update_html_op)

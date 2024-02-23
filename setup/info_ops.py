@@ -68,7 +68,7 @@ def import_info_operations(info_pages_path):
 		body = str(soup.find('body'))
 		cleaned_string = re.sub('\s{2,}', ' ', body)
 
-		with codecs.open(info_path, 'w', encoding='utf-8') as file:
+		with codecs.open(info_path, 'w') as file:
 			file.write(cleaned_string)
 
 		update_number_op = es_helpers.build_es_update_op(info_id, 'number', count)
@@ -76,7 +76,7 @@ def import_info_operations(info_pages_path):
 		count = count + 1
 
 		# Build ES Op to Index HTML
-		final_info_file = io.open(info_path, mode='r', encoding='utf-8')
+		final_info_file = io.open(info_path, mode='r')
 		final_info_html = final_info_file.read()
 		update_html_op = es_helpers.build_es_update_op(info_id, 'html_source', final_info_html)
 		info_html_ops.append(update_html_op)

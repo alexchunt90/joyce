@@ -38,11 +38,11 @@ def refresh_target_files(target_folder):
 def joyce_import():
 	es_setup.refresh_indices()
 
-	# # Import Joyce media files
-	# refresh_target_files('img/')
-	# # Delete existing media assets
-	# clear_static_assets(static_path)
-	# media_ops.import_media_operations(img_path)
+	# Import Joyce media files
+	refresh_target_files('img/')
+	# Delete existing media assets
+	clear_static_assets(static_path)
+	media_ops.import_media_operations(img_path)
 
 	# Create Joyce info pages
 	refresh_target_files('info/')
@@ -51,7 +51,7 @@ def joyce_import():
 	# Create Joyce editions
 	edition_ops.import_editions()
 
-	# # Import Joyce tags
+	# Import Joyce tags
 	refresh_target_files('swap/')
 	tag_ops.import_tags()
 
@@ -62,10 +62,6 @@ def joyce_import():
 	# Import Joyce chapter files
 	refresh_target_files('chap/')
 	chap_ops.import_chap_operations(chap_path)
-	
-	# Run Node script to process HTML files using DraftJS and produce search_text for Elasticsearch	
-	# os.system('npm run import')
-	# print('HTML successufly optimized for DraftJS!')
 
 if __name__ == '__main__':
 	joyce_import()

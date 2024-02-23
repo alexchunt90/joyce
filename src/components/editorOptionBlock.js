@@ -45,8 +45,6 @@ const customCSSClasses = [
 	CSSClassObject('Dialog Lyrics', 'dialog-lyrics'),
 ]
 
-const blockClassArray = editorState => returnSelectionContentBlockClasses(editorState) || []
-
 export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, disabled, onCustomClassToggle}) =>
 	<div className='row'>
 		<div className='col-5'>
@@ -57,13 +55,14 @@ export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, d
 				<EditorToolButton glyph='bold fa-sm' onClick={()=>onToolButtonClick(editorState, 'BOLD')}/>
 				<EditorToolButton glyph='italic fa-sm' onClick={()=>onToolButtonClick(editorState, 'ITALIC')}/>
 				<EditorToolButton glyph='underline fa-sm' onClick={()=>onToolButtonClick(editorState, 'UNDERLINE')}/>
-				<button className='btn btn-info btn-sm dropdown-toggle' type='button' data-bs-toggle='dropdown' disabled={!returnSelectionContentBlockClasses(editorState)}>
+				<button className='btn btn-info btn-sm dropdown-toggle' type='button' data-bs-toggle='dropdown' disabled={!editorState.getSelection().isCollapsed()}>
 			    	<i className='fas fa-hashtag fa-sm'></i>
 			  	</button>		  	
 				<ul className='dropdown-menu'>
 					{customCSSClasses.map(obj => 
 				    	<li key={obj.className}>
-			    			<input onChange={()=>{onCustomClassToggle(editorState, obj.className)}} checked={blockClassArray(editorState).includes(obj.className)} className='form-check-input me-1' type='checkbox' />
+				    		{console.log('Re-rendering the component')}
+			    			<input onChange={()=>{onCustomClassToggle(editorState, obj.className)}} checked={returnSelectionContentBlockClasses(editorState).includes(obj.className)} className='form-check-input me-1' type='checkbox' />
 				    		{obj.name}
 			    		</li>
 					)}

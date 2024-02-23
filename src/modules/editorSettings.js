@@ -107,7 +107,6 @@ export const blockStyleFn = (contentBlock) => {
 export const stateFromHTML = html => {
 
   const constructBlockData = (node) => {
-    console.log(node.getAttribute('data-custom-classes'))
     return {
       key: node.getAttribute('data-search-key'),
       align: node.getAttribute('data-align'),
@@ -288,29 +287,48 @@ export const returnEditorStateFromKeyCommand = (editorState, command) => {
 export const returnSelectionContentBlockClasses = (editorState) => {
   const contentState = editorState.getCurrentContent()
   const selectionState = editorState.getSelection()
+  console.log('Selection for class check is', selectionState)
   if (selectionState.isCollapsed()) {
     const blockKey = selectionState.getAnchorKey()
     const contentBlock = contentState.getBlockForKey(blockKey)
     const blockData = contentBlock.getData()
-    return blockData.get('classes')
-  } else {return undefined}
+    if (blockData.get('classes')) {
+      return blockData.get('classes')
+    } else {
+      return []
+    }
+  } else {
+    return []
+  }
 }
 
 export const returnEditorStateWithCustomClass = (editorState, className) => {
   const contentState = editorState.getCurrentContent()
   const decorator = editorState.getDecorator()
-  const selection = editorState.getSelection() 
+  const selection = editorState.getSelection()
   const blockKey = selection.getAnchorKey()
   const contentData = contentState.getBlockForKey(blockKey).getData()
-  let customClassesArray = contentData.get('classes')
-  if (customClassesArray.includes(className)) {
-    customClassesArray = customClassesArray.filter(c => c !== className)
+  let customClassesArray = contentData.get('classes') || []
+  // if (customClassesArray.includes(className)) {
+  //   customClassesArray = customClassesArray.filter(c => c !== className)
+  //   console.log('After filtering, array is:', customClassesArray)
+  // } else {
+  //   console.log('customClassesArray is:', customClassesArray)
+  //   customClassesArray.push(className)
+  //   console.log('After pushing, array is:', customClassesArray)
+  // }
+  if (!customClassesArray.includes(className)) {
+    console.log('customClassesArray is:', customClassesArray)
+    customClassesArray.push(className)
+    console.log('After pushing, array is:', customClassesArray)
   } else {
-    const newClassesArray = customClassesArray.push(className)
+    customClassesArray = customClassesArray.filter(c => c !== className)
+    console.log('After filtering, array is:', customClassesArray)    
   }
   const newContentState = Modifier.setBlockData(contentState, selection, contentData.set('classes', customClassesArray))
   const newEditorState = EditorState.createWithContent(newContentState, decorator)
-  return newEditorState
+  const newEditorStateWithSelection = EditorState.forceSelection(newEditorState, selection)
+  return newEditorStateWithSelection
 }
 
 const applyCustomInlineStyles = (style, editorState) => {
@@ -320,7 +338,6 @@ const applyCustomInlineStyles = (style, editorState) => {
   const anchorBlockKey = selectionState.getAnchorKey()
   const contentBlock = contentState.getBlockForKey(anchorBlockKey)
   const blockData = contentBlock.getData()
-  console.log(blockData)
   const setBlockCustomStyle = (blockData) => {
       const newContentState = Modifier.setBlockData(contentState, selectionState, blockData.set(''))
       return EditorState.createWithContent(newContentState, decorator)
@@ -344,8 +361,7 @@ const applyCustomInlineStyles = (style, editorState) => {
   if (style === 'add-indent') {
     return setBlockCustomStyle(blockData.remove('indent'))
   }  
-
-  return editorState
+  return editorState.forceSelection(selectionState)
 }
 
 // Handle toggling block types with DraftJS RichUtils

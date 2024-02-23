@@ -118,6 +118,12 @@ def import_note_operations(notes_path):
 				if type(p) == Tag:
 					note_div.append(p)
 			expanded_note_div.decompose()
+		return_div = find_div('return')
+		if return_div and note_div:
+			contributor_text = return_div.get_text()
+			contributor_p = soup.new_tag('p')
+			contributor_p.string = contributor_text.strip()
+			note_div.append(contributor_p)
 
 		# Standardize tags to i and b
 		# Replace em tags

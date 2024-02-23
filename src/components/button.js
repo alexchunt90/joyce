@@ -67,12 +67,6 @@ export const NewDocumentButton = ({onClick, docType}) =>
 
 // Fairly abstracted
 
-
-export const EditorDeleteToolButton = ({disabled}) =>
-	<button className='btn btn-info btn-sm' disabled={disabled} data-bs-toggle='modal' data-bs-target='#delete_confirm_modal' type='button'>
-		<i className='fas fa_inline fa-trash fa-sm'></i>
-	</button>
-
 export const EditorCancelButton = ({onClick}) =>
 	<button type='button' onClick={onClick} className='btn btn-outline-secondary btn-sm' data-bs-dismiss='modal'>
 		Cancel
@@ -127,10 +121,6 @@ NewChapterButton.propTypes = {
 NewDocumentButton.propTypes = {
 	docType: PropTypes.string,
 	onClick: PropTypes.func,
-}
-
-EditorDeleteToolButton.propTypes = {
-	disabled: PropTypes.bool,
 }
 
 EditorCancelButton.propTypes = {

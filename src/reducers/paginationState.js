@@ -45,6 +45,10 @@ const paginationState = (state=initialState, action) => {
 				currentPage: newPage.number,
 				editorState: newPageEditorState,
 			}
+		case 'GET_DOCUMENT_TEXT':
+			if (action.status === 'request' && action.state === 'currentDocument') {
+				return initialState
+			}
 		default:
 			return state
 	}

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from datetime import timedelta
 import os
 import config
 
@@ -21,7 +22,8 @@ config_params = {
     'JWT_SESSION_COOKIE': False,
     'JWT_TOKEN_LOCATION': config.JWT_TOKEN_LOCATION,
     'JWT_COOKIE_SECURE': config.JWT_COOKIE_SECURE,
-    'JWT_COOKIE_CSRF_PROTECT': True
+    'JWT_COOKIE_CSRF_PROTECT': True,
+    'JWT_ACCESS_TOKEN_EXPIRES': timedelta(days=14)
 }
 
 

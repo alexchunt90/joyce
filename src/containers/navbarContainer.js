@@ -16,7 +16,7 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
 		<div id='navbarItems' className={navCollapse ? 'collapse navbar-collapse' : 'collapse navbar-collapse show'}>
 			<ul className='navbar-nav mr-auto'>
 				<li className='nav-item'>
-					<NavLink to='/notes' className='nav-link'>NEAT</NavLink>
+					<NavLink to='/notes' className='nav-link'>Notes</NavLink>
 				</li>
 				<li className='nav-item'>
 					<NavLink to='/search' className='nav-link'>Search</NavLink>

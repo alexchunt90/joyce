@@ -23,13 +23,15 @@
     font-size: 0.8em;
     text-indent: 3em;
     img {
-    	width: 100%;
+    	max-width: 80%;
+    	text-indent: 0;
+    	display: block;
+    	margin: 0 auto;
     }
 }
 
 #new_document_button > button {
 	border: 1px solid $border_color;
-	background-color: red;
 }
 
 #note_media_picker {

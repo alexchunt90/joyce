@@ -154,24 +154,36 @@ def import_chap_operations(chapters_path):
 				if 'break' in p['class']:
 					p['data-indent'] = 'none'
 
-		# # Point hrefs to ES ids for notes
-		# for a in soup.findAll('a'):
-		# 	if a.has_attr('href'):
-		# 		href = a['href']
-		# 		strip_href = href[len('notes/'):]
-		# 		if chap_annotations.__contains__(a['id']):
-		# 			hex_color = chap_annotations[a['id']]
-		# 		else:
-		# 			print('Found a chapter link with elementId that isn\'t referenced in the swap files:', a['id'])
-		# 		if href.endswith('.htm') and href.startswith('notes/'):
-		# 			del a['class']
-		# 			del a['id']
-		# 			if note_dict.__contains__(strip_href):
-		# 				if hex_color:
-		# 					a['data-color'] = hex_color
-		# 				a['href'] = note_dict[strip_href]
-		# 			else:
-		# 				print('Found a reference to a note file that wasn\'t indexed to ES:', href)
+		# Point hrefs to ES ids for notes
+		for a in soup.findAll('a'):
+			if a.has_attr('href'):
+				href = a['href']
+				strip_href = href[len('notes/'):]
+				if chap_annotations.__contains__(a['id']):
+					hex_color = chap_annotations[a['id']]
+				else:
+					print('Found a chapter link with elementId that isn\'t referenced in the swap files:', a['id'])
+				if href.endswith('.htm') and href.startswith('notes/'):
+					del a['class']
+					del a['id']
+					if note_dict.__contains__(strip_href):
+						if hex_color:
+							a['data-color'] = hex_color
+						a['href'] = note_dict[strip_href]
+					else:
+						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
+
+		# Special handling for the Ithaca ledger table
+		for table in soup.findAll('table'):
+			if chap_name == 'ithaca':
+				print(media_dict)
+				ledger_id = media_dict['images/images/ledger.png']
+				ledger_src = '/static/img/{}/img.png'.format(ledger_id)
+				print(ledger_src)
+				ledger_img = soup.new_tag('img', src=ledger_src)
+				table.insert_before(ledger_img)
+				table.decompose()
+
 
 		html_string = clean_html_for_export(soup)
 		with codecs.open(chap_path, 'w') as file:

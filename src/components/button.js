@@ -4,30 +4,6 @@ import { Link } from 'react-router-dom'
 
 import helpers from '../modules/helpers'
 
-export const ReaderEditButton = ({onClick}) =>
-	<div className='edit_note_button'>
-		<button onClick={onClick} className='btn btn-primary btn-sm'>
-			Edit
-			<i className='fas fa_inline fa-edit'></i>
-		</button>
-	</div>
-
-export const ReaderAnnotateButton = ({onClick}) =>
-	<div className='annotate_note_button'>
-		<button onClick={onClick} className='btn btn-primary btn-sm'>
-			Annotate
-			<i className='fas fa_inline fa-link'></i>
-		</button>
-	</div>
-
-export const ReaderPaginateButton = ({onClick}) =>
-	<div className='paginate_note_button'>
-		<button onClick={onClick} className='btn btn-primary btn-sm'>
-			Paginate
-			<i className='fas fa_inline fa-file-lines'></i>
-		</button>
-	</div>	
-
 export const HighlightButton = ({toggle, onClick, size='md', theme='primary'}) =>
 	<div>
 		<div id='highlight_button' className='text-center'>
@@ -68,13 +44,13 @@ export const NewDocumentButton = ({onClick, docType}) =>
 // Fairly abstracted
 
 export const EditorCancelButton = ({onClick}) =>
-	<button type='button' onClick={onClick} className='btn btn-outline-secondary btn-sm' data-bs-dismiss='modal'>
+	<button type='button' onClick={onClick} className='btn btn-secondary btn-sm' data-bs-dismiss='modal'>
 		Cancel
 		<i className='fas fa_inline fa-times'></i>
 	</button>
 
 export const EditorSubmitButton = ({onClick}) =>
-	<button id='editor_submit' onClick={onClick} type='button' className='btn btn-outline-success btn-sm'>
+	<button id='editor_submit' onClick={onClick} type='button' className='btn btn-primary btn-sm'>
 		Submit
 		<i className='fas fa_inline fa-check-square-o'></i>
 	</button>
@@ -95,14 +71,6 @@ export const LogoutButton = ({onClick}) =>
 	<button id='admin_signout_button' onClick={onClick} type='button' className='btn btn-outline-danger'>
 		Logout
 	</button>
-
-ReaderEditButton.propTypes = {
-	onClick: PropTypes.func,
-}
-
-ReaderAnnotateButton.propTypes = {
-	onClick: PropTypes.func,
-}
 
 HighlightButton.propTypes = {
 	toggle: PropTypes.bool,

@@ -9,7 +9,7 @@ import EditorPaginateModeContainer from '../containers/editorPaginateModeContain
 import EditorEditModeContainer from '../containers/editorEditModeContainer'
 
 const EditorContent = ({mode}) =>
-	<div id='editor_container' className='d-flex'>
+	<div id='editor_container' className='d-flex flex-column'>
 		{mode === 'READ_MODE' &&
 			<EditorReadModeContainer />
 		}

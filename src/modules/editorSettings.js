@@ -1,12 +1,13 @@
 // Consolidating any references to the draft-js or draft-convert libraries to this one module
 import React from 'react'
 import { EditorState, Modifier, RichUtils, convertToRaw, ContentState, CompositeDecorator, SelectionState } from 'draft-js'
-import { convertFromHTML, convertToHTML } from 'draft-convert'
 
+import {stateFromHTML, stateToHTML} from './draftConversion'
 import {PageBreak,VisiblePageBreak} from '../containers/pageBreakContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'
 import LinkContainer from '../containers/linkContainer'
 import EditorLink from '../components/editorLink'
+import InlineImage from '../components/inlineImage'
 
 // _________________________________________________
 // 
@@ -41,11 +42,6 @@ const findPagebreakEntities = (contentBlock, callback) => {
   findEntities(contentBlock, callback, 'PAGEBREAK')
 }
 
-// const findImageEntities = (contentBlock, callback) => {
-//   findEntities(contentBlock, callback, 'IMAGE')
-// }
-
-
 export const readerDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
@@ -54,7 +50,7 @@ export const readerDecorator = new CompositeDecorator([
   {
     strategy: findPagebreakEntities,
     component: PageBreak,
-  }
+  },
 ])
 
 export const editorDecorator = new CompositeDecorator([
@@ -65,7 +61,7 @@ export const editorDecorator = new CompositeDecorator([
   {
     strategy: findPagebreakEntities,
     component: PageBreak,
-  }  
+  },
 ])
 
 export const modalDecorator = new CompositeDecorator([
@@ -97,98 +93,19 @@ export const blockStyleFn = (contentBlock) => {
   return blockStyles.join(' ')
 }
 
-
-// _________________________________________________
-// 
-// State conversion functions using draft-convert library
-// _________________________________________________
-
-// Create contentState from HTML
-export const stateFromHTML = html => {
-
-  const constructBlockData = (node) => {
+export const blockRenderFn = (contentBlock) => {
+  const type = contentBlock.getType()
+  const data = contentBlock.getData()
+  if (type === 'atomic') {
     return {
-      key: node.getAttribute('data-search-key'),
-      align: node.getAttribute('data-align'),
-      indent: node.getAttribute('data-indent'),   
-      classes: node.getAttribute('data-custom-classes') ? node.getAttribute('data-custom-classes').split(' ') : [],
+      component: InlineImage,
+      editable: false,
+      props: {
+        src: data.get('url'),
+        id: data.get('id')
+      }
     }
   }
-  const blocksFromHTML = convertFromHTML({
-    htmlToBlock: (nodeName, node) => {
-      if (nodeName === 'p') {
-        return {type: 'unstyled', data: constructBlockData(node)}
-      }
-      if (nodeName === 'blockquote') {
-        return {type: 'blockquote', data: constructBlockData(node)}
-      }
-      if (nodeName === 'h1') {
-        return {type: 'header-one', data: constructBlockData(node)}
-      }
-      if (nodeName === 'h2') {
-        return {type: 'header-two', data: constructBlockData(node)}
-      }
-      if (nodeName === 'h3') {
-        return {type: 'header-three', data: constructBlockData(node)}
-      }                        
-    },
-    htmlToEntity: (nodeName, node, createEntity) => {
-      if (nodeName === 'a') {        
-          return createEntity(
-            'LINK',
-            'MUTABLE',
-            {
-              'url': node.getAttribute('href'),
-              'color': node.getAttribute('data-color') || '05E4f0',
-              'tag': node.getAttribute('data-tag') || ''
-            }
-          )
-      }
-      if (nodeName === 'span') {
-        return createEntity(
-          'PAGEBREAK',
-          'MUTABLE',
-          {
-            edition: node.getAttribute('data-edition'),
-            pageNumber: node.getAttribute('data-page')
-          }
-        )
-      }
-    },    
-  })(html)
-  return blocksFromHTML
-}
-
-export const stateToHTML = contentState => {
-  const html = convertToHTML({
-    blockToHTML: (block) => {
-      if (block.type === 'unstyled') {
-        return <p data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />;
-      }
-      if (block.type === 'blockquote') {
-        return <blockquote data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
-      }
-      if (block.type === 'header-one') {
-        return <h1 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
-      }
-      if (block.type === 'header-two') {
-        return <h2 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
-      }
-      if (block.type === 'header-three') {
-        return <h3 data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
-      }             
-    },
-    entityToHTML: (entity, originalText) => {
-      if (entity.type === 'LINK') {
-        return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag}>{originalText}</a>;
-      }
-      if (entity.type === 'PAGEBREAK') {
-        return <span data-edition={entity.data.edition} data-page={entity.data.pageNumber}>{originalText}</span>;
-      }
-      return originalText;
-    }
-  })(contentState)
-  return html
 }
 
 // _________________________________________________
@@ -233,7 +150,7 @@ export const returnEditorStateWithNewAnnotation = (contentState, data) => {
     'LINK',
     'MUTABLE',
     {'url': data.annotationNote.id, 'color': data.annotationTag.color, 'tag': data.annotationTag.title}
-  )  
+  )
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
   const contentStateWithLink = Modifier.applyEntity(
       contentStateWithEntity,
@@ -364,6 +281,23 @@ export const returnEditorStateWithInlineStyles = (style, editorState) => {
   } else if (customStyles.indexOf(style) >= 0) {
     return applyCustomInlineStyles(style, editorState)
   } else return editorState
+}
+
+export const returnEditorStateWithInlineImage = (editorState, media) => {
+  if (media.type !== 'img') {
+    return editorState
+  }
+  const mediaURL = '/static/img/' + media.id + '/img.' + media.file_ext
+  const selectionState = editorState.getSelection()
+  const decorator = editorState.getDecorator()
+  const contentState = editorState.getCurrentContent()
+  const contentStateWithData = Modifier.setBlockData(contentState, selectionState, {
+    url: mediaURL,
+    id: media.id,
+  })
+  const contentStateWithAtomicBlock = Modifier.setBlockType(contentStateWithData, selectionState, 'atomic')
+  const newEditorState = returnEditorStateFromContentState(contentStateWithAtomicBlock, decorator)
+  return newEditorState
 }
 
 

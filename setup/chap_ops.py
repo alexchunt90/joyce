@@ -55,6 +55,7 @@ def import_chap_operations(chapters_path):
 
 	chap_file_list = os.listdir(chapters_path)
 	note_dict = es_helpers.es_document_dict('notes')
+	media_dict = es_helpers.es_document_dict('media')
 	chapter_dict = es_helpers.es_document_dict('chapters')
 
 	# Parse Swap JS files to find the hex colors for each chapter's links
@@ -70,7 +71,8 @@ def import_chap_operations(chapters_path):
 		chap_path = chapters_path + c
 		chapter_id = chapter_dict[c]
 		html = open(chap_path)
-		soup = bs(html, 'html.parser'
+		h = html.read().encode('utf-8')
+		soup = bs(h, 'html.parser'
 			# , preserve_whitespace_tags=['a', 'p']
 		)
 		html.close()
@@ -89,6 +91,24 @@ def import_chap_operations(chapters_path):
 				s['data-edition'] = edition_int
 				span_text = '{}#{}'.format(edition_int, page_string)
 				s.string = span_text
+
+		images = soup.findAll('img')
+		if images:
+			for i in images:
+				parent = i.parent
+				print(parent.name)
+				src = i['src']
+				import_src = 'images/{}'.format(src) # Manually move chapter media to images/images/ for import
+				if media_dict.__contains__(import_src):
+					img_id = media_dict[import_src]
+					file_ext = os.path.splitext(import_src)[1]
+					i['src'] = '/static/img/{}/img{}'.format(img_id, file_ext)
+					i['data-media-id'] = img_id
+					i['data-align'] = 'center'
+				if parent and parent.name == 'p':
+					img_tag = i.extract()
+					parent.insert_before(img_tag)
+					parent.decompose()
 
 		# Reformat chapter numbers
 		for center in soup.findAll('center'):
@@ -134,24 +154,24 @@ def import_chap_operations(chapters_path):
 				if 'break' in p['class']:
 					p['data-indent'] = 'none'
 
-		# Point hrefs to ES ids for notes
-		for a in soup.findAll('a'):
-			if a.has_attr('href'):
-				href = a['href']
-				strip_href = href[len('notes/'):]
-				if chap_annotations.__contains__(a['id']):
-					hex_color = chap_annotations[a['id']]
-				else:
-					print('Found a chapter link with elementId that isn\'t referenced in the swap files:', a['id'])
-				if href.endswith('.htm') and href.startswith('notes/'):
-					del a['class']
-					del a['id']
-					if note_dict.__contains__(strip_href):
-						if hex_color:
-							a['data-color'] = hex_color
-						a['href'] = note_dict[strip_href]
-					else:
-						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
+		# # Point hrefs to ES ids for notes
+		# for a in soup.findAll('a'):
+		# 	if a.has_attr('href'):
+		# 		href = a['href']
+		# 		strip_href = href[len('notes/'):]
+		# 		if chap_annotations.__contains__(a['id']):
+		# 			hex_color = chap_annotations[a['id']]
+		# 		else:
+		# 			print('Found a chapter link with elementId that isn\'t referenced in the swap files:', a['id'])
+		# 		if href.endswith('.htm') and href.startswith('notes/'):
+		# 			del a['class']
+		# 			del a['id']
+		# 			if note_dict.__contains__(strip_href):
+		# 				if hex_color:
+		# 					a['data-color'] = hex_color
+		# 				a['href'] = note_dict[strip_href]
+		# 			else:
+		# 				print('Found a reference to a note file that wasn\'t indexed to ES:', href)
 
 		html_string = clean_html_for_export(soup)
 		with codecs.open(chap_path, 'w') as file:

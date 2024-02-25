@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
 
 import actions from '../actions'
-import { blockStyleFn } from '../modules/editorSettings'
+import { blockStyleFn, blockRenderFn } from '../modules/editorSettings'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 import ReaderPageButtons from '../components/readerPageButtons'
@@ -31,13 +31,13 @@ const ReaderContent = ({
 
 		{toggles.pagination === false &&
 			<div>
-				<Editor editorState={editorState} blockStyleFn={blockStyleFn} readOnly={true} />
+				<Editor editorState={editorState} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />
 			</div>
 		}
 		{toggles.pagination === true &&
 			<div>
 				<div className='paginated_reader_content'>
-					<Editor editorState={paginationEditorState} blockStyleFn={blockStyleFn} readOnly={true} />
+					<Editor editorState={paginationEditorState} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />
 				</div>
 				<ReaderPageButtons pagesArray={pagesArray} currentPageNumber={currentPageNumber} setPageNumber={setPageNumber}/>
 			</div>

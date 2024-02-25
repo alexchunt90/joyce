@@ -22,6 +22,14 @@
     padding: 2% 5%;
     font-size: 0.8em;
     text-indent: 3em;
+    img {
+    	width: 100%;
+    }
+}
+
+#new_document_button > button {
+	border: 1px solid $border_color;
+	background-color: red;
 }
 
 #note_media_picker {
@@ -93,6 +101,10 @@
 	.btn-group {
 		margin: 0 1%;
 	}
+}
+
+.topbar_mode_button > button {
+	border: 1px solid black;
 }
 
 

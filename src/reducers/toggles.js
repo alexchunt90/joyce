@@ -14,7 +14,8 @@ const toggles = (state=initialState, action) => {
 			if (action.status === 'request' && action.state === 'currentDocument') {
 				return {
 					...state,
-					loading: true
+					loading: true,
+					pagination: false,
 				}
 			} else if (action.status === 'success' && action.state === 'currentDocument') {
 				return {

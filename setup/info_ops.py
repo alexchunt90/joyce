@@ -38,7 +38,8 @@ def import_info_operations(info_pages_path):
 			continue
 
 		html = open(info_path)
-		soup = bs(html, 'html.parser',  preserve_whitespace_tags=['a', 'p'])
+		h = html.read().encode('utf-8')
+		soup = bs(h, 'html.parser',  preserve_whitespace_tags=['a', 'p'])
 		html.close()
 
 		def find_div(id):

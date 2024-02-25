@@ -62,7 +62,8 @@ def import_note_operations(notes_path):
 			continue
 
 		html = open(note_path)
-		soup = bs(html, 'html.parser',  preserve_whitespace_tags=['a', 'p'])
+		h = html.read().encode('utf-8')
+		soup = bs(h, 'html.parser',  preserve_whitespace_tags=['a', 'p'])
 		html.close()
 
 		def find_div(id):

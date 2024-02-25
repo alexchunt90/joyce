@@ -9,7 +9,7 @@ import DocumentTitle from '../components/documentTitle'
 import DocumentTitleInput from '../components/documentTitleInput'
 import TagColorPicker from '../components/tagColorPicker'
 import EditionYearInput from '../components/editionYearInput'
-import NoteMediaPicker from '../components/noteMediaPicker'
+import {NoteMediaPicker} from '../components/noteMediaPicker'
 import MediaUploadInput from '../components/mediaUploadInput'
 import LoadingSpinner from '../components/loadingSpinner'
 
@@ -49,10 +49,12 @@ const EditorEditMode = ({
 		{/* Topbar with rich text options */}
 		<EditorTopBarContentBlock>
 			<EditorEditModeRichTextOptions 
-				editorState={editorState} 
+				editorState={editorState}
+				media={media}
 				onToolButtonClick={onToolButtonClick} 
 				disabled={!currentDocument.id ? true : false}
 				onCustomClassToggle={onCustomClassToggle}
+				onMediaCheckboxClick={onMediaCheckboxClick}
 			/>
 		</EditorTopBarContentBlock>
 		<EditorTextContentBlock>
@@ -165,9 +167,12 @@ const mapDispatchToProps = dispatch => {
 		onCustomClassToggle: (editorState, className) => {
 			dispatch(actions.toggleCustomClass(editorState, className))
 		},
+		onMediaCheckboxClick: (editorState, media) => {
+			dispatch(actions.addInlineImage(editorState, media))
+		},
 		onSubmitClick: (currentDocument, editorState, inputs, docType) => {
 			dispatch(actions.submitDocumentEdit(currentDocument, editorState, inputs, docType))
-		}		
+		},
 	}
 }
 

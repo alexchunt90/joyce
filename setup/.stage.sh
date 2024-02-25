@@ -1,7 +1,6 @@
 npm run stage
 docker compose build
 docker compose up -d
-
 python -m setup.joyce_import
 npm run import -- info
 npm run import -- notes

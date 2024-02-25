@@ -11,8 +11,8 @@ UPLOAD_FOLDER = os.path.join(os.getenv('HOME'), 'Projects', 'joyce_flask', 'stat
 
 
 def import_media_operations(images_path):
-	episoder_folder_list = os.listdir(images_path)
-	for f in episoder_folder_list:
+	episode_folder_list = os.listdir(images_path)
+	for f in episode_folder_list:
 		if f == '.DS_Store':
 			continue
 

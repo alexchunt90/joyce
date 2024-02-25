@@ -38,7 +38,7 @@ def es_document_list(index, es_client=es):
 		]
 	search = es_client.search(
 		index=index,
-		_source_excludes=['html_source', 'search_text', 'thumb_file', 'file_ext', 'file_name'],
+		_source_excludes=['html_source', 'search_text', 'thumb_file', 'file_name'],
 		body=body
 	)
 	response = merge_results(search['hits']['hits'])

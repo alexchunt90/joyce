@@ -4,8 +4,8 @@ import actions from '../actions'
 import api from '../modules/api'
 import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
+import { stateToHTML } from '../modules/draftConversion'
 import { 
-	stateToHTML,
 	convertToSearchText, 
 	returnEditorStateFromHTML, 	
 	readerDecorator,

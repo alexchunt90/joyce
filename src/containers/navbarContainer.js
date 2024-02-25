@@ -8,7 +8,7 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
 	<nav className='navbar navbar-light navbar-static-top navbar-expand-lg'>
 		<NavLink to='/:id' className='navbar-brand'>
 			{/*Home*/}
-			<img src="/static/icon_sheer.png" alt="" width="30" height="24" className="d-inline-block align-text-top" />
+			<img src="/static/icon_sheer.png" alt="" width="45" height="36" className="d-inline-block align-text-top" />
 		</NavLink>
 		<button className='navbar-toggler' type='button' onClick={()=>toggleNavCollapse()}>
 			<span className='navbar-toggler-icon'></span>
@@ -16,7 +16,7 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
 		<div id='navbarItems' className={navCollapse ? 'collapse navbar-collapse' : 'collapse navbar-collapse show'}>
 			<ul className='navbar-nav mr-auto'>
 				<li className='nav-item'>
-					<NavLink to='/notes' className='nav-link'>Notes</NavLink>
+					<NavLink to='/notes' className='nav-link'>NEAT</NavLink>
 				</li>
 				<li className='nav-item'>
 					<NavLink to='/search' className='nav-link'>Search</NavLink>

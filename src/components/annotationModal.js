@@ -2,7 +2,7 @@ import React from 'react'
 import { Editor } from 'draft-js'
 import PropTypes from 'prop-types'
 
-import { blockStyleFn } from '../modules/editorSettings'
+import { blockStyleFn, blockRenderFn } from '../modules/editorSettings'
 import { EditorSubmitButton, EditorCancelButton } from './button'
 import { ImageGroup } from './image'
 
@@ -18,7 +18,7 @@ const AnnotateModal = ({annotationNote, annotationNoteMedia, modalEditorState}) 
 				<div className='modal-body'>
 					<div className='row'>
 						<div className='col-md-11 col-lg-7 offset-md-1'>
-							<Editor editorState={modalEditorState} blockStyleFn={blockStyleFn} readOnly={true} />
+							<Editor editorState={modalEditorState} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />
 						</div>
 						{annotationNote.media_doc_ids && annotationNote.media_doc_ids.length > 0 &&
 							<div className='col-lg-3 col-md-11 offset-md-1 offset-lg-0'>

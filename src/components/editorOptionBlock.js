@@ -1,5 +1,5 @@
 import React from 'react'
-import { ReaderAnnotateButton, ReaderPaginateButton, ReaderEditButton, EditorCancelButton, EditorSubmitButton} from './button'
+import { EditorCancelButton, EditorSubmitButton} from './button'
 import { returnSelectionContentBlockClasses } from '../modules/editorSettings'
 
 // 
@@ -35,14 +35,43 @@ const EditorToolButton = ({glyph, onClick}) =>
 const EditorDeleteToolButton = ({disabled}) =>
 	<button className='btn btn-info btn-sm' disabled={disabled} data-bs-toggle='modal' data-bs-target='#delete_confirm_modal' type='button'>
 		<i className='fas fa-trash fa-sm'></i>
-	</button>	
+	</button>
+
+const EditorDropdownToolButton = ({glyph, disabled=false}) =>
+	<button className='btn btn-info btn-sm dropdown-toggle' type='button' data-bs-toggle='dropdown' disabled={disabled}>
+    	<i className={'fas fa-' + glyph +' fa-sm'}></i>
+  	</button>	
+
+const ReaderEditButton = ({onClick}) =>
+	<div className='edit_note_button topbar_mode_button'>
+		<button onClick={onClick} className='btn btn-primary btn-sm'>
+			Edit
+			<i className='fas fa_inline fa-edit'></i>
+		</button>
+	</div>
+
+const ReaderAnnotateButton = ({onClick}) =>
+	<div className='annotate_note_button topbar_mode_button'>
+		<button onClick={onClick} className='btn btn-primary btn-sm'>
+			Annotate
+			<i className='fas fa_inline fa-link'></i>
+		</button>
+	</div>
+
+const ReaderPaginateButton = ({onClick}) =>
+	<div className='paginate_note_button topbar_mode_button'>
+		<button onClick={onClick} className='btn btn-primary btn-sm'>
+			Paginate
+			<i className='fas fa_inline fa-file-lines'></i>
+		</button>
+	</div>
 
 
 // 
 // Exported components
 // 
 
-export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, disabled, onCustomClassToggle}) =>
+export const EditorEditModeRichTextOptions = ({editorState, media, onToolButtonClick, disabled, onCustomClassToggle, onMediaCheckboxClick}) =>
 	<div className='row'>
 		<div className='col-10'>
 			<div className='rich_text_button_group btn-group' role='group'>
@@ -59,17 +88,22 @@ export const EditorEditModeRichTextOptions = ({editorState, onToolButtonClick, d
 				<EditorToolButton glyph='outdent fa-sm' onClick={()=>onToolButtonClick(editorState, 'no-indent')}/>
 				<EditorToolButton glyph='indent fa-sm' onClick={()=>onToolButtonClick(editorState, 'add-indent')}/>
 				<EditorToolButton glyph='quote-left fa-sm' onClick={()=>onToolButtonClick(editorState, 'blockquote')}/>
-				<EditorToolButton glyph='image fa-sm' onClick={()=>onToolButtonClick(editorState, 'image')}/>
-				<button className='btn btn-info btn-sm dropdown-toggle' type='button' data-bs-toggle='dropdown' disabled={!editorState.getSelection().isCollapsed()}>
-			    	<i className='fas fa-code fa-sm'></i>
-			  	</button>		  	
+				<EditorDropdownToolButton glyph={'code'} disabled={!editorState.getSelection().isCollapsed()} />
 				<ul className='dropdown-menu'>
 					{customCSSClasses.map(obj => 
-				    	<li key={obj.className}>
-				    		{console.log('Re-rendering the component')}
-			    			<input onChange={()=>{onCustomClassToggle(editorState, obj.className)}} checked={returnSelectionContentBlockClasses(editorState).includes(obj.className)} className='form-check-input me-1' type='checkbox' />
-				    		{obj.name}
-			    		</li>
+			    		<li key={obj.className}>
+		    				<input onChange={()=>{onCustomClassToggle(editorState, obj.className)}} checked={returnSelectionContentBlockClasses(editorState).includes(obj.className)} className='form-check-input me-1' type='checkbox' />
+			    			{obj.name}
+		    			</li>
+					)}
+				</ul>
+				<EditorDropdownToolButton glyph={'image'} disabled={!editorState.getSelection().isCollapsed()}/>		
+				<ul className='dropdown-menu note-picker-dropdown'>
+					{media.map(media =>
+			    		<li key={media.id}>
+		    				<input onChange={()=>onMediaCheckboxClick(editorState, media)} className='form-check-input mx-1' type='checkbox' />
+							{media.title}
+		    			</li>
 					)}
 				</ul>
 			</div>

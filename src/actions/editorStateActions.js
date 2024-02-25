@@ -29,6 +29,12 @@ const editorStateActions = {
 			editorState: editorState,
 			className: className
 		}),
+	addInlineImage: (editorState, media) =>
+		({
+			type: 'ADD_INLINE_IMAGE',
+			editorState: editorState,
+			media: media,
+		}),
 	// Handle key commands to apply inline styles
 	handleEditorKeyCommand: (editorState, command) =>
 		({

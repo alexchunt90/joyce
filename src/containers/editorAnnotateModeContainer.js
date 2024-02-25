@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { TextEditor } from '../components/textEditor'
 import { EditorTitleContentBlock, EditorTopBarContentBlock, EditorTextContentBlock, EditorBottomBarContentBlock } from '../components/editorContentBlock'
-import { EditorEditModeRichTextOptions, EditorSubmitOptions } from '../components/editorOptionBlock'
+import { EditorSubmitOptions } from '../components/editorOptionBlock'
 import EditorAnnotateOptions from '../components/editorAnnotateOptionsBlock'
 import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'

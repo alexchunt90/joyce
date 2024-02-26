@@ -103,7 +103,7 @@ export const stateToHTML = contentState => {
 
   // draft-convert's convertToHTML somehow intereprets the leading ampersand from the
   // unicode character for the single-quote (') as its own unicode character. Not
-  // sure why this happens but after weeks of trying to figure it out, this is the bandaid.
+  // sure why this happens but after weeks of trying to figure it out, this is the bandaid.g
   const html_without_ampersand_error = html.replace('&amp;#x27;', '&#x27;')
   return html_without_ampersand_error
 }

@@ -25,7 +25,7 @@ const SetPageBreakButton = ({onClick, selectionState, pageNumberInput, currentEd
 		type='button' 
 		disabled={disabled}
 	>
-		Set!
+		Set
 	</button>
 }
 

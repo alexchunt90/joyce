@@ -71,10 +71,9 @@ def import_chap_operations(chapters_path):
 		chap_path = chapters_path + c
 		chapter_id = chapter_dict[c]
 		html = open(chap_path)
-		h = html.read().encode('utf-8')
-		soup = bs(h, 'html.parser'
-			# , preserve_whitespace_tags=['a', 'p']
-		)
+		h = html.read()
+		# .encode('utf-8')
+		soup = bs(h, 'html.parser')
 		html.close()
 
 		chap_name = c.split('.')[0]
@@ -109,6 +108,13 @@ def import_chap_operations(chapters_path):
 					img_tag = i.extract()
 					parent.insert_before(img_tag)
 					parent.decompose()
+
+		for h in soup.findAll('h2'):
+			h['data-align'] = 'center'
+			is_aeolus = chap_name == 'aeolus'
+			has_class_attr = h.has_attr('class')
+			if is_aeolus and not has_class_attr:
+				h.name = 'h3'
 
 		# Reformat chapter numbers
 		for center in soup.findAll('center'):
@@ -177,12 +183,14 @@ def import_chap_operations(chapters_path):
 		for table in soup.findAll('table'):
 			if chap_name == 'ithaca':
 				print(media_dict)
-				ledger_id = media_dict['images/images/ledger.png']
-				ledger_src = '/static/img/{}/img.png'.format(ledger_id)
-				print(ledger_src)
-				ledger_img = soup.new_tag('img', src=ledger_src)
-				table.insert_before(ledger_img)
-				table.decompose()
+				setup_src = 'images/images/ledger.png'
+				if media_dict.__contains__(setup_src):
+					ledger_id = media_dict[setup_src]
+					ledger_src = '/static/img/{}/img.png'.format(ledger_id)
+					print(ledger_src)
+					ledger_img = soup.new_tag('img', src=ledger_src)
+					table.insert_before(ledger_img)
+					table.decompose()
 
 
 		html_string = clean_html_for_export(soup)

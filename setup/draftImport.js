@@ -2,8 +2,8 @@ import { JSDOM } from 'jsdom'
 import axios from 'axios'
 import https from 'https'
 
-import { readerDecorator, convertToSearchText, stateToHTML, returnEditorStateFromHTML } from '../src/modules/editorSettings.js'
-
+import { readerDecorator, convertToSearchText, returnEditorStateFromHTML } from '../src/modules/editorSettings.js'
+import { stateToHTML } from '../src/modules/draftConversion.js'
 // DraftJS requires the browser DOM, so we fake it here
 const jsdomWindow = new JSDOM('<div></div>').window
 const document = jsdomWindow.document

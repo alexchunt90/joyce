@@ -97,19 +97,26 @@ export const EditorEditModeRichTextOptions = ({editorState, media, onToolButtonC
 		    			</li>
 					)}
 				</ul>
+			</div>
+		</div>
+		<div className='col-1'>
+			<div className='rich_text_button_group btn-group' role='group'>
 				<EditorDropdownToolButton glyph={'image'} disabled={!editorState.getSelection().isCollapsed()}/>		
 				<ul className='dropdown-menu note-picker-dropdown'>
 					{media.map(media =>
 			    		<li key={media.id}>
-		    				<input onChange={()=>onMediaCheckboxClick(editorState, media)} className='form-check-input mx-1' type='checkbox' />
-							{media.title}
+			    			<a onClick={()=>onMediaCheckboxClick(editorState, media)} data-toggle='collapse' data-target='.note-picker-dropdown' className='ms-1'>
+								{media.title}
+							</a>
 		    			</li>
 					)}
 				</ul>
 			</div>
-		</div>
-		<div className='col-2'>
-			<EditorDeleteToolButton disabled={disabled}/>
+		</div>			
+		<div className='col-1'>
+			<div className='rich_text_button_group btn-group' role='group'>
+				<EditorDeleteToolButton disabled={disabled}/>
+			</div>
 		</div>
 	</div>
 

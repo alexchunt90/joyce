@@ -124,6 +124,7 @@ def import_note_operations(notes_path):
 			contributor_text = return_div.get_text()
 			contributor_p = soup.new_tag('p')
 			contributor_p.string = contributor_text.strip()
+			contributor_p['data-indent'] = 'none'
 			note_div.append(contributor_p)
 
 		# Standardize tags to i and b
@@ -158,7 +159,7 @@ def import_note_operations(notes_path):
 			note_media_ops.append(attach_media_op)
 
 			# Build ES Op to Index Title
-			note_title = soup.title.get_text()
+			note_title = soup.title.get_text().strip()
 			update_title_op = es_helpers.build_es_update_op(note_id, 'title', note_title)
 			note_title_ops.append(update_title_op)
 

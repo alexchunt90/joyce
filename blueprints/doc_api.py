@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, abort, jsonify, request
 from flask_jwt_extended import jwt_required
+from bs4 import BeautifulSoup as bs, Tag
 import sys
 import config
 import json
@@ -43,6 +44,25 @@ def write_chapter(id):
 def delete_chapter(id):
 	es_func.es_delete_document('chapters', id)
 	return jsonify(es_func.es_document_list('chapters'))
+
+''' Tally of chapter notes '''
+@doc_api.route('/chapters/tally/')
+def chapter_note_tally():
+	chapter_dict = es_func.es_document_list('chapters')
+	chapter_tally_list = []
+	for c in chapter_dict:
+		note_id_tally = []
+		chapter_id = c['id']
+		chapter_name = c['title']
+		chapter = es_func.es_get_document('chapters', chapter_id)
+		html_source = chapter['html_source']
+		soup = bs(html_source, 'html.parser')
+		for a in soup.findAll('a'):
+			if a.has_attr('href') and a['href'] not in note_id_tally:
+				note_id_tally.append(a['href'])
+		chapter_count = len(note_id_tally)
+		chapter_tally_list.append({'title': chapter_name, 'count': chapter_count})
+	return jsonify(chapter_tally_list)
 
 #
 # Note API Routes

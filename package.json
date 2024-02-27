@@ -8,7 +8,8 @@
     "stage": "rimraf static/js/ && webpack --config webpack.dev.js --no-watch --mode=development",
     "watch": "rimraf static/js/ && webpack-cli --config webpack.dev.js --mode=development",
     "test": "python setup.py && jest --config jest.config.js --no-cache && python setup.py",
-    "import": "npx -p @babel/core -p @babel/node babel-node --presets @babel/preset-env /joyce/setup/draftImport.js"
+    "import": "npx -p @babel/core -p @babel/node babel-node --presets @babel/preset-env /joyce/setup/draftImport.js",
+    "local_import": "npx -p @babel/core -p @babel/node babel-node --presets @babel/preset-env setup/draftImport.js"
   },
   "author": "Alex Hunt",
   "license": "ISC",

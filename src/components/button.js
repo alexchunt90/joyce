@@ -6,12 +6,30 @@ import helpers from '../modules/helpers'
 
 export const HighlightButton = ({toggle, onClick, size='md', theme='primary'}) =>
 	<div>
-		<div id='highlight_button' className='text-center'>
+		<div className='sidebar_button text-center'>
 			<button onClick={onClick} className={toggle ? 'btn btn-' + theme + ' btn-' + size : 'btn btn-info btn-' + size}>
 				{toggle ? 'Hide Notes' : 'Highlight Notes'}
 			</button>
 		</div>
 	</div>
+
+export const IndexNotesButton = ({onClick, size='md', theme='primary'}) =>
+	<div>
+		<div className='sidebar_button text-center'>
+			<Link to='/notes/index' className={'btn btn-' + theme + ' btn-' + size}>
+				Index of Notes
+			</Link>
+		</div>
+	</div>
+
+export const TallyNotesButton = ({onClick, size='md', theme='primary'}) =>
+	<div>
+		<div className='sidebar_button text-center'>
+			<Link to='/notes/tally' className={'btn btn-' + theme + ' btn-' + size}>
+				Tally of Notes
+			</Link>
+		</div>
+	</div>		
 
 export const SearchButton = ({onClick, searchInput, docTypes, resultCount}) =>
 	<div>

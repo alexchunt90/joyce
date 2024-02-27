@@ -68,7 +68,6 @@ export const stateFromHTML = html => {
 }
 
 export const stateToHTML = contentState => {
-  console.log(contentState)
   const html = convertToHTML({
     blockToHTML: (block) => {
       if (block.type === 'unstyled') {

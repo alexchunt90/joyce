@@ -5,20 +5,22 @@ button {
     border: 1px solid black !important;
 }
 
-#highlight_button > button {
+button:hover {
+    border: 1px solid black !important;
+}
+
+.sidebar_button > button, .sidebar_button > a {
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid black !important;
 }
 
 #pagination_toggle_button {
     width: 77.5%;
     margin-right: 2.5%;
-    border: 1px solid black;
 }
 
 #pagination_edition_select {
     width: 20%;
-    border: 1px solid black;
 }
 
 %sidebar_button {
@@ -33,7 +35,7 @@ button {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-align: left;
-    border: 1px solid black;
+    border: 1px solid black !important;
 }
 
 .note_button > button {
@@ -43,7 +45,7 @@ button {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-align: left;
-    border: 1px solid black;
+    border: 1px solid black !important;
 }
 
 .chapter_button > a {
@@ -51,10 +53,8 @@ button {
     margin: 0.25% 0;
     padding: 0.2rem 0;
     font-size: 1.1em;
-    // font-weight: bold;
     color: black;
-    border: 1px solid black;
-    // font-family: serif;
+    border: 1px solid black !important;
 }
 
 .info_button > a {

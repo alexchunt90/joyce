@@ -60,7 +60,7 @@ def import_info_operations(info_pages_path):
 
 		# Build ES Op to Index Title
 		info_title = soup.title if soup.title else soup.h2
-		info_title_text = info_title.get_text()
+		info_title_text = info_title.get_text().strip()
 		update_title_op = es_helpers.build_es_update_op(info_id, 'title', info_title_text)
 		info_title_ops.append(update_title_op)
 		

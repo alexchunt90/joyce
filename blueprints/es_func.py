@@ -26,7 +26,9 @@ def merge_results(response):
 def es_document_list(index, es_client=es):
 	body = {
 		'from': 0, 'size': 10000,
-		'query': {'match_all': {}},
+		'query': {
+			'match_all': {},
+		},
 	}
 	if index in ['chapters', 'info']:
 		body['sort'] = [
@@ -39,13 +41,13 @@ def es_document_list(index, es_client=es):
 	search = es_client.search(
 		index=index,
 		_source_excludes=['html_source', 'search_text', 'thumb_file', 'file_name'],
-		body=body
+		body=body,
 	)
 	response = merge_results(search['hits']['hits'])
 	return response
 
-def es_get_document(index, id):
-	res = es.get(
+def es_get_document(index, id, es_client=es):
+	res = es_client.get(
 		index=index,
 		doc_type='doc',
 		id=id

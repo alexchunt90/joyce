@@ -110,6 +110,14 @@ const api = {
 			return {status: 'error', data: error.data}
 		}),
 
+	// Tally notes for each chapter
+	HTTPGetChapterNoteTally: () =>
+		axios.get(baseURL + apiRoute + 'chapters/tally').then(res => {
+			return {status: 'success', data: res.data}
+		}).catch(error => {
+			return {status: 'error', data: error}
+		}),
+
 	// Admin Functions
 	HTTPGetRefreshList: (docType) =>
 		axios.get(apiRoute + 'refresh/').then(res => {

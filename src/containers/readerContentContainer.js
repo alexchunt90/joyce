@@ -8,9 +8,13 @@ import { blockStyleFn, blockRenderFn } from '../modules/editorSettings'
 import DocumentTitle from '../components/documentTitle'
 import LoadingSpinner from '../components/loadingSpinner'
 import ReaderPageButtons from '../components/readerPageButtons'
+import NoteTallySummary from '../components/noteTallySummary'
+import NoteIndexSummary from '../components/noteIndexSummary'
+import {infoPageTitleConstants} from '../config'
 
 const ReaderContent = ({
 	currentDocument,
+	notes,
 	editorState,
 	docType,
 	paginationEditorState,
@@ -29,6 +33,7 @@ const ReaderContent = ({
 		<br />
 		<br />
 
+
 		{toggles.pagination === false &&
 			<div>
 				<Editor editorState={editorState} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />
@@ -42,13 +47,19 @@ const ReaderContent = ({
 				<ReaderPageButtons pagesArray={pagesArray} currentPageNumber={currentPageNumber} setPageNumber={setPageNumber}/>
 			</div>
 		}
-
+		{currentDocument.title === infoPageTitleConstants.TALLY_INFO_PAGE_TITLE &&
+			<NoteTallySummary />
+		}
 		<br />
 		<br />		
+		{currentDocument.title === infoPageTitleConstants.NOTE_INDEX_INFO_PAGE_TITLE &&
+			<NoteIndexSummary notes={notes} />
+		}
 	</div>
 
 const mapStateToProps = state => {
 	const baseState = {
+		notes: state.notes,
 		currentDocument: state.currentDocument,
 		editorState: state.editorState,
 		docType: state.docType,

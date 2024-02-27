@@ -5,11 +5,13 @@ import {returnEditorStateWithSearchTextFocus } from '../modules/editorSettings'
 import actions from '../actions'
 import helpers from '../modules/helpers'
 import regex from '../modules/regex'
+import {infoPageTitleConstants} from '../config'
 
 const joyceRouter = store => next => action => {
 	// State
 	const chapters = store.getState().chapters
 	const notes = store.getState().notes
+	const info = store.getState().info
 	const tags = store.getState().tags
 	const media = store.getState().media
 	const editorState = store.getState().editorState
@@ -21,6 +23,8 @@ const joyceRouter = store => next => action => {
 	const hash = location.hash.slice(1) || undefined
 	const pathID = regex.checkPathForID(path) ? regex.parseIDFromPath(path) : undefined		
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
+
+	const exemptNotePaths = ['/notes/tally', '/notes/index', '/notes/about']
 
 	switch(action.type) {
 		case '@@router/ON_LOCATION_CHANGED':
@@ -45,6 +49,7 @@ const joyceRouter = store => next => action => {
 					switch(regex.parseDocTypeFromPath(path)) {
 						case 'notes':
 							if (notes.length > 0) {
+
 								store.dispatch(actions.setCurrentDocument(notes[0].id, 'notes'))
 							}
 							break
@@ -101,7 +106,29 @@ const joyceRouter = store => next => action => {
 			if (typeof hash !== 'undefined') {
 				store.dispatch(actions.setCurrentBlock(currentDocument.id, hash))
 			}
-
+			if (path.substring(0,12) === '/notes/tally') {
+				for (const info_page of info) {
+					if (info_page.title === infoPageTitleConstants.TALLY_INFO_PAGE_TITLE) {
+						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
+					}
+				}
+			}
+			if (path.substring(0,12) === '/notes/index') {
+				for (const info_page of info) {
+					console.log(info_page)
+					if (info_page.title === infoPageTitleConstants.NOTE_INDEX_INFO_PAGE_TITLE) {
+						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
+					}
+				}
+			}
+			if (path.substring(0,12) === '/notes/about') {
+				for (const info_page of info) {
+					console.log(info_page)
+					if (info_page.title === infoPageTitleConstants.ABOUT_NOTES_INFO_PAGE_TITLE) {
+						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
+					}
+				}
+			}						
 			break
 		case 'GET_DOCUMENT_LIST':
 			// 
@@ -140,6 +167,11 @@ const joyceRouter = store => next => action => {
 			break
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
+				if (exemptNotePaths.indexOf(path) >= 0) {
+					store.dispatch(actions.setDocType('notes'))
+					break
+				}
+
 				// After successfully retrieving a currentDocument, redirect to its identifier to the path
 				const actionIdentifier = action.docType === 'chapters' ? String(action.data.number) : action.data.id
 				const pathIdentifier = action.docType === 'chapters' ? String(pathNumber) : pathID
@@ -160,7 +192,6 @@ const joyceRouter = store => next => action => {
 		case 'SET_EDITOR_STATE':
 			// When the reader loads a new document, if a currentBlock is set, jump to it
 			if (typeof(currentBlock.id) !== 'undefined' && currentBlock.id === currentDocument.id ) {
-				console.log('MIDDLEWARE ENGAGED')
 				const newEditorState = returnEditorStateWithSearchTextFocus(action.data, currentBlock.key)
 				action.data = newEditorState
 			}

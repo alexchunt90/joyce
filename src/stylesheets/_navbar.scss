@@ -8,10 +8,14 @@ nav.navbar {
 	// background: -webkit-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Safari 5.1 to 6.0 */
 	// background: -o-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Opera 11.1 to 12.0 */
 	// background: -moz-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Firefox 3.6 to 15 */
-	// background: linear-gradient(0, $nav_gradient1, $nav_gradient2); /* Standard syntax */	
+	// background: linear-gradient(0, $joyce_orange, $joyce_light_orange); /* Standard syntax */	
 	box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.4);
 	border-bottom: 1px solid black;
 }
+
+// nav .dropdown-item.active {
+// 	background-color: ;
+// }
 
 a.navbar-brand {
 	margin-left: 2%;

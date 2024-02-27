@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import actions from '../actions'
 import { DocumentList } from '../components/list'
 import Logo from '../components/logo'
-import { HighlightButton } from '../components/button'
+import { HighlightButton, IndexNotesButton, TallyNotesButton } from '../components/button'
 import PaginationReaderButton from '../components/paginationReaderButton'
 import SidebarSpacer from '../components/sidebarSpacer'
 import helpers from '../modules/helpers'
@@ -21,11 +21,24 @@ const ReaderSidebar = ({
 	onHighlightClick,
 	onPaginationToggle,
 	choosePaginationEdition,
+	widthInt = 3,
 }) =>
 	<div id='sidebar' className='col-md-3 d-none d-md-flex'>
 		<div>
 			<Logo />
 			<SidebarSpacer />
+			{docType === 'notes' &&
+				<IndexNotesButton />
+			}
+			{docType === 'notes' &&
+				<SidebarSpacer />
+			}			
+			{docType === 'notes' &&
+				<TallyNotesButton />
+			}
+			{docType === 'notes' &&
+				<SidebarSpacer />
+			}
 			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />
 			{docType==='chapters' &&

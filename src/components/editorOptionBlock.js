@@ -1,27 +1,13 @@
 import React from 'react'
 import { EditorCancelButton, EditorSubmitButton} from './button'
 import { returnSelectionContentBlockClasses } from '../modules/editorSettings'
+import { CUSTOM_CSS_CLASSES } from '../config'
 
 // 
 // Config
 // 
 
-const CSSClassObject = (name, className) => {
-	return {
-		'name': name,
-		'className': className
-	}
-}
-
-const customCSSClasses = [
-	CSSClassObject('Stage Direction', 'stage-dir'),
-	CSSClassObject('Serif Font', 'serif-font'),
-	CSSClassObject('Character Tag', 'character-tag'),
-	CSSClassObject('Question', 'question'),
-	CSSClassObject('Bib', 'bib'),
-	CSSClassObject('Page Break', 'break'),
-	CSSClassObject('Dialog Lyrics', 'dialog-lyrics'),
-]
+const customCSSClasses = CUSTOM_CSS_CLASSES
 
 // 
 // Internal components

@@ -67,6 +67,33 @@
 	}
 }
 
+.note_index_container {
+	height: 75%;
+	overflow: hidden;
+}
+
+.index_header {
+	text-align: left !important;
+	font-weight: bold;
+}
+
+.index_letter {
+	font-weight: bold;
+	color: $joyce_dark_green;
+}
+
+.note_index_list {
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-ms-overflow-style: none;
+    scrollbar-width: none; /* for Firefox */
+}
+
+.index_letter {
+	text-indent: 0;
+}
+
 // Media queries
 
 @include respond-below(sm) {

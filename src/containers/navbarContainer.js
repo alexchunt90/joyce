@@ -3,8 +3,15 @@ import { connect } from 'react-redux'
 import { NavLink, Link } from 'react-router-dom'
 
 import actions from '../actions'
+import {infoPageTitleConstants} from '../config'
 
-const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
+const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
+	
+	const noteInfoPages = Object.values(infoPageTitleConstants)
+	const filteredInfo = info.filter(page => !noteInfoPages.includes(page.title))
+	console.log(info)
+	console.log(filteredInfo)
+	return (
 	<nav className='navbar navbar-light navbar-static-top navbar-expand-lg'>
 		<NavLink to='/:id' className='navbar-brand'>
 			{/*Home*/}
@@ -16,11 +23,21 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
 		<div id='navbarItems' className={navCollapse ? 'collapse navbar-collapse' : 'collapse navbar-collapse show'}>
 			<ul className='navbar-nav mr-auto'>
 				<li className='nav-item'>
-					<NavLink to='/notes' className='nav-link'>Notes</NavLink>
-				</li>
-				<li className='nav-item'>
 					<NavLink to='/search' className='nav-link'>Search</NavLink>
 				</li>
+				<li className="nav-item dropdown">
+          			<a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Notes</a>
+					{/*<NavLink className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Notes</NavLink>*/}
+	          		<ul className="dropdown-menu">
+	            			<li>
+	            				<Link className='dropdown-item' to='/notes/about'>About the Notes</Link>
+	            				<Link className='dropdown-item' to='/notes/index'>Index of Note Titles</Link>
+	            				<Link className='dropdown-item' to='/notes/tally'>Tally of Notes</Link>
+            				</li>
+	          		</ul>
+        		</li>	
+
+
 				{user.isLoggedIn &&
 					<li className='nav-item'>
 						<NavLink to='/edit' className='nav-link'>Edit</NavLink>
@@ -32,9 +49,9 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
 					</li>
 				}
 				<li className="nav-item dropdown">
-          			<a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">About</a>
+          			<a className="nav-link dropdown-toggle" href="#"role="button" data-bs-toggle="dropdown">More Info</a>
 	          		<ul className="dropdown-menu">
-	          			{info.length > 0 && info.map(infoDoc => 
+	          			{filteredInfo.length > 0 && filteredInfo.map(infoDoc => 
 	            			<li key={infoDoc.id}><Link className='dropdown-item' to={'/info/' + infoDoc.id}>{infoDoc.title}</Link></li>
           				)}
 	          		</ul>
@@ -42,7 +59,8 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) =>
 			</ul>
 		</div>
 	</nav>
-
+	)
+}
 
 const mapStateToProps = state => {
 	return {

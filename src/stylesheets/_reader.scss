@@ -67,6 +67,14 @@
 	}
 }
 
+ul, ol, li {
+	text-indent: 0;
+}
+
+#mobile_read_options button {
+	text-wrap: pretty;
+}
+
 .note_index_container {
 	height: 75%;
 	overflow: hidden;
@@ -79,7 +87,7 @@
 
 .index_letter {
 	font-weight: bold;
-	color: $joyce_dark_green;
+	color: $joyce_dark_orange;
 }
 
 .note_index_list {

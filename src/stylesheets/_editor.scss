@@ -12,8 +12,10 @@
 }
 
 .text_editor {
-    max-height: 60vh;
+    // max-height: 60vh;
     overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* for Firefox */
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
     margin: 1vh 0;
@@ -28,6 +30,17 @@
     	display: block;
     	margin: 0 auto;
     }
+    h1, h2, h3, h4, h5 {
+    	text-indent: 0;
+    }
+}
+
+.mobile_list_options  button {
+	text-wrap: pretty;
+}
+
+.editor_welcome {
+	text-indent: 0 !important;
 }
 
 #new_document_button > button {
@@ -56,7 +69,8 @@
 }
 
 #editor_text_block {
-	max-height: 93%;
+	overflow: hidden;
+	flex: auto;
 }
 
 #editor_bottom_bar_block {
@@ -190,7 +204,7 @@ blockquote {
 
 @include respond-below(sm) {
     #content_wrapper {
-    	height: 91vh;
+    	height: 94vh;
     	margin: 0;
     }
 
@@ -211,21 +225,22 @@ blockquote {
     #editor_topbar {
 	    width: 95%;
 	    margin: 0 auto;    	
-    }    
+    }
+
+    .rich_text_button_group {
+    	margin-top: 0.25em;
+    }
 }
 
 @include respond-below(xs) {
 	div#editor_container {
-		height: 81vh;
+		height: 94vh;
 	}
 	div#editor_container > div {
-		height: 81vh;
+		height: 93vh;
 	}	
 	div#content_wrapper {
-		height: 91vh;
-	}
-	div#editor_container {
-		height: 81vh;
+		height: 95vh;
 	}
 	div#editor_read_mode {
 		height: 81vh;

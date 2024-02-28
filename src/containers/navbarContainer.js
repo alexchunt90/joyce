@@ -32,12 +32,20 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 	            			<li>
 	            				<Link className='dropdown-item' to='/notes/about'>About the Notes</Link>
 	            				<Link className='dropdown-item' to='/notes/index'>Index of Note Titles</Link>
+	            				<Link className='dropdown-item' to='/notes/subjects'>Index of Subjects</Link>
+	            				<Link className='dropdown-item' to='/notes/color'>Color Coding</Link>
 	            				<Link className='dropdown-item' to='/notes/tally'>Tally of Notes</Link>
             				</li>
 	          		</ul>
-        		</li>	
-
-
+        		</li>
+				<li className="nav-item dropdown">
+          			<a className="nav-link dropdown-toggle" href="#"role="button" data-bs-toggle="dropdown">More Info</a>
+	          		<ul className="dropdown-menu">
+	          			{filteredInfo.length > 0 && filteredInfo.map(infoDoc => 
+	            			<li key={infoDoc.id}><Link className='dropdown-item' to={'/info/' + infoDoc.id}>{infoDoc.title}</Link></li>
+          				)}
+	          		</ul>
+        		</li>					
 				{user.isLoggedIn &&
 					<li className='nav-item'>
 						<NavLink to='/edit' className='nav-link'>Edit</NavLink>
@@ -48,14 +56,6 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 						<NavLink to='/admin' className='nav-link'>Admin</NavLink>
 					</li>
 				}
-				<li className="nav-item dropdown">
-          			<a className="nav-link dropdown-toggle" href="#"role="button" data-bs-toggle="dropdown">More Info</a>
-	          		<ul className="dropdown-menu">
-	          			{filteredInfo.length > 0 && filteredInfo.map(infoDoc => 
-	            			<li key={infoDoc.id}><Link className='dropdown-item' to={'/info/' + infoDoc.id}>{infoDoc.title}</Link></li>
-          				)}
-	          		</ul>
-        		</li>					
 			</ul>
 		</div>
 	</nav>

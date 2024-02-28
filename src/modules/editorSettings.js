@@ -14,15 +14,6 @@ import InlineImage from '../components/inlineImage'
 // Editor defaults
 // _________________________________________________
 
-export const defaultTagColors = [
-  '307EE3',
-  'CF2929',
-  'AB59C2',
-  '9C632A',
-  'F59627',
-  '40b324'
-]
-
 const findEntities = (contentBlock, callback, entityType) => {
   contentBlock.findEntityRanges(character => {
     const contentState = ContentState.createFromBlockArray([contentBlock])

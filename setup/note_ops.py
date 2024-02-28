@@ -112,8 +112,29 @@ def import_note_operations(notes_path):
 
 		# Combine note divs
 		note_div = find_div('note')
+		if note_div:
+			first_element = note_div.contents[0]
+			overview_p = soup.new_tag('p')
+			bold_tag = soup.new_tag('b')
+			overview_p.string = 'Overview:'
+			overview_p.string.wrap(bold_tag)
+			overview_p['data-align'] = 'left'
+			overview_p['data-indent'] = 'none'
+			overview_p['data-custom-classes'] = 'subheader'
+			first_element.insert_before(overview_p)
+
+
+
 		expanded_note_div = find_div('expandednote')
 		if expanded_note_div:
+			readmore_p = soup.new_tag('p')
+			bold_tag = soup.new_tag('b')
+			readmore_p.string = 'Further Reading:'
+			readmore_p.string.wrap(bold_tag)
+			readmore_p['data-align'] = 'left'
+			readmore_p['data-indent'] = 'none'
+			readmore_p['data-custom-classes'] = 'subheader'
+			note_div.append(readmore_p)
 			for p in  expanded_note_div.contents:
 				## Can't append NavigableStrings
 				if type(p) == Tag:

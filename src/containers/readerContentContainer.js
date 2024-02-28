@@ -10,11 +10,13 @@ import LoadingSpinner from '../components/loadingSpinner'
 import ReaderPageButtons from '../components/readerPageButtons'
 import NoteTallySummary from '../components/noteTallySummary'
 import NoteIndexSummary from '../components/noteIndexSummary'
+import ColorCodingSummary from '../components/colorCodingSummary'
 import {infoPageTitleConstants} from '../config'
 
 const ReaderContent = ({
 	currentDocument,
 	notes,
+	tags,
 	editorState,
 	docType,
 	paginationEditorState,
@@ -48,7 +50,10 @@ const ReaderContent = ({
 			</div>
 		}
 		{currentDocument.title === infoPageTitleConstants.TALLY_INFO_PAGE_TITLE &&
-			<NoteTallySummary />
+			<NoteTallySummary noteCount={notes.length}/>
+		}
+		{currentDocument.title === infoPageTitleConstants.COLOR_CODING_INFO_PAGE_TITLE &&
+			<ColorCodingSummary tags={tags} />
 		}
 		<br />
 		<br />		
@@ -60,6 +65,7 @@ const ReaderContent = ({
 const mapStateToProps = state => {
 	const baseState = {
 		notes: state.notes,
+		tags: state.tags,
 		currentDocument: state.currentDocument,
 		editorState: state.editorState,
 		docType: state.docType,

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { DocTypeDropdown } from './dropdown'
-import { HighlightButton } from './button'
+import { HighlightButton, IndexNotesButton } from './button'
 import PaginationReaderButton from './paginationReaderButton'
 import { DocListDropdown } from './dropdown'
 
@@ -16,6 +16,11 @@ export const ReaderSidebarOptions = ({docs, editions, currentDocument, toggles, 
 				<PaginationReaderButton toggle={toggles.pagination} editions={editions} onPaginationToggle={onPaginationToggle} choosePaginationEdition={choosePaginationEdition} theme='secondary'/>
 			</div>
 		}
+		{docType === 'notes' &&
+			<div id='mobile_pagination_options' className='col-4 d-block d-md-none'>
+				<IndexNotesButton theme='secondary' size='sm'/>
+			</div>
+		}		
 		<div id='mobile_read_options' className='mobile_list_options col-4 d-block d-md-none'>
 			<DocListDropdown currentDocument={currentDocument} docs={docs} docType={docType} editMode={false} onDocumentClick={onDocumentClick} theme='secondary'/>
 		</div>

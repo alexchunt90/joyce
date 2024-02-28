@@ -59,7 +59,7 @@ const ReaderPaginateButton = ({onClick}) =>
 
 export const EditorEditModeRichTextOptions = ({editorState, media, onToolButtonClick, disabled, onCustomClassToggle, onMediaCheckboxClick}) =>
 	<div className='row'>
-		<div className='col-10'>
+		<div className='col-md-10 col-12'>
 			<div className='rich_text_button_group btn-group' role='group'>
 				<EditorToolButton glyph='heading fa-md' onClick={()=>onToolButtonClick(editorState, 'header-one')}/>
 				<EditorToolButton glyph='heading fa-sm' onClick={()=>onToolButtonClick(editorState, 'header-two')}/>
@@ -85,7 +85,7 @@ export const EditorEditModeRichTextOptions = ({editorState, media, onToolButtonC
 				</ul>
 			</div>
 		</div>
-		<div className='col-1'>
+		<div className='col-md-1 col-6'>
 			<div className='rich_text_button_group btn-group' role='group'>
 				<EditorDropdownToolButton glyph={'image'} disabled={!editorState.getSelection().isCollapsed()}/>		
 				<ul className='dropdown-menu note-picker-dropdown'>
@@ -99,7 +99,7 @@ export const EditorEditModeRichTextOptions = ({editorState, media, onToolButtonC
 				</ul>
 			</div>
 		</div>			
-		<div className='col-1'>
+		<div className='col-md-1 col-6'>
 			<div className='rich_text_button_group btn-group' role='group'>
 				<EditorDeleteToolButton disabled={disabled}/>
 			</div>

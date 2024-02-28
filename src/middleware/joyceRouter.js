@@ -5,7 +5,7 @@ import {returnEditorStateWithSearchTextFocus } from '../modules/editorSettings'
 import actions from '../actions'
 import helpers from '../modules/helpers'
 import regex from '../modules/regex'
-import {infoPageTitleConstants} from '../config'
+import {infoPageTitleConstants, exemptNotePaths} from '../config'
 
 const joyceRouter = store => next => action => {
 	// State
@@ -24,14 +24,12 @@ const joyceRouter = store => next => action => {
 	const pathID = regex.checkPathForID(path) ? regex.parseIDFromPath(path) : undefined		
 	const pathNumber = regex.checkPathForNumber(path) ? regex.parseNumberFromPath(path) : undefined
 
-	const exemptNotePaths = ['/notes/tally', '/notes/index', '/notes/about']
-
 	switch(action.type) {
 		case '@@router/ON_LOCATION_CHANGED':
-			// If you navigate to /edit while docType=notes, redirect to /edit/notes
+			// If you navigate to /edit while e.g. docType=notes, redirect to /edit/notes
 			if (regex.checkEditBaseRoute(path)){
 				if (docType !== 'chapters') {
-					store.dispatch(push('/edit/' + docType))
+					store.dispatch(push('/edit/' + docType + '/:id'))
 				}
 			}
 			// If path ends in :id...
@@ -115,7 +113,6 @@ const joyceRouter = store => next => action => {
 			}
 			if (path.substring(0,12) === '/notes/index') {
 				for (const info_page of info) {
-					console.log(info_page)
 					if (info_page.title === infoPageTitleConstants.NOTE_INDEX_INFO_PAGE_TITLE) {
 						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
 					}
@@ -123,12 +120,25 @@ const joyceRouter = store => next => action => {
 			}
 			if (path.substring(0,12) === '/notes/about') {
 				for (const info_page of info) {
-					console.log(info_page)
 					if (info_page.title === infoPageTitleConstants.ABOUT_NOTES_INFO_PAGE_TITLE) {
 						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
 					}
 				}
-			}						
+			}
+			if (path.substring(0,12) === '/notes/color') {
+				for (const info_page of info) {
+					if (info_page.title === infoPageTitleConstants.COLOR_CODING_INFO_PAGE_TITLE) {
+						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
+					}
+				}
+			}
+			if (path.substring(0,14) === '/notes/subject') {
+				for (const info_page of info) {
+					if (info_page.title === infoPageTitleConstants.SUBJECT_INDEX_INFO_PAGE_TITLE) {
+						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
+					}
+				}				
+			}
 			break
 		case 'GET_DOCUMENT_LIST':
 			// 
@@ -167,6 +177,7 @@ const joyceRouter = store => next => action => {
 			break
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
+				// For Info docs accessible through note paths, reset docType to notes after loading doc
 				if (exemptNotePaths.indexOf(path) >= 0) {
 					store.dispatch(actions.setDocType('notes'))
 					break

@@ -95,7 +95,6 @@ def import_chap_operations(chapters_path):
 		if images:
 			for i in images:
 				parent = i.parent
-				print(parent.name)
 				src = i['src']
 				import_src = 'images/{}'.format(src) # Manually move chapter media to images/images/ for import
 				if media_dict.__contains__(import_src):
@@ -182,12 +181,10 @@ def import_chap_operations(chapters_path):
 		# Special handling for the Ithaca ledger table
 		for table in soup.findAll('table'):
 			if chap_name == 'ithaca':
-				print(media_dict)
 				setup_src = 'images/images/ledger.png'
 				if media_dict.__contains__(setup_src):
 					ledger_id = media_dict[setup_src]
 					ledger_src = '/static/img/{}/img.png'.format(ledger_id)
-					print(ledger_src)
 					ledger_img = soup.new_tag('img', src=ledger_src)
 					table.insert_before(ledger_img)
 					table.decompose()

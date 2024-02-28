@@ -17,7 +17,7 @@ const refreshElasticsearch = () => {
 
 const AdminContent = ({user, userErrors, onConsentSuccess, onLogoutClick, refreshElasticsearch}) => {
 	return (
-		<div className='container'>
+		<div className='container mt-3'>
 			{user.name &&
 				<div className='row'>
 					<p>Welcome, {user.name}.</p>

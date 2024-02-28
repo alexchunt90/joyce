@@ -1,3 +1,9 @@
+export const bookDetails = {
+	title: 'Ulysses',
+	author: 'James Joyce'
+}
+
+
 const CSSClassObject = (name, className) => {
 	return {
 		'name': name,
@@ -5,9 +11,20 @@ const CSSClassObject = (name, className) => {
 	}
 }
 
+export const defaultTagColors = {
+  green: '40b324',
+  orange: 'F59627',
+  brown: '9C632A',
+  purple: 'AB59C2',
+  red: 'CF2929',
+  blue:'307EE3',
+}
+
 export const CUSTOM_CSS_CLASSES = [
-	CSSClassObject('Stage Direction', 'stage-dir'),
+	CSSClassObject('Header', 'header'),
+	CSSClassObject('Subheader', 'subheader'),
 	CSSClassObject('Serif Font', 'serif-font'),
+	CSSClassObject('Stage Direction', 'stage-dir'),
 	CSSClassObject('Character Tag', 'character-tag'),
 	CSSClassObject('Question', 'question'),
 	CSSClassObject('Bib', 'bib'),
@@ -19,8 +36,13 @@ export const CUSTOM_CSS_CLASSES = [
 export const infoPageTitleConstants = {
 	TALLY_INFO_PAGE_TITLE: 'Tally of Notes',
 	NOTE_INDEX_INFO_PAGE_TITLE: 'Index of Titles',
-	ABOUT_NOTES_INFO_PAGE_TITLE: 'About the Notes'
+	ABOUT_NOTES_INFO_PAGE_TITLE: 'About the Notes',
+	COLOR_CODING_INFO_PAGE_TITLE: 'Color Coding',
+	SUBJECT_INDEX_INFO_PAGE_TITLE: 'Subject Index'
 }
+
+// These are the paths for info pages that can be accessed through note routes
+export const exemptNotePaths = ['/notes/tally', '/notes/index', '/notes/about', '/notes/color', '/notes/subject']
 
 export const LATEST_TALLY = [
 	{

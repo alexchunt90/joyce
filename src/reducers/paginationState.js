@@ -1,4 +1,4 @@
-import {returnEditorStateFromBlocksArray} from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 
 const initialState = {
 	paginationEdition: undefined,
@@ -11,7 +11,7 @@ const setStateWithPaginatedDoc = (edition, state) => {
 	const year = edition.year
 	const firstPage = edition.doc[0]
 	const entityMap = edition.entityMap
-	const pageEditorState = returnEditorStateFromBlocksArray(firstPage.blocks, entityMap)
+	const pageEditorState = editorConstructor.returnEditorStateFromBlocksArray(firstPage.blocks, entityMap)
 	const newDocumentsState = {
 		...state.documents,
 		[year]: edition
@@ -39,7 +39,7 @@ const paginationState = (state=initialState, action) => {
 			const currentEdition = state.paginationEdition
 			const currentDoc = state.documents[currentEdition.year]
 			const newPage = currentDoc.doc.find(p => p.number === action.data)
-			const newPageEditorState = returnEditorStateFromBlocksArray(newPage.blocks, currentDoc.entityMap)
+			const newPageEditorState = editorConstructor.returnEditorStateFromBlocksArray(newPage.blocks, currentDoc.entityMap)
 			return {
 				...state,
 				currentPage: newPage.number,

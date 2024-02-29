@@ -91,10 +91,8 @@ export const stateToHTML = contentState => {
     },
     entityToHTML: (entity, originalText) => {
       if (entity.type === 'LINK') {
-        // draft-convert's convertToHTML somehow intereprets the leading ampersand from the
-        // unicode character for the single-quote (') as its own unicode character. Not
-        // sure why this happens but after weeks of trying to figure it out, this is the bandaid.g
-        const cleanedText = originalText.replace("&#x27;", "'")
+        // Bandaid fix for HTML encoded chars in <a> tags being converted to text
+        const cleanedText = originalText.replaceAll("&#x27;", "'").replaceAll('&amp;', '&')
         return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag}>{cleanedText}</a>;
       }
       if (entity.type === 'PAGEBREAK') {
@@ -103,6 +101,6 @@ export const stateToHTML = contentState => {
       return originalText;
     }
   })(contentState)
-  
+
   return html
 }

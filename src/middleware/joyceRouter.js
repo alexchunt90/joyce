@@ -1,7 +1,7 @@
 import { useMatch } from 'react-router-dom'
 import { push } from '@lagunovsky/redux-react-router'
 
-import {returnEditorStateWithSearchTextFocus } from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 import actions from '../actions'
 import helpers from '../modules/helpers'
 import regex from '../modules/regex'
@@ -203,7 +203,7 @@ const joyceRouter = store => next => action => {
 		case 'SET_EDITOR_STATE':
 			// When the reader loads a new document, if a currentBlock is set, jump to it
 			if (typeof(currentBlock.id) !== 'undefined' && currentBlock.id === currentDocument.id ) {
-				const newEditorState = returnEditorStateWithSearchTextFocus(action.data, currentBlock.key)
+				const newEditorState = editorConstructor.returnEditorStateWithSearchTextFocus(action.data, currentBlock.key)
 				action.data = newEditorState
 			}
 		case 'SET_CURRENT_BLOCK':

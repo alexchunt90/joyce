@@ -5,14 +5,8 @@ import api from '../modules/api'
 import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
 import { stateToHTML } from '../modules/draftConversion'
-import { 
-	convertToSearchText, 
-	returnEditorStateFromHTML, 	
-	readerDecorator,
-	returnEditorStateWithNewDecorator,
-	returnEditorStateWithNewAnnotation,
-	returnEditorStateWithExpandedPageBreakSelection
-} from '../modules/editorSettings.js'
+import { convertToSearchText, readerDecorator } from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 import paginate from '../modules/paginate'
 
 const joyceInterface = store => next => action => {
@@ -36,7 +30,7 @@ const joyceInterface = store => next => action => {
 		// 	to both the editorState reducer and the pagination middleware.
 		case 'GET_DOCUMENT_TEXT':
 			if (action.status === 'success' && action.state === 'currentDocument') {
-				const editorState = returnEditorStateFromHTML(action.data.html_source, readerDecorator)
+				const editorState = editorConstructor.returnEditorStateFromHTML(action.data.html_source, readerDecorator)
 				store.dispatch(actions.setEditorState(editorState))
 			}
 			if (action.status === 'success' && action.docType === 'notes' && action.state === 'annotationNote') {
@@ -53,7 +47,7 @@ const joyceInterface = store => next => action => {
 			// Check for validation errors
 			const validationErrors = validateSubmittedDocument(action.docType, action.inputs, action.currentDocument, user)
 			if (validationErrors.length < 1) {
-				const readerEditorState = returnEditorStateWithNewDecorator(action.editorState, readerDecorator)
+				const readerEditorState = editorConstructor.returnEditorStateWithNewDecorator(action.editorState, readerDecorator)
 				const textContent = readerEditorState.getCurrentContent()
 				// Convert state to HTML and search text to be posted to Elasticsearch
 				const data = { 
@@ -117,7 +111,7 @@ const joyceInterface = store => next => action => {
 			const annotationErrors = validateSubmittedAnnotation(action.annotationNote, action.annotationTag)
 			if (annotationErrors.length < 1) {
 				const contentState = action.editorState.getCurrentContent()
-				const newEditorState = returnEditorStateWithNewAnnotation(contentState, action)
+				const newEditorState = editorConstructor.returnEditorStateWithNewAnnotation(contentState, action)
 				store.dispatch(actions.annotationCreated(newEditorState))
 				bootstrap.Modal.getInstance(document.getElementById('annotate_modal')).hide()
 			}

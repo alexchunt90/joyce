@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Editor } from 'draft-js'
 
-import {returnEditorStateFromHTML, blockStyleFn, blockRenderFn} from '../modules/editorSettings'
+import {blockStyleFn, blockRenderFn} from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 
 export const Image = ({document, col=12}) =>
 	<div className={'image_div col-md-'+col}>

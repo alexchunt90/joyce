@@ -120,10 +120,11 @@ def import_chap_operations(chapters_path):
 			center['data-align'] = 'center'
 			font = center.find(attrs={'size': '+3'})
 			if font:
-				center['data-custom-classes'] = 'serif-font'
+				center['data-custom-classes'] = 'serif-font header'
 				center.name = 'h1'
 			else:
 				center.name = 'h2'
+				center['data-custom-classes'] = 'header'
 		# Reformat lyrics
 		for p in soup.findAll('p'):
 			if p.has_attr('style'):

@@ -1,6 +1,6 @@
 import React from 'react'
 import { EditorCancelButton, EditorSubmitButton} from './button'
-import { returnSelectionContentBlockClasses } from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 import { CUSTOM_CSS_CLASSES } from '../config'
 
 // 

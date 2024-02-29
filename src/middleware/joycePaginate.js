@@ -4,12 +4,9 @@ import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
 import { 
 	stateToHTML, 
-	convertToSearchText, 
-	returnEditorStateWithNewAnnotation,
-	returnEditorStateFromHTML, 
-	readerDecorator,
-	returnEditorStateWithExpandedPageBreakSelection
-} from '../modules/editorSettings.js'
+	convertToSearchText
+} from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 import paginate from '../modules/paginate'
 
 // Pagination Action Middleware
@@ -46,7 +43,7 @@ const joycePaginate = store => next => action => {
 			if (mode === 'PAGINATE_MODE') {
 				// Take the incoming editorState and retrieve the selectionState
 				const editorState = action.data
-				const newEditorState = returnEditorStateWithExpandedPageBreakSelection(editorState)
+				const newEditorState = editorConstructor.returnEditorStateWithExpandedPageBreakSelection(editorState)
 				// returnEditorStateWithExpandedPageBreakSelection returns undefined if editorState doesn't meet criteria
 				if (newEditorState) {
 					store.dispatch(actions.updateEditorState(newEditorState))
@@ -57,7 +54,7 @@ const joycePaginate = store => next => action => {
 			// TODO: Figure out how to delay this till currentDoc and editions BOTH load, preventing race condition
 			if (action.status === 'success' && action.docType === 'editions' && docType ==='chapters' && currentDocument.html_source) {
 				const firstEdition = action.data[0]
-				const editorState = returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
+				const editorState = editorConstructor.returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
 				const paginatedDoc = paginate(editorState, firstEdition)
 				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
 			}

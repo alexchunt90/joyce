@@ -4,17 +4,10 @@ import {
 	readerDecorator,
 	editorDecorator,
 	editPaginateDecorator,
-	returnNewEditorState,
-	returnEditorStateFromKeyCommand, 
-	returnEditorStateWithInlineStyles, 
-	returnEditorStateWithoutAnnotation, 
-	returnEditorStateWithNewPageBreak,
-	returnEditorStateWithNewDecorator,
-	returnEditorStateWithInlineImage,
-	returnEditorStateWithCustomClass,
-} from '../modules/editorSettings.js'
+} from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 
-const blankEditor = returnNewEditorState(readerDecorator)
+const blankEditor = editorConstructor.returnNewEditorState(readerDecorator)
 
 const editorState = (state=blankEditor, action) => {
 	switch(action.type) {
@@ -33,9 +26,9 @@ const editorState = (state=blankEditor, action) => {
 		// When we enter paginate mode, we want to display page breaks and hide links
 		case 'SET_MODE':
 			if (action.mode === 'PAGINATE_MODE') {
-				return returnEditorStateWithNewDecorator(state, editPaginateDecorator)
+				return editorConstructor.returnEditorStateWithNewDecorator(state, editPaginateDecorator)
 			} else {
-				return returnEditorStateWithNewDecorator(state, editorDecorator)
+				return editorConstructor.returnEditorStateWithNewDecorator(state, editorDecorator)
 			}
 			break
 		// Update editor to reflect action
@@ -44,19 +37,19 @@ const editorState = (state=blankEditor, action) => {
 		case 'UPDATE_EDITOR_STATE':
 			return action.data			
 		case 'HANDLE_EDITOR_KEY_COMMAND':
-			return returnEditorStateFromKeyCommand(action.editorState, action.command)
+			return editorConstructor.returnEditorStateFromKeyCommand(action.editorState, action.command)
 		case 'APPLY_INLINE_STYLE':
-			return returnEditorStateWithInlineStyles(action.style, action.editorState)
+			return editorConstructor.returnEditorStateWithInlineStyles(action.style, action.editorState)
 		case 'TOGGLE_CUSTOM_CLASS':
-			return returnEditorStateWithCustomClass(action.editorState, action.className)
+			return editorConstructor.returnEditorStateWithCustomClass(action.editorState, action.className)
 		case 'ADD_INLINE_IMAGE':
-			return returnEditorStateWithInlineImage(action.editorState, action.media)
+			return editorConstructor.returnEditorStateWithInlineImage(action.editorState, action.media)
 		// After creating annotation, display updated editor state
 		case 'ANNOTATION_CREATED':
 			return action.editorState
 		case 'SUBMIT_NEW_PAGE_BREAK':
 			const contentState = state.getCurrentContent()
-			const editorStateWithPageBreak = returnEditorStateWithNewPageBreak(
+			const editorStateWithPageBreak = editorConstructor.returnEditorStateWithNewPageBreak(
 				contentState, 
 				{
 					year: action.year,
@@ -68,7 +61,7 @@ const editorState = (state=blankEditor, action) => {
 			return editorStateWithPageBreak
 		// When user attempts to remove an annotation, generate a new content state without that entity and return it to the editor
 		case 'REMOVE_ANNOTATION':
-			const editorStateWithAnnotation = returnEditorStateWithoutAnnotation(action)
+			const editorStateWithAnnotation = editorConstructor.returnEditorStateWithoutAnnotation(action)
 			return editorStateWithAnnotation
 		default:
 			return state

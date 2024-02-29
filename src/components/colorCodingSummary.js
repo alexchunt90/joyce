@@ -4,7 +4,8 @@ import { Editor } from 'draft-js'
 
 import api from '../modules/api'
 import {stateFromHTML} from '../modules/draftConversion'
-import {returnNewEditorState, returnEditorStateFromContentState, readerDecorator} from '../modules/editorSettings'
+import {readerDecorator} from '../modules/editorSettings'
+import editorConstructor from '../modules/editorConstructor'
 
 const ColorCodingSummary = ({tags}) => {
 
@@ -20,14 +21,14 @@ const ColorCodingSummary = ({tags}) => {
 }
 
 const TagSummary = ({tag}) => {
-	const blankEditor = returnNewEditorState(readerDecorator)
+	const blankEditor = editorConstructor.returnNewEditorState(readerDecorator)
 	const [editorState, setEditorState] = useState(blankEditor)
 
 
 	useEffect(() => {
 		api.HTTPGetDocumentText(tag.id, 'tags').then(response => {
 			const contentState = stateFromHTML(response.data.html_source)
-			const editorState = returnEditorStateFromContentState(contentState)
+			const editorState = editorConstructor.returnEditorStateFromContentState(contentState)
 			setEditorState(editorState)
 		}).catch(error => console.log(error))
 	}, [])

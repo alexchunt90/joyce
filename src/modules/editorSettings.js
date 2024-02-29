@@ -1,6 +1,7 @@
 // Consolidating any references to the draft-js or draft-convert libraries to this one module
 import React from 'react'
-import { EditorState, Modifier, RichUtils, convertToRaw, ContentState, CompositeDecorator, SelectionState } from 'draft-js'
+import { EditorState, Modifier, RichUtils, convertToRaw, ContentState, CompositeDecorator, SelectionState, getDefaultKeyBinding, KeyBindingUtil } from 'draft-js'
+import Immutable from 'immutable'
 
 import {stateFromHTML, stateToHTML} from './draftConversion'
 import {PageBreak,VisiblePageBreak} from '../containers/pageBreakContainer'
@@ -99,6 +100,17 @@ export const blockRenderFn = (contentBlock) => {
   }
 }
 
+export const keyBindingFn = (e) => {
+  if (e.keyCode === 9 ) { //Tab Key
+    if (e.shiftKey === true) {
+      return 'shift-tab-key'
+    } else {
+      return 'tab-key'
+    }
+  }
+  return getDefaultKeyBinding(e)
+}
+
 // _________________________________________________
 // 
 // Editor state functions for reducers & middleware
@@ -183,8 +195,107 @@ export const returnEditorStateWithoutAnnotation = (data) => {
   return editorState
 }
 
+
+
+
+
+  //   var withAdjustment = adjustBlockDepthForContentState(content, selection, event.shiftKey ? -1 : 1, maxDepth);
+  //   return EditorState.push(editorState, withAdjustment, 'adjust-depth');
+  // },
+
+
+// function adjustBlockDepthForContentState(contentState, selectionState, adjustment, maxDepth) {
+//   var startKey = selectionState.getStartKey();
+//   var endKey = selectionState.getEndKey();
+//   var blockMap = contentState.getBlockMap();
+//   var blocks = blockMap.toSeq().skipUntil(function (_, k) {
+//     return k === startKey;
+//   }).takeUntil(function (_, k) {
+//     return k === endKey;
+//   }).concat([[endKey, blockMap.get(endKey)]]).map(function (block) {
+//     var depth = block.getDepth() + adjustment;
+//     depth = Math.max(0, Math.min(depth, maxDepth));
+//     return block.set('depth', depth);
+//   });
+//   blockMap = blockMap.merge(blocks);
+//   return contentState.merge({
+//     blockMap: blockMap,
+//     selectionBefore: selectionState,
+//     selectionAfter: selectionState
+//   });
+// }
+
+
+
+// var Immutable = require("immutable");
+
+// var Map = Immutable.Map;
+
+// function modifyBlockForContentState(contentState, selectionState, operation) {
+//   var startKey = selectionState.getStartKey();
+//   var endKey = selectionState.getEndKey();
+//   var blockMap = contentState.getBlockMap();
+//   var newBlocks = blockMap.toSeq().skipUntil(function (_, k) {
+//     return k === startKey;
+//   }).takeUntil(function (_, k) {
+//     return k === endKey;
+//   }).concat(Map([[endKey, blockMap.get(endKey)]])).map(operation);
+//   return contentState.merge({
+//     blockMap: blockMap.merge(newBlocks),
+//     selectionBefore: selectionState,
+//     selectionAfter: selectionState
+//   });
+// }
+
+
+const handleTabKeyCommand = (editorState, command) => {
+    const blockType = RichUtils.getCurrentBlockType(editorState)
+    if (blockType === 'unordered-list-item') {
+      const decorator = editorState.getDecorator()
+      const selection = editorState.getSelection()
+      const startKey = selection.getStartKey()
+      const endKey = selection.getEndKey()
+      const content = editorState.getCurrentContent()
+      const blockMap = content.getBlockMap()
+      
+      const blockAdjustment = command === 'tab-key' ? 1 : -1
+
+      const Map = Immutable.Map
+      // Lifted from DraftJS modifyBlockForContentState()
+      const newBlockMap = blockMap.toSeq()
+        .skipUntil(function (_, k) {
+          return k === startKey
+        }).takeUntil(function (_, k) {
+          return k === endKey
+        }).concat(Map([[endKey, blockMap.get(endKey)]])).map((block) => {
+          const depth = block.getDepth() + blockAdjustment
+          if (depth > 3 || depth < 0) {
+            return block
+          }
+          return block.set('depth', depth)
+        })
+
+      const newContent = content.merge({
+        blockMap: blockMap.merge(newBlockMap),
+        selectionBefore: selection,
+        selectionAfter: selection,
+      })
+      return EditorState.push(editorState, newContent, 'adjust-depth')
+    } else { 
+      return editorState 
+    }
+}
+
+
+
+
+
+
 // Handle key commands in DraftJS editor with RichUtils
 export const returnEditorStateFromKeyCommand = (editorState, command) => {
+  if (['tab-key', 'shift-tab-key'].includes(command)) {
+    return handleTabKeyCommand(editorState, command)
+  }
   const newEditorState = RichUtils.handleKeyCommand(editorState, command)
   // Null check to handle null editorState when backspacking empty editor
   if (newEditorState !== null) {
@@ -263,7 +374,7 @@ const applyCustomInlineStyles = (style, editorState) => {
 // Handle toggling block types with DraftJS RichUtils
 export const returnEditorStateWithInlineStyles = (style, editorState) => {
   const inlineStyles = ['BOLD', 'ITALIC', 'UNDERLINE']
-  const blockTypes = ['header-one', 'header-two', 'header-three', 'blockquote']
+  const blockTypes = ['header-one', 'header-two', 'header-three', 'blockquote', 'unordered-list-item']
   const customStyles = ['left-align', 'center-align', 'right-align', 'justify-align', 'no-indent', 'add-indent']
   if (inlineStyles.indexOf(style) >= 0) {
     return RichUtils.toggleInlineStyle(editorState, style)

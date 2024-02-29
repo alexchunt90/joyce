@@ -74,6 +74,7 @@ export const EditorEditModeRichTextOptions = ({editorState, media, onToolButtonC
 				<EditorToolButton glyph='outdent fa-sm' onClick={()=>onToolButtonClick(editorState, 'no-indent')}/>
 				<EditorToolButton glyph='indent fa-sm' onClick={()=>onToolButtonClick(editorState, 'add-indent')}/>
 				<EditorToolButton glyph='quote-left fa-sm' onClick={()=>onToolButtonClick(editorState, 'blockquote')}/>
+				<EditorToolButton glyph='list fa-sm' onClick={()=>onToolButtonClick(editorState, 'unordered-list-item')}/>
 				<EditorDropdownToolButton glyph={'code'} disabled={!editorState.getSelection().isCollapsed()} />
 				<ul className='dropdown-menu'>
 					{customCSSClasses.map(obj => 

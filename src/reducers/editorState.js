@@ -11,7 +11,7 @@ import {
 	returnEditorStateWithNewPageBreak,
 	returnEditorStateWithNewDecorator,
 	returnEditorStateWithInlineImage,
-	returnEditorStateWithCustomClass
+	returnEditorStateWithCustomClass,
 } from '../modules/editorSettings.js'
 
 const blankEditor = returnNewEditorState(readerDecorator)

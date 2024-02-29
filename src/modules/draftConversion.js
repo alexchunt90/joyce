@@ -38,7 +38,7 @@ export const stateFromHTML = html => {
       }
       if (nodeName === 'img') {
         return {type: 'atomic', data: constructBlockData(node)}
-      }                       
+      }                   
     },
     htmlToEntity: (nodeName, node, createEntity) => {
       if (nodeName === 'a') {        
@@ -87,7 +87,7 @@ export const stateToHTML = contentState => {
       }
       if (block.type === 'atomic') {
         return <img data-search-key={block.data.key || block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} src={block.data.url} data-media-id={block.data.id}/>
-      }               
+      }        
     },
     entityToHTML: (entity, originalText) => {
       if (entity.type === 'LINK') {

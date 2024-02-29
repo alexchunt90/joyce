@@ -146,6 +146,22 @@
     }
 }
 
+
+.public-DraftStyleDefault-depth1 {
+	margin-left: 3em;
+	list-style-type: circle;
+}
+
+.public-DraftStyleDefault-depth2 {
+	margin-left: 6em;
+	list-style-type: square;
+}
+
+.public-DraftStyleDefault-depth3 {
+	margin-left: 9em;
+	list-style-type: disc;
+}
+
 blockquote {
     margin: 0.5em 0 1rem 8em !important;
     text-indent: 0;
@@ -241,6 +257,7 @@ blockquote {
 	}	
 	div#content_wrapper {
 		height: 95vh;
+		padding: 0 0.25em;
 	}
 	div#editor_read_mode {
 		height: 81vh;

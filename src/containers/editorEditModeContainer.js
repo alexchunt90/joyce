@@ -29,7 +29,8 @@ const EditorEditMode = ({
 	onColorSwatchClick,
 	onClearLoadedMedia,
 	onMediaInputChange,
-	onMediaCheckboxClick,
+	onNotePickerMediaCheckboxClick,
+	onInlineMediaCheckboxClick,
 	cancelEdit,
 	onSubmitClick,
 	onToolButtonClick,
@@ -54,7 +55,7 @@ const EditorEditMode = ({
 				onToolButtonClick={onToolButtonClick} 
 				disabled={!currentDocument.id ? true : false}
 				onCustomClassToggle={onCustomClassToggle}
-				onMediaCheckboxClick={onMediaCheckboxClick}
+				onMediaCheckboxClick={onInlineMediaCheckboxClick}
 			/>
 		</EditorTopBarContentBlock>
 		<EditorTextContentBlock>
@@ -70,7 +71,7 @@ const EditorEditMode = ({
 				<NoteMediaPicker 
 					media={media} 
 					selectedMedia={inputs.noteMediaSelection}
-					onMediaCheckboxClick={onMediaCheckboxClick}
+					onMediaCheckboxClick={onNotePickerMediaCheckboxClick}
 				/>
 			}
 			{docType === 'tags' &&
@@ -149,7 +150,7 @@ const mapDispatchToProps = dispatch => {
 		onMediaInputChange: input => {
 			dispatch(actions.updateMediaInput(input))
 		},
-		onMediaCheckboxClick: id => {
+		onNotePickerMediaCheckboxClick: id => {
 			dispatch(actions.toggleMediaCheckbox(id))
 		},
 		onClearLoadedMedia: () => {
@@ -167,7 +168,7 @@ const mapDispatchToProps = dispatch => {
 		onCustomClassToggle: (editorState, className) => {
 			dispatch(actions.toggleCustomClass(editorState, className))
 		},
-		onMediaCheckboxClick: (editorState, media) => {
+		onInlineMediaCheckboxClick: (editorState, media) => {
 			dispatch(actions.addInlineImage(editorState, media))
 		},
 		onSubmitClick: (currentDocument, editorState, inputs, docType) => {

@@ -1,4 +1,4 @@
-import { EditorState, Modifier, RichUtils, convertToRaw, ContentState, SelectionState, getDefaultKeyBinding, KeyBindingUtil } from 'draft-js'
+import { EditorState, Modifier, RichUtils, ContentState, SelectionState } from 'draft-js'
 import {stateFromHTML, stateToHTML} from './draftConversion'
 import Immutable from 'immutable'
 

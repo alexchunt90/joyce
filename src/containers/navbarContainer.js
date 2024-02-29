@@ -9,8 +9,6 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 	
 	const noteInfoPages = Object.values(infoPageTitleConstants)
 	const filteredInfo = info.filter(page => !noteInfoPages.includes(page.title))
-	console.log(info)
-	console.log(filteredInfo)
 	return (
 	<nav className='navbar navbar-light navbar-static-top navbar-expand-lg'>
 		<NavLink to='/:id' className='navbar-brand'>

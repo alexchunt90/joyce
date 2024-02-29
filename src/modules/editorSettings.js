@@ -1,5 +1,5 @@
 // Consolidating any references to the draft-js or draft-convert libraries to this one module
-import { ContentState, CompositeDecorator } from 'draft-js'
+import { ContentState, CompositeDecorator, getDefaultKeyBinding, KeyBindingUtil, convertToRaw } from 'draft-js'
 
 import {PageBreak,VisiblePageBreak} from '../containers/pageBreakContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'

@@ -2,27 +2,30 @@ import React from 'react'
 
 import { MediaList } from './list'
 
-// Attempting to move selected notes to the top of the media array
-// const sortMediaArray = (mediaArray, selectedMediaArray) => {
-// 	let newArray = mediaArray
-// 	for (const m in newArray) {
-// 		if (selectedMediaArray.indexOf(m.id) >= 0) {
-// 			newArray.filter(n => n.id !== m.id)
-// 			newArray.unshift(m)
-// 		}
-// 	}
-// 	return newArray
-// }
+// Move selected notes to the top of the media array
+const sortMediaArray = (mediaArray, selectedMediaArray) => {
+	let newArray = mediaArray
+	for (const m of newArray) {
+		if (selectedMediaArray.indexOf(m.id) >= 0) {
+			newArray = newArray.filter(n => n.id !== m.id)
+			newArray.unshift(m)
+		}
+	}
+	return newArray
+}
 
 export const NoteMediaDropdown = ({media, selectedMedia, onMediaCheckboxClick}) =>
 	<div className='dropdown-menu note-picker-dropdown'>
-		{media.map(media =>
+		{sortMediaArray(media, selectedMedia).map(media =>
 			<div key={media.id} className='row'>
-				<div className='col-2'>
-					<input type='checkbox' onClick={()=>onMediaCheckboxClick(media.id)} value={media.id} onChange={()=>{selectedMedia.indexOf(media.id) >= 0 ? true : false}} />
-				</div>
 				<div className='col-6'>
-					{media.title}
+					<input 
+						type='checkbox' 
+						onClick={()=>onMediaCheckboxClick(media.id)} 
+						value={media.id} 
+						checked={selectedMedia.indexOf(media.id) >= 0 ? true : false}
+						onChange={()=>{selectedMedia.indexOf(media.id) >= 0 ? true : false}} />
+					 {media.title}
 				</div>
 			</div>
 		)}

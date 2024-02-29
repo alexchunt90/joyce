@@ -79,7 +79,7 @@ export const EditorEditModeRichTextOptions = ({editorState, media, onToolButtonC
 				<ul className='dropdown-menu'>
 					{customCSSClasses.map(obj => 
 			    		<li key={obj.className}>
-		    				<input onChange={()=>{onCustomClassToggle(editorState, obj.className)}} checked={returnSelectionContentBlockClasses(editorState).includes(obj.className)} className='form-check-input me-1' type='checkbox' />
+		    				<input onChange={()=>{onCustomClassToggle(editorState, obj.className)}} checked={editorConstructor.returnSelectionContentBlockClasses(editorState).includes(obj.className)} className='form-check-input me-1' type='checkbox' />
 			    			{obj.name}
 		    			</li>
 					)}

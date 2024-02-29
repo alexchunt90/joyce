@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { Editor } from 'draft-js'
 
 import api from '../modules/api'
-import {TextEditorReadOnly} from './textEditor'
 import {stateFromHTML} from '../modules/draftConversion'
 import {returnNewEditorState, returnEditorStateFromContentState, readerDecorator} from '../modules/editorSettings'
 
@@ -27,9 +27,7 @@ const TagSummary = ({tag}) => {
 	useEffect(() => {
 		api.HTTPGetDocumentText(tag.id, 'tags').then(response => {
 			const contentState = stateFromHTML(response.data.html_source)
-			console.log(contentState)
 			const editorState = returnEditorStateFromContentState(contentState)
-			console.log(editorState)
 			setEditorState(editorState)
 		}).catch(error => console.log(error))
 	}, [])
@@ -37,7 +35,7 @@ const TagSummary = ({tag}) => {
 	return (
 		<div>
 			<h4 className='text-start' style={{color: '#' + tag.color}}>{tag.title}</h4>
-			<TextEditorReadOnly editorState={editorState}/>
+			<Editor editorState={editorState} readOnly={true}/>
 		</div>
 	)
 }

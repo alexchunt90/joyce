@@ -3,9 +3,9 @@ import {bookDetails} from '../config'
 
 export const ReaderWelcome = () =>
 	<div id='reader_container'>
-		<h1 className='text-center my-5' style={{'fontFamily': 'serif'}}>{bookDetails.title}</h1>
-		<h4 style={{'fontFamily': 'serif'}} className='my-5'>– by –</h4>
-		<h3 style={{'fontFamily': 'serif'}} className='my-5'>{bookDetails.author}</h3>
+		<h1 className='text-center header' style={{'fontFamily': 'serif'}}>{bookDetails.title}</h1>
+		<h4 style={{'fontFamily': 'serif'}} className='header'>– by –</h4>
+		<h3 style={{'fontFamily': 'serif'}} className='header'>{bookDetails.author}</h3>
 	</div>
 
 export const EditorWelcome = () =>
@@ -50,6 +50,7 @@ export const EditorWelcome = () =>
 					<li>Left, Right, Center and Jusfified Alignment</li>
 					<li>Text Indent</li>
 					<li>Quoteblocks</li>
+					<li>Unordered Lists</li>
 					<li>Images</li>
 					<li>Custom CSS Tags</li>
 				</ul>				

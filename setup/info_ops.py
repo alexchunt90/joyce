@@ -56,7 +56,7 @@ def import_info_operations(info_pages_path):
 			em.name = 'i'
 		# Replace strong tags
 		for strong in soup.findAll('strong'):
-			strong.name = 'b'		
+			strong.name = 'b'	
 
 		# Build ES Op to Index Title
 		info_title = soup.title if soup.title else soup.h2

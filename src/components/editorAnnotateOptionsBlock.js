@@ -7,6 +7,12 @@ const AnnotatorNewButton = ({onClick, disabled}) =>
 		<i className='fas fa_inline fa-link'></i>
 	</button>
 
+const AnnotatorNewURLButton = ({onClick, disabled}) =>
+	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#annotate_modal'>
+		New External Link
+		<i className='fas fa_inline fa-arrow-up-right-from-square'></i>
+	</button>	
+
 const AnnotatorRemoveButton = ({onClick, disabled}) =>
 	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-secondary btn-sm'>
 		Remove Annotation
@@ -15,10 +21,13 @@ const AnnotatorRemoveButton = ({onClick, disabled}) =>
 
 const EditorAnnotateOptions = ({onNewAnnotationClick, onRemoveAnnotationClick, addDisabled, removeDisabled}) =>
 	<div className='row'>
-		<div className='annotate_option_button col-5'>
+		<div className='annotate_option_button col-4'>
 			<AnnotatorNewButton onClick={onNewAnnotationClick} disabled={addDisabled}/>
 		</div>
-		<div className='annotate_option_button col-5 offset-2'>
+		<div className='annotate_option_button col-4'>
+			<AnnotatorNewURLButton onClick={onNewAnnotationClick} disabled={addDisabled} />
+		</div>			
+		<div className='annotate_option_button col-4'>
 			<AnnotatorRemoveButton onClick={onRemoveAnnotationClick} disabled={removeDisabled} />
 		</div>	
 	</div>

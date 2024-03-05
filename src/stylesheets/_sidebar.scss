@@ -41,6 +41,10 @@
     display: flex;
     flex-grow: 1;
     overflow: hidden;
+    input {
+        width: 100%;
+        padding: 0.1rem;
+    }
 }
 
 #document_list > div {
@@ -54,6 +58,8 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+
 
 #document_list > div::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */

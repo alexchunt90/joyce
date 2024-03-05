@@ -1,21 +1,38 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import TagColorPreview from './tagColorPreview'
+import FilterInput from './filterInput'
 
-export const AnnotationDocumentList = ({docs, currentDocument, docType, onDocumentClick}) =>
-	<div id='document_list' className='d-flex flex-grow-1'>
-		<div>
-			{docType === 'notes' && docs.length > 0 && docs.map(note =>
-				<div className ='note_button' key={note.id}>
-					<button onClick={()=>onDocumentClick(note.id)} className={currentDocument.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
-						{note.title}
-					</button>
-				</div>
-			)}
+export const AnnotationDocumentList = ({docs, currentDocument, docType, onDocumentClick}) => {
+	const filterInputText = useSelector((state) => state.inputs.filterInput).toLowerCase()
+	let filteredDocArray = docs
+
+	if (filterInputText !== '') {			
+		filteredDocArray = filteredDocArray.filter((doc) => {
+			if (typeof doc.title === 'string') {
+				const docTitle = doc.title.toLowerCase()
+				return docTitle.includes(filterInputText)
+			} else {return false}
+		})
+	}	
+	return (
+		<div id='document_list' className='d-flex flex-grow-1'>
+			<div>
+				<FilterInput />
+				{docType === 'notes' && filteredDocArray.length > 0 && filteredDocArray.map(note =>
+					<div className ='note_button' key={note.id}>
+						<button onClick={()=>onDocumentClick(note.id)} className={currentDocument.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+							{note.title}
+						</button>
+					</div>
+				)}
+			</div>
 		</div>
-	</div>
+	)
+}
 
 export const DocumentList = ({docs, currentDocument, docType, basePath}) =>
 	<div id='document_list' className='d-flex flex-grow-1'>
@@ -43,23 +60,39 @@ export const ChapterList = ({chapters, currentChapter, onChapterClick, basePath=
 	<div>
     	{chapters.map(chapter =>
 			<div className ='chapter_button text-center' key={chapter.id}>
-				<Link to={basePath + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-primary' : 'btn btn-outline-primary inactive_button'}>
+				<Link to={basePath + chapter.number} className={currentChapter.id === chapter.id ? 'btn btn-outline-primary active_button' : 'btn btn-primary inactive_button'}>
 					{chapter.title}
 				</Link>
 			</div>    		
     	)}
 	</div>
 
-export const NoteList = ({notes, currentNote, onNoteClick, basePath='/'}) =>
-	<div>
-    	{notes.map(note =>
-			<div className ='note_button' key={note.id}>
-				<Link to={basePath + 'notes/' + note.id} className={currentNote.id === note.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
-					{note.title}
-				</Link>
-			</div>
-    	)}
-	</div>
+export const NoteList = ({notes, currentNote, onNoteClick, basePath='/'}) => {
+	const filterInputText = useSelector((state) => state.inputs.filterInput).toLowerCase()
+	let filteredNoteArray = notes
+
+	if (filterInputText !== '') {			
+		filteredNoteArray = filteredNoteArray.filter((note) => {
+			if (typeof note.title === 'string') {
+				const noteTitle = note.title.toLowerCase()
+				return noteTitle.includes(filterInputText)
+			} else {return false}
+		})
+	}
+
+	return (
+		<div>
+			<FilterInput />
+	    	{filteredNoteArray.map(note =>
+				<div className ='note_button' key={note.id}>
+					<Link to={basePath + 'notes/' + note.id} className={currentNote.id === note.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
+						{note.title}
+					</Link>
+				</div>
+	    	)}
+		</div>
+	)
+}
 
 export const InfoList = ({info, currentInfo, onInfoClick, basePath='/'}) =>
 	<div>

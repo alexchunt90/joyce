@@ -4,6 +4,7 @@ const initialState = {
 	documentTitle: '',
 	documentNumber: '',
 	search: '',
+	filterInput: '',
 	pageNumber: '',
 	colorPicker: '',
 	noteMediaSelection: [],
@@ -124,6 +125,11 @@ const inputs = (state=initialState, action) => {
 			return {
 				...state,
 				search: action.data
+			}
+		case 'UPDATE_FILTER_INPUT':
+			return {
+				...state,
+				filterInput: action.data
 			}
 		// Color Picker
 		case 'SAVE_DOCUMENT':

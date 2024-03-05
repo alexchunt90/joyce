@@ -115,8 +115,8 @@ def import_note_operations(notes_path):
 		if note_div:
 			first_element = note_div.contents[0]
 			overview_p = soup.new_tag('p')
-			bold_tag = soup.new_tag('b')
-			overview_p.string = 'Overview:'
+			bold_tag = soup.new_tag('i')
+			overview_p.string = 'In brief'
 			overview_p.string.wrap(bold_tag)
 			overview_p['data-align'] = 'left'
 			overview_p['data-indent'] = 'none'
@@ -128,8 +128,8 @@ def import_note_operations(notes_path):
 		expanded_note_div = find_div('expandednote')
 		if expanded_note_div:
 			readmore_p = soup.new_tag('p')
-			bold_tag = soup.new_tag('b')
-			readmore_p.string = 'Further Reading:'
+			bold_tag = soup.new_tag('i')
+			readmore_p.string = 'At more length'
 			readmore_p.string.wrap(bold_tag)
 			readmore_p['data-align'] = 'left'
 			readmore_p['data-indent'] = 'none'

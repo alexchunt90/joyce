@@ -18,7 +18,7 @@ export const ImageGroup = ({media_docs}) =>
     		<div key={doc.id}>
     			<Image document={doc} col={6} />
     			{doc.html_source &&
-    				<Editor editorState={returnEditorStateFromHTML(doc.html_source)} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />
+    				<Editor editorState={editorConstructor.returnEditorStateFromHTML(doc.html_source)} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />
     			}
     		</div>
     	)}	

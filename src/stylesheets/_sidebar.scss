@@ -8,7 +8,7 @@
     background-color: $joyce_green;
     margin: -1% 2% 1.5% 2%;
     padding: 1%;
-    border: 1px solid $border_color;
+    border: $border_width solid $border_color;
     border-radius: 0 0 5px 5px;
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
 }
@@ -30,7 +30,7 @@
 
 .sidebar_spacer {
     margin: 1.8% 0;
-    border: 1px solid $border_color;	
+    border: 2px solid $border_color;	
 }
 
 #pagination_button {
@@ -50,7 +50,7 @@
 #document_list > div {
     width: 100%;
     padding: 1%;
-    border: 1px solid $border_color;
+    border: $border_width solid $border_color;
     border-radius: 5px;
     background-color: rgba(200, 200, 200, .8);
     -ms-overflow-style: none;

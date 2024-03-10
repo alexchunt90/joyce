@@ -25,36 +25,42 @@ const inputs = (state=initialState, action) => {
 			if (action.status === 'success' && action.docType  === 'chapters' && action.state === 'currentDocument') {
 				return {
 					...state,
-					documentTitle: action.data.title
+					documentTitle: action.data.title,
+					filterInput: ''
 				}
 			} else if (action.status === 'success' && action.docType === 'notes' && action.state === 'currentDocument') {
 				return {
 					...state,
 					documentTitle: action.data.title,
 					noteMediaSelection: action.data.media_doc_ids,
+					filterInput: '',
 				}
 			} else if (action.status === 'success' && action.docType === 'info' && action.state === 'currentDocument') {
 				return {
 					...state,
 					documentTitle: action.data.title,
 					documentNumber: action.data.number,
+					filterInput: '',
 				}				
 			} else if (action.status === 'success' && action.docType === 'tags') {
 				return {
 					...state,
 					documentTitle: action.data.title,
-					colorPicker: action.data.color
+					colorPicker: action.data.color,
+					filterInput: ''
 				}
 			} else if (action.status === 'success' && action.docType === 'editions') {
 				return {
 					...state,
 					documentTitle: action.data.title,
-					editionYear: action.data.year.toString()
+					editionYear: action.data.year.toString(),
+					filterInput: ''
 				}									
 			} else if (action.status === 'success' && action.docType === 'media' && action.state === 'currentDocument') {
 				return {
 					...state,
 					documentTitle: action.data.title,
+					filterInput: '',
 				}
 			} else { return state }
 

@@ -132,7 +132,7 @@ export const EditionList = ({editions, currentEdition, onEditionClick, basePath=
 export const MediaList = ({media, currentMedia, onMediaClick, basePath='/'}) =>
 	<div>
     	{media.map(media =>
-			<div className ='media_button'>
+			<div className ='media_button' key={media.id}>
 				<Link to={basePath + 'media/' + media.id} className={currentMedia.id === media.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
 					{media.title}
 				</Link>

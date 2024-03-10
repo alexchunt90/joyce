@@ -25,14 +25,14 @@
 }
 
 #annotation_tag_preview {
-	border: 1px solid rgba(120, 120, 120, 0.7);
+	border: $border_width solid rgba(120, 120, 120, 0.7);
     border-radius: 5px;
     background-color: rgba(200, 200, 200, 0.8);
     padding: .1em;
 }
 
 #selected_annotation_tag {
-	border: 1px solid rgba(120, 120, 120, 0.7);
+	border: $border_width solid rgba(120, 120, 120, 0.7);
 	border-radius: 0.3rem;
 	background-color: #fafafa;
     padding: 0.15em 1em;

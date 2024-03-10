@@ -19,7 +19,7 @@
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
     margin: 1vh 0;
-    border: 1px solid $border_color;
+    border: $border_width solid $border_color;
     border-radius: 5px;
     padding: 2% 5%;
     font-size: 0.8em;
@@ -44,7 +44,7 @@
 }
 
 #new_document_button > button {
-	border: 1px solid $border_color;
+	border: $border_width solid $border_color;
 }
 
 #note_media_picker {
@@ -120,7 +120,7 @@
 }
 
 .topbar_mode_button > button {
-	border: 1px solid black;
+	border: $border_width solid black;
 }
 
 
@@ -130,7 +130,7 @@
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
     margin: 1vh 0;
-    border: 1px solid $border_color;
+    border: $border_width solid $border_color;
     border-radius: 5px;
     padding: 2% 5%;
     font-size: 0.8em;

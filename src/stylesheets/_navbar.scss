@@ -10,7 +10,7 @@ nav.navbar {
 	// background: -moz-linear-gradient(0, $nav_gradient1, $nav_gradient2); /* For Firefox 3.6 to 15 */
 	// background: linear-gradient(0, $joyce_orange, $joyce_light_orange); /* Standard syntax */	
 	box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.4);
-	border-bottom: 1px solid black;
+	border-bottom: $border_width solid $border_color;
 }
 
 // nav .dropdown-item.active {
@@ -21,6 +21,11 @@ a.navbar-brand {
 	margin-left: 2%;
 	font-size: 1.8em;
 	color: #ffffff;
+}
+
+a.nav-link {
+	color: black;
+	font-weight: bold;
 }
 
 nav a:hover {

@@ -114,7 +114,7 @@ export const EditorReadModeOptions = ({setMode, docType}) =>
 			<ReaderEditButton onClick={()=>setMode('EDIT_MODE')} />
 		</div>
 
-		{['chapters', 'notes'].indexOf(docType) >= 0 &&
+		{['chapters', 'notes', 'info'].indexOf(docType) >= 0 &&
 			<div className='topbar_button col-4 ml-auto'>
 				<ReaderAnnotateButton onClick={()=>setMode('ANNOTATE_MODE')}/>
 			</div>

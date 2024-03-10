@@ -9,7 +9,7 @@
     overflow-y: auto;
 	margin-top: 3%;
 	height: 75vh;
-	border: 1px solid $border_color;
+	border: $border_width solid $border_color;
 	border-radius: 5px;
 	background-color: $search_box_bg;
 }
@@ -19,5 +19,5 @@
     margin: 0 -2%;
     padding: 2%;
     border-radius: 5px;
-    border: 1px solid $border_color;
+    border: $border_width solid $border_color;
 }

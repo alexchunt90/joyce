@@ -2,6 +2,7 @@
 @import "mixin";
 
 .image_group {
+    padding-top: 5em;
     font-size: 0.8em;
 }
 
@@ -16,6 +17,12 @@
 	max-width: 100%;
     background-color: rgba(256,256,256,.8);
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
-    border: 1px solid $border_color;
+    border: $border_width solid $border_color;
     border-radius: 5px;
+}
+
+@include respond-below(sm) {
+    #image_gropu {
+        padding-top: 0em;
+    }
 }

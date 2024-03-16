@@ -1,5 +1,12 @@
 @import "variables";
 
+.modal-header {
+	background-color: $joyce_light_green;
+	h5 {
+		font-size: 1.45rem;
+	}
+}
+
 .modal-body {
     max-height: 80vh;
     overflow: hidden;
@@ -10,6 +17,10 @@
     div > div#document_list {
     	max-height: 60vh;
 	}
+}
+
+.modal-footer {
+	background-color: $joyce_light_green;
 }
 
 .select_annotation_modal_note {

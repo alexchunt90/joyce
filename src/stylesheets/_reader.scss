@@ -4,6 +4,7 @@
 #reader_container {
     overflow-y: auto;
     overflow-x: hidden;
+    min-height: 80vh;
     background-color: rgba(256,256,256,.8);
     box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.3);
     padding: 3% 8%;

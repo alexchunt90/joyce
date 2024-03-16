@@ -1,5 +1,17 @@
 @import "variables";
 
+@mixin skeuo-buttons {
+    border: none !important;
+    box-shadow: 
+    //     rgba($joyce_dark_orange, 0.5) 0px -12px 12px 0px inset, 
+    //     rgba($joyce_light_orange, 0.3) 0px 12px 12px 0px inset, 
+        rgba($joyce_dark_green, 0.3) 0px 2px 1px, 
+        rgba($joyce_dark_green, 0.2) 0px 4px 2px, 
+        rgba($joyce_dark_green, 0.1) 0px 8px 4px, 
+    //     rgba($joyce_dark_green, 0.1) 0px 16px 8px, 
+    //     rgba($joyce_dark_green, 0.1) 0px 32px 16px;
+}
+
 button {
     background-color: rgba(250, 250, 250, 0.8);
     border: $border_width solid black !important;
@@ -11,16 +23,19 @@ button:hover {
 
 .sidebar_button > button, .sidebar_button > a {
     width: 100%;
-    border: $border_width solid black !important;
+    // border: $border_width solid black !important;
+    @include skeuo-buttons;
 }
 
 #pagination_toggle_button {
     width: 77.5%;
     margin-right: 2.5%;
+    @include skeuo-buttons;
 }
 
 #pagination_edition_select {
     width: 20%;
+    @include skeuo-buttons;
 }
 
 %sidebar_button {
@@ -57,7 +72,8 @@ button:hover {
     padding: 0.2rem 0;
     font-size: 1.1em;
     color: black;
-    border: $border_width solid black !important;
+    @include skeuo-buttons;
+    // border: $border_width solid black !important;
 }
 
 .info_button > a {
@@ -103,7 +119,7 @@ button:hover {
 
 // Manually set the white background for each button type
 .chapter_button > a.active_button:not(:hover) {
-    background-color: rgba(250, 250, 250, 1);
+    background-color: $joyce_parchment;
 }
 
 .note_button > a.inactive_button:not(:hover) {

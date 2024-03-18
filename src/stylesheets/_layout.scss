@@ -29,7 +29,7 @@ html body {
 
 #joyce_page {
 	overflow: hidden;
-	width: 95%;
+	// width: 95%;
     height: 96vh;
     // background-color: rgba(256,256,256,0.5);
     // border-left: $border_width solid $border_color;
@@ -37,23 +37,24 @@ html body {
 }
 
 #page_wrapper {
-    height: 90vh;
-    margin-top: 1vh;
+    height: 96vh;
+    // margin-top: 1vh;
     display: flex;
     align-items: stretch;
 }
 
 #content_wrapper {
-    height: 88vh;
+    height: 97vh;
     flex-flow: column;
     overflow: hidden;
     // background-color: rgba(250,250,250,.8);
-    background-color: $joyce_parchment;
-    margin: 0 2% 1.5% 2%;
+    background-color: $joyce_light_green;
+    // margin: 0 2% 1.5% 2%;
+    margin-top: -1%;
     padding: 2% 2%;
-    border: $border_width solid $border_color;
+    // border: $border_width solid $border_color;
     border-radius: 5px;
-    box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
+    // box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
 // Media queries

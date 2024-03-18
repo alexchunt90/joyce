@@ -3,7 +3,7 @@
 .modal-header {
 	background-color: $joyce_light_green;
 	h5 {
-		font-size: 1.45rem;
+		font-size: 1.55rem;
 	}
 }
 
@@ -20,7 +20,7 @@
 }
 
 .modal-footer {
-	background-color: $joyce_light_green;
+	background-color: $joyce_light_green !important;
 }
 
 .select_annotation_modal_note {

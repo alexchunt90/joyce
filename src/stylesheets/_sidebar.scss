@@ -2,11 +2,12 @@
 @import "mixin";
 
 #sidebar {
-    max-width: 18%;
-    max-height: 90vh;
+    max-width: 25%;
+    max-height: 96vh;
     // background-color: rgba(250,250,250,.8);
     background-color: $joyce_green;
-    margin: -1% 2% 1.5% 2%;
+    // margin: -1% 0% 1.5% 0%;
+    margin-top: -1%;
     padding: 1%;
     border: $border_width solid $border_color;
     border-radius: 0 0 5px 5px;
@@ -71,6 +72,12 @@
 }
 
 // Media queries
+
+@include respond-above(md) {
+    #sidebar {
+        max-height: 97vh;
+    }
+}
 
 @include respond-above(sm) {
     .mobile_sidebar {

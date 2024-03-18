@@ -38,13 +38,15 @@ html body {
 
 #page_wrapper {
     height: 96vh;
+    width: 92%;
+    margin: 0 auto;
     // margin-top: 1vh;
     display: flex;
     align-items: stretch;
 }
 
 #content_wrapper {
-    height: 97vh;
+    height: 94vh;
     flex-flow: column;
     overflow: hidden;
     // background-color: rgba(250,250,250,.8);
@@ -62,10 +64,12 @@ html body {
 @include respond-below(sm) {
     #joyce_page {
         width: 100%;
+        padding: 0;
     }
 
     #page_wrapper {
     	margin-top: 0 !important;
+        width: 100%;
     }
 
     #content_wrapper {

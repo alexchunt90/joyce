@@ -14,7 +14,7 @@
 
 button {
     background-color: rgba(250, 250, 250, 0.8);
-    border: $border_width solid black !important;
+    // border: $border_width solid black !important;
 }
 
 button:hover {
@@ -148,7 +148,7 @@ button:hover {
 
 .dropdown > button {
     width: 100%;
-    border: $border_width solid black;
+    // border: $border_width solid black;
 }
 
 .topbar_button {

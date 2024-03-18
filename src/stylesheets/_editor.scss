@@ -219,10 +219,6 @@ blockquote {
 // Media queries
 
 @include respond-below(sm) {
-    #content_wrapper {
-    	height: 94vh;
-    	margin: 0;
-    }
 
     #editor_container {
     	height: 84vh;

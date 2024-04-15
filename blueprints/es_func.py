@@ -4,6 +4,7 @@ from werkzeug.datastructures import FileStorage
 from elasticsearch import Elasticsearch
 from PIL import Image
 import os
+import time
 import json
 import config
 
@@ -76,11 +77,13 @@ def es_index_document(index, id, body):
 
 
 def es_create_document(index, body, es_client=es):
+	data = json.loads(body.decode('utf-8')) 
+	data['created_at'] = int(time.time())
 	res = es_client.index(
 		index=index,
 		doc_type='doc',
 		refresh=True,
-		body=body
+		body=data
 	)
 	return res
 

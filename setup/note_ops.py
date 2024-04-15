@@ -1,8 +1,9 @@
 import os
 import io
 import re
+import copy
 import codecs
-from bs4 import BeautifulSoup as bs, Tag
+from bs4 import BeautifulSoup as bs, Tag, NavigableString
 
 import setup.es_helpers as es_helpers
 import setup.es_config as es_config
@@ -34,6 +35,9 @@ def import_note_operations(notes_path):
 	note_media_ops = []
 	note_html_ops = []
 	img_caption_ops = []
+
+	# Some source html files contain a blend of p tags and raw navigable strings.
+	notes_with_string_errors = []
 
 	# Read in all notes and index their original file name
 	notes_file_list = os.listdir(notes_path)
@@ -110,35 +114,59 @@ def import_note_operations(notes_path):
 		if title_p:
 			title_p.decompose()
 
+		def create_note_subheader(text):
+			subheader_p = soup.new_tag('p')
+			bold_tag = soup.new_tag('i')
+			subheader_p.string = text
+			subheader_p.string.wrap(bold_tag)
+			subheader_p['data-align'] = 'left'
+			subheader_p['data-indent'] = 'none'
+			subheader_p['data-custom-classes'] = 'subheader'
+			return subheader_p
+
+		# Standardize tags to i and b
+		# Replace em tags
+		for em in soup.findAll('em'):
+			em.name = 'i'
+		# Replace strong tags
+		for strong in soup.findAll('strong'):
+			strong.name = 'b'		
+
 		# Combine note divs
 		note_div = find_div('note')
 		if note_div:
 			first_element = note_div.contents[0]
-			overview_p = soup.new_tag('p')
-			bold_tag = soup.new_tag('i')
-			overview_p.string = 'In brief'
-			overview_p.string.wrap(bold_tag)
-			overview_p['data-align'] = 'left'
-			overview_p['data-indent'] = 'none'
-			overview_p['data-custom-classes'] = 'subheader'
+			overview_p = create_note_subheader('In brief')
 			first_element.insert_before(overview_p)
-
-
 
 		expanded_note_div = find_div('expandednote')
 		if expanded_note_div:
-			readmore_p = soup.new_tag('p')
-			bold_tag = soup.new_tag('i')
-			readmore_p.string = 'At more length'
-			readmore_p.string.wrap(bold_tag)
-			readmore_p['data-align'] = 'left'
-			readmore_p['data-indent'] = 'none'
-			readmore_p['data-custom-classes'] = 'subheader'
+			readmore_p = create_note_subheader('At more length')
 			note_div.append(readmore_p)
-			for p in  expanded_note_div.contents:
-				## Can't append NavigableStrings
+			for p in expanded_note_div.children:
+				# Handling for raw strings outside of top-level section elements
 				if type(p) == Tag:
-					note_div.append(p)
+					# Add top-level section elements to the note_div
+					tag = copy.copy(p)
+					section_tags = ['p', 'blockquote', 'br', 'h1', 'h2', 'h3', 'h4']
+					if tag.name in section_tags:
+						note_div.append(tag)
+					# If the parser finds a top-level tag that should be nested in a section element, it will append it to the last element in the note_div
+					format_tags = ['a', 'i', 'b']
+					if tag.name in format_tags:
+						last_element = note_div.contents[-1]
+						last_element.append(tag)
+				if type(p) == NavigableString and len(p.string) > 1:
+					raw_string = str(p.string).lstrip()
+					last_element = note_div.contents[-1]
+					# If the string starts with a lowercase letter, append it to the last element in the note_div
+					if not re.match(r'[A-Z]', raw_string):
+						last_element.append(raw_string)
+					# If not, create a new 'p' tag and append it
+					else:
+						new_p = soup.new_tag('p')
+						new_p.string = p.string
+						note_div.append(new_p)
 			expanded_note_div.decompose()
 		return_div = find_div('return')
 		if return_div and note_div:
@@ -148,13 +176,6 @@ def import_note_operations(notes_path):
 			contributor_p['data-indent'] = 'none'
 			note_div.append(contributor_p)
 
-		# Standardize tags to i and b
-		# Replace em tags
-		for em in soup.findAll('em'):
-			em.name = 'i'
-		# Replace strong tags
-		for strong in soup.findAll('strong'):
-			strong.name = 'b'		
 
 		# Fix file references
 		for a in soup.findAll('a'):
@@ -193,7 +214,8 @@ def import_note_operations(notes_path):
 		else:
 			print('No note found for file {}.'.format(note))
 
-
+	print('Found {} notes with string errors:'.format(len(notes_with_string_errors)))
+	print(notes_with_string_errors)
 	print('Note HTML successfully cleaned!')	
 
 	# Index note contents to ES

@@ -21,7 +21,7 @@ DEFAULT_INDEX_SETTINGS = {
 				]
 			}
 		}
-	}
+	},
 }
 
 CHAPTER_MAPPINGS = {
@@ -31,7 +31,8 @@ CHAPTER_MAPPINGS = {
 			'title': {'type': 'keyword'},
     		'file_name': {'type': 'keyword'},			
 			'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-			'search_text': {'type': 'nested'}
+			'search_text': {'type': 'nested'},
+			'created_at': {'type': 'date'},
 		}
 	},    
 }
@@ -43,7 +44,8 @@ NOTE_MAPPINGS = {
     		'title': {'type': 'keyword'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
     		'search_text': {'type': 'nested'},
-    		'media_doc_ids': {'type': 'keyword'}
+    		'media_doc_ids': {'type': 'keyword'},
+    		'created_at': {'type': 'date'},
     	}
     }
 }
@@ -56,7 +58,8 @@ INFO_MAPPINGS = {
     		'title': {'type': 'keyword'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
     		'search_text': {'type': 'nested'},
-    		'media_doc_ids': {'type': 'keyword'}
+    		'media_doc_ids': {'type': 'keyword'},
+    		'created_at': {'type': 'date'},
     	}
     }
 }
@@ -73,6 +76,7 @@ MEDIA_MAPPINGS = {
     		'dimensions': {'type': 'integer'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
     		'search_text': {'type': 'nested'},
+    		'created_at': {'type': 'date'},
     	}
     }	    
 }
@@ -83,7 +87,8 @@ TAG_MAPPINGS = {
     		'title': {'type': 'keyword'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
     		'search_text': {'type': 'nested'},
-    		'color': {'type': 'keyword'}
+    		'color': {'type': 'keyword'},
+    		'created_at': {'type': 'date'},
     	}
     }	    
 }
@@ -95,6 +100,7 @@ EDITION_MAPPINGS = {
     		'year': {'type': 'integer'},
     		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
     		'search_text': {'type': 'nested'},
+    		'created_at': {'type': 'date'},
     	}
     }	    
 }

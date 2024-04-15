@@ -1,4 +1,5 @@
 import os
+import time
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
@@ -49,7 +50,8 @@ def es_document_list(index):
 
 def build_es_create_op(field, value):
 	return {'_op_type': 'index', '_source': {
-			field: value
+			field: value,
+			'created_at': int(time.time())
 		}
 	}
 

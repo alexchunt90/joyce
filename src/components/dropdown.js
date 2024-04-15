@@ -43,6 +43,12 @@ export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick
 				{docType === 'notes' &&
 					<FilterInput />
 				}
+		    	{editMode===true &&
+		    		<a className='dropdown-item' onClick={onNewDocumentClick}>
+						<i className='fas fa-plus-square'></i>&nbsp;
+						New {helpers.docTypeName(docType)}
+		    		</a>
+		    	}
 		    	{filteredDocArray.map(doc =>
 					<a key={doc.id} className='dropdown-item' onClick={()=>onDocumentClick(doc.id, docType)}>
 						{docType==='tags' &&
@@ -52,12 +58,6 @@ export const DocListDropdown = ({currentDocument, docs, docType, onDocumentClick
 						{doc.title}
 					</a>
 		    	)}
-		    	{editMode===true &&
-		    		<a className='dropdown-item' onClick={onNewDocumentClick}>
-						<i className='fas fa-plus-square'></i>&nbsp;
-						New {helpers.docTypeName(docType)}
-		    		</a>
-		    	}
 			</div>
 		</div>
 	)

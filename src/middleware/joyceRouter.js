@@ -216,7 +216,8 @@ const joyceRouter = store => next => action => {
 		case 'SAVE_DOCUMENT':
 			// If successfully saving a new document, load it by pulling the id from the last document in the list
 			if (action.status === 'success' && !action.id) {
-				store.dispatch(actions.setCurrentDocument(action.data.slice(-1)[0].id, action.docType))
+				const sortedDocs = action.data.sort((a,b)=>b.created_at-a.created_at)
+				store.dispatch(actions.setCurrentDocument(sortedDocs[0].id, action.docType))
 			}
 			// If successfully saving an existing document, reload the current document
 			if (action.status ==='success' && action.id) {

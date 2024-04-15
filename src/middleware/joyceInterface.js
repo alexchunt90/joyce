@@ -33,7 +33,7 @@ const joyceInterface = store => next => action => {
 				const editorState = editorConstructor.returnEditorStateFromHTML(action.data.html_source, readerDecorator)
 				store.dispatch(actions.setEditorState(editorState))
 			}
-			if (action.status === 'success' && action.docType === 'notes' && action.state === 'annotationNote') {
+			if (action.status === 'success' && action.docType === 'notes') {
 				if (action.data.media_doc_ids.length > 0) {
 					store.dispatch(actions.getMediaDocs({media_doc_ids: action.data.media_doc_ids}))
 				}

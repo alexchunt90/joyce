@@ -11,6 +11,7 @@ import ReaderPageButtons from '../components/readerPageButtons'
 import NoteTallySummary from '../components/noteTallySummary'
 import NoteIndexSummary from '../components/noteIndexSummary'
 import ColorCodingSummary from '../components/colorCodingSummary'
+import { ImageGroup } from '../components/image'
 import {infoPageTitleConstants} from '../config'
 
 const ReaderContent = ({
@@ -18,6 +19,7 @@ const ReaderContent = ({
 	notes,
 	tags,
 	editorState,
+	annotationNoteMedia,
 	docType,
 	paginationEditorState,
 	currentPageNumber,
@@ -49,6 +51,11 @@ const ReaderContent = ({
 				<ReaderPageButtons pagesArray={pagesArray} currentPageNumber={currentPageNumber} setPageNumber={setPageNumber}/>
 			</div>
 		}
+
+		{docType === 'notes' && annotationNoteMedia.length >= 1 &&
+			<ImageGroup media_docs={annotationNoteMedia} />
+		}
+
 		{currentDocument.title === infoPageTitleConstants.TALLY_INFO_PAGE_TITLE &&
 			<NoteTallySummary noteCount={notes.length}/>
 		}
@@ -67,6 +74,7 @@ const mapStateToProps = state => {
 		notes: state.notes,
 		tags: state.tags,
 		currentDocument: state.currentDocument,
+		annotationNoteMedia: state.annotationNoteMedia,
 		editorState: state.editorState,
 		docType: state.docType,
 		toggles: state.toggles,

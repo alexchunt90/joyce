@@ -261,7 +261,7 @@ def index_and_save_media_file(file, id=None, form=None, import_folder='', es_cli
 				else:
 					metadata[k] = json.loads(v)
 		if id is None:
-			response = es_create_document('media', metadata, es_client)
+			response = es_create_document('media', json.dumps(metadata).encode('utf-8'), es_client)
 		# If passed an id, function will update an existing document
 		if id:
 			response = es_index_document('media', id, metadata, es_client)

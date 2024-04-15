@@ -6,13 +6,14 @@ import { connect } from 'react-redux'
 import { TextEditorReadOnly } from '../components/textEditor'
 import { EditorTitleContentBlock, EditorTopBarContentBlock, EditorTextContentBlock } from '../components/editorContentBlock'
 import { EditorReadModeOptions } from '../components/editorOptionBlock'
-import { Image } from '../components/image'
+import { Image, ImageGroup } from '../components/image'
 import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 
 const EditorReadMode = ({
 	currentDocument,
 	editorState,
+	annotationNoteMedia,
 	docType,
 	toggles,
 	setMode
@@ -36,6 +37,9 @@ const EditorReadMode = ({
 		<EditorTextContentBlock>
 			<TextEditorReadOnly 
 				editorState={editorState}
+				noteMedia={annotationNoteMedia}
+				docType={docType}
+
 			/>
 		</EditorTextContentBlock>
 	</div>
@@ -44,6 +48,7 @@ const mapStateToProps = (state, props) => {
 	return {
 		currentDocument: state.currentDocument,
 		editorState: state.editorState,
+		annotationNoteMedia: state.annotationNoteMedia,
 		docType: state.docType,
 		toggles: state.toggles,
 		mode: state.mode,

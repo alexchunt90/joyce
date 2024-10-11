@@ -36,16 +36,6 @@ const AdminContent = ({user, userErrors, onConsentSuccess, onLogoutClick, refres
 				}
 			</div>
 			<div className='row'></div>
-			{user.isLoggedIn && 			
-				<div className='row'>
-					<div id='refresh' className='col-sm-8'>
-						<button type='button' className='btn btn-sm btn-outline-primary' onClick={refreshElasticsearch}>
-							Refresh Seed Data
-						</button>
-						<p>This will send a message to the server to wipe all data, and reimport a clean copy of the old JoyceProject.com site. The process takes about 20 minutes</p>
-					</div>
-				</div>
-			}
 			<div className='row' className='col-sm-8'>
 				<div id='user_errors'>
 					{userErrors.map(error =>

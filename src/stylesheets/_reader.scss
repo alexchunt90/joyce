@@ -10,7 +10,6 @@
     padding: 3% 8%;
     // border: 1px solid $border_color;
     border-radius: 5px;
-    text-indent: 3em;
     font-size: 0.9em;   
 	cursor: default;
     -ms-overflow-style: none;
@@ -40,6 +39,8 @@
 	h3 {
 		text-align: center;
 		text-indent: 0;
+		margin: 0.5em 0 0.5em 0;
+		font-size: calc(0.8rem + 0.6vw);
 	}
 
 	h4 {
@@ -74,6 +75,10 @@
 
 ul, ol, li {
 	text-indent: 0;
+}
+
+.notes_reader .unstyled_paragraph {
+	margin: 0.5em 0 0.5em 0;
 }
 
 #mobile_read_options button {

@@ -70,12 +70,19 @@ export const editPaginateDecorator = new CompositeDecorator([
 export const blockStyleFn = (contentBlock) => {
   const blockStyles = []
   const data = contentBlock.getData();
+  // Mark unstyled paragraphs
+  if (contentBlock.getType() === 'unstyled' && (!data.get('classes') || data.get('classes') && data.get('classes').length <= 0)) {
+    blockStyles.push('unstyled_paragraph')
+  }
   if (data.get('align')) {
     blockStyles.push(data.get('align').concat('_align_block'))
   }
-  if (data.get('indent') === 'none') {
+  if (data.get('indent') === 'false') {
     blockStyles.push('no_indent_block')
   }
+  else if (data.get('indent') === 'true') {
+    blockStyles.push('indent_block')
+  }  
   if (data.get('classes') && data.get('classes').length > 0) {
     blockStyles.push(data.get('classes').join(' '))
   }

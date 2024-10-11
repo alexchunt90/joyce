@@ -72,10 +72,10 @@ const applyCustomInlineStyles = (style, editorState) => {
     return setBlockCustomStyle(blockData.set('align', 'justify'))
   }
   if (style === 'no-indent') {
-    return setBlockCustomStyle(blockData.set('indent', 'none'))
+    return setBlockCustomStyle(blockData.set('indent', 'false'))
   }
   if (style === 'add-indent') {
-    return setBlockCustomStyle(blockData.remove('indent'))
+    return setBlockCustomStyle(blockData.set('indent', 'true'))
   }  
   return editorState.forceSelection(selectionState)
 }

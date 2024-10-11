@@ -23,8 +23,10 @@ def clear_white_space(html):
 
 def clean_html_for_export(html):
 	if html:
-		string = str(html).replace('\n', '').replace('<br>', '')
-		string_without_tabs = re.sub('<br/>\s{1,}', '', string)
+		string = str(html)
+			# .replace('<br>', '')
+			# .replace('\n', '')
+		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
 		cleaned_string = re.sub('\s{2,}', ' ', string_without_tabs)
 		return cleaned_string
 
@@ -43,6 +45,7 @@ def import_note_operations(notes_path):
 	notes_file_list = os.listdir(notes_path)
 
 	for i in notes_file_list:
+		print(i)
 		if es_helpers.check_file_extension(i) != 'htm':
 			continue
 		op = es_helpers.build_es_create_op('file_name', i)
@@ -77,6 +80,10 @@ def import_note_operations(notes_path):
 		# Remove script tags
 		for script in soup.findAll('script'):	
 			script.decompose()
+
+		for br in soup.find_all("br"):
+			if br.parent.name != 'blockquote':
+				br.decompose()
 
 		# # Update image references to point to new location
 		images_div = find_div('images')
@@ -179,6 +186,8 @@ def import_note_operations(notes_path):
 
 		# Fix file references
 		for a in soup.findAll('a'):
+			if 'href' not in a:
+				continue
 			href = a['href']
 			if href.startswith('file:'):
 				rexp = re.compile(r'.*\/notes\/([0-9a-z]*\.htm)')

@@ -48,6 +48,7 @@ const EditorPaginateMode = ({
 		<EditorTextContentBlock>
 			<TextEditor 
 				editorState={editorState} 
+				docType={docType}
 				onChange={onChangeEditorState} 
 				keyBindingFn={paginateKeyBindings} 
 			/>

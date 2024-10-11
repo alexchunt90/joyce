@@ -23,7 +23,6 @@
     border-radius: 5px;
     padding: 2% 5%;
     font-size: 0.8em;
-    text-indent: 3em;
     img {
     	max-width: 80%;
     	text-indent: 0;
@@ -33,6 +32,10 @@
     h1, h2, h3, h4, h5 {
     	text-indent: 0;
     }
+}
+
+.notes_editor .unstyled_paragraph {
+	margin: 0.5em 0 0.5em 0;
 }
 
 .mobile_list_options  button {
@@ -210,6 +213,10 @@ blockquote {
 
 .justify_align_block {
 	text-align: justify;
+}
+
+.indent_block {
+	text-indent: 3em;
 }
 
 .no_indent_block {

@@ -27,9 +27,6 @@ const AnnotateModal = ({annotationNote, annotationNoteMedia, modalEditorState}) 
 						}
 					</div>
 				</div>
-				<div className='modal-footer'>
-					<EditorCancelButton />
-				</div>
 			</div>
 		</div>
 	</div>

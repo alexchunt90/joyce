@@ -60,7 +60,8 @@ const EditorEditMode = ({
 		</EditorTopBarContentBlock>
 		<EditorTextContentBlock>
 			<TextEditor 
-				editorState={editorState} 
+				editorState={editorState}
+				docType={docType}
 				handleKeyCommand={handleKeyCommand} 
 				onChange={onChangeEditorState} 
 			/>

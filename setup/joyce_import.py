@@ -39,11 +39,11 @@ def joyce_import():
 	es_setup.refresh_indices()
 
 	# Import Joyce media files
-#	refresh_target_files('img/')
+	refresh_target_files('img/')
 
 	# Delete existing media assets
-#	clear_static_assets(static_path)
-#	media_ops.import_media_operations(img_path)
+	clear_static_assets(static_path)
+	media_ops.import_media_operations(img_path)
 
 	# Create Joyce info pages
 	refresh_target_files('info/')
@@ -65,7 +65,7 @@ def joyce_import():
 	chap_ops.import_chap_operations(chap_path)
 
 	# Run Node script to process HTML files using DraftJS and produce search_text for Elasticsearch	
-	# os.system('npm run import info')
+	# os.system('npm run local_import info')
 	# os.system('npm run import notes')
 	# os.system('npm run import chapters')
 	# print('HTML successufly optimized for DraftJS!')

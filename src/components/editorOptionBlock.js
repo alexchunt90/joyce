@@ -14,17 +14,17 @@ const customCSSClasses = CUSTOM_CSS_CLASSES
 // 
 
 const EditorToolButton = ({glyph, onClick}) =>
-	<button type='button' onClick={onClick} className='btn btn-info btn-sm'>
+	<button type='button' onClick={onClick} className='btn btn-primary btn-sm'>
 		<i className={'fas fa-' + glyph}></i>
 	</button>
 
 const EditorDeleteToolButton = ({disabled}) =>
-	<button className='btn btn-info btn-sm' disabled={disabled} data-bs-toggle='modal' data-bs-target='#delete_confirm_modal' type='button'>
+	<button className='btn btn-primary btn-sm' disabled={disabled} data-bs-toggle='modal' data-bs-target='#delete_confirm_modal' type='button'>
 		<i className='fas fa-trash fa-sm'></i>
 	</button>
 
 const EditorDropdownToolButton = ({glyph, disabled=false}) =>
-	<button className='btn btn-info btn-sm dropdown-toggle' type='button' data-bs-toggle='dropdown' disabled={disabled}>
+	<button className='btn btn-primary btn-sm dropdown-toggle' type='button' data-bs-toggle='dropdown' disabled={disabled}>
     	<i className={'fas fa-' + glyph +' fa-sm'}></i>
   	</button>	
 

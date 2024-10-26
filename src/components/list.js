@@ -85,7 +85,7 @@ export const NoteList = ({notes, currentNote, onNoteClick, basePath='/'}) => {
 			<FilterInput />
 	    	{filteredNoteArray.map(note =>
 				<div className ='note_button' key={note.id}>
-					<Link to={basePath + 'notes/' + note.id} className={currentNote.id === note.id ? 'btn btn-primary' : 'btn btn-outline-info inactive_button'}>
+					<Link to={basePath + 'notes/' + note.id} className={currentNote.id === note.id ? 'btn btn-primary' : 'btn btn-info inactive_button'}>
 						{note.title}
 					</Link>
 				</div>

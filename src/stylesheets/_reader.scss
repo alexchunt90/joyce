@@ -85,6 +85,14 @@ ul, ol, li {
 	text-wrap: pretty;
 }
 
+.page_forward_button > button {
+	float: right;
+}
+
+.image_caption {
+	margin-bottom: 1.2em;
+}
+
 .note_index_container {
 	height: 75%;
 	overflow: hidden;
@@ -110,6 +118,11 @@ ul, ol, li {
 
 .index_letter {
 	text-indent: 0;
+}
+
+.headline {
+	margin-top: 1em !important;
+	margin-bottom: 1em !important;
 }
 
 // Media queries

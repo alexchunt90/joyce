@@ -4,6 +4,7 @@ import helpers from '../modules/helpers'
 import { validateSubmittedDocument, validateSubmittedAnnotation } from '../modules/validation'
 import { 
 	stateToHTML, 
+	readerDecorator,
 	convertToSearchText
 } from '../modules/editorSettings'
 import editorConstructor from '../modules/editorConstructor'

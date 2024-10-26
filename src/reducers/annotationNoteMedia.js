@@ -5,9 +5,7 @@ const annotationNoteMedia = (state=[], action) => {
 				return action.data
 			} else {return state}
 		case 'SET_CURRENT_DOCUMENT':
-			if (action.status === 'request') {
-				return []
-			} else {return state}			
+			return []
 		default:
 			return state
 	}

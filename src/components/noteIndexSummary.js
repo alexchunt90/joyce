@@ -29,9 +29,9 @@ const NoteIndexSummary = ({notes}) => {
 		}
 	}
 
-	useEffect(() => {
-		console.log(notesIndexArray)
-	}, [])
+	// useEffect(() => {
+	// 	console.log(notesIndexArray)
+	// }, [])
 
 	return (
 		<div className='row note_index_container'>

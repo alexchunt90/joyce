@@ -3,6 +3,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.8.2
     container_name: elasticsearch
+    environment:
+      - discovery.type=single-node    
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
@@ -10,6 +12,17 @@ services:
     expose:
       - "9200"
     restart: unless-stopped
+
+  kibana:
+    image: kibana:6.8.2
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml      
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch      
 
   web:
     container_name: flask_backend

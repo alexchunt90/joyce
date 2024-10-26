@@ -45,7 +45,6 @@ def import_note_operations(notes_path):
 	notes_file_list = os.listdir(notes_path)
 
 	for i in notes_file_list:
-		print(i)
 		if es_helpers.check_file_extension(i) != 'htm':
 			continue
 		op = es_helpers.build_es_create_op('file_name', i)
@@ -83,7 +82,7 @@ def import_note_operations(notes_path):
 
 		for br in soup.find_all("br"):
 			if br.parent.name != 'blockquote':
-				br.decompose()
+				br.decompose()		
 
 		# # Update image references to point to new location
 		images_div = find_div('images')
@@ -108,7 +107,7 @@ def import_note_operations(notes_path):
 							}
 							caption_op = es_helpers.build_es_caption_op(img_caption_data)
 							img_caption_ops.append(caption_op)
-					else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
+					# else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
 			images_div.decompose()
 
 		# Remove button div
@@ -137,7 +136,23 @@ def import_note_operations(notes_path):
 			em.name = 'i'
 		# Replace strong tags
 		for strong in soup.findAll('strong'):
-			strong.name = 'b'		
+			strong.name = 'b'
+
+		# Fix file references
+		for a in soup.findAll('a'):
+			if not a.has_attr('href'):
+				continue
+			href = a['href']
+			if href.startswith('file:'):
+				rexp = re.compile(r'.*\/notes\/([0-9a-z]*\.htm)')
+				f = rexp.search(href)
+				fixed_path = f.group(1)
+				a['href'] = fixed_path
+
+			href = a['href']			
+			if href.endswith('.htm'):
+				if note_dict.__contains__(href):
+					a['href'] = note_dict[href]
 
 		# Combine note divs
 		note_div = find_div('note')
@@ -180,27 +195,12 @@ def import_note_operations(notes_path):
 			contributor_text = return_div.get_text()
 			contributor_p = soup.new_tag('p')
 			contributor_p.string = contributor_text.strip()
+			contributor_p['data-custom-classes'] = 'subheader'
 			contributor_p['data-indent'] = 'none'
 			note_div.append(contributor_p)
 
+		if note_div:	
 
-		# Fix file references
-		for a in soup.findAll('a'):
-			if 'href' not in a:
-				continue
-			href = a['href']
-			if href.startswith('file:'):
-				rexp = re.compile(r'.*\/notes\/([0-9a-z]*\.htm)')
-				f = rexp.search(href)
-				fixed_path = f.group(1)
-				a['href'] = fixed_path
-
-			href = a['href']			
-			if href.endswith('.htm'):				
-				if note_dict.__contains__(href):
-					a['href'] = note_dict[href]
-
-		if note_div:
 			note_div.name = 'body'
 			cleaned_div = clean_html_for_export(note_div)
 			with codecs.open(note_path, 'w') as file:

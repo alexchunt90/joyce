@@ -113,6 +113,7 @@ def import_chap_operations(chapters_path):
 			is_aeolus = chap_name == 'aeolus'
 			has_class_attr = h.has_attr('class')
 			if is_aeolus and not has_class_attr:
+				h['data-custom-classes'] = 'serif-font headline'
 				h.name = 'h3'
 
 		# Reformat chapter numbers
@@ -150,6 +151,7 @@ def import_chap_operations(chapters_path):
 							p['data-indent'] = 'false'
 							p['data-custom-classes'] = c
 						if c == 'dialog-lyrics':
+							p['data-indent'] = 'false'
 							p['data-custom-classes'] = c
 						p.name = 'blockquote'
 				center_align_classes = ['character-tag', 'break']

@@ -39,7 +39,7 @@ const ReaderContent = ({
 
 
 		{toggles.pagination === false &&
-			<div className={docType + '_reader'}>
+			<div className={docType + '_reader col-8'}>
 				<Editor editorState={editorState} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />
 			</div>
 		}

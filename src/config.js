@@ -30,6 +30,7 @@ export const CUSTOM_CSS_CLASSES = [
 	CSSClassObject('Bib', 'bib'),
 	CSSClassObject('Page Break', 'break'),
 	CSSClassObject('Dialog Lyrics', 'dialog-lyrics'),
+	CSSClassObject('Newspaper Headline', 'headline'),
 ]
 
 

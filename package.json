@@ -1,6 +1,6 @@
 {
   "name": "joyce",
-  "version": "0.0.1",
+  "version": "0.9.1",
   "description": "Reader and Editor for Hypertext",
   "main": "app.js",
   "scripts": {

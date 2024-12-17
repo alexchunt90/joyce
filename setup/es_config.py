@@ -25,84 +25,72 @@ DEFAULT_INDEX_SETTINGS = {
 }
 
 CHAPTER_MAPPINGS = {
-    'doc': {
-    	'properties': {
-			'number': {'type': 'integer'},
-			'title': {'type': 'keyword'},
-    		'file_name': {'type': 'keyword'},			
-			'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-			'search_text': {'type': 'nested'},
-			'created_at': {'type': 'date'},
-		}
-	},    
+	'properties': {
+		'number': {'type': 'integer'},
+		'title': {'type': 'keyword'},
+		'file_name': {'type': 'keyword'},			
+		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+		'search_text': {'type': 'nested'},
+		'created_at': {'type': 'date'},
+	}
 }
 
 NOTE_MAPPINGS = {
-    'doc': {
-    	'properties': {
-    		'file_name': {'type': 'keyword'},
-    		'title': {'type': 'keyword'},
-    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'search_text': {'type': 'nested'},
-    		'media_doc_ids': {'type': 'keyword'},
-    		'created_at': {'type': 'date'},
-    	}
-    }
+	'properties': {
+		'file_name': {'type': 'keyword'},
+		'title': {'type': 'keyword'},
+		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+		'search_text': {'type': 'nested'},
+		'media_doc_ids': {'type': 'keyword'},
+		'created_at': {'type': 'date'},
+	}
 }
 
 INFO_MAPPINGS = {
-    'doc': {
-    	'properties': {
-    		'number': {'type': 'integer'},
-    		'file_name': {'type': 'keyword'},
-    		'title': {'type': 'keyword'},
-    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'search_text': {'type': 'nested'},
-    		'media_doc_ids': {'type': 'keyword'},
-    		'created_at': {'type': 'date'},
-    	}
-    }
+	'properties': {
+		'number': {'type': 'integer'},
+		'file_name': {'type': 'keyword'},
+		'title': {'type': 'keyword'},
+		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+		'search_text': {'type': 'nested'},
+		'media_doc_ids': {'type': 'keyword'},
+		'created_at': {'type': 'date'},
+	}
 }
 
 MEDIA_MAPPINGS = {
-    'doc': {
-    	'properties': {
-    		'title': {'type': 'keyword'},
-    		'src': {'type': 'keyword'},
-    		'file_name': {'type': 'keyword'},
-    		'thumb_file': {'type': 'keyword'},
-    		'file_ext': {'type': 'keyword'},
-    		'type': {'type': 'keyword'},
-    		'dimensions': {'type': 'integer'},
-    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'search_text': {'type': 'nested'},
-    		'created_at': {'type': 'date'},
-    	}
-    }	    
+	'properties': {
+		'title': {'type': 'keyword'},
+		'src': {'type': 'keyword'},
+		'file_name': {'type': 'keyword'},
+		'thumb_file': {'type': 'keyword'},
+		'file_ext': {'type': 'keyword'},
+		'type': {'type': 'keyword'},
+		'dimensions': {'type': 'integer'},
+		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+		'search_text': {'type': 'nested'},
+		'created_at': {'type': 'date'},
+	}	    
 }
 
 TAG_MAPPINGS = {
-    'doc': {
-    	'properties': {
-    		'title': {'type': 'keyword'},
-    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'search_text': {'type': 'nested'},
-    		'color': {'type': 'keyword'},
-    		'created_at': {'type': 'date'},
-    	}
-    }	    
+	'properties': {
+		'title': {'type': 'keyword'},
+		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+		'search_text': {'type': 'nested'},
+		'color': {'type': 'keyword'},
+		'created_at': {'type': 'date'},
+	}   
 }
 
 EDITION_MAPPINGS = {
-    'doc': {
-    	'properties': {
-    		'title': {'type': 'keyword'},
-    		'year': {'type': 'integer'},
-    		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
-    		'search_text': {'type': 'nested'},
-    		'created_at': {'type': 'date'},
-    	}
-    }	    
+	'properties': {
+		'title': {'type': 'keyword'},
+		'year': {'type': 'integer'},
+		'html_source': {'type': 'text', 'analyzer': 'html_analyzer'},
+		'search_text': {'type': 'nested'},
+		'created_at': {'type': 'date'},
+	}
 }
 
 CHAPTER_INDEX_SETTINGS = {

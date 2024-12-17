@@ -22,7 +22,7 @@ def es_get_documents(index):
 		]	
 	search = es.search(
 		index=index,
-		_source_exclude=['html_source', 'search_text'],
+		_source_excludes=['html_source', 'search_text'],
 		body=body
 	)
 	hits = search['hits']['hits']
@@ -103,7 +103,7 @@ def build_es_update_op(id, field, value):
 	}
 
 def index_seed_docs(index, docs):
-	bulk(es, docs, index=index, doc_type='doc', refresh='wait_for')	
+	bulk(es, docs, index=index, refresh='wait_for')	
 
 def delete_index(index):
 	es.indices.delete(index=index, ignore=[400, 404])

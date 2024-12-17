@@ -50,7 +50,7 @@ def es_document_list(index, es_client=es):
 def es_get_document(index, id, es_client=es):
 	res = es_client.get(
 		index=index,
-		doc_type='doc',
+		doc_type='_doc',
 		id=id
 	)
 	data = merge_id_and_source(res['_id'], res['_source'])
@@ -59,7 +59,7 @@ def es_get_document(index, id, es_client=es):
 def es_get_multiple_document(index, doc_ids):
 	docs = es.mget(
 		index=index,
-		doc_type='doc',
+		doc_type='_doc',
 		body={'ids': doc_ids}
 	)
 	response = merge_results(docs['docs'])
@@ -68,7 +68,7 @@ def es_get_multiple_document(index, doc_ids):
 def es_index_document(index, id, body):
 	res = es.index(
 		index=index,
-		doc_type='doc',
+		doc_type='_doc',
 		id=id,
 		refresh=True,
 		body=body
@@ -81,7 +81,7 @@ def es_create_document(index, body, es_client=es):
 	data['created_at'] = int(time.time())
 	res = es_client.index(
 		index=index,
-		doc_type='doc',
+		doc_type='_doc',
 		refresh=True,
 		body=data
 	)
@@ -90,7 +90,7 @@ def es_create_document(index, body, es_client=es):
 def es_update_document(index, id, data, es_client=es):
 	res = es_client.update(
 		index=index,
-		doc_type='doc',
+		doc_type='_doc',
 		id=id,
 		refresh=True,
 		body={'doc': data}
@@ -99,7 +99,7 @@ def es_update_document(index, id, data, es_client=es):
 def es_update_search_text(id, data):
 	res = es.update(
 		index=data['doc_type'],
-		doc_type='doc',
+		doc_type='_doc',
 		id=id,
 		body={
 			'doc': {
@@ -114,7 +114,7 @@ def es_update_search_text(id, data):
 def es_delete_document(index, id):
 	res = es.delete(
 		index=index,
-		doc_type='doc',
+		doc_type='_doc',
 		id=id,
 		refresh=True
 	)

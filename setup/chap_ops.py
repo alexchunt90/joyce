@@ -9,11 +9,18 @@ from . import es_config
 from . import tag_ops
 
 def clean_html_for_export(html):
+	# return str(html)
 	if html:
-		string = str(html).replace('\n', ' ').replace('<br>', '<br/>')
+		string = str(html).replace('<!-- topofpage -->', '').replace('\n', ' ').replace('> <i', '><i').replace('<br>', '<br/>').replace('</br>', '<br/>')
 		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
-		cleaned_string = re.sub('\s{2,}', ' ', string_without_tabs)
-		return cleaned_string
+		string_without_double_brs = re.sub(r'(<br/>)\1+', '<br/>', string_without_tabs)
+		string_without_blockquote_brs = re.sub(r'<br/>((</i>|</a>|\s){0,}</blockquote>)', r'\1', string_without_double_brs)
+		cleaned_string = re.sub('\s{2,}', ' ', string_without_blockquote_brs)
+
+		# # # Prevent spaces on either side of a tags being rendered as double spaces
+		double_space_pattern = r'(\s<a[\sa-z\-\=\\\"0-9\>\#]*</a>)\s'
+		new_cleaned_string = re.sub('(\s<span[\sa-z\-\=\\\"0-9\>\#]*</span>)\s',r'\1',cleaned_string)
+		return new_cleaned_string
 
 # Seed with chapter data
 chapter_list = []
@@ -72,7 +79,6 @@ def import_chap_operations(chapters_path):
 		chapter_id = chapter_dict[c]
 		html = open(chap_path)
 		h = html.read()
-		# .encode('utf-8')
 		soup = bs(h, 'html.parser')
 		html.close()
 
@@ -90,6 +96,8 @@ def import_chap_operations(chapters_path):
 				s['data-edition'] = edition_int
 				span_text = '{}#{}'.format(edition_int, page_string)
 				s.string = span_text
+			else:
+				s.name = 'i'
 
 		images = soup.findAll('img')
 		if images:
@@ -147,11 +155,10 @@ def import_chap_operations(chapters_path):
 				blockquote_classes = ['lyrics', 'dialog-lyrics', 'stage-dir']
 				for c in blockquote_classes:
 					if c in p['class']:
+						p['data-indent'] = 'false'
 						if c == 'stage-dir':
-							p['data-indent'] = 'false'
 							p['data-custom-classes'] = c
 						if c == 'dialog-lyrics':
-							p['data-indent'] = 'false'
 							p['data-custom-classes'] = c
 						p.name = 'blockquote'
 				center_align_classes = ['character-tag', 'break']

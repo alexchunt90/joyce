@@ -23,11 +23,13 @@ def clear_white_space(html):
 
 def clean_html_for_export(html):
 	if html:
-		string = str(html)
+		string = str(html).replace('<br>', '<br/>').replace('</br>', '<br/>')
 			# .replace('<br>', '')
 			# .replace('\n', '')
-		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
-		cleaned_string = re.sub('\s{2,}', ' ', string_without_tabs)
+		string_without_tabs = re.sub(r'<br/>\s{1,}', '<br/>', string)
+		string_without_blockquote_brs = re.sub(r'<br/>((</i>|</a>|\s){0,}</blockquote>)', r'\1', string_without_tabs)
+		cleaned_string = re.sub(r'\s{2,}', ' ', string_without_blockquote_brs)
+		cleaned_string = cleaned_string.replace('<p> ', '<p>').replace('<blockquote> ', '<blockquote>')
 		return cleaned_string
 
 
@@ -181,14 +183,23 @@ def import_note_operations(notes_path):
 				if type(p) == NavigableString and len(p.string) > 1:
 					raw_string = str(p.string).lstrip()
 					last_element = note_div.contents[-1]
-					# If the string starts with a lowercase letter, append it to the last element in the note_div
-					if not re.match(r'[A-Z]', raw_string):
-						last_element.append(raw_string)
-					# If not, create a new 'p' tag and append it
-					else:
+					# If the string doesn't start with a lowercase letter, create a new 'p' tag and append it
+					
+
+					if note == '060060gas.htm':
+						print(last_element.text)
+						print(re.match(r'.*\.$', 'test.'))
+						print(re.match(r'\.$', last_element.text))
+					if re.match(r'[A-Z]', raw_string) and not re.match(r'.*[\.|\"]\s{0,}$', last_element.text):
 						new_p = soup.new_tag('p')
 						new_p.string = p.string
 						note_div.append(new_p)
+						
+					# Otherwise append it to the last element in the note_div
+					else:
+						if not re.match(r'.*\s$', last_element.text):
+							last_element.append(' ')
+						last_element.append(raw_string)
 			expanded_note_div.decompose()
 		return_div = find_div('return')
 		if return_div and note_div:

@@ -97,7 +97,7 @@ def import_note_operations(notes_path):
 		def triage_element_from_img_div(element):
 			if type(element) == Tag and element.name in ['a', 'img']:
 				add_image_to_note(element)
-			if type(element) == Tag and element.name == 'p':
+			if type(element) == Tag and element.name in ['p', 'iframe']:
 				# Check for <a> tags nested in in the captions -_-
 				for t in element.children:
 					triage_element_from_img_div(t)
@@ -146,13 +146,6 @@ def import_note_operations(notes_path):
 					caption_op = es_helpers.build_es_caption_op(img_caption_data)
 					img_caption_ops.append(caption_op)
 
-					# # Check for <a> tags nested in in the captions -_-
-					# for t in caption_p.children:
-					# 	if t.name == 'a':
-					# 		add_image_to_note(t, caption_p)
-			# if sibling_reference != None:
-			# 	print(f'decomposing this image in {note}: {element}')
-			# 	element.decompose()
 			# else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.)
 
 		# # Update image references to point to new location

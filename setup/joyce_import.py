@@ -59,12 +59,12 @@ def joyce_import():
 	es_setup.refresh_indices('tags')
 	tag_ops.import_tags()
 
-	# # Import Joyce note files
+	# Import Joyce note files
 	refresh_target_files('notes/')
 	es_setup.refresh_indices('notes')
 	note_ops.import_note_operations(note_path)
 
-	Import Joyce chapter files
+	# Import Joyce chapter files
 	refresh_target_files('chap/')
 	es_setup.refresh_indices('chapters')
 	chap_ops.import_chap_operations(chap_path)

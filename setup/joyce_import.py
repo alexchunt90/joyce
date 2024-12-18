@@ -36,33 +36,38 @@ def refresh_target_files(target_folder):
 	print('Target folder created:', target_folder_path)
 
 def joyce_import():
-	es_setup.refresh_indices()
 
 	# # Import Joyce media files
 	# refresh_target_files('img/')
 
-	# Delete existing media assets
+	# # Delete existing media assets
 	# clear_static_assets(static_path)
+	# es_setup.refresh_indices('media')
 	# media_ops.import_media_operations(img_path)
 
-	# # Create Joyce info pages
+	# Create Joyce info pages
 	# refresh_target_files('info/')
+	# es_setup.refresh_indices('info')
 	# info_ops.import_info_operations(info_path)
 
 	# # Create Joyce editions
+	# es_setup.refresh_indices('editions')
 	# edition_ops.import_editions()
 
 	# # Import Joyce tags
 	# refresh_target_files('swap/')
+	# es_setup.refresh_indices('tags')
 	# tag_ops.import_tags()
 
 	# # Import Joyce note files
 	refresh_target_files('notes/')
+	es_setup.refresh_indices('notes')
 	note_ops.import_note_operations(note_path)
 
-	# # Import Joyce chapter files
-	refresh_target_files('chap/')
-	chap_ops.import_chap_operations(chap_path)
+	# Import Joyce chapter files
+	# refresh_target_files('chap/')
+	# es_setup.refresh_indices('chapters')
+	# chap_ops.import_chap_operations(chap_path)
 
 	# Run Node script to process HTML files using DraftJS and produce search_text for Elasticsearch	
 	# os.system('npm run local_import info')

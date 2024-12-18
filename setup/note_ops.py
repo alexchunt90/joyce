@@ -24,12 +24,11 @@ def clear_white_space(html):
 def clean_html_for_export(html):
 	if html:
 		string = str(html).replace('<br>', '<br/>').replace('</br>', '<br/>')
-			# .replace('<br>', '')
-			# .replace('\n', '')
 		string_without_tabs = re.sub(r'<br/>\s{1,}', '<br/>', string)
 		string_without_blockquote_brs = re.sub(r'<br/>((</i>|</a>|\s){0,}</blockquote>)', r'\1', string_without_tabs)
 		cleaned_string = re.sub(r'\s{2,}', ' ', string_without_blockquote_brs)
-		cleaned_string = cleaned_string.replace('<p> ', '<p>').replace('<blockquote> ', '<blockquote>')
+		cleaned_string = cleaned_string.replace('<p> ', '<p>').replace('<blockquote> ', '<blockquote>').replace(' </i> ', '</i> ')
+		cleaned_string = cleaned_string.replace(': ', ':').replace(' .', '.')
 		return cleaned_string
 
 
@@ -39,6 +38,8 @@ def import_note_operations(notes_path):
 	note_media_ops = []
 	note_html_ops = []
 	img_caption_ops = []
+
+	missing_image_count = 0
 
 	# Some source html files contain a blend of p tags and raw navigable strings.
 	notes_with_string_errors = []
@@ -74,6 +75,8 @@ def import_note_operations(notes_path):
 		soup = bs(h, 'html.parser',  preserve_whitespace_tags=['a', 'p'])
 		html.close()
 
+		image_count = len(soup.find_all('img'))
+
 		def find_div(id):
 			div = soup.find('div', {'id': id})
 			return div
@@ -84,33 +87,95 @@ def import_note_operations(notes_path):
 
 		for br in soup.find_all("br"):
 			if br.parent.name != 'blockquote':
-				br.decompose()		
+				br.decompose()
+
+
+
+
+
+
+		def triage_element_from_img_div(element):
+			if type(element) == Tag and element.name in ['a', 'img']:
+				add_image_to_note(element)
+			if type(element) == Tag and element.name == 'p':
+				# Check for <a> tags nested in in the captions -_-
+				for t in element.children:
+					triage_element_from_img_div(t)
+
+
+		def create_caption(id, html):
+			search_text = clear_white_space(html.get_text())
+			img_caption_data = {
+				'id': id,
+				'html_source': clean_html_for_export(html),
+				'search_text': [{'key': id, 'text': search_text}]
+			}
+			return img_caption_data
+
+		def add_image_to_note(element):
+			# if note == '070078tramit.htm':
+			# 	print(f'Running add_image with element: {element}')
+
+			next_sibling = find_next_sibling(element)
+
+			href = ''
+			if element.name == 'a' and element.has_attr('href'):
+				href = element['href']
+			elif element.name == 'img':
+				href = element['src']
+			
+			if media_dict.__contains__(href):
+				# print(href)
+				img_id = media_dict[href]
+				# Add this image to this note
+				if img_id not in note_media:
+					note_media.append(img_id)
+
+				# Some images won't have a caption paragraph
+				if next_sibling and next_sibling.name == 'p':
+					cap_soup = bs(str(next_sibling), 'html.parser')
+					caption_p = cap_soup.find('p')
+
+					# Clean up note images in caption paragraphs 
+					for c in caption_p.children:
+						if c.name =='a' and c.has_attr('href'):
+							if c['href'].startswith('episode'):
+								c.decompose()
+					
+					img_caption_data = create_caption(img_id, caption_p)
+					caption_op = es_helpers.build_es_caption_op(img_caption_data)
+					img_caption_ops.append(caption_op)
+
+					# # Check for <a> tags nested in in the captions -_-
+					# for t in caption_p.children:
+					# 	if t.name == 'a':
+					# 		add_image_to_note(t, caption_p)
+			# if sibling_reference != None:
+			# 	print(f'decomposing this image in {note}: {element}')
+			# 	element.decompose()
+			# else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.)
 
 		# # Update image references to point to new location
 		images_div = find_div('images')
 		if images_div:
-			for e in images_div.children:
-				# Img files are wrapped in an anchor tag
-				if type(e) == Tag and e.name == 'a':
-					href = e['href']
-					if media_dict.__contains__(href):
-						img_id = media_dict[href]
-						next_sibling = find_next_sibling(e)
-						# Add this image to this note
-						note_media.append(img_id)
-						# Some images won't have a caption paragraph
-						if next_sibling and next_sibling.name == 'p':
-							caption_p = find_next_sibling(e)
-							caption_search_text = clear_white_space(caption_p.get_text())
-							img_caption_data = {
-								'id': img_id,
-								'html_source': clean_html_for_export(caption_p),
-								'search_text': [{'key': img_id, 'text': caption_search_text}]
-							}
-							caption_op = es_helpers.build_es_caption_op(img_caption_data)
-							img_caption_ops.append(caption_op)
-					# else: print('Found a reference in note file {} to this image not present in files: {}'.format(note,href))
+			for e in images_div:
+				triage_element_from_img_div(e)
+
+			# Check for missed images
+			images_processed = len(note_media)
+			if image_count != images_processed:
+				print(f'The note file {note} has {image_count} <img> tags, but after processing, the note has {images_processed} media links.')
+				missing_image_count += 1
+
 			images_div.decompose()
+
+
+
+
+
+
+
+
 
 		# Remove button div
 		button_div = find_div('button')
@@ -169,32 +234,33 @@ def import_note_operations(notes_path):
 			note_div.append(readmore_p)
 			for p in expanded_note_div.children:
 				# Handling for raw strings outside of top-level section elements
+				last_element = note_div.contents[-1]
+
+
+
 				if type(p) == Tag:
+					# if note == '050045samaritan.htm':
+					# 	print(p.name)
 					# Add top-level section elements to the note_div
 					tag = copy.copy(p)
 					section_tags = ['p', 'blockquote', 'br', 'h1', 'h2', 'h3', 'h4']
-					if tag.name in section_tags:
+					if tag.name in section_tags and not re.match(r'^\s+$', tag.text):
 						note_div.append(tag)
 					# If the parser finds a top-level tag that should be nested in a section element, it will append it to the last element in the note_div
 					format_tags = ['a', 'i', 'b']
 					if tag.name in format_tags:
-						last_element = note_div.contents[-1]
 						last_element.append(tag)
-				if type(p) == NavigableString and len(p.string) > 1:
+				if type(p) == NavigableString and not re.match(r'^\s+$', p.text):
 					raw_string = str(p.string).lstrip()
 					last_element = note_div.contents[-1]
-					# If the string doesn't start with a lowercase letter, create a new 'p' tag and append it
-					
 
-					if note == '060060gas.htm':
-						print(last_element.text)
-						print(re.match(r'.*\.$', 'test.'))
-						print(re.match(r'\.$', last_element.text))
-					if re.match(r'[A-Z]', raw_string) and not re.match(r'.*[\.|\"]\s{0,}$', last_element.text):
+					# If the string doesn't start with a lowercase letter, create a new 'p' tag and append it
+					if re.match(r'[A-Z]', raw_string) and (re.match(r'(\.|\")$', last_element.text.strip()[-1]) or last_element.has_attr('data-custom-classes')):
+
 						new_p = soup.new_tag('p')
 						new_p.string = p.string
-						note_div.append(new_p)
-						
+						note_div.append(new_p)					
+
 					# Otherwise append it to the last element in the note_div
 					else:
 						if not re.match(r'.*\s$', last_element.text):
@@ -235,7 +301,8 @@ def import_note_operations(notes_path):
 			print('No note found for file {}.'.format(note))
 
 	print('Found {} notes with string errors:'.format(len(notes_with_string_errors)))
-	print(notes_with_string_errors)
+	# print(notes_with_string_errors)
+	print(f'Encountered {missing_image_count} notes with fewer images than expected.')
 	print('Note HTML successfully cleaned!')	
 
 	# Index note contents to ES

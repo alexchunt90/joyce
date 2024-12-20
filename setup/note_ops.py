@@ -8,6 +8,9 @@ from bs4 import BeautifulSoup as bs, Tag, NavigableString
 import setup.es_helpers as es_helpers
 import setup.es_config as es_config
 
+# Used for debugging individual notes
+logging_note = '070068experience.htm'
+
 # Takes an element from BS4 and checks if next_sibling is a non-"<br/>"" HTML tag
 # If yes, return tag name, if no, recurse to the next sibling
 def find_next_sibling(element):
@@ -26,9 +29,10 @@ def clean_html_for_export(html):
 		string = str(html).replace('<br>', '<br/>').replace('</br>', '<br/>')
 		string_without_tabs = re.sub(r'<br/>\s{1,}', '<br/>', string)
 		string_without_blockquote_brs = re.sub(r'<br/>((</i>|</a>|\s){0,}</blockquote>)', r'\1', string_without_tabs)
-		cleaned_string = re.sub(r'\s{2,}', ' ', string_without_blockquote_brs)
+		string_with_colon_spaces = re.sub(r'\:([A-Za-z])', r'\: \1', string_without_blockquote_brs)
+		cleaned_string = re.sub(r'\s{2,}', ' ', string_with_colon_spaces)
 		cleaned_string = cleaned_string.replace('<p> ', '<p>').replace('<blockquote> ', '<blockquote>').replace(' </i> ', '</i> ')
-		cleaned_string = cleaned_string.replace(': ', ':').replace(' .', '.').replace(' ,', ',')
+		cleaned_string = cleaned_string.replace(': ', ':').replace(' .', '.').replace(' ,', ',').replace('––', '—')
 		return cleaned_string
 
 
@@ -40,7 +44,6 @@ def import_note_operations(notes_path):
 	img_caption_ops = []
 
 	missing_image_count = 0
-	note_iframe_count = 0
 
 	# Some source html files contain a blend of p tags and raw navigable strings.
 	notes_with_string_errors = []
@@ -91,20 +94,20 @@ def import_note_operations(notes_path):
 				br.decompose()
 
 
+		for s in soup.findAll('span'):
+			for sc in s.contents:
+				s.insert_before(sc)
 
 
 
-
-		def triage_element_from_img_div(element):
+		def triage_element_from_img_div(element, self_reference=None):
+			if self_reference is None:
+				self_reference = element
 			if type(element) == Tag and element.name in ['a', 'img']:
-				add_image_to_note(element)
+				add_image_to_note(element, self_reference)
 			if type(element) == Tag and element.name in ['p', 'iframe']:
-				# if element.name == 'iframe':
-				# 	note_iframe_count = note_iframe_count + 1
-				# Check for <a> tags nested in in the captions -_-
 				for t in element.children:
-					triage_element_from_img_div(t)
-
+					triage_element_from_img_div(t, element)
 
 		def create_caption(id, html):
 			search_text = clear_white_space(html.get_text())
@@ -115,24 +118,25 @@ def import_note_operations(notes_path):
 			}
 			return img_caption_data
 
-		def add_image_to_note(element):
-			# if note == '070078tramit.htm':
-			# 	print(f'Running add_image with element: {element}')
-
-			next_sibling = find_next_sibling(element)
+		def add_image_to_note(element, self_reference):
+			next_sibling = find_next_sibling(self_reference)
 
 			href = ''
 			if element.name == 'a' and element.has_attr('href'):
 				href = element['href']
 			elif element.name == 'img':
 				href = element['src']
+			# if note == logging_note:
+			# 	print(f'Running add_image with element: {element}')
+			# 	print(f'Href is: {href}')
 			
 			if media_dict.__contains__(href):
-				# print(href)
+				# if note == logging_note:
+				# 	print(f'This href was found: {href}')
 				img_id = media_dict[href]
 				# Add this image to this note
 				if img_id not in note_media:
-					note_media.append(img_id)
+					note_media.append(img_id)		
 
 				# Some images won't have a caption paragraph
 				if next_sibling and next_sibling.name == 'p':
@@ -160,7 +164,7 @@ def import_note_operations(notes_path):
 			# Check for missed images
 			images_processed = len(note_media)
 			if image_count != images_processed:
-				print(f'The note file {note} has {image_count} <img> tags, but after processing, the note has {images_processed} media links.')
+				# print(f'The note file {note} has {image_count} <img> tags, but after processing, the note has {images_processed} media links.')
 				missing_image_count += 1
 
 			images_div.decompose()

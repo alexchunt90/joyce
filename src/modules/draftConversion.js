@@ -47,7 +47,7 @@ export const stateFromHTML = html => {
             'MUTABLE',
             {
               'url': node.getAttribute('href'),
-              'color': node.getAttribute('data-color') || '05E4f0',
+              'color': node.getAttribute('data-color') || '0000FF',
               'tag': node.getAttribute('data-tag') || ''
             }
           )

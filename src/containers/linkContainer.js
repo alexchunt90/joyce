@@ -8,16 +8,17 @@ import actions from '../actions'
 
 const Link = (props) => {
 	const data = props.contentState.getEntity(props.entityKey).getData()
+	const color = data['color']
     return (
     	<a href='#' 
     		onClick={()=>props.onAnnotationClick(data['url'])}
-    		style={{color: '#' + data['color']}}
+    		style={{color: '#' + color}}
     		data-bs-toggle='modal'
     		data-bs-target='#annotation_modal'
-    		data-color={data['color']}
+    		data-color={color}
     		data-url={data['url']}
 		>
-    		{props.children}
+			{props.children}
     	</a>
     )
 }

@@ -35,15 +35,17 @@ export const CUSTOM_CSS_CLASSES = [
 
 
 export const infoPageTitleConstants = {
-	TALLY_INFO_PAGE_TITLE: 'Tally of Notes',
-	NOTE_INDEX_INFO_PAGE_TITLE: 'Index of Titles',
 	ABOUT_NOTES_INFO_PAGE_TITLE: 'About the Notes',
-	COLOR_CODING_INFO_PAGE_TITLE: 'Color Coding',
-	SUBJECT_INDEX_INFO_PAGE_TITLE: 'Subject Index'
+	COLOR_CODING_INFO_PAGE_TITLE: 'Colors',
+	NOTE_INDEX_INFO_PAGE_TITLE: 'Index of Titles',
+	NEWS_INFO_PAGE_TITLE: 'Latest News',
+	SOURCES_INFO_PAGE_TITLE: 'Sources',
+	COMMENT_INFO_PAGE_TITLE: 'Comment',
+	TALLY_INFO_PAGE_TITLE: 'Tally of Notes',
 }
 
 // These are the paths for info pages that can be accessed through note routes
-export const exemptNotePaths = ['/notes/tally', '/notes/index', '/notes/about', '/notes/color', '/notes/subject']
+export const exemptNotePaths = ['/notes/tally', '/notes/index', '/notes/about', '/notes/color', '/notes/subject', '/notes/sources', '/notes/comment', '/notes/news']
 
 export const LATEST_TALLY = [
 	{

@@ -132,13 +132,27 @@ const joyceRouter = store => next => action => {
 					}
 				}
 			}
-			if (path.substring(0,14) === '/notes/subject') {
+			if (path.substring(0,14) === '/notes/sources') {
 				for (const info_page of info) {
-					if (info_page.title === infoPageTitleConstants.SUBJECT_INDEX_INFO_PAGE_TITLE) {
+					if (info_page.title === infoPageTitleConstants.SOURCES_INFO_PAGE_TITLE) {
 						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
 					}
 				}				
 			}
+			if (path.substring(0,14) === '/notes/comment') {
+				for (const info_page of info) {
+					if (info_page.title === infoPageTitleConstants.COMMENT_INFO_PAGE_TITLE) {
+						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
+					}
+				}				
+			}
+			if (path.substring(0,11) === '/notes/news') {
+				for (const info_page of info) {
+					if (info_page.title === infoPageTitleConstants.NEWS_INFO_PAGE_TITLE) {
+						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
+					}
+				}				
+			}				
 			break
 		case 'GET_DOCUMENT_LIST':
 			// 

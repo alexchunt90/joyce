@@ -29,10 +29,12 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 	          		<ul className="dropdown-menu">
 	            			<li>
 	            				<Link className='dropdown-item' to='/notes/about'>About the Notes</Link>
-	            				<Link className='dropdown-item' to='/notes/index'>Title Index</Link>
-	            				<Link className='dropdown-item' to='/notes/subjects'>Subject Index</Link>
-	            				<Link className='dropdown-item' to='/notes/color'>Color Coding</Link>
-	            				<Link className='dropdown-item' to='/notes/tally'>Tally</Link>
+	            				<Link className='dropdown-item' to='/notes/color'>Colors</Link>
+	            				<Link className='dropdown-item' to='/notes/index'>Index of Titles</Link>
+	            				<Link className='dropdown-item' to='/notes/news'>Latest News</Link>
+	            				<Link className='dropdown-item' to='/notes/sources'>Sources</Link>
+	            				<Link className='dropdown-item' to='/notes/comment'>Comment</Link>
+	            				<Link className='dropdown-item' to='/notes/tally'>Tally of Notes</Link>
             				</li>
 	          		</ul>
         		</li>

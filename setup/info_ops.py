@@ -31,6 +31,7 @@ def import_info_operations(info_pages_path):
 
 	# Iterate through the info pages HTML files
 	for info in info_dict:
+		print(info)
 		info_path = info_pages_path + info
 		info_id = info_dict[info]
 
@@ -67,7 +68,8 @@ def import_info_operations(info_pages_path):
 		for h in soup.findAll('h2'):
 			h.decompose()
 		body = str(soup.find('body'))
-		cleaned_string = re.sub('\s{2,}', ' ', body)
+		cleaned_string = re.sub(r'\s{2,}', ' ', body)
+		print(cleaned_string)
 
 		with codecs.open(info_path, 'w') as file:
 			file.write(cleaned_string)

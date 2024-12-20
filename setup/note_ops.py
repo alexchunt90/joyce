@@ -28,7 +28,7 @@ def clean_html_for_export(html):
 		string_without_blockquote_brs = re.sub(r'<br/>((</i>|</a>|\s){0,}</blockquote>)', r'\1', string_without_tabs)
 		cleaned_string = re.sub(r'\s{2,}', ' ', string_without_blockquote_brs)
 		cleaned_string = cleaned_string.replace('<p> ', '<p>').replace('<blockquote> ', '<blockquote>').replace(' </i> ', '</i> ')
-		cleaned_string = cleaned_string.replace(': ', ':').replace(' .', '.')
+		cleaned_string = cleaned_string.replace(': ', ':').replace(' .', '.').replace(' ,', ',')
 		return cleaned_string
 
 
@@ -40,6 +40,7 @@ def import_note_operations(notes_path):
 	img_caption_ops = []
 
 	missing_image_count = 0
+	note_iframe_count = 0
 
 	# Some source html files contain a blend of p tags and raw navigable strings.
 	notes_with_string_errors = []
@@ -98,6 +99,8 @@ def import_note_operations(notes_path):
 			if type(element) == Tag and element.name in ['a', 'img']:
 				add_image_to_note(element)
 			if type(element) == Tag and element.name in ['p', 'iframe']:
+				# if element.name == 'iframe':
+				# 	note_iframe_count = note_iframe_count + 1
 				# Check for <a> tags nested in in the captions -_-
 				for t in element.children:
 					triage_element_from_img_div(t)
@@ -293,6 +296,7 @@ def import_note_operations(notes_path):
 		else:
 			print('No note found for file {}.'.format(note))
 
+	# print(f'There are {iframe_count} iframes in the notes.')
 	print('Found {} notes with string errors:'.format(len(notes_with_string_errors)))
 	# print(notes_with_string_errors)
 	print(f'Encountered {missing_image_count} notes with fewer images than expected.')

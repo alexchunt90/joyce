@@ -105,11 +105,17 @@ export const blockRenderFn = (contentBlock) => {
 }
 
 export const keyBindingFn = (e) => {
+  console.log('Yay, you can log e:', e)
   if (e.keyCode === 9 ) { //Tab Key
     if (e.shiftKey === true) {
       return 'shift-tab-key'
     } else {
       return 'tab-key'
+    }
+  }
+  if (e.keyCode === 13) { // Enter Key
+    if (e.shiftKey === true) {
+      return 'shift-enter-key'
     }
   }
   return getDefaultKeyBinding(e)

@@ -42,8 +42,15 @@ const handleTabKeyCommand = (editorState, command) => {
         selectionAfter: selection,
       })
       return EditorState.push(editorState, newContent, 'adjust-depth')
-    } else { 
-      return editorState 
+    } else {
+      if (command === 'shift-tab-key') {
+        return editorState
+      }
+      const selectionState = editorState.getSelection()
+      const decorator = editorState.getDecorator()
+      const contentStateWithTabCharacter = Modifier.replaceText(editorState.getCurrentContent(), selectionState, '\t')
+      const newEditorState = EditorState.createWithContent(contentStateWithTabCharacter, decorator)
+      return EditorState.forceSelection (newEditorState, selectionState)
     }
 }
 
@@ -77,7 +84,7 @@ const applyCustomInlineStyles = (style, editorState) => {
   if (style === 'add-indent') {
     return setBlockCustomStyle(blockData.set('indent', 'true'))
   }  
-  return editorState.forceSelection(selectionState)
+  return EditorState.forceSelection(editorState, selectionState)
 }
 
 // _________________________________________________
@@ -162,6 +169,10 @@ const editorConstructor = {
   returnEditorStateFromKeyCommand: (editorState, command) => {
     if (['tab-key', 'shift-tab-key'].includes(command)) {
       return handleTabKeyCommand(editorState, command)
+    }
+    if (command === 'shift-enter-key') {
+      const editorStateWithSoftNewline = RichUtils.insertSoftNewline(editorState)
+      return editorStateWithSoftNewline
     }
     const newEditorState = RichUtils.handleKeyCommand(editorState, command)
     // Null check to handle null editorState when backspacking empty editor

@@ -1,6 +1,7 @@
 import os
 import io
 import sys
+import time
 from PIL import Image
 from bs4 import BeautifulSoup as bs, Tag
 
@@ -20,9 +21,12 @@ def import_media_operations(images_path):
 		episode_folder = images_path + f
 		img_folder = os.listdir(episode_folder + '/images')
 
+		img_count = 1
+
 		for img in img_folder:
+			time.sleep(1) # Adding delay to test HTTP keep-alive settings
 			if es_func.allowed_file(img):
-				print('Importing image file:', img)
+				print(f'[{img_count}] Importing image file: {img}')
 				metadata = es_func.media_data_from_file(img, f)
 				file_path = os.path.join(episode_folder, 'images' ,img)
 				img_file = Image.open(file_path)
@@ -32,5 +36,6 @@ def import_media_operations(images_path):
 					img_file.save(file_path)
 					img_file = Image.open(file_path)
 				es_func.index_and_save_media_file(img_file, None, None, f, es_helpers.es)
+				img_count += 1
 
 	print('Image files successfully imported!')

@@ -1,9 +1,11 @@
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.25
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
     container_name: elasticsearch
     environment:
-      - discovery.type=single-node    
+      - discovery.type=single-node
+      - cluster.routing.allocation.disk.watermark.enable_for_single_data_node=true
+      - xpack.security.enabled=false
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
@@ -13,7 +15,7 @@ services:
     restart: unless-stopped
 
   kibana:
-    image: kibana:7.17.24
+    image: kibana:8.17.0
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     volumes:

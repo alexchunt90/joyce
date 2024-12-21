@@ -8,7 +8,7 @@ const AnnotatorNewButton = ({onClick, disabled}) =>
 	</button>
 
 const AnnotatorNewURLButton = ({onClick, disabled}) =>
-	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#annotate_modal'>
+	<button type='button' onClick={onClick} disabled={disabled} className='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#external_url_modal'>
 		New External Link
 		<i className='fas fa_inline fa-arrow-up-right-from-square'></i>
 	</button>	

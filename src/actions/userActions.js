@@ -149,6 +149,12 @@ const userActions = {
 			type: 'ADD_ANNOTATION',
 			data: data
 		}),
+	submitExternalURL: (externalURL, editorState) =>
+		({
+			type: 'SUBMIT_EXTERNAL_URL',
+			externalURL: externalURL,
+			editorState: editorState			
+		}),
 	// Click 'Submit' to save annotation
 	submitAnnotation: (annotationNote, annotationTag, selectionState, editorState) =>
 		({

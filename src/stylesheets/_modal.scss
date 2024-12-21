@@ -10,13 +10,16 @@
 .modal-body {
     max-height: 80vh;
     overflow: hidden;
-    div:first-child.row {
-    	height: 68vh;
-    	overflow: auto;
-    }
     div > div#document_list {
     	max-height: 60vh;
 	}
+}
+
+#annotation_modal_wrapper .modal-body {
+    div:first-child.row {
+    	height: 68vh;
+    	overflow: auto;
+    }	
 }
 
 .modal-footer {
@@ -28,7 +31,7 @@
 	overflow: auto;
 }
 
-#annotation_modal_wrapper {
+.modal-dialog {
 	max-width: 90%;
 	div.DraftEditor-editorContainer > div > div > div {
 		padding: 0.3em 0;

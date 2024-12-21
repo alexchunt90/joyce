@@ -116,6 +116,11 @@ const joyceInterface = store => next => action => {
 				bootstrap.Modal.getInstance(document.getElementById('annotate_modal')).hide()
 			}
 			break
+		case 'SUBMIT_EXTERNAL_URL':
+			const newEditorState = editorConstructor.returnEditorStateWithNewExternalURL(action.editorState, action.externalURL)
+			store.dispatch(actions.externalURLCreated(newEditorState))
+			bootstrap.Modal.getInstance(document.getElementById('external_url_modal')).hide()
+			break
 	// Search Action Middleware
 		case 'CLICK_SEARCH':
 			store.dispatch(actions.getSearchResults({data: {searchInput: action.searchInput, docTypes: action.docTypes, resultCount: action.resultCount}}))

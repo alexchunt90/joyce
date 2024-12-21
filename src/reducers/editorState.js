@@ -47,6 +47,8 @@ const editorState = (state=blankEditor, action) => {
 		// After creating annotation, display updated editor state
 		case 'ANNOTATION_CREATED':
 			return action.editorState
+		case 'EXTERNAL_URL_CREATED':
+			return action.editorState
 		case 'SUBMIT_NEW_PAGE_BREAK':
 			const contentState = state.getCurrentContent()
 			const editorStateWithPageBreak = editorConstructor.returnEditorStateWithNewPageBreak(

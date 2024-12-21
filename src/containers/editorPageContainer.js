@@ -12,6 +12,7 @@ import EditorSidebarContainer from './editorSidebarContainer'
 import EditorContentContainer from './editorContentContainer'
 import DeleteConfirmModal from '../components/deleteConfirmModal'
 import AnnotationModal from '../components/annotationModal'
+import ExternalURLModal from '../components/externalURLModal'
 import ChooseAnnotationModal from '../components/chooseAnnotationModal'
 import { EditorSidebarOptions } from '../components/mobileSidebarOptions'
 
@@ -23,6 +24,7 @@ const EditorPage = ({
 	editions,
 	media,
 	currentDocument,
+	inputs,
 	annotationNote,
 	annotationNoteMedia,
 	annotationTag,
@@ -35,6 +37,8 @@ const EditorPage = ({
 	onDocumentClick,
 	onNewDocumentClick,
 	onDeleteConfirm,
+	onURLInputChange,
+	onURLModalSubmit,
 	onSubmitAnnotationClick,
 	selectAnnotationNote,
 	selectAnnotationTag,
@@ -72,6 +76,7 @@ const EditorPage = ({
 		</div>
 		<DeleteConfirmModal onDeleteConfirm={()=>onDeleteConfirm(currentDocument.id, docType)}/>
 		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} />
+		<ExternalURLModal externalURLInput={inputs.externalURL} onInputChange={onURLInputChange} onSubmitClick={()=>onURLModalSubmit(inputs.externalURL, editorState)}/>
 		<ChooseAnnotationModal 
 			notes={notes}
 			tags={tags}
@@ -96,6 +101,7 @@ const mapStateToProps = state => {
 		media: state.media,
 		mode: state.mode,
 		currentDocument: state.currentDocument,
+		inputs: state.inputs,
 		annotationNote: state.annotationNote,
 		annotationNoteMedia: state.annotationNoteMedia,
 		annotationTag: state.annotationTag,
@@ -130,6 +136,12 @@ const mapDispatchToProps = dispatch => {
 		},
 		selectAnnotationTag: tag => {
 			dispatch(actions.selectAnnotationTag(tag))
+		},
+		onURLInputChange: input => {
+			dispatch(actions.updateExternalURLInput(input))
+		},
+		onURLModalSubmit: (externalURL, editorState) => {
+			dispatch(actions.submitExternalURL(externalURL, editorState))
 		},
 		onSubmitAnnotationClick: (annotationNote, annotationTag, selectionState, editorState) => {
 			dispatch(actions.submitAnnotation(annotationNote, annotationTag, selectionState, editorState))

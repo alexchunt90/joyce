@@ -2,7 +2,7 @@ import { EditorState, Modifier, RichUtils, ContentState, SelectionState } from '
 import {stateFromHTML, stateToHTML} from './draftConversion'
 import Immutable from 'immutable'
 
-import {readerDecorator, convertToSearchText} from './editorSettings'
+import {readerDecorator, editorDecorator, convertToSearchText} from './editorSettings'
 
 // _________________________________________________
 // 
@@ -133,7 +133,25 @@ const editorConstructor = {
         data.selectionState,
         entityKey
     )
-    const newEditorState = editorConstructor.returnEditorStateFromContentState(contentStateWithLink, readerDecorator)
+    const newEditorState = editorConstructor.returnEditorStateFromContentState(contentStateWithLink, editorDecorator)
+    return newEditorState
+  },
+  returnEditorStateWithNewExternalURL: (editorState, externalURL) => {
+    const selectionState = editorState.getSelection()
+    const contentState = editorState.getCurrentContent()
+    const contentStateWithEntity = contentState.createEntity(
+      'EXTERNAL_URL',
+      'MUTABLE',
+      {'url': externalURL}
+    )
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+    const contentStateWithExternalURL = Modifier.applyEntity(
+        contentStateWithEntity,
+        selectionState,
+        entityKey
+    )
+    const decorator = editorState.getDecorator()
+    const newEditorState = editorConstructor.returnEditorStateFromContentState(contentStateWithExternalURL, decorator)
     return newEditorState
   },
   // When user submits a new page break, create an entity with the action details and apply it to the contentState

@@ -24,7 +24,7 @@ export const AnnotationDocumentList = ({docs, currentDocument, docType, onDocume
 				<FilterInput />
 				{docType === 'notes' && filteredDocArray.length > 0 && filteredDocArray.map(note =>
 					<div className ='note_button' key={note.id}>
-						<button onClick={()=>onDocumentClick(note.id)} className={currentDocument.id === note.id ? 'btn btn-info' : 'btn btn-outline-info inactive_button'}>
+						<button onClick={()=>onDocumentClick(note.id)} className={currentDocument.id === note.id ? 'btn btn-info' : 'btn btn-info inactive_button'}>
 							{note.title}
 						</button>
 					</div>

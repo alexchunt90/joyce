@@ -7,6 +7,7 @@ const initialState = {
 	filterInput: '',
 	pageNumber: '',
 	colorPicker: '',
+	externalURL: '',
 	noteMediaSelection: [],
 	editionYear: undefined,
 	uploadFile: undefined,
@@ -68,11 +69,21 @@ const inputs = (state=initialState, action) => {
 		case 'CREATE_DOCUMENT':
 			return initialState
 		case 'CANCEL_EDIT':
-			return initialState		
+			return initialState
 		case 'UPDATE_DOCUMENT_TITLE':
 			return {
 				...state,
 				documentTitle: action.data
+			}
+		case 'UPDATE_URL_INPUT':
+			return {
+				...state,
+				externalURL: action.data
+			}
+		case 'EXTERNAL_URL_CREATED':
+			return {
+				...state,
+				externalURL: ''
 			}
 		case 'UPDATE_DOCUMENT_NUMBER':
 			if (regex.checkIntegerInput(action.data)) {

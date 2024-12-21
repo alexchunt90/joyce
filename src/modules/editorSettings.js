@@ -3,6 +3,7 @@ import { ContentState, CompositeDecorator, getDefaultKeyBinding, KeyBindingUtil,
 
 import {PageBreak,VisiblePageBreak} from '../containers/pageBreakContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'
+import ExternalURLContainer from '../components/externalURL'
 import LinkContainer from '../containers/linkContainer'
 import EditorLink from '../components/editorLink'
 import InlineImage from '../components/inlineImage'
@@ -31,6 +32,10 @@ const findPagebreakEntities = (contentBlock, callback) => {
   findEntities(contentBlock, callback, 'PAGEBREAK')
 }
 
+const findURLEntities = (contentBlock, callback) => {
+  findEntities(contentBlock, callback, 'EXTERNAL_URL')
+}
+
 export const readerDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
@@ -40,6 +45,10 @@ export const readerDecorator = new CompositeDecorator([
     strategy: findPagebreakEntities,
     component: PageBreak,
   },
+  {
+    strategy: findURLEntities,
+    component: ExternalURLContainer
+  }
 ])
 
 export const editorDecorator = new CompositeDecorator([
@@ -51,13 +60,21 @@ export const editorDecorator = new CompositeDecorator([
     strategy: findPagebreakEntities,
     component: PageBreak,
   },
+  {
+    strategy: findURLEntities,
+    component: ExternalURLContainer
+  }  
 ])
 
 export const modalDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: ModalLinkContainer,
-  }
+  },
+  {
+    strategy: findURLEntities,
+    component: ExternalURLContainer
+  }  
 ])
 
 export const editPaginateDecorator = new CompositeDecorator([

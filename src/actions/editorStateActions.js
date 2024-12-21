@@ -47,6 +47,11 @@ const editorStateActions = {
 			type: 'ANNOTATION_CREATED',
 			editorState: editorState
 		}),
+	externalURLCreated: (editorState) =>
+		({
+			type: 'EXTERNAL_URL_CREATED',
+			editorState: editorState
+		}),
 	returnValidationErrors: (validationErrors) =>
 		({
 			type: 'RETURN_EDITOR_VALIDATION_ERRORS',

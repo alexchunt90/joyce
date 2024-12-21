@@ -42,15 +42,25 @@ export const stateFromHTML = html => {
     },
     htmlToEntity: (nodeName, node, createEntity) => {
       if (nodeName === 'a') {        
-          return createEntity(
-            'LINK',
-            'MUTABLE',
-            {
-              'url': node.getAttribute('href'),
-              'color': node.getAttribute('data-color') || '0000FF',
-              'tag': node.getAttribute('data-tag') || ''
-            }
-          )
+          if (node.getAttribute('data-type') === 'external_url') {
+            return createEntity(
+              'EXTERNAL_URL',
+              'MUTABLE',
+              {
+                'url': node.getAttribute('href'),
+              }
+            )
+          } else {
+            return createEntity(
+              'LINK',
+              'MUTABLE',
+              {
+                'url': node.getAttribute('href'),
+                'color': node.getAttribute('data-color') || '0000FF',
+                'tag': node.getAttribute('data-tag') || ''
+              }
+            )
+          }
       }
       if (nodeName === 'span') {
         return createEntity(
@@ -93,7 +103,10 @@ export const stateToHTML = contentState => {
       if (entity.type === 'LINK') {
         // Bandaid fix for HTML encoded chars in <a> tags being converted to text
         const cleanedText = originalText.replaceAll("&#x27;", "'").replaceAll('&amp;', '&')
-        return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag}>{cleanedText}</a>;
+        return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag} data-type='annotation'>{cleanedText}</a>;
+      }
+      if (entity.type === 'EXTERNAL_URL') {
+        return <a href={entity.data.url} data-type='external_url'>{originalText}</a>;
       }
       if (entity.type === 'PAGEBREAK') {
         return <span data-edition={entity.data.edition} data-page={entity.data.pageNumber}>{originalText}</span>;

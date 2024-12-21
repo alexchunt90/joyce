@@ -19,7 +19,7 @@
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.1.0",
     "autoprefixer": "^10.4.17",
-    "axios": "^1.6.7",
+    "axios": "^1.7.4",
     "bootstrap": "^5.3.2",
     "draft-convert": "^2.1.12",
     "draft-js": "^0.11.7",

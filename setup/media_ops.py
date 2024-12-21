@@ -12,6 +12,7 @@ UPLOAD_FOLDER = os.path.join(os.getenv('HOME'), 'Projects', 'joyce_flask', 'stat
 
 
 def import_media_operations(images_path):
+	img_count = 1
 	episode_folder_list = os.listdir(images_path)
 	for f in episode_folder_list:
 		if f == '.DS_Store':
@@ -21,12 +22,11 @@ def import_media_operations(images_path):
 		episode_folder = images_path + f
 		img_folder = os.listdir(episode_folder + '/images')
 
-		img_count = 1
 
 		for img in img_folder:
-			time.sleep(1) # Adding delay to test HTTP keep-alive settings
+			# time.sleep(0.1) # Adding delay to test HTTP keep-alive settings
 			if es_func.allowed_file(img):
-				print(f'[{img_count}] Importing image file: {img}')
+				print(f'[{img_count}] Importing {f} image file: {img}')
 				metadata = es_func.media_data_from_file(img, f)
 				file_path = os.path.join(episode_folder, 'images' ,img)
 				img_file = Image.open(file_path)

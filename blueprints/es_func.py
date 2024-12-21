@@ -8,7 +8,7 @@ import time
 import json
 import config
 
-es = Elasticsearch(config.ELASTICSEARCH_DOCKER_HOST, timeout=199838918318, keep_alive=True)
+es = Elasticsearch(config.ELASTICSEARCH_DOCKER_HOST)
 
 # Return response object that combines ES ID and source fields
 def merge_id_and_source(id, source):
@@ -50,7 +50,6 @@ def es_document_list(index, es_client=es):
 def es_get_document(index, id, es_client=es):
 	res = es_client.get(
 		index=index,
-		doc_type='_doc',
 		id=id
 	)
 	data = merge_id_and_source(res['_id'], res['_source'])
@@ -59,7 +58,6 @@ def es_get_document(index, id, es_client=es):
 def es_get_multiple_document(index, doc_ids):
 	docs = es.mget(
 		index=index,
-		doc_type='_doc',
 		body={'ids': doc_ids}
 	)
 	response = merge_results(docs['docs'])
@@ -68,7 +66,6 @@ def es_get_multiple_document(index, doc_ids):
 def es_index_document(index, id, body):
 	res = es.index(
 		index=index,
-		doc_type='_doc',
 		id=id,
 		refresh=True,
 		body=body
@@ -81,7 +78,6 @@ def es_create_document(index, body, es_client=es):
 	data['created_at'] = int(time.time())
 	res = es_client.index(
 		index=index,
-		doc_type='_doc',
 		refresh=True,
 		body=data
 	)
@@ -90,7 +86,6 @@ def es_create_document(index, body, es_client=es):
 def es_update_document(index, id, data, es_client=es):
 	res = es_client.update(
 		index=index,
-		doc_type='_doc',
 		id=id,
 		refresh=True,
 		body={'doc': data}
@@ -114,7 +109,6 @@ def es_update_search_text(id, data):
 def es_delete_document(index, id):
 	res = es.delete(
 		index=index,
-		doc_type='_doc',
 		id=id,
 		refresh=True
 	)

@@ -106,7 +106,8 @@ export const stateToHTML = contentState => {
         return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag} data-type='annotation'>{cleanedText}</a>;
       }
       if (entity.type === 'EXTERNAL_URL') {
-        return <a href={entity.data.url} data-type='external_url'>{originalText}</a>;
+        const cleanedText = originalText.replaceAll("&#x27;", "'").replaceAll('&amp;', '&')
+        return <a href={entity.data.url} data-type='external_url'>{cleanedText}</a>;
       }
       if (entity.type === 'PAGEBREAK') {
         return <span data-edition={entity.data.edition} data-page={entity.data.pageNumber}>{originalText}</span>;

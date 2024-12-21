@@ -8,8 +8,8 @@ services:
       - xpack.security.enabled=false
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
+    # ports:
+    #   - "9200:9200"
     expose:
       - "9200"
     restart: unless-stopped

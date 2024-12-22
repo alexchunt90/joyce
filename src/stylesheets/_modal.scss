@@ -15,10 +15,11 @@
 	}
 }
 
-#annotation_modal_wrapper .modal-body {
+.annotation_modal_wrapper .modal-body {
     div:first-child.row {
     	height: 68vh;
-    	overflow: auto;
+    	overflow-y: auto;
+    	overflow-x: hidden;
     }	
 }
 

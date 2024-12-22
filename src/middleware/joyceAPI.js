@@ -43,6 +43,9 @@ const joyceAPI = store => next => action => {
 					const file = action.data.uploadFile[0]
 					mediaForm.append('uploadFile', file)
 				}
+				if (action.data.youtubeURL) {
+					mediaForm.append('youtube_url', action.data.youtubeURL)
+				}
 				mediaForm.append('title', action.data.title)
 				mediaForm.append('html_source', action.data.html_source)
 				mediaForm.append('search_text', JSON.stringify(action.data.search_text))

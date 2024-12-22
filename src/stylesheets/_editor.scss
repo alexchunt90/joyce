@@ -223,6 +223,10 @@ blockquote {
 	text-indent: 0;
 }
 
+.url_input {
+	margin-bottom: 1em;
+}
+
 // Media queries
 
 @include respond-below(sm) {

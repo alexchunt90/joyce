@@ -266,12 +266,29 @@ def index_and_save_media_file(file, id=None, form=None, import_folder='', es_cli
 		file.save(os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id, 'img.' + metadata['file_ext']))
 		return response
 
-def updating_existing_media_file(id, form_data):
+def updating_existing_media(id, form_data):
 	metadata = {}
+	if 'youtube_url' in form_data:
+		metadata['type'] = 'yt'
 	for k,v in form_data.items():
 		if k != 'search_text':
 			metadata[k] = v
 		else:
 			metadata[k] = json.loads(v)
 	response = es_index_document('media', id, metadata)
+	return response
+
+def index_and_save_media_embed(youtube_url, id=None, form=None, import_folder='', es_client=es):
+	metadata = {}
+	metadata['type'] = 'yt'
+	if form:
+		for k,v in form.items():
+			if k != 'search_text':
+				metadata[k] = v
+			else:
+				metadata[k] = json.loads(v)
+	if id is None:
+		response = es_create_document('media', json.dumps(metadata).encode('utf-8'), es_client)
+	if id:
+		response = es_index_document('media', id, metadata, es_client)
 	return response

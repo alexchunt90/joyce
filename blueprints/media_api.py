@@ -38,9 +38,10 @@ def create_media():
 		file = request.files['uploadFile']
 		form_data = request.form
 		es_func.index_and_save_media_file(file, None, form_data)
-		return get_media_list()
-	else:
-		return get_media_list()
+	elif request.form['youtube_url']:
+		form_data = request.form
+		es_func.index_and_save_media_embed(form_data['youtube_url'], None, form_data)
+	return get_media_list()
 
 ''' Update media document '''
 @media_api.route('/<string:id>', methods=['POST'])
@@ -48,7 +49,7 @@ def create_media():
 def write_media(id):
 	if 'uploadFile' not in request.files and request.form:
 		form_data = request.form
-		es_func.updating_existing_media_file(id, form_data)
+		es_func.updating_existing_media(id, form_data)
 		return jsonify(es_func.es_document_list('media'))
 	if 'uploadFile' in request.files:
 		file = request.files['uploadFile']
@@ -61,6 +62,7 @@ def write_media(id):
 @jwt_required()
 def delete_media(id):
 	document =  es_func.es_get_document('media', id)
-	shutil.rmtree(os.path.join(current_app.config['UPLOAD_FOLDER'], document['type'], id))
+	if document['type'] != 'yt':
+		shutil.rmtree(os.path.join(current_app.config['UPLOAD_FOLDER'], document['type'], id))
 	es_func.es_delete_document('media', id)
 	return jsonify(es_func.es_document_list('media'))

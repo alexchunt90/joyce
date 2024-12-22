@@ -66,6 +66,7 @@ const joyceInterface = store => next => action => {
 				}
 				if (action.docType === 'media') {
 					data.uploadFile = action.inputs.uploadFile
+					data.youtubeURL = action.inputs.externalURL
 				}
 				if (action.docType === 'editions') {
 					data.year = action.inputs.editionYear

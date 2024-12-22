@@ -12,6 +12,15 @@
     width: 100% !important;
 }
 
+.youtube_div {
+    overflow-y: auto;
+    margin-top: 1vh;
+    width: 100% !important;
+    iframe {
+        width: 100%;
+    }
+}
+
 .image_div img {
 	max-width: 100%;
     background-color: rgba(256,256,256,.8);

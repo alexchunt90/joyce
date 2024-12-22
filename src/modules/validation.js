@@ -28,8 +28,8 @@ export const validateSubmittedDocument = (docType, inputs, currentDocument, user
 		}
 	}
 	if (docType === 'media') {
-		if (inputs.uploadFile === undefined && !currentDocument.id) {
-			errors.push('Please choose an image first.')
+		if (!currentDocument.id && (inputs.uploadFile === undefined && inputs.externalURL == '')) {
+			errors.push('Please choose an image or YouTube video first.')
 		} 
 		if (inputs.uploadFile !== undefined) {
 			const allowedFileTypes = [

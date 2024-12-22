@@ -8,7 +8,7 @@ import { ImageGroup } from './image'
 
 const AnnotateModal = ({annotationNote, annotationNoteMedia, modalEditorState}) =>
 	<div className='modal fade' id='annotation_modal' tabIndex='-1' role='dialog'>
-		<div id='annotation_modal_wrapper' className='modal-dialog modal-lg' role='document'>
+		<div className='annotation_modal_wrapper modal-dialog modal-lg' role='document'>
 			<div className='modal-content'>
 				<div className='modal-header'>
 					<h5 className='modal-title' id='exampleModalLabel'>{annotationNote.title ? annotationNote.title : ''}</h5>

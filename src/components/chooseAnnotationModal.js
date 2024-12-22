@@ -10,7 +10,7 @@ import helpers from '../modules/helpers'
 
 const ChooseAnnotationModal = ({notes, tags, annotationNote, annotationTag, modalEditorState, onSubmitClick, selectAnnotationNote, selectAnnotationTag, clearAnnotationTag, userErrors}) =>
 	<div className='modal fade' id='annotate_modal' tabIndex='-1' role='dialog'>
-		<div className='modal-dialog modal-lg' role='document'>
+		<div className='annotation_modal_wrapper modal-dialog modal-lg' role='document'>
 			<div className='modal-content'>
 				<div className='modal-header'>
 					<h5 className='modal-title' id='exampleModalLabel'>Select a note</h5>

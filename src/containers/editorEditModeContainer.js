@@ -7,6 +7,7 @@ import { EditorEditModeRichTextOptions, EditorSubmitOptions } from '../component
 import actions from '../actions'
 import DocumentTitle from '../components/documentTitle'
 import DocumentTitleInput from '../components/documentTitleInput'
+import ExternalURLInput from '../components/externalURLInput'
 import TagColorPicker from '../components/tagColorPicker'
 import EditionYearInput from '../components/editionYearInput'
 import {NoteMediaPicker} from '../components/noteMediaPicker'
@@ -29,6 +30,7 @@ const EditorEditMode = ({
 	onColorSwatchClick,
 	onClearLoadedMedia,
 	onMediaInputChange,
+	onURLInputChange,
 	onNotePickerMediaCheckboxClick,
 	onInlineMediaCheckboxClick,
 	cancelEdit,
@@ -87,6 +89,17 @@ const EditorEditMode = ({
 					input={inputs.editionYear} 
 					onChange={onEditionYearInputChange} 
 				/>
+			}
+			{docType === 'media' && 
+				<div className='row'>
+					<p>Please enter a valid YouTube embed URL, e.g. https://www.youtube.com/embed/dQw4w9WgXcQ</p>
+					<ExternalURLInput externalURLInput={inputs.externalURL} onInputChange={onURLInputChange} disabled={inputs.uploadFile ? true : false}/>
+				</div>
+			}
+			{docType === 'media' && 
+				<div className='row'>
+					<p> - OR - </p>
+				</div>
 			}			
 			{docType === 'media' && inputs.uploadFile &&
 				<div className='row'>
@@ -99,7 +112,7 @@ const EditorEditMode = ({
 				</div>
 			}
 			{docType === 'media' && !inputs.uploadFile &&
-				<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange} currentDocument={currentDocument}/>
+				<MediaUploadInput input={inputs.uploadFile} onChange={onMediaInputChange} currentDocument={currentDocument} disabled={inputs.externalURL === '' ? false : true}/>
 			}					
 		</EditorAttributeContentBlock>
 		{/* Cancel and Submit buttons */}
@@ -151,6 +164,9 @@ const mapDispatchToProps = dispatch => {
 		onMediaInputChange: input => {
 			dispatch(actions.updateMediaInput(input))
 		},
+		onURLInputChange: input => {
+			dispatch(actions.updateExternalURLInput(input))
+		},		
 		onNotePickerMediaCheckboxClick: id => {
 			dispatch(actions.toggleMediaCheckbox(id))
 		},

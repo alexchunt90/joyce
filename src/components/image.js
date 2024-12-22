@@ -12,11 +12,22 @@ export const Image = ({document, col=12}) =>
 		</a>
 	</div>
 
+export const YoutubeEmbed = ({document, col=12}) =>
+	<div className={'youtube_div col-md-'+col}>
+		<iframe src={document.youtube_url}>
+		</iframe>
+	</div>
+
 export const ImageGroup = ({media_docs}) =>
 	<div className='image_group'>
     	{media_docs.map(doc =>
     		<div key={doc.id}>
-    			<Image document={doc} col={6} />
+    			{doc.type === 'img' &&
+    				<Image document={doc} col={6} />
+    			}
+    			{doc.type === 'yt' &&
+    				<YoutubeEmbed document={doc} col={6} />
+    			}    			
     			{doc.html_source &&
     				<div className='image_caption'>
     					<Editor editorState={editorConstructor.returnEditorStateFromHTML(doc.html_source)} blockStyleFn={blockStyleFn} blockRendererFn={blockRenderFn} readOnly={true} />

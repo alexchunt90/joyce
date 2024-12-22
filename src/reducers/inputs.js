@@ -58,10 +58,19 @@ const inputs = (state=initialState, action) => {
 					filterInput: ''
 				}									
 			} else if (action.status === 'success' && action.docType === 'media' && action.state === 'currentDocument') {
-				return {
-					...state,
-					documentTitle: action.data.title,
-					filterInput: '',
+				if (action.data.type === 'yt') {
+					return {
+						...state,
+						documentTitle: action.data.title,
+						filterInput: '',
+						externalURL: action.data.youtube_url
+					}					
+				} else {
+					return {
+						...state,
+						documentTitle: action.data.title,
+						filterInput: '',
+					}
 				}
 			} else { return state }
 

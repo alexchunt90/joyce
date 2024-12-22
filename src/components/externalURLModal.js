@@ -2,9 +2,9 @@ import React from 'react'
 import { Editor } from 'draft-js'
 import PropTypes from 'prop-types'
 
-import { blockStyleFn, blockRenderFn } from '../modules/editorSettings'
-import { EditorSubmitButton, EditorCancelButton } from './button'
+import { EditorSubmitButton } from './button'
 import { ImageGroup } from './image'
+import ExternalURLInput from './externalURLInput'
 
 const ExternalURLModal = ({externalURLInput, onInputChange, onSubmitClick}) =>
 	<div className='modal fade' id='external_url_modal' tabIndex='-1' role='dialog'>
@@ -22,10 +22,8 @@ const ExternalURLModal = ({externalURLInput, onInputChange, onSubmitClick}) =>
 						</div>
 					</div>		
 					<div className='row'>
-						<div className='col-md-12'>
-							<input value={externalURLInput} onChange={onInputChange} type='text' className='form-control' placeholder='External URL'/>
-						</div>
-					</div>		
+						<ExternalURLInput externalURLInput={externalURLInput} onInputChange={onInputChange} />
+					</div>
 				</div>
 				<div className='modal-footer'>
 					<EditorSubmitButton onClick={onSubmitClick} />

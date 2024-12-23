@@ -17,7 +17,9 @@ const buildSnippetLink = (key, docType, route) => {
 const SearchResultSnippet = ({snippet, docType, route, onClick}) =>
 	<div id={snippet.key}>
 		<Link to={buildSnippetLink(snippet.key, docType, route)} >
-			{snippet.text}
+			<div dangerouslySetInnerHTML={{__html: snippet.text}}>
+			</div>
+			{/*{snippet.text}*/}
 		</Link>
 	</div>
 

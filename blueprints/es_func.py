@@ -94,7 +94,7 @@ def es_update_document(index, id, data, es_client=es):
 def es_update_search_text(id, data):
 	res = es.update(
 		index=data['doc_type'],
-		doc_type='_doc',
+		# doc_type='_doc',
 		id=id,
 		body={
 			'doc': {
@@ -134,14 +134,6 @@ def es_search_text(search_input, doc_types, result_count):
 def search_index(search_input, doc_type, result_count):
 	search = es.search(
 		index=doc_type,
-		filter_path=[
-			'hits.hits._id',
-			'hits.hits._type',
-			'hits.hits._source.title',
-			'hits.hits._source.number',
-			'hits.hits.title',
-			'hits.hits.inner_hits.search_text.hits.hits._source'
-		],
 		body={
 			'from': 0,
 			'size': result_count,
@@ -158,14 +150,13 @@ def search_index(search_input, doc_type, result_count):
 					'inner_hits': { 
 						'highlight': {
 							'fields': {
-								'search_text.text': {}
+								'search_text.text': {},						
 							}
 						}
 					}
 				}		
 			},
 		    'highlight' : {
-		    	'number_of_fragments' : 15,
 		        'fields' : {
 		            'search_text': {
 		            	'matched_fields': 'text',
@@ -180,7 +171,6 @@ def search_index(search_input, doc_type, result_count):
 
 	results = search['hits']['hits'] if search else []
 
-
 	resultDocs = []
 	for result in results:
 		id = result['_id']
@@ -189,8 +179,9 @@ def search_index(search_input, doc_type, result_count):
 		hits = result['inner_hits']['search_text']['hits']['hits']
 		resultHits = []
 		for hit in hits:
+			highlight = hit['highlight']['search_text.text']
 			key = hit['_source']['key']
-			text = hit['_source']['text']
+			text = '...'.join(highlight)
 			resultHits.append({'key': key, 'text': text})
 		resultDocs.append({
 			'id': id,
@@ -264,6 +255,11 @@ def index_and_save_media_file(file, id=None, form=None, import_folder='', es_cli
 			save_folder = os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id)
 			os.mkdir(save_folder)
 		file.save(os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id, 'img.' + metadata['file_ext']))
+		if file.width > 800:
+			file.thumbnail((800,800))
+			file.save(os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id, 'thumb.' + metadata['file_ext']))
+		else:
+			file.save(os.path.join(config.UPLOAD_FOLDER, metadata['type'], media_id, 'thumb.' + metadata['file_ext']))
 		return response
 
 def updating_existing_media(id, form_data):

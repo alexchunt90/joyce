@@ -34,7 +34,7 @@ def clean_html_for_export(html):
 		string_with_colon_spaces = re.sub(r'\:([A-Za-z])', r'\: \1', string_without_blockquote_brs)
 		cleaned_string = re.sub(r'\s{2,}', ' ', string_with_colon_spaces)
 		cleaned_string = cleaned_string.replace('<p> ', '<p>').replace('<blockquote> ', '<blockquote>').replace(' </i> ', '</i> ')
-		cleaned_string = cleaned_string.replace(': ', ':').replace(' .', '.').replace(' ,', ',').replace('––', '—')
+		cleaned_string = cleaned_string.replace(' :', ':').replace(' .', '.').replace(' ,', ',').replace('––', '—')
 		return cleaned_string
 
 
@@ -133,16 +133,25 @@ def import_note_operations(notes_path):
 
 		def check_for_caption_sibling(sibling,  media_id):
 			if sibling and sibling.name == 'p':
-				cap_soup = bs(str(sibling), 'html.parser')
-				caption_p = cap_soup.find('p')
-				# Clean up note images in caption paragraphs 
-				for c in caption_p.children:
-					if c.name =='a' and c.has_attr('href'):
-						if c['href'].startswith('episode'):
-							c.decompose()
-				img_caption_data = create_caption(media_id, caption_p)
-				caption_op = es_helpers.build_es_caption_op(img_caption_data)
-				img_caption_ops.append(caption_op)			
+				if note == '140025olebillyo.htm':
+					print('------')
+					print(sibling)
+					print(re.match(r'^\s{0,}$', sibling.text))
+				if not re.match(r'^\s{0,}$', sibling.text):
+					cap_soup = bs(str(sibling), 'html.parser')
+					caption_p = cap_soup.find('p')
+					# Clean up note images in caption paragraphs 
+					for c in caption_p.children:
+						if c.name =='a' and c.has_attr('href'):
+							if c['href'].startswith('episode'):
+								c.decompose()
+					img_caption_data = create_caption(media_id, caption_p)
+					caption_op = es_helpers.build_es_caption_op(img_caption_data)
+					img_caption_ops.append(caption_op)
+				else:
+					#This handles blank <p> tags in between media and caption
+					next_sibling = find_next_sibling(sibling)
+					check_for_caption_sibling(next_sibling, media_id)
 
 		def add_embed_to_note(element, self_reference):
 			next_sibling = find_next_sibling(self_reference)
@@ -175,7 +184,7 @@ def import_note_operations(notes_path):
 				if img_id not in note_media:
 					note_media.append(img_id)		
 				check_for_caption_sibling(next_sibling, img_id)
-			else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.)
+			# else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.
 
 		# # Update image references to point to new location
 		images_div = find_div('images') or find_div('media')
@@ -257,8 +266,6 @@ def import_note_operations(notes_path):
 
 
 				if type(p) == Tag:
-					# if note == '050045samaritan.htm':
-					# 	print(p.name)
 					# Add top-level section elements to the note_div
 					tag = copy.copy(p)
 					section_tags = ['p', 'blockquote', 'br', 'h1', 'h2', 'h3', 'h4']

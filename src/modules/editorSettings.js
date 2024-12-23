@@ -122,7 +122,6 @@ export const blockRenderFn = (contentBlock) => {
 }
 
 export const keyBindingFn = (e) => {
-  console.log('Yay, you can log e:', e)
   if (e.keyCode === 9 ) { //Tab Key
     if (e.shiftKey === true) {
       return 'shift-tab-key'
@@ -142,7 +141,10 @@ export const keyBindingFn = (e) => {
 export const convertToSearchText = contentState => {
   const rawState = convertToRaw(contentState)
   const searchText = rawState.blocks.reduce(
-    (searchText, block) => ([...searchText, {key: block.key, text: block.text}]),
+    (searchText, block) => ([...searchText, {
+      key: block.key, 
+      text: block.text.replaceAll(/[0-9]{4,4}\#[0-9]{2,3}/g, '')
+    }]),
     []
   )
   return searchText

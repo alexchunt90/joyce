@@ -37,7 +37,9 @@ store.dispatch(actions.getDocumentList({docType: 'editions'}))
 const cookies = document.cookie
 if (cookies.includes('csrf_access_token')) {
 	const user_name = cookies.match(/user_name=([a-zA-Z]*)/g).toString().split(/\=/g)[1]
-	store.dispatch(actions.resumeUserSession(user_name))
+	if (user_name) {
+		store.dispatch(actions.resumeUserSession(user_name))
+	}
 }
 
 const root = ReactDOM.createRoot(document.getElementById('wrapper'));

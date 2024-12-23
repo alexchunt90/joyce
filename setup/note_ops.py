@@ -111,7 +111,11 @@ def import_note_operations(notes_path):
 			if self_reference is None:
 				self_reference = element
 			if type(element) == Tag and element.name in ['a', 'img']:
-				images_processed.increment()
+				if element.name == 'img':
+					images_processed.increment()
+				if element.name == 'a' and element.has_attr('href'):
+					if re.match(r'.*images.*', element['href']):
+						images_processed.increment()
 				add_image_to_note(element, self_reference)
 			if type(element) == Tag and element.name in ['iframe', 'object']:
 				iframes_processed.increment()
@@ -133,10 +137,6 @@ def import_note_operations(notes_path):
 
 		def check_for_caption_sibling(sibling,  media_id):
 			if sibling and sibling.name == 'p':
-				if note == '140025olebillyo.htm':
-					print('------')
-					print(sibling)
-					print(re.match(r'^\s{0,}$', sibling.text))
 				if not re.match(r'^\s{0,}$', sibling.text):
 					cap_soup = bs(str(sibling), 'html.parser')
 					caption_p = cap_soup.find('p')
@@ -184,7 +184,9 @@ def import_note_operations(notes_path):
 				if img_id not in note_media:
 					note_media.append(img_id)		
 				check_for_caption_sibling(next_sibling, img_id)
-			# else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.
+			else:
+				if re.match(r'.*images.*', href):
+					print(f'Found a reference in note file {note} to this image not present in files: {href}.')
 
 		# # Update image references to point to new location
 		images_div = find_div('images') or find_div('media')
@@ -195,10 +197,10 @@ def import_note_operations(notes_path):
 
 			# Check for missed media
 			if image_count != images_processed.counter:
-				# print(f'The note file {note} has {image_count} <img> tags, but after processing, the note has {images_processed.counter} media links.')
+				print(f'The note file {note} has {image_count} <img> tags, but after processing, the note has {images_processed.counter} media links.')
 				missing_media_count += 1
 			if iframe_count != iframes_processed.counter:
-				# print(f'The note file {note} has {image_count} <iframe> tags, but after processing, the note has {iframes_processed.counter} media links.')
+				print(f'The note file {note} has {iframe_count} <iframe> tags, but after processing, the note has {iframes_processed.counter} media links.')
 				missing_media_count += 1	
 
 			images_div.decompose()

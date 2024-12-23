@@ -44,7 +44,7 @@ const NoteIndexSummary = ({notes}) => {
 					</div>
 				)}
 			</div>
-			<div className='col-8 offset-2 note_index_list'>
+			<div className='col-12 note_index_list'>
 				{notesIndexArray.map(indexLetter =>
 					<div key={indexLetter.get('letter')}>
 						<h3  className='index_header' id={'header-' + indexLetter.get('letter')}>{indexLetter.get('letter')}</h3>

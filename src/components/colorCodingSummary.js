@@ -10,7 +10,7 @@ import editorConstructor from '../modules/editorConstructor'
 const ColorCodingSummary = ({tags}) => {
 
 	return (
-		<div className='col-9'>
+		<div className='col-12'>
 			<div className='row'>
 				<div className='col'>
 					{tags.map(tag =>

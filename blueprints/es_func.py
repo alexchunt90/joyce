@@ -278,7 +278,7 @@ def updating_existing_media(id, form_data):
 	response = es_index_document('media', id, metadata)
 	return response
 
-def index_and_save_media_embed(youtube_url, id=None, form=None, import_folder='', es_client=es):
+def index_and_save_media_embed(youtube_url, id=None, form=None, es_client=es):
 	metadata = {}
 	metadata['type'] = 'yt'
 	if form:
@@ -287,6 +287,10 @@ def index_and_save_media_embed(youtube_url, id=None, form=None, import_folder=''
 				metadata[k] = v
 			else:
 				metadata[k] = json.loads(v)
+	if not form:
+		metadata['title'] = youtube_url
+	if 'youtube_url' not in metadata:
+		metadata['youtube_url'] = youtube_url		
 	if id is None:
 		response = es_create_document('media', json.dumps(metadata).encode('utf-8'), es_client)
 	if id:

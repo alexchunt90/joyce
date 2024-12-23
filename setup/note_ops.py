@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup as bs, Tag, NavigableString
 
 import setup.es_helpers as es_helpers
 import setup.es_config as es_config
+import setup.media_counter as media_count
+import blueprints.es_func as es_func
 
 # Used for debugging individual notes
 logging_note = '070068experience.htm'
@@ -43,7 +45,7 @@ def import_note_operations(notes_path):
 	note_html_ops = []
 	img_caption_ops = []
 
-	missing_image_count = 0
+	missing_media_count = 0
 
 	# Some source html files contain a blend of p tags and raw navigable strings.
 	notes_with_string_errors = []
@@ -80,6 +82,7 @@ def import_note_operations(notes_path):
 		html.close()
 
 		image_count = len(soup.find_all('img'))
+		iframe_count = len(soup.find_all('iframe')) + len(soup.find_all('object'))
 
 		def find_div(id):
 			div = soup.find('div', {'id': id})
@@ -99,13 +102,23 @@ def import_note_operations(notes_path):
 				s.insert_before(sc)
 
 
+		# IMAGE PROCESSING
+		# ----------------
+		images_processed = media_count.MediaCounter()
+		iframes_processed = media_count.MediaCounter()
 
 		def triage_element_from_img_div(element, self_reference=None):
 			if self_reference is None:
 				self_reference = element
 			if type(element) == Tag and element.name in ['a', 'img']:
+				images_processed.increment()
 				add_image_to_note(element, self_reference)
-			if type(element) == Tag and element.name in ['p', 'iframe']:
+			if type(element) == Tag and element.name in ['iframe', 'object']:
+				iframes_processed.increment()
+				add_embed_to_note(element, self_reference)
+				for t in element.children:
+					triage_element_from_img_div(t, element)
+			if type(element) == Tag and element.name in ['p']:
 				for t in element.children:
 					triage_element_from_img_div(t, element)
 
@@ -118,63 +131,69 @@ def import_note_operations(notes_path):
 			}
 			return img_caption_data
 
+		def check_for_caption_sibling(sibling,  media_id):
+			if sibling and sibling.name == 'p':
+				cap_soup = bs(str(sibling), 'html.parser')
+				caption_p = cap_soup.find('p')
+				# Clean up note images in caption paragraphs 
+				for c in caption_p.children:
+					if c.name =='a' and c.has_attr('href'):
+						if c['href'].startswith('episode'):
+							c.decompose()
+				img_caption_data = create_caption(media_id, caption_p)
+				caption_op = es_helpers.build_es_caption_op(img_caption_data)
+				img_caption_ops.append(caption_op)			
+
+		def add_embed_to_note(element, self_reference):
+			next_sibling = find_next_sibling(self_reference)
+			youtube_url = ''
+			if element.name == 'iframe' and element.has_attr('src'):
+				youtube_url = element['src']
+			elif element.name == 'object':
+				param = element.contents[0]
+				object_value = element.contents[0]['value']
+				youtube_id = re.sub(r'.*youtube.com/v/([a-zA-Z0-9\_\-]*)\?.*', r'\1', object_value)
+				print(youtube_id)
+				youtube_url = f'http://youtube.com/embed/{youtube_id}'
+			
+			response = es_func.index_and_save_media_embed(youtube_url, None, None, es_helpers.es)
+			embed_id = response['_id']
+			if embed_id not in note_media:
+				note_media.append(embed_id)
+			check_for_caption_sibling(next_sibling, embed_id)
+
 		def add_image_to_note(element, self_reference):
 			next_sibling = find_next_sibling(self_reference)
 
 			href = ''
-			if element.name == 'a' and element.has_attr('href'):
+			if element.name == 'a' and element.has_attr('href') :
 				href = element['href']
 			elif element.name == 'img':
 				href = element['src']
-			# if note == logging_note:
-			# 	print(f'Running add_image with element: {element}')
-			# 	print(f'Href is: {href}')
 			
 			if media_dict.__contains__(href):
-				# if note == logging_note:
-				# 	print(f'This href was found: {href}')
 				img_id = media_dict[href]
-				# Add this image to this note
 				if img_id not in note_media:
 					note_media.append(img_id)		
-
-				# Some images won't have a caption paragraph
-				if next_sibling and next_sibling.name == 'p':
-					cap_soup = bs(str(next_sibling), 'html.parser')
-					caption_p = cap_soup.find('p')
-
-					# Clean up note images in caption paragraphs 
-					for c in caption_p.children:
-						if c.name =='a' and c.has_attr('href'):
-							if c['href'].startswith('episode'):
-								c.decompose()
-					
-					img_caption_data = create_caption(img_id, caption_p)
-					caption_op = es_helpers.build_es_caption_op(img_caption_data)
-					img_caption_ops.append(caption_op)
-
+				check_for_caption_sibling(next_sibling, img_id)
 			# else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.)
 
 		# # Update image references to point to new location
-		images_div = find_div('images')
+		images_div = find_div('images') or find_div('media')
+
 		if images_div:
 			for e in images_div:
 				triage_element_from_img_div(e)
 
-			# Check for missed images
-			images_processed = len(note_media)
-			if image_count != images_processed:
-				# print(f'The note file {note} has {image_count} <img> tags, but after processing, the note has {images_processed} media links.')
-				missing_image_count += 1
+			# Check for missed media
+			if image_count != images_processed.counter:
+				# print(f'The note file {note} has {image_count} <img> tags, but after processing, the note has {images_processed.counter} media links.')
+				missing_media_count += 1
+			if iframe_count != iframes_processed.counter:
+				# print(f'The note file {note} has {image_count} <iframe> tags, but after processing, the note has {iframes_processed.counter} media links.')
+				missing_media_count += 1	
 
 			images_div.decompose()
-
-
-
-
-
-
-
 
 
 		# Remove button div
@@ -303,7 +322,7 @@ def import_note_operations(notes_path):
 	# print(f'There are {iframe_count} iframes in the notes.')
 	print('Found {} notes with string errors:'.format(len(notes_with_string_errors)))
 	# print(notes_with_string_errors)
-	print(f'Encountered {missing_image_count} notes with fewer images than expected.')
+	print(f'Encountered {missing_media_count} notes with fewer media than expected.')
 	print('Note HTML successfully cleaned!')	
 
 	# Index note contents to ES

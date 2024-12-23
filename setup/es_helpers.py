@@ -34,7 +34,7 @@ def es_document_dict(index):
 	doc_dict = {}
 	for i in docs:
 		source = i['_source']
-		if source['file_name']:
+		if 'file_name' in source:
 			file_name = source['file_name']
 			doc_id = i['_id']
 			doc_dict[file_name] = doc_id

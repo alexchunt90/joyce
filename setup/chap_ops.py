@@ -12,14 +12,14 @@ def clean_html_for_export(html):
 	# return str(html)
 	if html:
 		string = str(html).replace('<!-- topofpage -->', '').replace('\n', ' ').replace('> <i', '><i').replace('<br>', '<br/>').replace('</br>', '<br/>')
-		string_without_tabs = re.sub('<br/>\s{1,}', '<br/>', string)
+		string_without_tabs = re.sub(r'<br/>\s{1,}', '<br/>', string)
 		string_without_double_brs = re.sub(r'(<br/>)\1+', '<br/>', string_without_tabs)
 		string_without_blockquote_brs = re.sub(r'<br/>((</i>|</a>|\s){0,}</blockquote>)', r'\1', string_without_double_brs)
-		cleaned_string = re.sub('\s{2,}', ' ', string_without_blockquote_brs)
+		cleaned_string = re.sub(r'\s{2,}', ' ', string_without_blockquote_brs)
 
 		# # # Prevent spaces on either side of a tags being rendered as double spaces
 		double_space_pattern = r'(\s<a[\sa-z\-\=\\\"0-9\>\#]*</a>)\s'
-		new_cleaned_string = re.sub('(\s<span[\sa-z\-\=\\\"0-9\>\#]*</span>)\s',r'\1',cleaned_string)
+		new_cleaned_string = re.sub(r'(\s<span[\sa-z\-\=\\\"0-9\>\#]*</span>)\s',r'\1',cleaned_string)
 		return new_cleaned_string
 
 # Seed with chapter data

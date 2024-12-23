@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import actions from '../actions'
 import { DocumentList } from '../components/list'
+import Logo from '../components/logo'
 import { NewDocumentButton } from '../components/button'
 import { DocTypeDropdown } from '../components/dropdown'
 import SidebarSpacer from '../components/sidebarSpacer'
@@ -23,6 +24,8 @@ const EditorSidebar = ({
 }) =>
 	<div id='sidebar' className='col-md-3 d-none d-md-flex'>
 		<div>
+			<Logo />
+			<SidebarSpacer />
 			<DocTypeDropdown docType={docType} setDocType={setDocType} />
 			<SidebarSpacer />
 			<NewDocumentButton onClick={()=>onNewDocumentClick(docType)} docType={docType}/>

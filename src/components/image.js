@@ -8,7 +8,7 @@ import editorConstructor from '../modules/editorConstructor'
 export const Image = ({document, col=12}) =>
 	<div className={'image_div col-md-'+col}>
 		<a href={'/static/img/'+document.id+'/img.'+document.file_ext} target='_blank'>
-			<img src={'/static/img/'+document.id+'/img.'+document.file_ext} />
+			<img src={'/static/img/'+document.id+'/thumb.'+document.file_ext} />
 		</a>
 	</div>
 

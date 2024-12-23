@@ -92,7 +92,7 @@ const EditorEditMode = ({
 			}
 			{docType === 'media' && 
 				<div className='row'>
-					<p>Please enter a valid YouTube embed URL, e.g. https://www.youtube.com/embed/dQw4w9WgXcQ</p>
+					<p>Please enter a valid YouTube embed URL <i>with https</i>, e.g. https://www.youtube.com/embed/dQw4w9WgXcQ</p>
 					<ExternalURLInput externalURLInput={inputs.externalURL} onInputChange={onURLInputChange} disabled={inputs.uploadFile ? true : false}/>
 				</div>
 			}

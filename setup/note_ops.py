@@ -153,8 +153,7 @@ def import_note_operations(notes_path):
 				param = element.contents[0]
 				object_value = element.contents[0]['value']
 				youtube_id = re.sub(r'.*youtube.com/v/([a-zA-Z0-9\_\-]*)\?.*', r'\1', object_value)
-				print(youtube_id)
-				youtube_url = f'http://youtube.com/embed/{youtube_id}'
+				youtube_url = f'https://youtube.com/embed/{youtube_id}'
 			
 			response = es_func.index_and_save_media_embed(youtube_url, None, None, es_helpers.es)
 			embed_id = response['_id']
@@ -176,7 +175,7 @@ def import_note_operations(notes_path):
 				if img_id not in note_media:
 					note_media.append(img_id)		
 				check_for_caption_sibling(next_sibling, img_id)
-			# else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.)
+			else: print(f'Found a reference in note file {note} to this image not present in files: {href}'.)
 
 		# # Update image references to point to new location
 		images_div = find_div('images') or find_div('media')

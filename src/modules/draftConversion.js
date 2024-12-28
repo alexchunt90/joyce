@@ -101,13 +101,10 @@ export const stateToHTML = contentState => {
     },
     entityToHTML: (entity, originalText) => {
       if (entity.type === 'LINK') {
-        // Bandaid fix for HTML encoded chars in <a> tags being converted to text
-        const cleanedText = originalText.replaceAll("&#x27;", "'").replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('<br>')
-        return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag} data-type='annotation'>{cleanedText}</a>;
+        return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag} data-type='annotation' />;
       }
       if (entity.type === 'EXTERNAL_URL') {
-        const cleanedText = originalText.replaceAll("&#x27;", "'").replaceAll('&amp;', '&')
-        return <a href={entity.data.url} data-type='external_url'>{cleanedText}</a>;
+        return <a href={entity.data.url} data-type='external_url' />;
       }
       if (entity.type === 'PAGEBREAK') {
         return <span data-edition={entity.data.edition} data-page={entity.data.pageNumber}>{originalText}</span>;

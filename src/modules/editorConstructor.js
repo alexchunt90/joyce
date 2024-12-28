@@ -120,6 +120,81 @@ const editorConstructor = {
     const editorState = editorConstructor.returnEditorStateFromContentState(contentState, decorator)
     return editorState
   },
+  checkBlockForEntities: (contentBlock, contentState) => {
+    const characterList = contentBlock.getCharacterList()
+
+    const contentBlockPageBreakEntities = []
+    contentBlock.findEntityRanges(character => {
+            const characterEntityKey = character.getEntity()
+            if (characterEntityKey) {
+              const characterEntity = contentState.getEntity(characterEntityKey)
+              if (characterEntity.getType() === 'PAGEBREAK') {
+                return true
+              } else { return false }         
+            }
+          },
+          (start, end) => {
+            contentBlockPageBreakEntities.push([start,end])
+      })
+
+    return contentBlockPageBreakEntities
+
+  },
+  applyEntityOverContentBlocks: (originalContentState, originalSelectionState, entityKey, currentBlock=null) => {
+    const startKey = originalSelectionState.getStartKey()
+    const endKey = originalSelectionState.getEndKey()
+    const startOffset = originalSelectionState.getStartOffset()
+    const endOffset = originalSelectionState.getEndOffset()
+
+    var startOffsetPointer
+    var endOffsetPointer
+    var updatedContentState = originalContentState
+
+    if (!currentBlock) {
+      currentBlock = originalContentState.getBlockForKey(startKey)
+    }
+
+    if (currentBlock.getKey() == startKey) {
+      startOffsetPointer = startOffset
+    } else {
+      startOffsetPointer = 0
+    }
+
+    if (currentBlock.getKey() == endKey) {
+      endOffsetPointer = endOffset
+    } else {
+      endOffsetPointer = currentBlock.getLength()
+    }
+
+    const makeSelectionState = (blockKey, start, end) => {
+      const emptySelection = SelectionState.createEmpty(blockKey)
+      const selectionState = emptySelection
+        .set('anchorOffset', start)
+        .set('focusOffset', end)
+      return selectionState
+    }
+
+    const blockPageEntities = editorConstructor.checkBlockForEntities(currentBlock, originalContentState)
+
+    // This for loop covers all text before an entity
+    for (const pageOffsets of blockPageEntities) {
+        const pageBreakStart = pageOffsets[0]
+        const pageBreakEnd = pageOffsets[1]
+        const entitySelectionState = makeSelectionState(currentBlock.getKey(), startOffsetPointer, pageBreakStart)
+        updatedContentState = Modifier.applyEntity(updatedContentState, entitySelectionState, entityKey)
+        startOffsetPointer = pageBreakEnd
+    }
+    // This covers text between the end of the last entity and the end of the selection
+    const entitySelectionState = makeSelectionState(currentBlock.getKey(), startOffsetPointer, endOffsetPointer)
+    updatedContentState = Modifier.applyEntity(updatedContentState, entitySelectionState, entityKey)
+    
+    if (currentBlock.getKey() != endKey) {
+      const nextBlock = updatedContentState.getBlockAfter(currentBlock.getKey())
+      updatedContentState = editorConstructor.applyEntityOverContentBlocks(updatedContentState, originalSelectionState, entityKey, nextBlock)
+    }
+    return updatedContentState
+
+  },
   // When user submits a new annotation action, create an entity with the action details and apply it to the contentState
   returnEditorStateWithNewAnnotation: (contentState, data) => {
     const contentStateWithEntity = contentState.createEntity(
@@ -128,14 +203,12 @@ const editorConstructor = {
       {'url': data.annotationNote.id, 'color': data.annotationTag.color, 'tag': data.annotationTag.title}
     )
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-    const contentStateWithLink = Modifier.applyEntity(
-        contentStateWithEntity,
-        data.selectionState,
-        entityKey
-    )
+    const contentStateWithLink = editorConstructor.applyEntityOverContentBlocks(contentStateWithEntity, data.selectionState, entityKey)
     const newEditorState = editorConstructor.returnEditorStateFromContentState(contentStateWithLink, editorDecorator)
     return newEditorState
   },
+
+
   returnEditorStateWithNewExternalURL: (editorState, externalURL) => {
     const selectionState = editorState.getSelection()
     const contentState = editorState.getCurrentContent()
@@ -145,11 +218,7 @@ const editorConstructor = {
       {'url': externalURL}
     )
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-    const contentStateWithExternalURL = Modifier.applyEntity(
-        contentStateWithEntity,
-        selectionState,
-        entityKey
-    )
+    const contentStateWithExternalURL = editorConstructor.applyEntityOverContentBlocks(contentStateWithEntity, editorState.getSelection(), entityKey)
     const decorator = editorState.getDecorator()
     const newEditorState = editorConstructor.returnEditorStateFromContentState(contentStateWithExternalURL, decorator)
     return newEditorState

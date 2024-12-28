@@ -102,7 +102,7 @@ export const stateToHTML = contentState => {
     entityToHTML: (entity, originalText) => {
       if (entity.type === 'LINK') {
         // Bandaid fix for HTML encoded chars in <a> tags being converted to text
-        const cleanedText = originalText.replaceAll("&#x27;", "'").replaceAll('&amp;', '&')
+        const cleanedText = originalText.replaceAll("&#x27;", "'").replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('<br>')
         return <a href={entity.data.url} data-color={entity.data.color} data-tag={entity.data.tag} data-type='annotation'>{cleanedText}</a>;
       }
       if (entity.type === 'EXTERNAL_URL') {

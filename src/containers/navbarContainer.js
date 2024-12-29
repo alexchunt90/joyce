@@ -39,7 +39,7 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 	          		</ul>
         		</li>
 				<li className="nav-item dropdown">
-          			<a className="nav-link dropdown-toggle" href="#"role="button" data-bs-toggle="dropdown">Info</a>
+          			<a className="nav-link dropdown-toggle" href="#"role="button" data-bs-toggle="dropdown">Resources</a>
 	          		<ul className="dropdown-menu">
 	          			{filteredInfo.length > 0 && filteredInfo.map(infoDoc => 
 	            			<li key={infoDoc.id}><Link className='dropdown-item' to={'/info/' + infoDoc.id}>{infoDoc.title}</Link></li>

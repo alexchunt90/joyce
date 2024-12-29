@@ -129,16 +129,32 @@ export const EditionList = ({editions, currentEdition, onEditionClick, basePath=
 	</div>
 
 
-export const MediaList = ({media, currentMedia, onMediaClick, basePath='/'}) =>
-	<div>
-    	{media.map(media =>
-			<div className ='media_button' key={media.id}>
-				<Link to={basePath + 'media/' + media.id} className={currentMedia.id === media.id ? 'btn btn-primary' : 'btn btnw-info inactive_button'}>
-					{media.title}
-				</Link>
-			</div>
-    	)}
-	</div>
+export const MediaList = ({media, currentMedia, onMediaClick, basePath='/'}) => {
+	const filterInputText = useSelector((state) => state.inputs.filterInput).toLowerCase()
+	let filteredMediaArray = media
+
+	if (filterInputText !== '') {			
+		filteredMediaArray = filteredMediaArray.filter((mediaDoc) => {
+			if (typeof mediaDoc.title === 'string') {
+				const mediaTitle = mediaDoc.title.toLowerCase()
+				return mediaTitle.includes(filterInputText)
+			} else {return false}
+		})
+	}	
+
+	return (
+		<div>
+			<FilterInput />
+	    	{filteredMediaArray.map(media =>
+				<div className ='media_button' key={media.id}>
+					<Link to={basePath + 'media/' + media.id} className={currentMedia.id === media.id ? 'btn btn-primary' : 'btn btnw-info inactive_button'}>
+						{media.title}
+					</Link>
+				</div>
+	    	)}
+		</div>
+	)
+}
 
 DocumentList.propTypes = {
 	notes: PropTypes.arrayOf(PropTypes.object),

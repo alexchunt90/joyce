@@ -12,6 +12,7 @@ elasticsearch.yml
 /setup/target
 .pytest_cache/
 .python-version
+stats.json
 *.pyc
 *.crt
 *.srl

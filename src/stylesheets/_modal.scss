@@ -15,12 +15,15 @@
 	}
 }
 
-.annotation_modal_wrapper .modal-body {
-    div:first-child.row {
-    	height: 68vh;
-    	overflow-y: auto;
-    	overflow-x: hidden;
-    }	
+.annotation_modal_wrapper {
+    max-width: 70% !important;
+	.modal-body {
+	    div:first-child.row {
+	    	height: 68vh;
+	    	overflow-y: auto;
+	    	overflow-x: hidden;
+	    }
+	}
 }
 
 .modal-footer {
@@ -33,7 +36,6 @@
 }
 
 .modal-dialog {
-	max-width: 90%;
 	div.DraftEditor-editorContainer > div > div > div {
 		padding: 0.3em 0;
 	}

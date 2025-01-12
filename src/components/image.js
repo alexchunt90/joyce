@@ -14,7 +14,7 @@ export const Image = ({document, col=12}) =>
 
 export const YoutubeEmbed = ({document, col=12}) =>
 	<div className={'youtube_div col-md-'+col}>
-		<iframe src={document.youtube_url}>
+		<iframe src={document.youtube_url} allowfullscreen>
 		</iframe>
 	</div>
 

@@ -35,7 +35,7 @@ const NoteIndexSummary = ({notes}) => {
 
 	return (
 		<div className='row note_index_container'>
-			<div className='col-1'>
+			<div className='col-1 note_index_links'>
 				{alphabetArray.map(a =>
 					<div className='index_letter' key={a}>
 						<a onClick={()=>{document.getElementById('header-' + a).scrollIntoView()}}>
@@ -44,7 +44,7 @@ const NoteIndexSummary = ({notes}) => {
 					</div>
 				)}
 			</div>
-			<div className='col-12 note_index_list'>
+			<div className='col-11 note_index_list'>
 				{notesIndexArray.map(indexLetter =>
 					<div key={indexLetter.get('letter')}>
 						<h3  className='index_header' id={'header-' + indexLetter.get('letter')}>{indexLetter.get('letter')}</h3>

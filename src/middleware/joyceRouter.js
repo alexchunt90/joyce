@@ -139,9 +139,9 @@ const joyceRouter = store => next => action => {
 					}
 				}				
 			}
-			if (path.substring(0,14) === '/notes/comment') {
+			if (path.substring(0,19) === '/notes/contributors') {
 				for (const info_page of info) {
-					if (info_page.title === infoPageTitleConstants.COMMENT_INFO_PAGE_TITLE) {
+					if (info_page.title === infoPageTitleConstants.CONTRIBUTOR_INFO_PAGE_TITLE) {
 						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
 					}
 				}				

@@ -24,6 +24,7 @@ export const CUSTOM_CSS_CLASSES = [
 	CSSClassObject('Header', 'header'),
 	CSSClassObject('Subheader', 'subheader'),
 	CSSClassObject('Serif Font', 'serif-font'),
+	CSSClassObject('Large Text', 'large-text'),
 	CSSClassObject('Stage Direction', 'stage-dir'),
 	CSSClassObject('Character Tag', 'character-tag'),
 	CSSClassObject('Question', 'question'),
@@ -40,7 +41,7 @@ export const infoPageTitleConstants = {
 	NOTE_INDEX_INFO_PAGE_TITLE: 'Index of Titles',
 	NEWS_INFO_PAGE_TITLE: 'Latest News',
 	SOURCES_INFO_PAGE_TITLE: 'Sources',
-	COMMENT_INFO_PAGE_TITLE: 'Comment',
+	CONTRIBUTOR_INFO_PAGE_TITLE: 'Contributors',
 	TALLY_INFO_PAGE_TITLE: 'Tally of Notes',
 }
 

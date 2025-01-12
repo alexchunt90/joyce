@@ -28,13 +28,13 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 					{/*<NavLink className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Notes</NavLink>*/}
 	          		<ul className="dropdown-menu">
 	            			<li>
-	            				<Link className='dropdown-item' to='/notes/about'>About the Notes</Link>
+	            				<Link className='dropdown-item' to='/notes/index'>Index</Link>
 	            				<Link className='dropdown-item' to='/notes/color'>Colors</Link>
-	            				<Link className='dropdown-item' to='/notes/index'>Index of Titles</Link>
-	            				<Link className='dropdown-item' to='/notes/news'>Latest News</Link>
 	            				<Link className='dropdown-item' to='/notes/sources'>Sources</Link>
-	            				<Link className='dropdown-item' to='/notes/comment'>Comment</Link>
-	            				<Link className='dropdown-item' to='/notes/tally'>Tally of Notes</Link>
+	            				<Link className='dropdown-item' to='/notes/about'>Methods</Link>
+	            				<Link className='dropdown-item' to='/notes/contributors'>Contributors</Link>
+	            				<Link className='dropdown-item' to='/notes/tally'>Tally</Link>
+	            				<Link className='dropdown-item' to='/notes/news'>News</Link>
             				</li>
 	          		</ul>
         		</li>

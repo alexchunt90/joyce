@@ -13,6 +13,8 @@ def import_info_operations(info_pages_path):
 	info_html_ops = []
 	info_number_ops = []
 
+	note_dict = es_helpers.es_document_dict('notes')
+
 	count = 1
 
 	# Read in all info pages and index their original file name
@@ -63,11 +65,24 @@ def import_info_operations(info_pages_path):
 		info_title_text = info_title.get_text().strip()
 		update_title_op = es_helpers.build_es_update_op(info_id, 'title', info_title_text)
 		info_title_ops.append(update_title_op)
+
+		for a in soup.findAll('a'):
+			if a.has_attr('href'):
+				href = a['href']
+				strip_href = href[len('../notes/'):]
+				if href.endswith('.htm') and href.startswith('../notes/'):
+					del a['class']
+					del a['id']
+					if note_dict.__contains__(strip_href):
+						a['href'] = note_dict[strip_href]
+					else:
+						print('Found a reference to a note file that wasn\'t indexed to ES:', href)
 		
 		for h in soup.findAll('h2'):
 			h.decompose()
 		body = str(soup.find('body'))
 		cleaned_string = re.sub(r'\s{2,}', ' ', body)
+
 
 		with codecs.open(info_path, 'w') as file:
 			file.write(cleaned_string)

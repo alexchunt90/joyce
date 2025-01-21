@@ -36,7 +36,7 @@ export const CUSTOM_CSS_CLASSES = [
 
 
 export const infoPageTitleConstants = {
-	ABOUT_NOTES_INFO_PAGE_TITLE: 'About the Notes',
+	ABOUT_NOTES_INFO_PAGE_TITLE: 'Methods',
 	COLOR_CODING_INFO_PAGE_TITLE: 'Colors',
 	NOTE_INDEX_INFO_PAGE_TITLE: 'Index of Titles',
 	NEWS_INFO_PAGE_TITLE: 'Latest News',

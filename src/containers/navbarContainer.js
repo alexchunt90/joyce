@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom'
 
 import actions from '../actions'
 import {infoPageTitleConstants} from '../config'
+import LicenseDisclaimer from '../components/licenseDisclaimer'
 
 const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 	
@@ -57,6 +58,7 @@ const Navbar = ({user, navCollapse, toggleNavCollapse, info}) => {
 					</li>
 				}
 			</ul>
+			<LicenseDisclaimer location={'nav'}/>
 		</div>
 	</nav>
 	)

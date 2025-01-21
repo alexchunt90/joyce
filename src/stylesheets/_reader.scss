@@ -131,10 +131,31 @@ ul, ol, li {
 	margin-bottom: 1em !important;
 }
 
+.license_disclaimer  {
+	font-size: 0.8em;
+	text-align: center;
+	margin-top: 0.6em;
+	line-height: 1em;
+}
+
+.nav_disclaimer {
+	display: none;
+	font-size: 0.7em;
+	margin-bottom: 0.5em;
+}
+
 // Media queries
 
 @include respond-below(sm) {
     #reader_container {
     	border: none;
+    }
+
+    .footer_disclaimer {
+    	display: none;
+    }
+
+    .nav_disclaimer {
+    	display: block;
     }
 }

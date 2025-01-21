@@ -18,7 +18,7 @@ const NoteTallySummary = ({noteCount}) => {
 		<div className='col-12'>
 			<div className='row mt-2'>
 				<div className='col'>
-				<p>Many notes are linked to passages in multiple chapters. The total number of unique notes to which all these highlighted passages link, so far, is {noteCount}. For a complete list, see the alphabetical <Link to='/notes/index'>Index of Titles</Link></p>
+				<p>Many notes are linked to passages in multiple chapters. The total number of unique notes to which all these highlighted passages link, so far, is {noteCount}. For a complete list, see the alphabetical <Link to='/notes/index'>Index of Titles</Link>.</p>
 				</div>
 			</div>
 			<div className='row'>

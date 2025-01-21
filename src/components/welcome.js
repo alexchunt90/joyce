@@ -22,7 +22,7 @@ export const EditorWelcome = () =>
 				These represent thoughts and essays about the main text. Each note can appear in multiple annotations with different Tags.
 			</li>
 			<li>
-				<b>Info Pages: </b>
+				<b>Resource Pages: </b>
 				These represent writings not related to the main text, providing supplemental information about the text or the project.
 			</li>												
 			<li>

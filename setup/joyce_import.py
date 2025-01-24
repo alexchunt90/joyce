@@ -45,11 +45,6 @@ def joyce_import():
 	es_setup.refresh_indices('media')
 	media_ops.import_media_operations(img_path)
 
-	# Create Joyce info pages
-	refresh_target_files('info/')
-	es_setup.refresh_indices('info')
-	info_ops.import_info_operations(info_path)
-
 	# Create Joyce editions
 	es_setup.refresh_indices('editions')
 	edition_ops.import_editions()
@@ -63,6 +58,11 @@ def joyce_import():
 	refresh_target_files('notes/')
 	es_setup.refresh_indices('notes')
 	note_ops.import_note_operations(note_path)
+
+	# Create Joyce info pages
+	refresh_target_files('info/')
+	es_setup.refresh_indices('info')
+	info_ops.import_info_operations(info_path)
 
 	# Import Joyce chapter files
 	refresh_target_files('chap/')

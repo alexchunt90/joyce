@@ -36,8 +36,8 @@ store.dispatch(actions.getDocumentList({docType: 'editions'}))
 
 const cookies = document.cookie
 if (cookies.includes('csrf_access_token')) {
-	const user_name_match = cookies.match(/user_name=([a-zA-Z]*)/g).toString().split(/\=/g)[1]
-	if (user_name_match) {
+	const user_name_match = cookies.match(/user_name=([a-zA-Z]*)/g)
+	if (user_name_match) { 
 		const user_name = user_name_match.toString().split(/\=/g)[1]	
 		if (user_name) {
 			store.dispatch(actions.resumeUserSession(user_name))

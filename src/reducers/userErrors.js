@@ -5,7 +5,7 @@ const userErrors = (state=[], action) => {
 		case 'RETURN_EDITOR_VALIDATION_ERRORS':
 			return action.errors
 		case 'SUBMIT_ANNOTATION':
-			return validateSubmittedAnnotation(action.annotationNote, action.annotationTag)
+			return validateSubmittedAnnotation(action.annotationNote, action.annotationTag, action.docType)
 		case 'GET_DOCUMENT_TEXT': 
 			if (action.status === 'success' && action.state === 'currentDocument') {
 				return []

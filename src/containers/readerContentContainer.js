@@ -14,6 +14,11 @@ import ColorCodingSummary from '../components/colorCodingSummary'
 import { ImageGroup } from '../components/image'
 import {infoPageTitleConstants} from '../config'
 
+const infoPageTitleArray = []
+for (const constant in infoPageTitleConstants) {
+	infoPageTitleArray.push(infoPageTitleConstants[constant])
+}
+
 const ReaderContent = ({
 	currentDocument,
 	notes,
@@ -52,7 +57,7 @@ const ReaderContent = ({
 			</div>
 		}
 
-		{docType === 'notes' && annotationNoteMedia.length >= 1 &&
+		{docType === 'notes' && annotationNoteMedia.length >= 1 && !infoPageTitleArray.includes(currentDocument.title) && 
 			<ImageGroup media_docs={annotationNoteMedia} />
 		}
 

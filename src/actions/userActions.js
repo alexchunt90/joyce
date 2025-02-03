@@ -156,13 +156,14 @@ const userActions = {
 			editorState: editorState			
 		}),
 	// Click 'Submit' to save annotation
-	submitAnnotation: (annotationNote, annotationTag, selectionState, editorState) =>
+	submitAnnotation: (annotationNote, annotationTag, selectionState, editorState, docType) =>
 		({
 			type: 'SUBMIT_ANNOTATION',
 			annotationNote: annotationNote,
 			annotationTag: annotationTag,
 			selectionState: selectionState,
-			editorState: editorState
+			editorState: editorState,
+			docType: docType
 		}),
 	// Click to remove selected Annotation
 	removeAnnotation: (editorState) =>

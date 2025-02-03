@@ -83,7 +83,7 @@ const EditorPage = ({
 			annotationNote={annotationNote} 
 			annotationTag={annotationTag}
 			modalEditorState={modalEditorState}
-			onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, annotationTag, selectionState, editorState)} 
+			onSubmitClick={()=>onSubmitAnnotationClick(annotationNote, annotationTag, selectionState, editorState, docType)} 
 			selectAnnotationNote={selectAnnotationNote} 
 			selectAnnotationTag={selectAnnotationTag}
 			clearAnnotationTag={clearAnnotationTag}
@@ -143,8 +143,8 @@ const mapDispatchToProps = dispatch => {
 		onURLModalSubmit: (externalURL, editorState) => {
 			dispatch(actions.submitExternalURL(externalURL, editorState))
 		},
-		onSubmitAnnotationClick: (annotationNote, annotationTag, selectionState, editorState) => {
-			dispatch(actions.submitAnnotation(annotationNote, annotationTag, selectionState, editorState))
+		onSubmitAnnotationClick: (annotationNote, annotationTag, selectionState, editorState, docType) => {
+			dispatch(actions.submitAnnotation(annotationNote, annotationTag, selectionState, editorState, docType))
 		}
 	}
 }

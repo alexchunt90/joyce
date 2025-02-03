@@ -109,7 +109,7 @@ const joyceInterface = store => next => action => {
 			store.dispatch(actions.getDocumentText({id: action.id, docType: 'notes', state: 'annotationNote'}))
 			break			
 		case 'SUBMIT_ANNOTATION':
-			const annotationErrors = validateSubmittedAnnotation(action.annotationNote, action.annotationTag)
+			const annotationErrors = validateSubmittedAnnotation(action.annotationNote, action.annotationTag, action.docType)
 			if (annotationErrors.length < 1) {
 				const contentState = action.editorState.getCurrentContent()
 				const newEditorState = editorConstructor.returnEditorStateWithNewAnnotation(contentState, action)

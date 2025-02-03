@@ -49,12 +49,12 @@ export const validateSubmittedDocument = (docType, inputs, currentDocument, user
 	return errors
 }
 
-export const validateSubmittedAnnotation = (annotationNote, annotationTag) => {
+export const validateSubmittedAnnotation = (annotationNote, annotationTag, docType) => {
 	const errors = []
 	if (!annotationNote.id) {
 		errors.push('Please choose a note.')
 	}
-	if (!annotationTag.id) {
+	if (!annotationTag.id && docType == 'chapters') {
 		errors.push('Please choose a tag.')
 	}
 	return errors

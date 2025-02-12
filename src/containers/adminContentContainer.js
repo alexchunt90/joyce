@@ -4,18 +4,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Editor } from 'draft-js'
 
-import api from '../modules/api'
 import actions from '../actions'
 import { GoogleLoginButton } from '../components/googleButton'
 import { LogoutButton } from '../components/button'
 
-const refreshElasticsearch = () => {
-	api.HTTPGetRefreshList().then(response =>
-		console.log(response)
-	)
-}
 
-const AdminContent = ({user, userErrors, onConsentSuccess, onLogoutClick, refreshElasticsearch}) => {
+const AdminContent = ({user, userErrors, onConsentSuccess, onLogoutClick}) => {
 	return (
 		<div className='container mt-3'>
 			{user.name &&

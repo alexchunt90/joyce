@@ -214,15 +214,6 @@ def delete_edition(id):
 # Admin Routes
 #
 
-# Refresh ES
-@doc_api.route('/refresh/')
-def refresh_es():
-	if config.ENVIRONMENT != 'production':
-		setup.es_setup()
-		return 'Success!'
-	else:
-		return 'No dice!'
-
 # Update search string
 @doc_api.route('/search_text/<string:id>', methods=['POST'])
 def update_search_text(id):

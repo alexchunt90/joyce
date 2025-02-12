@@ -118,14 +118,6 @@ const api = {
 			return {status: 'error', data: error}
 		}),
 
-	// Admin Functions
-	HTTPGetRefreshList: (docType) =>
-		axios.get(apiRoute + 'refresh/').then(res => {
-			return {status: 'success', data: res.data}
-		}).catch(error => {
-			return {status: 'error', data: error}
-		}),
-
 	// Post Google Auth JWT to Backend, Receive Access and Refresh Tokens
 	HTTPPostOAuthToken: (credential) =>
 		authedInstance.post(authRoute + 'token/', { credential }).then(res => {

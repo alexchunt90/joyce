@@ -22,5 +22,4 @@ This assumes you have npm and python 3.11.
 - Run the docker image with `docker compose d`
 - Create a config.py for secrets.
 - Run `python -m setup.joyce_import` to create elasticsearch mappings and import legacy Joyce data. Elasticsearch and Flask must be running for this script to work.
-
-
+- With import completed, comment out the 9200 ports in docker-compose.yml

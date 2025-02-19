@@ -6,8 +6,10 @@ services:
       - discovery.type=single-node
       - cluster.routing.allocation.disk.watermark.enable_for_single_data_node=true
       - xpack.security.enabled=false
+      - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
+      - elasticsearch-config:/usr/share/elasticsearch/config
     ports:
       - "9200:9200"
     restart: unless-stopped
@@ -69,6 +71,8 @@ services:
 
 volumes:
   elasticsearch-data:
+    driver: local
+  elasticsearch-config:
     driver: local
 
 # STAGING VM NOTES

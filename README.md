@@ -23,3 +23,11 @@ This assumes you have npm and python 3.11.
 - Create a config.py for secrets.
 - Run `python -m setup.joyce_import` to create elasticsearch mappings and import legacy Joyce data. Elasticsearch and Flask must be running for this script to work.
 - With import completed, comment out the 9200 ports in docker-compose.yml
+
+
+ES Snapshotting
+
+- Create S3 bucket and IAM user/policy with required permissions
+	- https://www.elastic.co/guide/en/elasticsearch/reference/8.17/repository-s3.html#repository-s3-permissions
+- Add S3 Access and Secret keys to ES keystore using Docker terminal
+- Configure repository in Kibana

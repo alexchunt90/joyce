@@ -5,7 +5,7 @@ services:
     environment:
       - discovery.type=single-node
       - cluster.routing.allocation.disk.watermark.enable_for_single_data_node=true
-      - xpack.security.enabled=false
+      - xpack.security.enabled=true
       - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
@@ -18,8 +18,10 @@ services:
     image: kibana:8.17.0
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - KIBANA_USER_PASS=${KIBANA_USER_PASSWORD}
     volumes:
-      - ./kibana.yml:/usr/share/kibana/config/kibana.yml      
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+
     ports:
       - 5601:5601
     depends_on:

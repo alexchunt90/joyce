@@ -1,4 +1,4 @@
-elasticsearch.yml
+ elasticsearch.yml
 
 .env
 .aws/

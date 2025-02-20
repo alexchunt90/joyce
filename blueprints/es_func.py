@@ -8,7 +8,7 @@ import time
 import json
 import config
 
-es = Elasticsearch(config.ELASTICSEARCH_DOCKER_HOST)
+es = Elasticsearch([config.ELASTICSEARCH_DOCKER_HOST], basic_auth=('elastic', os.getenv('ELASTIC_USER_PASSWORD')))
 
 # Return response object that combines ES ID and source fields
 def merge_id_and_source(id, source):

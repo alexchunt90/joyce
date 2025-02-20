@@ -6,7 +6,7 @@ from elasticsearch.helpers import bulk
 import config
 import blueprints.es_func as es_func
 
-es = Elasticsearch(config.ELASTICSEARCH_LOCAL_HOST)
+es = Elasticsearch([config.ELASTICSEARCH_LOCAL_HOST], basic_auth=('elastic', os.getenv('ELASTIC_USER_PASSWORD')))
 
 def check_file_extension(filename):
 	return filename.rsplit('.', 1)[1].lower()

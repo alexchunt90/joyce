@@ -31,3 +31,8 @@ ES Snapshotting
 	- https://www.elastic.co/guide/en/elasticsearch/reference/8.17/repository-s3.html#repository-s3-permissions
 - Add S3 Access and Secret keys to ES keystore using Docker terminal
 - Configure repository in Kibana
+
+ES Security
+
+- Use `docker compose exec` to reset passwords for the elastic and kibana_system users.
+- Save the resulting passwords in the .env file. 

@@ -2,6 +2,7 @@
 
 .env
 .aws/
+backups/
 /static
 !/static/style.css
 /icon

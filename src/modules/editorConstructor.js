@@ -146,6 +146,8 @@ const editorConstructor = {
     const startOffset = originalSelectionState.getStartOffset()
     const endOffset = originalSelectionState.getEndOffset()
 
+    console.log('Applying entity from block ', startKey, ' at ', startOffset, ' to block ', endKey, ' at ', endOffset)
+
     var startOffsetPointer
     var endOffsetPointer
     var updatedContentState = originalContentState
@@ -154,13 +156,16 @@ const editorConstructor = {
       currentBlock = originalContentState.getBlockForKey(startKey)
     }
 
-    if (currentBlock.getKey() == startKey) {
+    const currentBlockKey = currentBlock.getKey()
+    console.log('Current block is ', currentBlockKey)
+
+    if (currentBlockKey == startKey) {
       startOffsetPointer = startOffset
     } else {
       startOffsetPointer = 0
     }
 
-    if (currentBlock.getKey() == endKey) {
+    if (currentBlockKey == endKey) {
       endOffsetPointer = endOffset
     } else {
       endOffsetPointer = currentBlock.getLength()
@@ -171,6 +176,8 @@ const editorConstructor = {
       const selectionState = emptySelection
         .set('anchorOffset', start)
         .set('focusOffset', end)
+
+      console.log('Creating selection from ', start, ' to ', end)
       return selectionState
     }
 
@@ -180,6 +187,14 @@ const editorConstructor = {
     for (const pageOffsets of blockPageEntities) {
         const pageBreakStart = pageOffsets[0]
         const pageBreakEnd = pageOffsets[1]
+        // Stop processing if entity falls before the start of the original selection
+        if (currentBlockKey == startKey && pageBreakEnd < startOffsetPointer) {
+          continue
+        }
+        // ... or it falls after the end
+        if (currentBlockKey == endKey && pageBreakStart > endOffsetPointer) {
+          continue
+        }
         const entitySelectionState = makeSelectionState(currentBlock.getKey(), startOffsetPointer, pageBreakStart)
         updatedContentState = Modifier.applyEntity(updatedContentState, entitySelectionState, entityKey)
         startOffsetPointer = pageBreakEnd
@@ -206,6 +221,19 @@ const editorConstructor = {
     const contentStateWithLink = editorConstructor.applyEntityOverContentBlocks(contentStateWithEntity, data.selectionState, entityKey)
     const newEditorState = editorConstructor.returnEditorStateFromContentState(contentStateWithLink, editorDecorator)
     return newEditorState
+  },
+  // When user submits a remove annotation action, create a new editorState with the entity
+  // Uses applyEntityOverContentBlocks() to avoid removing pagebreaks
+  returnEditorStateWithoutAnnotation: (data) => {
+    // const contentStateWithoutLink = Modifier.applyEntity(
+    //   data.editorState.getCurrentContent(),
+    //   data.selectionState,
+    //   null
+    // )
+    // const editorState = editorConstructor.returnEditorStateFromContentState(contentStateWithoutLink, readerDecorator)
+
+    const contentStateWithoutAnnotations = editorConstructor.applyEntityOverContentBlocks(data.editorState.getCurrentContent(), data.selectionState, null)
+    return EditorState.createWithContent(contentStateWithoutAnnotations, data.editorState.getDecorator())
   },
 
 
@@ -241,16 +269,6 @@ const editorConstructor = {
     )
     const newEditorState = editorConstructor.returnEditorStateFromContentState(contentStateWithPageBreak, decorator)
     return newEditorState
-  },
-  // When user submits a remove annotation action, create a new contentState with the entity
-  returnEditorStateWithoutAnnotation: (data) => {
-    const contentStateWithoutLink = Modifier.applyEntity(
-      data.editorState.getCurrentContent(),
-      data.selectionState,
-      null
-    )
-    const editorState = editorConstructor.returnEditorStateFromContentState(contentStateWithoutLink, readerDecorator)
-    return editorState
   },
   // Handle key commands in DraftJS editor with RichUtils
   returnEditorStateFromKeyCommand: (editorState, command) => {

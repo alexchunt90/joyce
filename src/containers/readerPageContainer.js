@@ -64,7 +64,9 @@ const ReaderPage = ({
 				{(Object.keys(currentDocument).length === 0 && toggles.loading === false) &&
 					<ReaderWelcome />
 				}
-				<LicenseDisclaimer location={'footer'}/>
+				{toggles.loading === false &&
+					<LicenseDisclaimer location={'footer'}/>
+				}				
 			</Content>
 		</div>
 		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} />

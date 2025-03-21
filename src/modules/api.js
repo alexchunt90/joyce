@@ -56,9 +56,9 @@ const api = {
 			return {status: 'error', docType: docType, data: error}
 		}),
 	// Takes an array of doc_ids, retreives full details for those documents
-	HTTPPostRetrieveDocuments: (doc_ids, docType) =>
+	HTTPPostRetrieveDocuments: (doc_ids, docType, isModalDoc) =>
 		axios.post(apiRoute + docType + '/bulk/', doc_ids).then(res => {
-			return {status: 'success', docType: docType, data: res.data}
+			return {status: 'success', docType: docType, data: res.data, modal_note: isModalDoc}
 		}).catch(error => {	
 			return {status: 'error', docType: docType, data: error}
 		}),

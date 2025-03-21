@@ -24,7 +24,7 @@ const ReaderContent = ({
 	notes,
 	tags,
 	editorState,
-	annotationNoteMedia,
+	readerNoteMedia,
 	docType,
 	paginationEditorState,
 	currentPageNumber,
@@ -57,8 +57,8 @@ const ReaderContent = ({
 			</div>
 		}
 
-		{docType === 'notes' && annotationNoteMedia.length >= 1 && !infoPageTitleArray.includes(currentDocument.title) && 
-			<ImageGroup media_docs={annotationNoteMedia} />
+		{docType === 'notes' && readerNoteMedia.length >= 1 && !infoPageTitleArray.includes(currentDocument.title) && 
+			<ImageGroup media_docs={readerNoteMedia} />
 		}
 
 		{currentDocument.title === infoPageTitleConstants.TALLY_INFO_PAGE_TITLE &&
@@ -79,7 +79,7 @@ const mapStateToProps = state => {
 		notes: state.notes,
 		tags: state.tags,
 		currentDocument: state.currentDocument,
-		annotationNoteMedia: state.annotationNoteMedia,
+		readerNoteMedia: state.readerNoteMedia,
 		editorState: state.editorState,
 		docType: state.docType,
 		toggles: state.toggles,

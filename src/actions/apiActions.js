@@ -29,6 +29,7 @@ const apiActions = {
 			type: 'GET_MEDIA_DOCS',
 			media_doc_ids: response.media_doc_ids,
 			docType: 'media',
+			modalNote: response.modal_note,
 			status: response.status || 'request',
 			data: response.data || {}
 		}),

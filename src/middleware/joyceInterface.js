@@ -35,7 +35,8 @@ const joyceInterface = store => next => action => {
 			}
 			if (action.status === 'success' && action.docType === 'notes') {
 				if (action.data.media_doc_ids.length > 0) {
-					store.dispatch(actions.getMediaDocs({media_doc_ids: action.data.media_doc_ids}))
+					const isModalNote = action.state !== 'currentDocument' ? true : false
+					store.dispatch(actions.getMediaDocs({media_doc_ids: action.data.media_doc_ids, modal_note: isModalNote}))
 				}
 			}			
 			break

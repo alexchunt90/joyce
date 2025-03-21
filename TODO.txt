@@ -1,81 +1,11 @@
-V1 REQUIREMENTS:
+[X] 1. Searching for specific phrases
+[ ] 3. Images don't always update when moving between notes
 
-- Finish Search
-
-- Add Image Support
-
-	- Add Video Support
-
-	- Add Audio Support
-
-- Deploy Process
-
-- Login System
-
-- Pagination
-
-- Add The Logo / Contributors
-
-- CSS Work
-
-UX:
-	- Disable Title Submit Button Without Title
-	- Disable Modal Submit Button with input
-	- Figure out Editor focus() with Redux
-	- Search submit on enter
-	
-
-SHORT LIST:
-	- More Responsive CSS
-	- Does Get Document List Action Need State?
-	- Add Date Created / Updated Stamps, Introduce Sort Options
-	- Testing
-		- Python Unit Tests
-		- React Unit Tests
-		- ES API Tests?
-
-- v0.2 Reader
-	- Reader UX
-	- Collapse Reader Sidebar
-	- Top Bar
-	- Background Texture - Canvas / Paper
-	- Reader Options
-		- Font-size
-		- Font
-		- Pagination?
-	- Full-Screen Mode
-
-- v0.4 Search
-	- Advanced search page
-		- Filter by DocType, Chapter
-	- Drop Down window
-	- Handle no search results
-
-- v0.5 Pagination
-
-- v0.6 Users
-	- Admin Access Restrictions (OAuth?)
-	- Login with Social Media OAuth, User Preferences?
-	- Bookmarks?
-	- Store Session / Progress in cookie
-	- Note Commenting
-
-- v0.7 Monitoring
-	- Pixel
-	- Stats Logging
-
-BUGS:
-
-Short List:
-- PropTypes
-- Env Configs
-- Elasticsearch Versioning and Revert UI
-- Loading Indicators
-- Error Handling
-- HTML Editor For Chapters / Notes
-- Community Contributors?
-- Search, broken out with text results and note results
-	- Advanced search page?
-- Weed out unneeded dependencies (Flask-Webpack?)
-- ARIA compliance
-- Docker
+[ ] 5. Navbar gets cut off sometimes
+[ ] Search returns max 3 results per doc
+[ ] 11. Turn off production logging
+[ ] Pagination page breaks appear in search results
+[ ] 17. Clicking edit should maintain docType and currentDocument
+[ ] 14. CC 4.0 License
+[ ] 15. HTML dump process
+[ ] 16. Gzip

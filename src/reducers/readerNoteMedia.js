@@ -1,7 +1,7 @@
-const annotationNoteMedia = (state=[], action) => {
+const readerNoteMedia = (state=[], action) => {
 	switch(action.type) {
 		case 'GET_MEDIA_DOCS':
-			if (action.status === 'success' && action.modalNote === true) {
+			if (action.status === 'success' && action.modalNote === false) {
 				return action.data
 			} else {return state}
 		case 'SET_CURRENT_DOCUMENT':
@@ -11,4 +11,4 @@ const annotationNoteMedia = (state=[], action) => {
 	}
 }
 
-export default annotationNoteMedia
+export default readerNoteMedia

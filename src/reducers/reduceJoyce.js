@@ -13,6 +13,7 @@ import currentDocument from './currentDocument'
 import currentBlock from './currentBlock'
 import annotationNote from './annotationNote'
 import annotationNoteMedia from './annotationNoteMedia'
+import readerNoteMedia from './readerNoteMedia'
 import annotationTag from './annotationTag'
 import searchResults from './searchResults'
 
@@ -47,6 +48,7 @@ const reduceJoyce = (history) => combineReducers({
 	currentBlock: currentBlock,
 	annotationNote: annotationNote,
 	annotationNoteMedia: annotationNoteMedia,
+	readerNoteMedia: readerNoteMedia,
 	annotationTag: annotationTag,
 	searchResults: searchResults,
 	// User Inputs

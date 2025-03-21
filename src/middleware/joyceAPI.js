@@ -29,7 +29,7 @@ const joyceAPI = store => next => action => {
 			break
 		case 'GET_MEDIA_DOCS':
 			if (action.status === 'request') {
-				api.HTTPPostRetrieveDocuments(action.media_doc_ids, action.docType).then(response =>
+				api.HTTPPostRetrieveDocuments(action.media_doc_ids, action.docType, action.modalNote).then(response =>
 					store.dispatch(actions.getMediaDocs(response))
 				)
 			}

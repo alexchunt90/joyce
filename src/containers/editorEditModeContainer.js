@@ -65,7 +65,7 @@ const EditorEditMode = ({
 				editorState={editorState}
 				docType={docType}
 				handleKeyCommand={handleKeyCommand} 
-				onChange={onChangeEditorState} 
+				onChange={onChangeEditorState}
 			/>
 		</EditorTextContentBlock>
 		{/* Dropdown select for attaching media or tags */}

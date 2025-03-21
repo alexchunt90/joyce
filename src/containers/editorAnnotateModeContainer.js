@@ -42,7 +42,7 @@ const EditorAnnotateMode = ({
 			<TextEditor 
 				editorState={editorState}
 				docType={docType}
-				onChange={onChangeEditorState} 
+				onChange={onChangeEditorState}
 				keyBindingFn={annotateKeyBindings} 
 			/>
 		</EditorTextContentBlock>

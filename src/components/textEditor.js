@@ -17,7 +17,7 @@ export const TextEditorReadOnly = ({editorState, noteMedia=[], docType}) =>
 		}
 	</div>
 
-export const TextEditor = ({editorState, docType, handleKeyCommand, handleReturn, onChange, onTab}) =>
+export const TextEditor = ({editorState, docType, handleKeyCommand, handleReturn, onChange}) =>
 	<div id='enabled_text_editor' className={docType + '_editor text_editor'}>
 		<Editor 
 			editorState={editorState} 

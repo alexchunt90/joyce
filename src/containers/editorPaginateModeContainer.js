@@ -49,7 +49,7 @@ const EditorPaginateMode = ({
 			<TextEditor 
 				editorState={editorState} 
 				docType={docType}
-				onChange={onChangeEditorState} 
+				onChange={onChangeEditorState}
 				keyBindingFn={paginateKeyBindings} 
 			/>
 		</EditorTextContentBlock>
@@ -77,7 +77,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onChangeEditorState: editorState => {
 			dispatch(actions.updateEditorState(editorState))
-		},
+		},	
 		updatePageNumberInput: input => {
 			dispatch(actions.updatePageNumberInput(input))
 		},

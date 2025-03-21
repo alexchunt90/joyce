@@ -122,6 +122,7 @@ export const blockRenderFn = (contentBlock) => {
 }
 
 export const keyBindingFn = (e) => {
+  console.log(e)
   if (e.keyCode === 9 ) { //Tab Key
     if (e.shiftKey === true) {
       return 'shift-tab-key'
@@ -132,6 +133,12 @@ export const keyBindingFn = (e) => {
   if (e.keyCode === 13) { // Enter Key
     if (e.shiftKey === true) {
       return 'shift-enter-key'
+    }
+  }
+  if (e.keyCode === 88) { // X Key
+    // Cmd-X causes fatal error if selection contains custom entities
+    if (e.metaKey === true || e.controlKey === true) {
+      return 'handled'
     }
   }
   return getDefaultKeyBinding(e)

@@ -48,7 +48,8 @@ const handleTabKeyCommand = (editorState, command) => {
       }
       const selectionState = editorState.getSelection()
       const decorator = editorState.getDecorator()
-      const contentStateWithTabCharacter = Modifier.replaceText(editorState.getCurrentContent(), selectionState, '\t')
+      // const contentStateWithTabCharacter = Modifier.replaceText(editorState.getCurrentContent(), selectionState, '\t')
+      const contentStateWithTabCharacter = Modifier.replaceText(editorState.getCurrentContent(), selectionState, '\u00a0\t\u00a0')
       const newEditorState = EditorState.createWithContent(contentStateWithTabCharacter, decorator)
       return EditorState.forceSelection (newEditorState, selectionState)
     }

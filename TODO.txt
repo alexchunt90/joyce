@@ -1,10 +1,5 @@
-[X] 1. Searching for specific phrases
-[X] 3. Images don't always update when moving between notes
-[X] 16. Gzip
-[X] Pagination page breaks appear in search results
-[X] 17. Clicking edit should maintain docType and currentDocument
-[X] 11. Turn off production logging
-[X] 5. Navbar gets cut off sometimes
-
-[ ] Search returns max 3 results per doc
-[ ] 15. HTML dump process
+[X] Press enter on search page
+[ ] Search returns default 3 max inner hits per doc
+[ ] Add additional prod URLs
+[ ] Support certs for all prod URLs
+[ ] Dump ES to HTML

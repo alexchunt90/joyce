@@ -12,7 +12,13 @@ global.document = document
 global.HTMLElement = jsdomWindow.HTMLElement
 
 const env = process.env.HOST_ENVIRONMENT
-const host = env === 'staging' ? 'https://joyce-staging.net' : 'https://localhost'
+switch(env) {
+		case 'staging':
+			const host = 'https://joyce-staging.net'
+		case 'production':
+			const host = 'https://joyceproject.com'
+		case 'local':
+			const host = 'https://localhost'
 
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false // Do not do this in production

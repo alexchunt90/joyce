@@ -31,7 +31,7 @@ config_params = {
 application = Flask(__name__)
 application.config.update(config_params)
 jwt = JWTManager(application)
-CORS(application, origins=['https://localhost', 'https://joyce-staging.net'])
+CORS(application, origins=['https://localhost', 'https://joyce-staging.net', 'https://joyceproject.com'])
 
 # Register blueprints
 application.register_blueprint(joyce)

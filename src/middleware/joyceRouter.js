@@ -29,7 +29,13 @@ const joyceRouter = store => next => action => {
 			// If you navigate to /edit while e.g. docType=notes, redirect to /edit/notes
 			if (regex.checkEditBaseRoute(path)){
 				if (docType !== 'chapters') {
-					store.dispatch(push('/edit/' + docType + '/:id'))
+					const basePath = '/edit/' + docType + '/'
+					if (currentDocument.hasOwnProperty('id')) {
+						store.dispatch(push(basePath + currentDocument.id))
+					}
+					else {
+						store.dispatch(push(basePath + ':id'))
+					}
 				}
 			}
 			// If path ends in :id...

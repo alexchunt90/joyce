@@ -2,10 +2,9 @@
 [X] 3. Images don't always update when moving between notes
 [X] 16. Gzip
 [X] Pagination page breaks appear in search results
+[X] 17. Clicking edit should maintain docType and currentDocument
 
 [ ] 5. Navbar gets cut off sometimes
 [ ] Search returns max 3 results per doc
-[ ] 11. Turn off production logging
-[ ] 17. Clicking edit should maintain docType and currentDocument
-[ ] 14. CC 4.0 License
+[X] 11. Turn off production logging
 [ ] 15. HTML dump process

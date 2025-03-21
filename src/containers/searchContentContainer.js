@@ -7,6 +7,11 @@ import actions from '../actions'
 import { SearchButton } from '../components/button'
 import SearchResultsBox from '../components/searchResultsBox'
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(e)
+  };
+
 const SearchContent = ({
 	searchResults,
 	inputs,
@@ -17,6 +22,7 @@ const SearchContent = ({
 	onSearchLinkClick,
 }) =>
 	<div className='container'>
+		<form onSubmit={handleSubmit}>
 		<div className='row'>
 			<div className='col-sm-6 col-md-2 mt-1'>
 			    <label className="form-check-label">Result Count:</label>			
@@ -57,7 +63,7 @@ const SearchContent = ({
 		</div>
 		<div className='row mt-2'>
 			<div className='col-8'>
-				<input id='search_input' type='text' value={inputs.search} onChange={onSearchInputChange} />
+					<input id='search_input' type='text' value={inputs.search} onChange={onSearchInputChange} />
 			</div>
 			<div className='col-3 offset-1'>
 				<SearchButton onClick={onSearchClick} searchInput={inputs.search} docTypes={inputs.searchDocTypes} resultCount={inputs.searchResultCount}/>
@@ -68,6 +74,7 @@ const SearchContent = ({
 				<SearchResultsBox searchResults={searchResults} onLinkClick={onSearchLinkClick}/>
 			}
 		</div>
+		</form>
 	</div>
 
 const mapStateToProps = state => {
@@ -86,7 +93,6 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.onResultCountDropdownClick(count))
 		},
 		onSearchClick: (searchInput, docTypes, resultCount) => {
-			console.log('SEARCH INPUT:', searchInput)
 			dispatch(actions.clickSearch(searchInput, docTypes, resultCount))
 		},
 		onToggleSearchDocType: docType => {

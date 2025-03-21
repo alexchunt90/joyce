@@ -19,25 +19,25 @@ html body {
 }
 
 #wrapper {
-	height: 100vh;
+	height: 100%;
 }
 
 #inner_wrapper {
-	height: 100vh;
+	height: 100%;
 	overflow: hidden;
 }
 
 #joyce_page {
 	overflow: hidden;
 	// width: 95%;
-    height: 96vh;
+    height: 96%;
     // background-color: rgba(256,256,256,0.5);
     // border-left: $border_width solid $border_color;
     // border-right: $border_width solid $border_color;
 }
 
 #page_wrapper {
-    height: 96vh;
+    height: 100%;
     width: 98%;
     margin: 0 auto;
     // margin-top: 1vh;
@@ -46,7 +46,7 @@ html body {
 }
 
 #content_wrapper {
-    height: 96vh;
+    height: 100%;
     flex-flow: column;
     // background-color: rgba(250,250,250,.8);
     background-color: $joyce_light_green;
@@ -77,6 +77,12 @@ html body {
     	padding: 0;
     	box-shadow: none;
     	border: none;
+    }
+}
+
+@media (max-height: 500px) {
+    img.joyce_logo {
+        max-width: 75%;
     }
 }
 

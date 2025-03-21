@@ -18,7 +18,7 @@ export const ReaderSidebarOptions = ({docs, editions, currentDocument, toggles, 
 		}
 		{docType === 'notes' &&
 			<div id='mobile_pagination_options' className='col-4 d-block d-md-none'>
-				<IndexNotesButton theme='secondary' size='sm'/>
+				<IndexNotesButton theme='secondary' size='md'/>
 			</div>
 		}		
 		<div id='mobile_read_options' className='mobile_list_options col-4 d-block d-md-none'>

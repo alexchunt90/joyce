@@ -143,8 +143,8 @@ def search_index(search_input, doc_type, result_count):
 					'query': {
 						'bool': {
 							'must': [
-								{ 'match': { 'search_text.text': search_input}}
-							]
+								{ 'match_phrase': { 'search_text.text': search_input}}
+							],
 						}
 					},
 					'inner_hits': { 

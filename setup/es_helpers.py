@@ -40,13 +40,13 @@ def es_document_dict(index):
 			doc_dict[file_name] = doc_id
 	return doc_dict
 
-def es_document_list(index):
-	docs = es_func.es_get_documents(index, es)
-	doc_list = []
-	for i in docs:
-		file_name = i['_source']['file_name']
-		doc_list.append(file_name)
-	return doc_list
+# def es_document_list(index):
+# 	docs = es_func.es_get_documents(index, es)
+# 	doc_list = []
+# 	for i in docs:
+# 		file_name = i['_source']['file_name']
+# 		doc_list.append(file_name)
+# 	return doc_list
 
 def build_es_create_op(field, value):
 	return {'_op_type': 'index', '_source': {

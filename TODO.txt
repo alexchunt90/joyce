@@ -1,5 +1,2 @@
-[X] Press enter on search page
-[ ] Search returns default 3 max inner hits per doc
-[ ] Add additional prod URLs
-[ ] Support certs for all prod URLs
+[ ] Generate joyceproject.com certs
 [ ] Dump ES to HTML

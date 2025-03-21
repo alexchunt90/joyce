@@ -136,7 +136,7 @@ def search_index(search_input, doc_type, result_count):
 		index=doc_type,
 		body={
 			'from': 0,
-			'size': result_count,
+			# 'size': result_count,
 			'query': {
 				'nested': {
 					'path': 'search_text',
@@ -148,6 +148,7 @@ def search_index(search_input, doc_type, result_count):
 						}
 					},
 					'inner_hits': { 
+						'size': result_count,
 						'highlight': {
 							'fields': {
 								'search_text.text': {},						

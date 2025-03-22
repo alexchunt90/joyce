@@ -150,7 +150,7 @@ export const convertToSearchText = contentState => {
   const searchText = rawState.blocks.reduce(
     (searchText, block) => ([...searchText, {
       key: block.key, 
-      text: block.text.replaceAll(/[0-9]{4,4}\#[0-9]{2,3}/g, '')
+      text: block.text.replaceAll(/[0-9]{4,4}\#[0-9]{1,3}/g, '')
     }]),
     []
   )

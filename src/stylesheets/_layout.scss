@@ -31,6 +31,7 @@ html body {
 	overflow: hidden;
 	// width: 95%;
     height: 96%;
+    width: 85%;
     // background-color: rgba(256,256,256,0.5);
     // border-left: $border_width solid $border_color;
     // border-right: $border_width solid $border_color;
@@ -39,6 +40,7 @@ html body {
 #page_wrapper {
     height: 100%;
     width: 98%;
+    max-width: 70em;
     margin: 0 auto;
     // margin-top: 1vh;
     display: flex;
@@ -49,7 +51,7 @@ html body {
     height: 100%;
     flex-flow: column;
     // background-color: rgba(250,250,250,.8);
-    background-color: $joyce_light_green;
+    // background-color: $joyce_light_green;
     // margin: 0 2% 1.5% 2%;
     margin-top: -1vh;
     padding: 2% 2%;
@@ -61,6 +63,10 @@ html body {
 // Media queries
 
 @include respond-below(sm) {
+    body {
+        background-color: white !important;
+    }
+
     #joyce_page {
         width: 100%;
         padding: 0;

@@ -26,28 +26,26 @@ const ReaderSidebar = ({
 	<div id='sidebar' className='col-md-3 d-none d-md-flex'>
 		<div>
 			<Logo />
-			<SidebarSpacer />
+			{docType === 'notes' &&
+				<SidebarSpacer />
+			}
 			{docType === 'notes' &&
 				<IndexNotesButton />
 			}
-			{docType === 'notes' &&
-				<SidebarSpacer />
-			}			
-			{docType === 'notes' &&
-				<TallyNotesButton />
-			}
-			{docType === 'notes' &&
-				<SidebarSpacer />
-			}
-			<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
 			<SidebarSpacer />
+			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, undefined, undefined, media, info)} currentDocument={currentDocument} docType={docType} basePath={'/'}/>
+			{docType==='chapters' &&
+				<SidebarSpacer />
+			}
 			{docType==='chapters' &&
 				<PaginationReaderButton toggle={toggles.pagination} loading={toggles.loadingPagination} editions={editions} onPaginationToggle={onPaginationToggle} choosePaginationEdition={choosePaginationEdition}/>
 			}
 			{docType==='chapters' &&
 				<SidebarSpacer />
-			}			
-			<DocumentList docs={helpers.documentsOfDocType(docType, chapters, notes, undefined, undefined, media, info)} currentDocument={currentDocument} docType={docType} basePath={'/'}/>
+			}
+			{docType==='chapters' &&
+				<HighlightButton toggle={toggles.highlights} onClick={onHighlightClick}/>
+			}
 		</div>
 	</div>
 

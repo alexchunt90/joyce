@@ -26,7 +26,7 @@ const store = configureStore({
 	reducer: reduceJoyce(history), 
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false, immutableCheck:false}).prepend(
 		routerMiddleware, 
-		// logger, 
+		logger, 
 		joyceAPI, 
 		joyceInterface, 
 		joyceRouter, 

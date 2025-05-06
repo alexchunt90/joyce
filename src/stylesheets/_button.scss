@@ -41,6 +41,7 @@ button:hover {
 %sidebar_button {
     width: 100%;
     box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.3);
+    word-break: break-all;
 }
 
 .note_button > a {
@@ -65,12 +66,14 @@ button:hover {
 
 .chapter_button {
     padding: 0.1rem 0rem;
+    display: flex;
+    flex-grow: 1;
 }
 .chapter_button > a {
     @extend %sidebar_button;
     margin: 0.25% 0;
     padding: 0.2rem 0;
-    font-size: 1.1em;
+    // font-size: 1.1em;
     color: black;
     @include skeuo-buttons;
     // border: $border_width solid black !important;

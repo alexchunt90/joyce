@@ -20,7 +20,8 @@ def merge_id_and_source(id, source):
 def merge_results(response):
 	results = []
 	for x in response:
-		results.append(merge_id_and_source(x['_id'], x['_source']))
+		if '_source' in x:
+			results.append(merge_id_and_source(x['_id'], x['_source']))
 	return results
 
 # Elasticsearch interface functions

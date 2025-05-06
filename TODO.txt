@@ -1,2 +1,12 @@
+-- Prod Launch
 [ ] Generate joyceproject.com certs
+-- Long Term
 [ ] Dump ES to HTML
+[ ] ARIA tags
+-- Fixes
+[ ] Loading toggle on note modal
+[ ] Mobile topbar buttons are wonky, different font sizes and heights
+[ ] Could chapter buttons expand to fill sidebar div?
+[ ] Last pagination page should have grey next button
+[ ] Editor sidebar overflows x-axis in narrow windows, for some doc_types
+[ ] Adjust page spacing

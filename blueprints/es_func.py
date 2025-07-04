@@ -273,7 +273,7 @@ def updating_existing_media(id, form_data):
 			metadata[k] = v
 		else:
 			metadata[k] = json.loads(v)
-	response = es_index_document('media', id, metadata)
+	response = es_update_document('media', id, metadata)
 	return response
 
 def index_and_save_media_embed(youtube_url, id=None, form=None, es_client=es):

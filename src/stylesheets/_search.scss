@@ -21,3 +21,11 @@
     border-radius: 5px;
     border: $border_width solid $border_color;
 }
+
+.search_result_snippet {
+	border-radius: 5px;
+    border-top: 1px solid $border_color;
+    border-bottom: 1px solid $border_color;
+    padding: .3em;
+    margin: 0.5em 0 0.5em 0;
+}

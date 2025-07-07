@@ -19,7 +19,7 @@ const buildSnippetLink = (key, docType, route) => {
 }
 
 const SearchResultSnippet = ({snippet, docType, route, onClick}) =>
-	<div id={snippet.key}>
+	<div id={snippet.key} className='search_result_snippet'>
 		<Link to={buildSnippetLink(snippet.key, docType, route)} >
 			<div dangerouslySetInnerHTML={{__html: stripPageBreaksFromSearchText(snippet.text)}}>
 			</div>

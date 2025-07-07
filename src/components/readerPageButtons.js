@@ -3,14 +3,12 @@ import PropTypes from 'prop-types'
 
 const ReaderPageBackButton = ({onClick, disabled}) =>
 	<button onClick={onClick} className='btn btn-outline-primary btn-sm' disabled={disabled}>
-		<i className='fas fa_inline fa-icon-double-angle-left'></i>
-		Previous Page
+		<i className='fas fa_inline fa-arrow-left'></i>
 	</button>
 
 const ReaderPageForwardButton = ({onClick, disabled}) =>
 	<button onClick={onClick} className='btn btn-outline-primary btn-sm' disabled={disabled}>
-		Next Page
-		<i className='fas fa_inline fa-icon-double-angle-right'></i>
+		<i className='fas fa_inline fa-arrow-right'></i>
 	</button>
 
 const ReaderPageButtons = ({pagesArray, currentPageNumber, setPageNumber}) => {

@@ -137,7 +137,7 @@ def search_index(search_input, doc_type, result_count):
 		index=doc_type,
 		body={
 			'from': 0,
-			# 'size': result_count,
+			'size': 500,
 			'query': {
 				'nested': {
 					'path': 'search_text',
@@ -159,12 +159,14 @@ def search_index(search_input, doc_type, result_count):
 				}		
 			},
 		    'highlight' : {
+				'pre_tags' : ['<b>', 'em'],
+		        'post_tags' : ['</b>', 'em'],	        
 		        'fields' : {
 		            'search_text': {
 		            	'matched_fields': 'text',
 		            	'type': 'unified',
-		            	'pre_tags' : [''],
-		            	'post_tags' : ['']
+						'pre_tags' : ['<b>', 'em'],
+				        'post_tags' : ['</b>', 'em'],
 		            }
 		        }
 		    }			

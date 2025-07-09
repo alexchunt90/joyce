@@ -11,7 +11,7 @@ const initialState = {
 	noteMediaSelection: [],
 	editionYear: undefined,
 	uploadFile: undefined,
-	searchResultCount: 10,
+	searchResultCount: 75,
 	searchDocTypes: {
 		'chapters': true,
 		'notes': true,

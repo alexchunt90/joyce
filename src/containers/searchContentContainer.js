@@ -24,10 +24,10 @@ const SearchContent = ({
 	<div className='container'>
 		<form onSubmit={handleSubmit}>
 		<div className='row'>
-			<div className='col-sm-6 col-md-2 mt-1'>
+{/*			<div className='col-sm-6 col-md-2 mt-1'>
 			    <label className="form-check-label">Result Count:</label>			
-			</div>
-			<div className='col-sm-6 col-md-2 mt-1'>
+			</div>*/}
+{/*			<div className='col-sm-6 col-md-2 mt-1'>
 				<div className='input-group'>
 			    	<span className='input-group-text'>#</span>
 					<input type='text' className='form-control' placeholder='#' value={inputs.searchResultCount} onChange={()=>{return true}}/>
@@ -47,7 +47,7 @@ const SearchContent = ({
 			      		</div>			      		
 				    </div>	      
 				</div>
-			</div>													
+			</div>*/}												
 			<div className='col-3 col-md-2 mt-1'>
 				<input type="checkbox" className="form-check-input" defaultChecked={inputs.searchDocTypes.chapters} onClick={()=>onToggleSearchDocType('chapters')}/>
 			    <label className="form-check-label">Chapters</label>			

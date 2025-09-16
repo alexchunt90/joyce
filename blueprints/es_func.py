@@ -64,7 +64,7 @@ def es_get_multiple_document(index, doc_ids):
 	response = merge_results(docs['docs'])
 	return response
 
-def es_index_document(index, id, body):
+def es_index_document(index, id, body, es_client=es):
 	res = es.index(
 		index=index,
 		id=id,
@@ -133,11 +133,15 @@ def es_search_text(search_input, doc_types, result_count):
 	return results
 
 def search_index(search_input, doc_type, result_count):
+	sort_field = 'number' if doc_type == 'chapters' else 'title'
 	search = es.search(
 		index=doc_type,
 		body={
 			'from': 0,
 			'size': 500,
+			'sort': {
+				sort_field: 'asc'
+			},
 			'query': {
 				'nested': {
 					'path': 'search_text',

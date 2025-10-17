@@ -24,9 +24,15 @@ ADMIN_EMAIL_ADDRESSES = admins.split(', ')
 
 if ENVIRONMENT == 'docker':
 	UPLOAD_FOLDER = '/usr/joyce/static'
-if ENVIRONMENT == 'staging' or ENVIRONMENT == 'production':
+	COOKIE_DOMAIN = '.joyceproject.com'
+if ENVIRONMENT == 'staging':
 	UPLOAD_FOLDER = '/joyce/static'
+	COOKIE_DOMAIN = '.joyce-staging.net'
+if ENVIRONMENT == 'production':
+	UPLOAD_FOLDER = '/joyce/static'
+	COOKIE_DOMAIN = '.joyceproject.com'
 if ENVIRONMENT == 'local':
 	UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static')
+	COOKIE_DOMAIN = '.localhost'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'mov', 'mp4', 'mp3', 'wav'}

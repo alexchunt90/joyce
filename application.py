@@ -22,6 +22,7 @@ config_params = {
     'JWT_SESSION_COOKIE': False,
     'JWT_TOKEN_LOCATION': config.JWT_TOKEN_LOCATION,
     'JWT_COOKIE_SECURE': config.JWT_COOKIE_SECURE,
+    'JWT_COOKIE_DOMAIN': config.COOKIE_DOMAIN,
     'JWT_COOKIE_CSRF_PROTECT': True,
     'JWT_ACCESS_TOKEN_EXPIRES': timedelta(days=14)
 }
@@ -31,7 +32,7 @@ config_params = {
 application = Flask(__name__)
 application.config.update(config_params)
 jwt = JWTManager(application)
-CORS(application, origins=['https://localhost', 'https://joyce-staging.net', 'https://joyceproject.com'])
+CORS(application, origins=['https://localhost', 'https://joyce-staging.net', 'https://joyceproject.com', 'https://www.joyceproject.com'])
 
 # Register blueprints
 application.register_blueprint(joyce)
@@ -42,4 +43,4 @@ application.register_blueprint(google_auth_api, url_prefix='/auth')
 
 if __name__ == "__main__":
 	application.run(debug=False, threaded=True, host="0.0.0.0", port=443, ssl_context=('server.crt', 'server.key'))
-    # application.run(debug=False, threaded=True, host="0.0.0.0" port=8080)
+    # application.run(debug=False, threaded=True, host="0.0.0.0", port=8080)

@@ -15,7 +15,7 @@ import json
 import config
 
 google_auth_api = Blueprint('auth', __name__)
-CORS(google_auth_api, supports_credentials=True, allow_headers='*')
+CORS(google_auth_api, supports_credentials=True)
 
 ''' Verify user identity using Google OAuth '''
 @google_auth_api.route('/token/', methods=['POST'])
@@ -30,7 +30,7 @@ def verify_id_token():
 
 	if google_email in config.ADMIN_EMAIL_ADDRESSES:
 		response = make_response({'user_name': given_name})
-		response.set_cookie('user_name', given_name, max_age=timedelta(days=45))
+		response.set_cookie('user_name', given_name, domain=config.COOKIE_DOMAIN, max_age=timedelta(days=45))
 
 		access_token = create_access_token(identity=google_email)
 		refresh_token = create_refresh_token(identity=google_email)

@@ -4,7 +4,8 @@ const initialState = {
 	paginationEdition: undefined,
 	currentPage: undefined,
 	editorState: undefined,
-	documents: {}
+	documents: {},
+	showPageNumbers: true,
 }
 
 const setStateWithPaginatedDoc = (edition, state) => {

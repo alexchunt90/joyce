@@ -22,12 +22,12 @@ const NoteTallySummary = ({noteCount}) => {
 				</div>
 			</div>
 			<div className='row'>
-				<div className='col-5 offset-2'>
+				<div className='col-7 offset-1'>
 					{tallyArray.map(chap =>
 						<p key={chap.title} className='mb-0'>{chap.title}</p>
 					)}
 				</div>
-				<div className='col-5'>
+				<div className='col-2'>
 					{tallyArray.map(chap =>
 						<p key={chap.title} className='mb-0'>{chap.count}</p>
 					)}			

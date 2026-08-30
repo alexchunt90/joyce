@@ -59,7 +59,7 @@ const joyceRouter = store => next => action => {
 							break
 						case 'info':
 							if (info.length > 0) {
-								store.dispatch(actions.setCurrentDocument(media[0].id, 'media'))
+								store.dispatch(actions.setCurrentDocument(info[0].id, 'info'))
 							}
 							break							
 						case 'tags':
@@ -226,6 +226,7 @@ const joyceRouter = store => next => action => {
 				const newEditorState = editorConstructor.returnEditorStateWithSearchTextFocus(action.data, currentBlock.key)
 				action.data = newEditorState
 			}
+			break
 		case 'SET_CURRENT_BLOCK':
 			// When current block is set for a document that's already loaded, refresh the editorState with new focus
 			if (typeof(currentBlock.id) !== 'undefined' && currentDocument.id === action.id && currentBlock.key !== action.key) {
@@ -233,6 +234,7 @@ const joyceRouter = store => next => action => {
 					store.dispatch(actions.setCurrentDocument(action.id, docType))
 				}, 15)
 			}
+			break
 		case 'SAVE_DOCUMENT':
 			// If successfully saving a new document, load it by pulling the id from the last document in the list
 			if (action.status === 'success' && !action.id) {

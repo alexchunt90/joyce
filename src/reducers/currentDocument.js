@@ -15,6 +15,7 @@ const currentDocument = (state={}, action) => {
 			if (action.status === 'success' && action.data.length <= 0) {
 				return {}
 			}
+			break
 		case 'CREATE_DOCUMENT':
 			return {id: null, number: null, title: '', html_source: ''}	
 		default:

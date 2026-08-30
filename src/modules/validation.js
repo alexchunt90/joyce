@@ -17,7 +17,7 @@ export const validateSubmittedDocument = (docType, inputs, currentDocument, user
 		if (!year) {
 			errors.push('Please enter the edition year.')
 		}
-		if (year && parseInt(year) === NaN) {
+		if (year && Number.isNaN(parseInt(year))) {
 			errors.push('Year must be an integer.')
 		}
 	}

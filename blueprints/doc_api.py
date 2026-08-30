@@ -207,7 +207,7 @@ def write_edition(id):
 @jwt_required()
 def delete_edition(id):
 	es_func.es_delete_document('editions', id)
-	return jsonify(es_func.es_document_list('edtions'))
+	return jsonify(es_func.es_document_list('editions'))
 
 
 #

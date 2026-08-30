@@ -65,7 +65,7 @@ def es_get_multiple_document(index, doc_ids):
 	return response
 
 def es_index_document(index, id, body, es_client=es):
-	res = es.index(
+	res = es_client.index(
 		index=index,
 		id=id,
 		refresh=True,

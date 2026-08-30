@@ -14,10 +14,12 @@ const PaginationReaderButton = ({toggle, loading, editions, onPaginationToggle, 
 			</button>
 			<div className='dropdown-menu'>
 				{editions.map(edition =>
-					<a key={edition.id} className='dropdown-item' onClick={()=>choosePaginationEdition(edition)}>
+					<li key={edition.id}><a className='dropdown-item' onClick={()=>choosePaginationEdition(edition)}>
 						{edition.title} ({edition.year})
-					</a>
+					</a></li>
 				)}
+				{/*<li><hr class="dropdown-divider" /></li>*/}
+				{/*<li><a className='dropdown-item'>Show Page Numbers</a></li>*/}
 			</div>		
 		</div>
 	</div>

@@ -8,6 +8,7 @@ export const PageBreak = (props) => {
 	const data = props.contentState.getEntity(props.entityKey).getData()
     return (
     	<span
+    		className='page_break_container'
     		style={{display: 'none'}}
     		data-edition={data['edition']}
     		data-page={data['pageNumber']}

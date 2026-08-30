@@ -6,6 +6,8 @@ const host = (env) => {
 		return 'https://localhost'
 	} else if (env === 'staging') {
 		return 'https://joyce-staging.net'
+	} else if (env === 'production') {
+		return 'https://joyceproject.com'
 	} else {
 		return 'https://localhost'
 	}

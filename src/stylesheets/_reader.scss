@@ -128,6 +128,11 @@ ul, ol, li {
 	text-indent: 0;
 }
 
+.places_pdf embed {
+	width: 100%;
+	aspect-ratio: 4 / 3;
+}
+
 .headline {
 	margin-top: 1em !important;
 	margin-bottom: 1em !important;

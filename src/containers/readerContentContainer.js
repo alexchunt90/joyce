@@ -12,6 +12,7 @@ import NoteTallySummary from '../components/noteTallySummary'
 import NoteIndexSummary from '../components/noteIndexSummary'
 import ColorCodingSummary from '../components/colorCodingSummary'
 import { ImageGroup } from '../components/image'
+import PlacesPDF from '../components/placesPDF'
 import {infoPageTitleConstants} from '../config'
 
 const infoPageTitleArray = []
@@ -40,6 +41,9 @@ const ReaderContent = ({
 			<h2>{currentDocument.title}</h2>
 		}
 		<br />
+		{currentDocument.title === 'Places' &&
+			<PlacesPDF />
+		}
 		<br />
 
 

@@ -32,21 +32,17 @@ describe('user', () => {
 		expect(user(LOGGED_IN, { type: 'TOGGLE_HIGHLIGHT' })).toBe(LOGGED_IN)
 	})
 
-	// BUG (live): OAUTH_TOKEN_AUTHORIZATION guards on status === 'success' but does not
-	// break, so a *failed* login falls through USER_LOGOUT_RESPONSE into
-	// USER_LOGIN_REFRESH, which returns {isLoggedIn: true} unconditionally. A rejected
-	// login therefore presents the UI as signed in, with user_name undefined.
-	// Server-side JWT checks still apply, so this is a misleading client state rather
-	// than an authentication bypass — the editor appears usable until the API 401s.
-	test.failing('a failed OAuth exchange leaves the editor logged out', () => {
+	// Regression guard: this case guarded on status === 'success' without a break, so a
+	// failed login fell through USER_LOGOUT_RESPONSE into USER_LOGIN_REFRESH and
+	// returned isLoggedIn: true, presenting the UI as signed in.
+	test('a failed OAuth exchange leaves the editor logged out', () => {
 		expect(user(LOGGED_OUT, { type: 'OAUTH_TOKEN_AUTHORIZATION', status: 'error' }))
 			.toEqual(LOGGED_OUT)
 	})
 
-	// BUG (live): same fallthrough. A failed logout lands in USER_LOGIN_REFRESH and
-	// returns {user_name: undefined, isLoggedIn: true}, so a logout that fails both
-	// keeps the editor logged in and discards their name.
-	test.failing('a failed logout preserves the existing session', () => {
+	// Regression guard: the same fallthrough left a failed logout in USER_LOGIN_REFRESH,
+	// which returned isLoggedIn: true with user_name undefined.
+	test('a failed logout preserves the existing session', () => {
 		expect(user(LOGGED_IN, { type: 'USER_LOGOUT_RESPONSE', status: 'error' })).toEqual(LOGGED_IN)
 	})
 })
@@ -105,20 +101,19 @@ describe('userErrors', () => {
 		})).toEqual(['earlier', GENERIC_MESSAGE])
 	})
 
-	// BUG (live): GET_DOCUMENT_TEXT only returns when the fetch succeeded for the
-	// currentDocument. A *failed* document fetch falls through into the
-	// OAUTH_TOKEN_AUTHORIZATION case, whose `status === 'error'` branch matches, so
-	// the reader is told "Login Failed." when a chapter simply failed to load.
-	test.failing('a failed document fetch does not report a login failure', () => {
+	// Regression guard: a failed document fetch fell through into the
+	// OAUTH_TOKEN_AUTHORIZATION case, whose error branch matched, so a chapter that
+	// simply failed to load told the reader "Login Failed."
+	test('a failed document fetch does not report a login failure', () => {
 		expect(userErrors([], {
 			type: 'GET_DOCUMENT_TEXT', status: 'error', state: 'currentDocument',
 		})).toEqual([])
 	})
 
-	// BUG (live): same fallthrough in the other direction. Successfully loading an
-	// annotation note reaches the OAUTH case's `status === 'success'` branch and
-	// wipes any errors the editor was being shown.
-	test.failing('loading an annotation note does not clear pending errors', () => {
+	// Regression guard: the same fallthrough in the other direction — loading an
+	// annotation note reached the OAUTH case's success branch and wiped the errors
+	// the editor was being shown.
+	test('loading an annotation note does not clear pending errors', () => {
 		expect(userErrors(['Please enter a title.'], {
 			type: 'GET_DOCUMENT_TEXT', status: 'success', state: 'annotationNote',
 		})).toEqual(['Please enter a title.'])

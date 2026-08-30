@@ -79,21 +79,34 @@ describe('toggles', () => {
 		expect(toggles(INITIAL, { type: 'SOMETHING_ELSE' })).toBe(INITIAL)
 	})
 
-	// BUG (live): GET_DOCUMENT_LIST only returns when the list came back empty for the
-	// current docType. Every other list action — including the initial 'request' for
-	// each of the six docTypes dispatched at startup in src/joyce.js — falls through
-	// into CREATE_DOCUMENT and sets loading: false. The spinner is dismissed before
-	// the chapter text has arrived.
-	test.failing('requesting a document list does not dismiss the spinner', () => {
+	// Regression guard: every list action that missed the guard fell through into
+	// CREATE_DOCUMENT and set loading: false — including the six 'request' actions
+	// dispatched at startup in src/joyce.js, which dismissed the spinner before any
+	// chapter text had arrived.
+	test('requesting a document list does not dismiss the spinner', () => {
 		expect(toggles(INITIAL, {
 			type: 'GET_DOCUMENT_LIST', status: 'request', docType: 'notes',
 		}).loading).toBe(true)
 	})
 
-	// BUG (live): the same fallthrough for document fetches that are not the
-	// currentDocument. Opening an annotation note in the modal clears the spinner for
-	// the chapter underneath it.
-	test.failing('fetching an annotation note does not dismiss the main spinner', () => {
+	// Consequence of the fix above, pinned deliberately. The GET_DOCUMENT_LIST guard
+	// requires action.state === 'currentDocType', but nothing in src/ ever dispatches
+	// that field — it is dead code, and the fallthrough was the only thing clearing
+	// the spinner for list actions. With the fallthrough gone, a docType whose list
+	// comes back empty never fetches document text, so `loading` stays true and the
+	// spinner hangs. Reachable on a fresh install or an empty media library.
+	// The real fix belongs where docType context exists (joyceRouter/joyceInterface),
+	// not here; this test records the current behaviour so that work is deliberate.
+	test('an empty document list does not clear the spinner (dead guard — see comment)', () => {
+		expect(toggles(INITIAL, {
+			type: 'GET_DOCUMENT_LIST', status: 'success', docType: 'media', data: [],
+		}).loading).toBe(true)
+	})
+
+	// Regression guard: the same fallthrough for fetches that are not the
+	// currentDocument — opening an annotation note cleared the spinner for the
+	// chapter underneath it.
+	test('fetching an annotation note does not dismiss the main spinner', () => {
 		expect(toggles(INITIAL, {
 			type: 'GET_DOCUMENT_TEXT', status: 'request', state: 'annotationNote',
 		}).loading).toBe(true)

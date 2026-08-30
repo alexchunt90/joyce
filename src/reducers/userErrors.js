@@ -10,18 +10,21 @@ const userErrors = (state=[], action) => {
 			if (action.status === 'success' && action.state === 'currentDocument') {
 				return []
 			}
+			return state
 		case 'OAUTH_TOKEN_AUTHORIZATION':
 			if (action.status === 'error') {
 				return ['Login Failed.']
 			} else if (action.status === 'success') {
 				return []
 			}
+			return state
 		case 'USER_LOGOUT_RESPONSE':
 			if (action.status === 'error') {
 				return ['Logout failed. Clear your cookies or contact system admin.']
 			} else if (action.status === 'success') {
 				return []
 			}
+			return state
 		case 'SAVE_DOCUMENT':
 			if (action.status === 'error') {
 				if (action.data.response.status === 401) {
@@ -30,6 +33,7 @@ const userErrors = (state=[], action) => {
 					return [...state, 'The system encountered a problem. Contact your system admin.']
 				}
 			}
+			return state
 		case 'DELETE_DOCUMENT':
 			if (action.status === 'error') {
 				if (action.data.response.status === 401) {
@@ -37,7 +41,8 @@ const userErrors = (state=[], action) => {
 				} else {
 					return [...state, 'The system encountered a problem. Contact your system admin.']
 				}
-			}	
+			}
+			return state
 		default:
 			return state
 	}

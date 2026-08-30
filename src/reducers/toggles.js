@@ -23,6 +23,7 @@ const toggles = (state=initialState, action) => {
 					loading: false
 				}
 			}
+			return state
 		case 'GET_DOCUMENT_LIST':
 			if (action.status === 'success' && !action.data[0] && action.state === 'currentDocType') {
 			// if (action.status === 'success' && action.state === 'currentDocType') {
@@ -31,6 +32,7 @@ const toggles = (state=initialState, action) => {
 					loading: false
 				}
 			}
+			return state
 		case 'CREATE_DOCUMENT':
 			return {
 				...state,

@@ -11,9 +11,11 @@ backups/
 /setup/src/
 /joyce-env/
 /setup/target
+/plans
 .pytest_cache/
 .python-version
 stats.json
+es_log.txt
 *.pyc
 *.crt
 *.srl

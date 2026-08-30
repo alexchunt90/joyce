@@ -60,7 +60,7 @@ services:
       - ./server.key:/etc/nginx/server.key
       - ./server.crt:/etc/nginx/server.crt
       - ./certbot/www/:/var/www/certbot/:ro
-      - /joyce/certbot/conf/:/etc/letsencrypt/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
     restart: unless-stopped
     depends_on:
       - web

@@ -1,3 +1,15 @@
+// ⚠️  DESTRUCTIVE LIVE-SERVER SMOKE TEST — NOT part of `npm test`.
+//
+// This file predates the test suite. It talks to a real running API and MUTATES
+// REAL DATA: it renames chapter 1 to "Odyssey", creates a chapter 19, and deletes
+// a chapter. It also asserts on a hardcoded Elasticsearch id that only exists in
+// one particular index.
+//
+// Do NOT run this against staging or production. It is excluded from the default
+// jest run via `testPathIgnorePatterns` in jest.config.js.
+//
+// TODO: rewrite to create and tear down its own fixtures, then re-enable.
+
 const api = require('../src/modules/api')
 
 // beforeEach(() => {

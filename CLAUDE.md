@@ -47,12 +47,21 @@ Containers under `src/containers/` are the mode-specific page-level components (
 
 ## Commands
 
-Local dev requires npm and Python 3.11, plus a running Elasticsearch (via Docker) and a `config.py`/`.env` with secrets — see [README.md](README.md) for first-time setup (cert generation, ES `vm.max_map_count`, initial data import).
+Local dev requires npm and Python, plus a running Elasticsearch (via Docker) and a
+`config.py`/`.env` with secrets — see [README.md](README.md) for first-time setup (cert
+generation, ES `vm.max_map_count`, initial data import).
+
+**Python version policy:** production and CI both run **3.11.7** (`Dockerfile` and
+`.github/workflows/test.yml` — note `.python-version` is gitignored, so it is a local pyenv
+hint only, not the source of truth). Local development on a newer interpreter is
+supported and verified — every `requirements.txt` pin is version-independent and the suite
+passes identically on 3.11.7 and 3.13 — but CI is the contract for production parity. Do not
+bump the Dockerfile's interpreter without a green CI run.
 
 ```bash
 # Frontend build
 npm run watch          # dev build with file watching (local development)
-npm run build_dev       # one-off dev build for a dev server
+npm run stage          # one-off dev build for a dev server
 npm run build           # production build (minified)
 
 # Backend (via Docker Compose)
@@ -64,12 +73,27 @@ python -m setup.joyce_import
 npm run local_import    # import legacy DraftJS content locally
 
 # Tests
-npm test                # jest (frontend) via jest.config.js
-npx jest tests/api.test.js   # run a single frontend test file
-pytest tests/           # python tests (tests/pytest.ini sets norecursedirs)
+npm test                # jest (frontend), config in jest.config.js
+npm run test:watch      # jest in watch mode
+npm run test:py         # pytest (backend), config in ./pytest.ini
+npx jest tests/unit/harness.test.js  # run a single frontend test file
+.venv/bin/python -m pytest tests/test_harness.py   # run a single backend test file
 ```
 
-Note: the `npm test` script also shells out to `python setup.py`, which does not exist at the repo root — that part of the script is currently broken; run `jest` directly if you hit this.
+`npm run test:py` invokes `.venv/bin/python` explicitly, not `python3`. This is deliberate:
+npm scripts run in a non-interactive shell where zsh aliases do not apply, so a bare
+`python3` resolves by PATH order to whichever interpreter comes first — not necessarily the
+one with the app's dependencies. Create the venv per [README.md](README.md) before running it.
+
+`npm run test:smoke` runs `tests/smoke/api.test.js`, a legacy live-server test that mutates
+real data. It is excluded from `npm test` via `testPathIgnorePatterns` and must never be
+pointed at staging or production.
+
+To run the backend suite on production's exact interpreter:
+
+```bash
+docker compose build web && docker run --rm -v "$PWD":/usr/joyce -w /usr/joyce joyce_flask-web sh -c "pip install -q -r requirements-dev.txt && python -m pytest"
+```
 
 ## Deployment topology
 

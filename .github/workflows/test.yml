@@ -1,0 +1,41 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  frontend:
+    name: Jest (Node 18)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  backend:
+    name: Pytest (Python 3.11.7 — matches Dockerfile)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          # Pinned to the Dockerfile's interpreter. This job is the contract:
+          # local dev may run a newer Python, but production parity is enforced here.
+          python-version: '3.11.7'
+          cache: pip
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: python -m pytest
+        env:
+          # config.py reads these at import time and raises without them.
+          # Dummy values — no test should ever authenticate for real.
+          HOST_ENVIRONMENT: local
+          ADMIN_EMAIL_ADDRESSES: test@example.com
+          JWT_SECRET_KEY: test-jwt-secret-not-used-in-production
+          GOOGLE_AUTH_CLIENT_ID: test-client-id
+          ELASTIC_USER_PASSWORD: test-elastic-password

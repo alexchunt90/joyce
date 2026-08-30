@@ -36,9 +36,6 @@ npm test          # jest — frontend unit tests
 npm run test:py   # pytest — backend tests (runs .venv/bin/python)
 ```
 
-`npm run test:smoke` runs the legacy live-server test in `tests/smoke/`. It talks to a real
-API and mutates real data — never point it at staging or production.
-
 To run the backend tests on the exact interpreter production uses, against the built image:
 
 ```bash

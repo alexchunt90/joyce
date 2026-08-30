@@ -85,10 +85,6 @@ npm scripts run in a non-interactive shell where zsh aliases do not apply, so a 
 `python3` resolves by PATH order to whichever interpreter comes first — not necessarily the
 one with the app's dependencies. Create the venv per [README.md](README.md) before running it.
 
-`npm run test:smoke` runs `tests/smoke/api.test.js`, a legacy live-server test that mutates
-real data. It is excluded from `npm test` via `testPathIgnorePatterns` and must never be
-pointed at staging or production.
-
 To run the backend suite on production's exact interpreter:
 
 ```bash

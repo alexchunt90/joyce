@@ -9,7 +9,6 @@
     "watch": "rimraf static/js/ && webpack-cli --config webpack.dev.js --mode=development",
     "test": "jest --config jest.config.js",
     "test:watch": "jest --config jest.config.js --watch",
-    "test:smoke": "jest --config jest.config.js --testPathIgnorePatterns=/node_modules/ tests/smoke",
     "test:py": ".venv/bin/python -m pytest",
     "stats": "webpack --profile --json > stats.json --mode=production",
     "import": "npx -p @babel/core -p @babel/node babel-node --presets @babel/preset-env /joyce/setup/draftImport.js",

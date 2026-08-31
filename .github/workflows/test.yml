@@ -45,12 +45,9 @@ jobs:
           python-version: '3.11.7'
           cache: pip
       - run: pip install -r requirements.txt -r requirements-dev.txt
+      # No env block here on purpose. tests/conftest.py assigns everything config.py
+      # needs, before any project import. Setting them here too split the suite's
+      # fixture data across two files that then disagreed — this job set a different
+      # ADMIN_EMAIL_ADDRESSES, the conftest deferred to it with setdefault, and nine
+      # google_auth tests failed in CI while passing locally.
       - run: python -m pytest
-        env:
-          # config.py reads these at import time and raises without them.
-          # Dummy values — no test should ever authenticate for real.
-          HOST_ENVIRONMENT: local
-          ADMIN_EMAIL_ADDRESSES: test@example.com
-          JWT_SECRET_KEY: test-jwt-secret-not-used-in-production
-          GOOGLE_AUTH_CLIENT_ID: test-client-id
-          ELASTIC_USER_PASSWORD: test-elastic-password

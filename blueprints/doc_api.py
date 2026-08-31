@@ -215,7 +215,12 @@ def delete_edition(id):
 #
 
 # Update search string
+# Legacy: only ever called by setup/draftImport.js, the one-time import from the old
+# site. Slated for removal along with that script — see plans/hygiene.md. Until then it
+# carries the same auth gate as every other write route, because es_update_search_text
+# writes html_source as well as search_text.
 @doc_api.route('/search_text/<string:id>', methods=['POST'])
+@jwt_required()
 def update_search_text(id):
 	data = json.loads(request.data.decode('utf-8')) 
 	es_func.es_update_search_text(id, data)

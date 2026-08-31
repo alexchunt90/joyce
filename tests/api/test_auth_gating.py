@@ -94,31 +94,38 @@ class TestWriteRoutesAcceptAnEditor:
         assert authed_client.delete(f'/api/{doc_type}/{DOC_ID}').status_code == 200
 
 
-class TestUnauthenticatedWriteEndpoint:
-    """/api/search_text/<id> mutates documents without any authentication.
+class TestSearchTextEndpoint:
+    """/api/search_text/<id> is a legacy route, gated like every other write route.
 
-    Every other write route in doc_api.py carries @jwt_required(). This one does not,
-    and es_func.es_update_search_text writes both `search_text` *and* `html_source` —
-    the annotated HTML readers see. An anonymous caller can therefore replace the body
-    of any chapter, note or info page given only its id, and ids are visible in reader
-    URLs.
+    It carried no @jwt_required() while every other write route in doc_api.py did, and
+    es_func.es_update_search_text writes both `search_text` *and* `html_source` — the
+    annotated HTML readers see. An anonymous caller who knew a document id, which
+    reader URLs expose, could replace the body of any chapter, note or info page.
 
-    Pinned as the current behaviour rather than asserted as correct. See
-    plans/hygiene.md.
+    Its only caller is setup/draftImport.js, the one-time import from the old site.
+    Both are slated for removal; the gate is the interim fix.
     """
 
-    def test_it_accepts_an_anonymous_caller(self, client):
-        response = client.post(f'/api/search_text/{DOC_ID}', json={
-            'doc_type': 'chapters', 'search_text': [], 'html_source': '<p>replaced</p>',
-        })
-        assert response.status_code == 200
+    PAYLOAD = {
+        'doc_type': 'chapters',
+        'search_text': [{'key': 'k', 'text': 't'}],
+        'html_source': '<p>replaced</p>',
+    }
 
-    def test_the_anonymous_write_reaches_elasticsearch(self, client, fake_es):
-        client.post(f'/api/search_text/{DOC_ID}', json={
-            'doc_type': 'chapters', 'search_text': [{'key': 'k', 'text': 't'}],
-            'html_source': '<p>replaced</p>',
-        })
+    def test_an_anonymous_caller_is_rejected(self, client):
+        assert client.post(f'/api/search_text/{DOC_ID}', json=self.PAYLOAD).status_code == 401
+
+    def test_an_anonymous_caller_reaches_no_index(self, client, fake_es):
+        client.post(f'/api/search_text/{DOC_ID}', json=self.PAYLOAD)
+        assert fake_es.calls_to('update') == []
+
+    def test_an_editor_is_accepted(self, authed_client):
+        assert authed_client.post(f'/api/search_text/{DOC_ID}', json=self.PAYLOAD).status_code == 200
+
+    def test_an_editor_write_updates_the_named_doc_type(self, authed_client, fake_es):
+        authed_client.post(f'/api/search_text/{DOC_ID}', json=self.PAYLOAD)
         updates = fake_es.calls_to('update')
         assert len(updates) == 1
         assert updates[0]['index'] == 'chapters'
+        assert updates[0]['id'] == DOC_ID
         assert updates[0]['body']['doc']['html_source'] == '<p>replaced</p>'

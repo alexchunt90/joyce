@@ -10,6 +10,15 @@ import {
 import editorConstructor from '../modules/editorConstructor'
 import paginate from '../modules/paginate'
 
+// A chapter has no pages in an edition it carries no page breaks for, which is
+// ordinary — not every chapter is paginated for every edition. Storing a pageless
+// document is what crashed: paginationState's setStateWithPaginatedDoc reads
+// edition.doc[0].blocks to build the first page's editorState.
+//
+// readerContentContainer already falls back to the unpaginated view when an edition
+// has no stored document, so declining to store one degrades cleanly.
+const hasPages = paginatedDoc => Boolean(paginatedDoc && paginatedDoc.doc && paginatedDoc.doc.length)
+
 // Pagination Action Middleware
 const joycePaginate = store => next => action => {
 	next(action)
@@ -57,7 +66,9 @@ const joycePaginate = store => next => action => {
 				const firstEdition = action.data[0]
 				const editorState = editorConstructor.returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)
 				const paginatedDoc = paginate(editorState, firstEdition)
-				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
+				if (hasPages(paginatedDoc)) {
+					store.dispatch(actions.addPaginatedDoc(paginatedDoc))
+				}
 			}
 			break
 		case 'CHOOSE_PAGINATION_EDITION':
@@ -75,7 +86,9 @@ const joycePaginate = store => next => action => {
 			// Ignore if in editor pagination mode, as paginated doc isn't used
 			if (paginationState.documents[action.data.year] === undefined && mode !== 'PAGINATION_MODE') {
 				const paginatedDoc = paginate(editorState, action.data)
-				store.dispatch(actions.addPaginatedDoc(paginatedDoc))
+				if (hasPages(paginatedDoc)) {
+					store.dispatch(actions.addPaginatedDoc(paginatedDoc))
+				}
 			}
 			break
 

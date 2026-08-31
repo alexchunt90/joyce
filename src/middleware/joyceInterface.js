@@ -17,13 +17,16 @@ const joyceInterface = store => next => action => {
 	const tags = state.tags
 	const editions = state.editions
 	const media = state.media
+	const info = state.info
 	const currentDocument = state.currentDocument
 	const currentBlock = state.currentBlock
 	const docType = state.docType
 	const mode = state.mode
 	const user = state.user
 	const paginationState = state.paginationState
-	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media)
+	// All seven arguments, in the order the helper declares them. Passing six left
+	// `info` undefined, so `docs` was undefined for exactly that docType.
+	const docs = helpers.documentsOfDocType(docType, chapters, notes, tags, editions, media, info)
 	switch(action.type) {
 		// Upon successfully loading currentDocument, create a DraftJS editor state
 		// Doing this here lets us call returnEditorStateFromHTML once, and pass the result
@@ -34,9 +37,10 @@ const joyceInterface = store => next => action => {
 				store.dispatch(actions.setEditorState(editorState))
 			}
 			if (action.status === 'success' && action.docType === 'notes') {
-				if (action.data.media_doc_ids.length > 0) {
+				const mediaDocIds = action.data.media_doc_ids || []
+				if (mediaDocIds.length > 0) {
 					const isModalNote = action.state !== 'currentDocument' ? true : false
-					store.dispatch(actions.getMediaDocs({media_doc_ids: action.data.media_doc_ids, modal_note: isModalNote}))
+					store.dispatch(actions.getMediaDocs({media_doc_ids: mediaDocIds, modal_note: isModalNote}))
 				}
 			}			
 			break
@@ -96,7 +100,9 @@ const joyceInterface = store => next => action => {
 		case 'CANCEL_EDIT':
 			if (currentDocument.id) {
 				store.dispatch(actions.getDocumentText({id: currentDocument.id, docType: docType, state: 'currentDocument'}))
-			} else {
+			} else if (docs && docs.length > 0) {
+				// Cancelling a document that was never saved falls back to the first of
+				// its type. With nothing to fall back to there is simply nothing to load.
 				store.dispatch(actions.getDocumentText({id: docs[0].id, docType: docType, state: 'currentDocument'}))
 			}
 			break

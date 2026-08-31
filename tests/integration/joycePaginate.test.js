@@ -198,29 +198,55 @@ describe('page break selection in the editor', () => {
 })
 
 // Two defects, pinned as current behaviour. See plans/hygiene.md.
-describe('known defects', () => {
-	// A chapter with no page breaks for the chosen edition is entirely ordinary — not
-	// every chapter is paginated for every edition. paginate() correctly returns an
-	// empty page list, joycePaginate dispatches it anyway, and the paginationState
-	// reducer's setStateWithPaginatedDoc reads edition.doc[0].blocks.
-	test('paginating a chapter with no breaks for that edition throws', () => {
+describe('editions a chapter has no pages in', () => {
+	// Regression guard. A chapter with no page breaks in the chosen edition is
+	// ordinary — not every chapter is paginated for every edition. paginate()
+	// correctly returns an empty page list; joycePaginate used to store it anyway, and
+	// paginationState's setStateWithPaginatedDoc reads edition.doc[0].blocks, throwing
+	// from inside combineReducers.
+	test('a chapter with no breaks for that edition is not paginated', () => {
+		const { store, recorder } = setup()
+		loadEditor(store, '<p data-search-key="a">A chapter with no page breaks at all.</p>')
+		recorder.clear()
+
+		expect(() => store.dispatch({ type: 'SET_PAGINATION_EDITION', data: EDITION })).not.toThrow()
+		expect(recorder.ofType('ADD_PAGINATED_DOCUMENT')).toHaveLength(0)
+	})
+
+	test('nothing is stored for an edition the chapter has no pages in', () => {
+		// readerContentContainer falls back to the unpaginated view when an edition
+		// has no stored document, so the absence is what makes it degrade cleanly.
 		const { store } = setup()
 		loadEditor(store, '<p data-search-key="a">A chapter with no page breaks at all.</p>')
+		store.dispatch({ type: 'SET_PAGINATION_EDITION', data: EDITION })
 
-		expect(() => store.dispatch({ type: 'SET_PAGINATION_EDITION', data: EDITION }))
-			.toThrow(/Cannot read properties of undefined/)
+		expect(store.getState().paginationState.documents[1922]).toBeUndefined()
 	})
 
-	test('the same crash is reachable from the ordinary startup path', () => {
-		// Not only manual edition selection. LOAD_PAGINATION fires on its own 100ms
-		// after any chapter loads, picks the first edition, and paginates whatever
-		// editorState is current — including the blank default, before a chapter has
-		// arrived.
+	test('the startup path is safe before a chapter has loaded', () => {
+		// LOAD_PAGINATION fires on its own 100ms after any chapter loads, picks the
+		// first edition, and paginates whatever editorState is current — including the
+		// blank default, which has no pages in any edition. This was the wider of the
+		// two routes into the crash.
 		const { store } = setup()
-		expect(() => store.dispatch({ type: 'LOAD_PAGINATION' }))
-			.toThrow(/Cannot read properties of undefined/)
+		expect(() => store.dispatch({ type: 'LOAD_PAGINATION' })).not.toThrow()
+		expect(store.getState().paginationState.documents).toEqual({})
 	})
 
+	test('a chapter that does have breaks is still paginated', () => {
+		// The guard must not suppress the ordinary case.
+		const { store, recorder } = setup()
+		loadEditor(store)
+		recorder.clear()
+		store.dispatch({ type: 'SET_PAGINATION_EDITION', data: EDITION })
+
+		expect(recorder.ofType('ADD_PAGINATED_DOCUMENT')).toHaveLength(1)
+		expect(store.getState().paginationState.documents[1922].doc.length).toBeGreaterThan(0)
+	})
+})
+
+// Known defect, pinned as current behaviour. See plans/hygiene.md item 7.
+describe('the paginate-mode guard', () => {
 	// The SET_PAGINATION_EDITION guard reads `mode !== 'PAGINATION_MODE'`, and its
 	// comment says pagination should be skipped in the editor's paginate mode because
 	// the result is not used there. But the mode is spelled PAGINATE_MODE everywhere

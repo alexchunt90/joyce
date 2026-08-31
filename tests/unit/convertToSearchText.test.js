@@ -48,14 +48,18 @@ describe('page break markers (guards 1f3721e)', () => {
 		expect(third.text).not.toContain('#')
 	})
 
-	// The marker is removed with no separator in its place, so the words either side
-	// of a mid-sentence page break are concatenated: "the break" + "and text" becomes
-	// "breakand". search_index() queries with match_phrase, so a phrase spanning a
-	// page break cannot be found. Replacing the marker with a space rather than an
-	// empty string would fix it.
-	test('stripping joins the surrounding words with no separator', () => {
+	// Regression guard: the marker was previously replaced with an empty string, which
+	// joined the words either side of a mid-sentence break — "the break" + "and text"
+	// became "breakand" — making any phrase spanning a page break unfindable, since
+	// search_index() queries with match_phrase. It is now replaced with a space.
+	test('stripping leaves a separator between the surrounding words', () => {
 		const [, , third] = convertToSearchText(stateFromHTML(ALL_ENTITY_TYPES))
-		expect(third.text).toBe('Text before the breakand text after it.')
+		expect(third.text).toBe('Text before the break and text after it.')
+	})
+
+	test('a phrase spanning a page break survives into the indexed text', () => {
+		const [, , third] = convertToSearchText(stateFromHTML(ALL_ENTITY_TYPES))
+		expect(third.text).toContain('the break and text')
 	})
 
 	test('every block of a paginated document is free of markers', () => {
@@ -72,7 +76,7 @@ describe('page break markers (guards 1f3721e)', () => {
 
 	test('a three-digit page number is stripped completely', () => {
 		const html = '<p data-search-key="a">before<span data-edition="1922" data-page="123">1922#123</span>after</p>'
-		expect(convertToSearchText(stateFromHTML(html))[0].text).toBe('beforeafter')
+		expect(convertToSearchText(stateFromHTML(html))[0].text).toBe('before after')
 	})
 
 	// The pattern is /[0-9]{4,4}#[0-9]{1,3}/g — exactly four digits, then #, then one
@@ -81,7 +85,7 @@ describe('page break markers (guards 1f3721e)', () => {
 	// project runs to four-digit pages today, so this is latent rather than live.
 	test('a four-digit page number leaves a stray digit behind', () => {
 		const html = '<p data-search-key="a">before<span data-edition="1922" data-page="1234">1922#1234</span>after</p>'
-		expect(convertToSearchText(stateFromHTML(html))[0].text).toBe('before4after')
+		expect(convertToSearchText(stateFromHTML(html))[0].text).toBe('before 4after')
 	})
 })
 

@@ -150,7 +150,12 @@ export const convertToSearchText = contentState => {
   const searchText = rawState.blocks.reduce(
     (searchText, block) => ([...searchText, {
       key: block.key, 
-      text: block.text.replaceAll(/[0-9]{4,4}\#[0-9]{1,3}/g, '')
+      // Page break markers ("1922#12") are stripped so they are neither indexed nor
+      // shown in search snippets. Replaced with a space rather than an empty string:
+      // breaks fall mid-sentence by design, and joining the words either side of one
+      // ("the break" + "and text" -> "breakand") makes a phrase spanning a page break
+      // unfindable, because search_index() queries with match_phrase.
+      text: block.text.replaceAll(/[0-9]{4,4}\#[0-9]{1,3}/g, ' ')
     }]),
     []
   )

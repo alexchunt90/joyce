@@ -75,8 +75,19 @@ python -m setup.joyce_import
 npm test                # jest (frontend), config in jest.config.js
 npm run test:watch      # jest in watch mode
 npm run test:py         # pytest (backend), config in ./pytest.ini
+npm run test:py:es      # pytest integration tests, needs a real Elasticsearch
 npx jest tests/unit/harness.test.js  # run a single frontend test file
 .venv/bin/python -m pytest tests/test_harness.py   # run a single backend test file
+```
+
+`npm run test:py:es` runs the tests under `tests/es/`, which exercise the index
+mappings, the `html_analyzer`, and the `nested`/`inner_hits` search query against a
+real cluster — none of which a fake client can validate. They are marked `integration`
+and excluded from the default run by `pytest.ini`, and skip themselves if nothing is
+listening. Start a throwaway cluster, isolated from the compose service's data volume:
+
+```bash
+docker run -d --name joyce-test-es -p 9201:9200 -e discovery.type=single-node -e xpack.security.enabled=false -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" docker.elastic.co/elasticsearch/elasticsearch:8.17.0
 ```
 
 `npm run test:py` invokes `.venv/bin/python` explicitly, not `python3`. This is deliberate:

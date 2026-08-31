@@ -10,9 +10,7 @@
     "test": "jest --config jest.config.js",
     "test:watch": "jest --config jest.config.js --watch",
     "test:py": ".venv/bin/python -m pytest",
-    "stats": "webpack --profile --json > stats.json --mode=production",
-    "import": "npx -p @babel/core -p @babel/node babel-node --presets @babel/preset-env /joyce/setup/draftImport.js",
-    "local_import": "npx -p @babel/core -p @babel/node babel-node --presets @babel/preset-env setup/draftImport.js"
+    "stats": "webpack --profile --json > stats.json --mode=production"
   },
   "author": "Alex Hunt",
   "license": "ISC",

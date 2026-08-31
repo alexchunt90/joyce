@@ -8,11 +8,19 @@ or real Google credentials.
 
 import os
 
-os.environ.setdefault('HOST_ENVIRONMENT', 'local')
-os.environ.setdefault('ADMIN_EMAIL_ADDRESSES', 'editor@example.com, second@example.com')
-os.environ.setdefault('JWT_SECRET_KEY', 'test-jwt-secret-not-used-in-production')
-os.environ.setdefault('GOOGLE_AUTH_CLIENT_ID', 'test-google-client-id')
-os.environ.setdefault('ELASTIC_USER_PASSWORD', 'test-elastic-password')
+# Assigned, never setdefault. These are fixture data, not defaults: tests assert on
+# the exact admin allowlist, so inheriting whatever the environment happens to hold
+# makes the suite pass or fail based on where it runs. It did — the CI job set
+# ADMIN_EMAIL_ADDRESSES to a different value, setdefault deferred to it, and nine
+# google_auth tests failed in CI while passing locally.
+#
+# Set before any project import: config.py reads the environment at import time, and
+# application.py builds the Flask app at import time.
+os.environ['HOST_ENVIRONMENT'] = 'local'
+os.environ['ADMIN_EMAIL_ADDRESSES'] = 'editor@example.com, second@example.com'
+os.environ['JWT_SECRET_KEY'] = 'test-jwt-secret-not-used-in-production'
+os.environ['GOOGLE_AUTH_CLIENT_ID'] = 'test-google-client-id'
+os.environ['ELASTIC_USER_PASSWORD'] = 'test-elastic-password'
 
 from types import FunctionType  # noqa: E402
 

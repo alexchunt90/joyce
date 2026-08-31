@@ -26,7 +26,7 @@ Design and engineering decisions should keep these two experiences in mind — t
   - `blueprints/google_auth.py` (`/auth`) — Google OAuth sign-in; verifies the Google ID token, checks the email against `config.ADMIN_EMAIL_ADDRESSES`, and issues JWT access/refresh cookies. There is no self-serve account creation — only pre-approved admin emails can authenticate as editors.
 - `blueprints/es_func.py` is the single data-access layer over Elasticsearch — all blueprints go through it rather than calling the ES client directly. Each document type is its own ES index; documents are stored with `html_source` (raw annotated HTML) and a derived `search_text` field.
 - `config.py` branches on `HOST_ENVIRONMENT` (`local` / `docker` / `staging` / `production`) to pick upload folders, cookie domain, and the Elasticsearch host.
-- `setup/` contains one-off/admin scripts (not imported by the running app): `joyce_import.py` and `es_setup.py` create ES index mappings, `*_ops.py` files hold per-doc-type import/migration helpers, `draftImport.js` imports legacy DraftJS content.
+- `setup/` contains one-off/admin scripts (not imported by the running app): `joyce_import.py` and `es_setup.py` create ES index mappings, `*_ops.py` files hold per-doc-type import/migration helpers.
 
 ### Frontend (`src/`)
 
@@ -70,7 +70,6 @@ docker compose up -d
 
 # Data import / ES setup (Flask + Elasticsearch must be running)
 python -m setup.joyce_import
-npm run local_import    # import legacy DraftJS content locally
 
 # Tests
 npm test                # jest (frontend), config in jest.config.js

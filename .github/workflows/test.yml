@@ -1,9 +1,24 @@
 name: Tests
 
+# `push` is unfiltered so every commit on every branch is checked. The previous
+# `branches: [master]` filter, paired with `pull_request`, left a gap: a push to a
+# feature branch with no *open* PR matched neither trigger and ran nothing at all.
+# That is exactly what happened after PR #16 merged — two pushes landed with no checks.
+#
+# `pull_request` is narrowed to opened/reopened to avoid running twice for the same
+# commit. A PR's status checks match on head SHA regardless of which event produced
+# the run, so the `push` run above already reports on the PR; this only covers a PR
+# opened against commits pushed earlier.
 on:
   push:
-    branches: [master]
   pull_request:
+    types: [opened, reopened]
+
+# A rapid series of pushes supersedes itself; only the newest commit on a ref needs
+# checking.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   frontend:
@@ -30,12 +45,9 @@ jobs:
           python-version: '3.11.7'
           cache: pip
       - run: pip install -r requirements.txt -r requirements-dev.txt
+      # No env block here on purpose. tests/conftest.py assigns everything config.py
+      # needs, before any project import. Setting them here too split the suite's
+      # fixture data across two files that then disagreed — this job set a different
+      # ADMIN_EMAIL_ADDRESSES, the conftest deferred to it with setdefault, and nine
+      # google_auth tests failed in CI while passing locally.
       - run: python -m pytest
-        env:
-          # config.py reads these at import time and raises without them.
-          # Dummy values — no test should ever authenticate for real.
-          HOST_ENVIRONMENT: local
-          ADMIN_EMAIL_ADDRESSES: test@example.com
-          JWT_SECRET_KEY: test-jwt-secret-not-used-in-production
-          GOOGLE_AUTH_CLIENT_ID: test-client-id
-          ELASTIC_USER_PASSWORD: test-elastic-password

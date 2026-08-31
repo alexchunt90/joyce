@@ -92,21 +92,6 @@ def es_update_document(index, id, data, es_client=es):
 		body={'doc': data}
 	)
 
-def es_update_search_text(id, data):
-	res = es.update(
-		index=data['doc_type'],
-		# doc_type='_doc',
-		id=id,
-		body={
-			'doc': {
-				'search_text': data['search_text'],
-				'html_source': data['html_source']
-			}
-		}
-
-	)
-	return res
-
 def es_delete_document(index, id):
 	res = es.delete(
 		index=index,

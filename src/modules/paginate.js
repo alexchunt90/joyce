@@ -142,6 +142,26 @@ const recursivePagination = (contentState, edition, block=undefined, page=undefi
 			number: 1}
 	// If this is the last contentBlock in the contentState, nextBlock will be null
 	} else {
+		// A page takes its number from the break that closes it, so the run of blocks
+		// after the final break has no break to take one from. It used to be discarded
+		// here — in a fully paginated chapter that is the whole last page, since in
+		// print nothing marks the end of the final page.
+		//
+		// It is numbered last + 1, which keeps the sequence contiguous. Page numbers
+		// are strings everywhere else (they come from the data-page attribute), and
+		// paginationState looks them up with ===, so this one is a string too.
+		//
+		// Only pushed when at least one break was found: a document with no breaks for
+		// this edition is not paginated at all and must still yield no pages, rather
+		// than one page claiming to be the whole chapter. An empty trailing page is
+		// skipped as well — that happens when the final break sits at the very end of
+		// the last block, leaving nothing after it.
+		if (paginatedDoc.doc.length > 0 && currentPage.blocks.length > 0) {
+			const lastNumber = Number(paginatedDoc.doc[paginatedDoc.doc.length - 1].number)
+			if (!Number.isNaN(lastNumber)) {
+				paginatedDoc.doc.push({...currentPage, number: String(lastNumber + 1)})
+			}
+		}
 		// When we're done recursing, export the final entityMap for the contentState, as
 		// we'll need to construct page-scoped contentBlocks from the arrays later
 		const entityMap = nextContentState.getEntityMap()

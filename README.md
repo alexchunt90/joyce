@@ -34,6 +34,7 @@ source of truth for production parity.
 ```bash
 npm test          # jest — frontend unit tests
 npm run test:py   # pytest — backend tests (runs .venv/bin/python)
+npm run test:py:es # pytest — integration tests against a real Elasticsearch
 ```
 
 To run the backend tests on the exact interpreter production uses, against the built image:

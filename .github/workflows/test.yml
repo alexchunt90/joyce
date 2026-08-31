@@ -1,9 +1,24 @@
 name: Tests
 
+# `push` is unfiltered so every commit on every branch is checked. The previous
+# `branches: [master]` filter, paired with `pull_request`, left a gap: a push to a
+# feature branch with no *open* PR matched neither trigger and ran nothing at all.
+# That is exactly what happened after PR #16 merged — two pushes landed with no checks.
+#
+# `pull_request` is narrowed to opened/reopened to avoid running twice for the same
+# commit. A PR's status checks match on head SHA regardless of which event produced
+# the run, so the `push` run above already reports on the PR; this only covers a PR
+# opened against commits pushed earlier.
 on:
   push:
-    branches: [master]
   pull_request:
+    types: [opened, reopened]
+
+# A rapid series of pushes supersedes itself; only the newest commit on a ref needs
+# checking.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   frontend:

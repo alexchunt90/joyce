@@ -1,0 +1,7 @@
+# Development / test dependencies.
+# Install alongside requirements.txt:
+#   joyce-env/bin/pip install -r requirements.txt -r requirements-dev.txt
+-r requirements.txt
+
+pytest==8.3.4
+pytest-mock==3.14.0

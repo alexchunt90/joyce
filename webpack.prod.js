@@ -5,7 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const common = require('./webpack.common.js')
 const path = require('path')
 
-module.exports = merge(common, {
+module.exports = merge(common('production'), {
   mode: 'production',
   optimization: {
   	minimize: true,

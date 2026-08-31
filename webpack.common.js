@@ -6,7 +6,13 @@ const Dotenv = require('dotenv-webpack');
 
 const rootAssetPath = './src/'
 
-module.exports = {
+// Builds load .env, optionally layered under `.env.<hostEnvironment>` so a
+// production bundle can pin HOST_ENVIRONMENT without editing .env by hand.
+const dotenvConfig = (hostEnvironment) => hostEnvironment
+	? { path: './.env.' + hostEnvironment, defaults: './.env' }
+	: { path: './.env' }
+
+module.exports = (hostEnvironment) => ({
 	entry: {
 		joyce: [
 			rootAssetPath + 'joyce',
@@ -63,6 +69,6 @@ module.exports = {
     ]},
     plugins: [
       new WebpackManifestPlugin(),
-   		new Dotenv()
+   		new Dotenv(dotenvConfig(hostEnvironment))
     ],
-};
+});

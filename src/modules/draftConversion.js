@@ -6,6 +6,8 @@
 import React from 'react'
 import { convertFromHTML, convertToHTML } from 'draft-convert'
 
+import { searchKeyForBlock } from './helpers'
+
 // Create contentState from HTML
 export const stateFromHTML = html => {
 
@@ -81,22 +83,22 @@ export const stateToHTML = contentState => {
   const html = convertToHTML({
     blockToHTML: (block) => {
       if (block.type === 'unstyled') {
-        return <p data-search-key={block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />;
+        return <p data-search-key={searchKeyForBlock(block)} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />;
       }
       if (block.type === 'blockquote') {
-        return <blockquote data-search-key={block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
+        return <blockquote data-search-key={searchKeyForBlock(block)} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }
       if (block.type === 'header-one') {
-        return <h1 data-search-key={block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
+        return <h1 data-search-key={searchKeyForBlock(block)} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }
       if (block.type === 'header-two') {
-        return <h2 data-search-key={block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
+        return <h2 data-search-key={searchKeyForBlock(block)} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }
       if (block.type === 'header-three') {
-        return <h3 data-search-key={block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
+        return <h3 data-search-key={searchKeyForBlock(block)} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} />
       }
       if (block.type === 'atomic') {
-        return <img data-search-key={block.key} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} src={block.data.url} data-media-id={block.data.id}/>
+        return <img data-search-key={searchKeyForBlock(block)} data-align={block.data.align || 'left'} data-indent={block.data.indent || undefined} data-custom-classes={block.data.classes ? block.data.classes.join(' ') : undefined} src={block.data.url} data-media-id={block.data.id}/>
       }        
     },
     entityToHTML: (entity, originalText) => {

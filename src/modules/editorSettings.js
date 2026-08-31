@@ -1,6 +1,7 @@
 // Consolidating any references to the draft-js or draft-convert libraries to this one module
 import { ContentState, CompositeDecorator, getDefaultKeyBinding, KeyBindingUtil, convertToRaw } from 'draft-js'
 
+import { searchKeyForBlock } from './helpers'
 import {PageBreak,VisiblePageBreak} from '../containers/pageBreakContainer'
 import ModalLinkContainer from '../containers/linkModalContainer'
 import ExternalURLContainer from '../components/externalURL'
@@ -149,7 +150,7 @@ export const convertToSearchText = contentState => {
   const rawState = convertToRaw(contentState)
   const searchText = rawState.blocks.reduce(
     (searchText, block) => ([...searchText, {
-      key: block.key, 
+      key: searchKeyForBlock(block),
       // Page break markers ("1922#12") are stripped so they are neither indexed nor
       // shown in search snippets. Replaced with a space rather than an empty string:
       // breaks fall mid-sentence by design, and joining the words either side of one

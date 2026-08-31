@@ -10,9 +10,6 @@ import { ALL_BLOCK_TYPES, ALL_ENTITY_TYPES, WITH_IMAGE } from '../fixtures/docum
 
 const raw = html => convertToRaw(stateFromHTML(html))
 const entitiesOf = html => Object.values(raw(html).entityMap)
-// Block keys are regenerated on every parse (see the final describe block), so
-// comparisons of whole documents have to ignore them.
-const withoutKeys = html => html.replace(/data-search-key="[^"]*"/g, 'data-search-key="KEY"')
 
 describe('stateFromHTML — block types', () => {
 	test.each([
@@ -135,10 +132,12 @@ describe('round trip stability', () => {
 		['all block types', ALL_BLOCK_TYPES],
 		['all entity types', ALL_ENTITY_TYPES],
 		['an inline image', WITH_IMAGE],
-	])('%s is stable once past the first pass', (_name, html) => {
+	])('%s is byte-identical once past the first pass', (_name, html) => {
+		// Compared exactly, keys included. Before search keys were preserved this could
+		// only be asserted with the keys stripped out, because every pass reassigned them.
 		const pass1 = stateToHTML(stateFromHTML(html))
 		const pass2 = stateToHTML(stateFromHTML(pass1))
-		expect(withoutKeys(pass2)).toBe(withoutKeys(pass1))
+		expect(pass2).toBe(pass1)
 	})
 
 	test('no block is lost or duplicated across the trip', () => {
@@ -151,32 +150,52 @@ describe('round trip stability', () => {
 })
 
 describe('search key handling', () => {
-	// Consequential behaviour, pinned deliberately rather than asserted as correct.
+	// Regression guard for a defect that made every save rewrite a document's anchors.
 	//
 	// stateFromHTML reads the incoming data-search-key into block.data.key, but
-	// blockToHTML writes `data-search-key={block.key}` — the key DraftJS generated
-	// when it parsed the document, not the one that came in. block.data.key is
-	// therefore captured and never used, and every parse reassigns every key.
+	// blockToHTML used to emit block.key — the key DraftJS generated when it parsed
+	// the document — so data.key was captured and never used. Saving a chapter
+	// reassigned every key, and any external reference to one (a bookmarked /4#<key>
+	// deep link, an anchor recorded before the save) stopped resolving.
 	//
-	// Saving a chapter rewrites all of its search keys. search_text is regenerated
-	// from the same contentState in the same save, so the stored document stays
-	// internally consistent (that is the invariant convertToSearchText.test.js
-	// guards). What does not survive is any *external* reference to a key: a
-	// bookmarked /4#<key> deep link, or an anchor recorded before the last save.
-	//
-	// Preserving keys would mean emitting `block.data.key || block.key`.
+	// Both the HTML and the search_text entries now come from helpers.searchKeyForBlock,
+	// one function, because the two diverging is the *other* historical bug (55e813c).
 	test('the incoming search key is read into block data', () => {
 		expect(raw('<p data-search-key="original">x</p>').blocks[0].data.key).toBe('original')
 	})
 
-	test('but the emitted key is DraftJS-generated, not the incoming one', () => {
+	test('and is emitted unchanged', () => {
 		const out = stateToHTML(stateFromHTML('<p data-search-key="original">x</p>'))
-		expect(out).toContain('data-search-key=')
-		expect(out).not.toContain('data-search-key="original"')
+		expect(out).toContain('data-search-key="original"')
 	})
 
-	test('so keys differ on every parse of the same document', () => {
-		const keysOf = html => raw(html).blocks.map(b => b.key)
-		expect(keysOf(ALL_BLOCK_TYPES)).not.toEqual(keysOf(ALL_BLOCK_TYPES))
+	test('so a document keeps its keys across any number of saves', () => {
+		const keysIn = html => [...html.matchAll(/data-search-key="([^"]*)"/g)].map(m => m[1])
+		const pass1 = stateToHTML(stateFromHTML(ALL_BLOCK_TYPES))
+		const pass2 = stateToHTML(stateFromHTML(pass1))
+		const pass3 = stateToHTML(stateFromHTML(pass2))
+		expect(keysIn(pass1)).toEqual(keysIn(ALL_BLOCK_TYPES))
+		expect(keysIn(pass3)).toEqual(keysIn(ALL_BLOCK_TYPES))
+	})
+
+	// DraftJS still generates its own block keys on every parse — that is internal and
+	// unavoidable. What matters is that the emitted key no longer follows it.
+	test('DraftJS block keys still differ per parse, but the emitted key does not', () => {
+		const draftKeys = html => raw(html).blocks.map(b => b.key)
+		expect(draftKeys(ALL_BLOCK_TYPES)).not.toEqual(draftKeys(ALL_BLOCK_TYPES))
+	})
+
+	test('a block with no stored key falls back to its DraftJS key', () => {
+		// Blocks created in the editor since the last save have no data.key.
+		const out = stateToHTML(stateFromHTML('<p>no key attribute</p>'))
+		expect(out).toMatch(/data-search-key="[A-Za-z0-9]+"/)
+	})
+
+	test('keys stay unique when stored and generated keys are mixed', () => {
+		const html = '<p data-search-key="stored-key-0001">kept</p><p>brand new</p>'
+		const keys = [...stateToHTML(stateFromHTML(html)).matchAll(/data-search-key="([^"]*)"/g)]
+			.map(m => m[1])
+		expect(keys[0]).toBe('stored-key-0001')
+		expect(new Set(keys).size).toBe(keys.length)
 	})
 })

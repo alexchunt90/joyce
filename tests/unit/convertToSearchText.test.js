@@ -33,6 +33,22 @@ describe('the key invariant (guards 55e813c)', () => {
 		expect(convertToSearchText(contentState)).toHaveLength(5)
 	})
 
+	test('the invariant holds for stored and newly created blocks mixed together', () => {
+		// The shape of any real save after editing: some blocks carry a key from the
+		// last save, blocks added since do not. Both must reach the HTML and the
+		// search_text identically.
+		const html = '<p data-search-key="stored-key-0001">kept</p><p>added since</p>'
+		const contentState = stateFromHTML(html)
+
+		expect(convertToSearchText(contentState).map(b => b.key))
+			.toEqual(searchKeysInHTML(stateToHTML(contentState)))
+	})
+
+	test('a stored key survives into the indexed text', () => {
+		const contentState = stateFromHTML('<p data-search-key="stored-key-0001">kept</p>')
+		expect(convertToSearchText(contentState)[0].key).toBe('stored-key-0001')
+	})
+
 	test('keys are unique within a document', () => {
 		const keys = convertToSearchText(stateFromHTML(ALL_BLOCK_TYPES)).map(b => b.key)
 		expect(new Set(keys).size).toBe(keys.length)

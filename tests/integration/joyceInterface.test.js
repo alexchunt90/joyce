@@ -355,47 +355,64 @@ describe('search', () => {
 	})
 })
 
-// Three inputs that crash the middleware outright. A throw here escapes the dispatch,
-// so the action never completes and the editor is left wedged — these are not silent
-// misbehaviour. All are pinned as current behaviour; see plans/hygiene.md.
-describe('inputs that throw', () => {
-	// joyceInterface calls documentsOfDocType with six arguments:
-	//   (docType, chapters, notes, tags, editions, media)
-	// but the signature takes seven, with `info` last. So `docs` is undefined whenever
-	// docType is 'info', even though state.info is right there and never read.
-	// Cancelling an edit then indexes into undefined.
-	test('cancelling an edit on an info page throws', () => {
-		const { store } = setup()
+// Three inputs that used to crash the middleware outright. A throw inside middleware
+// escapes the dispatch, so the action never completed and the editor was left wedged.
+describe('inputs that used to throw', () => {
+	// documentsOfDocType was called with six arguments where it declares seven, with
+	// `info` last — and `info` was never read from state at all, so `docs` was
+	// undefined for exactly that docType. Cancelling then indexed into undefined.
+	test('cancelling an edit on an info page loads the first info page', () => {
+		const { store, recorder } = setup()
 		store.dispatch({ type: 'SET_DOC_TYPE', docType: 'info' })
-		expect(() => store.dispatch({ type: 'CANCEL_EDIT' }))
-			.toThrow(/Cannot read properties of undefined/)
+		recorder.clear()
+
+		expect(() => store.dispatch({ type: 'CANCEL_EDIT' })).not.toThrow()
+		expect(recorder.ofType('GET_DOCUMENT_TEXT')[0]).toMatchObject({
+			id: INFO[0].id, docType: 'info', state: 'currentDocument',
+		})
 	})
 
-	test('every other docType resolves its document list', () => {
-		// The same call works for the five docTypes that are passed positionally,
-		// which is why the gap is easy to miss.
-		for (const docType of ['chapters', 'notes', 'tags', 'editions', 'media']) {
-			const { store } = setup()
+	test('every docType resolves its own document list', () => {
+		// The five passed positionally always worked, which is why the gap in the
+		// sixth survived. Asserting the resolved document, not just the absence of a
+		// throw, so a future argument-order slip is caught rather than passing quietly.
+		for (const [docType, expected] of [
+			['chapters', CHAPTERS], ['notes', NOTES], ['info', INFO],
+			['tags', TAGS], ['editions', EDITIONS], ['media', MEDIA],
+		]) {
+			const { store, recorder } = setup()
 			store.dispatch({ type: 'SET_DOC_TYPE', docType })
-			expect(() => store.dispatch({ type: 'CANCEL_EDIT' })).not.toThrow()
+			recorder.clear()
+			store.dispatch({ type: 'CANCEL_EDIT' })
+			expect(recorder.ofType('GET_DOCUMENT_TEXT')[0].id).toBe(expected[0].id)
 		}
 	})
 
-	// media_doc_ids is read without a guard. The index mapping declares the field but
-	// does not require it, so a note saved before it existed has no such key.
-	test('loading a note with no media_doc_ids field throws', () => {
-		const { store } = setup()
+	// media_doc_ids is declared by NOTE_MAPPINGS but not required, so a note saved
+	// before the field existed has no such key.
+	test('a note with no media_doc_ids field loads without error', () => {
+		const { store, recorder } = setup()
 		expect(() => store.dispatch({
 			type: 'GET_DOCUMENT_TEXT', status: 'success', state: 'currentDocument',
-			docType: 'notes', data: { id: 'n', html_source: '<p>x</p>' },
-		})).toThrow(/Cannot read properties of undefined/)
+			docType: 'notes', data: { id: 'n', html_source: '<p data-search-key="a">x</p>' },
+		})).not.toThrow()
+		expect(recorder.ofType('GET_MEDIA_DOCS')).toHaveLength(0)
 	})
 
-	// docs[0].id with nothing in the list — a fresh install, or a docType whose
-	// documents have all been deleted.
-	test('cancelling a new document with an empty document list throws', () => {
-		const { store } = setup('/', { seed: false })
-		expect(() => store.dispatch({ type: 'CANCEL_EDIT' }))
-			.toThrow(/Cannot read properties of undefined/)
+	test('a note with no media_doc_ids still becomes an editor state', () => {
+		const { store, recorder } = setup()
+		store.dispatch({
+			type: 'GET_DOCUMENT_TEXT', status: 'success', state: 'currentDocument',
+			docType: 'notes', data: { id: 'n', html_source: '<p data-search-key="a">Prose.</p>' },
+		})
+		expect(recorder.ofType('SET_EDITOR_STATE')[0].data.getCurrentContent().getPlainText())
+			.toBe('Prose.')
+	})
+
+	// A fresh install, or a docType whose documents have all been deleted.
+	test('cancelling with an empty document list does nothing rather than throwing', () => {
+		const { store, recorder } = setup('/', { seed: false })
+		expect(() => store.dispatch({ type: 'CANCEL_EDIT' })).not.toThrow()
+		expect(recorder.ofType('GET_DOCUMENT_TEXT')).toHaveLength(0)
 	})
 })

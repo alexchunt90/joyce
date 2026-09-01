@@ -11,7 +11,8 @@
     "test:watch": "jest --config jest.config.js --watch",
     "test:py": ".venv/bin/python -m pytest",
     "test:py:es": ".venv/bin/python -m pytest -m integration",
-    "stats": "webpack --profile --json > stats.json --mode=production"
+    "stats": "webpack --profile --json > stats.json --mode=production",
+    "pull_snapshot": "sh setup/prod_snapshot.sh all"
   },
   "author": "Alex Hunt",
   "license": "ISC",

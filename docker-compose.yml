@@ -7,9 +7,11 @@ services:
       - cluster.routing.allocation.disk.watermark.enable_for_single_data_node=true
       - xpack.security.enabled=true
       - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
+      - path.repo=/mnt/snapshots
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
       - elasticsearch-config:/usr/share/elasticsearch/config
+      - ./backups/elasticsearch:/mnt/snapshots:ro
     # ports:
     #   - "9200:9200"
     restart: unless-stopped

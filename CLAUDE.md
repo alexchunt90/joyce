@@ -26,7 +26,7 @@ Design and engineering decisions should keep these two experiences in mind — t
   - `blueprints/google_auth.py` (`/auth`) — Google OAuth sign-in; verifies the Google ID token, checks the email against `config.ADMIN_EMAIL_ADDRESSES`, and issues JWT access/refresh cookies. There is no self-serve account creation — only pre-approved admin emails can authenticate as editors.
 - `blueprints/es_func.py` is the single data-access layer over Elasticsearch — all blueprints go through it rather than calling the ES client directly. Each document type is its own ES index; documents are stored with `html_source` (raw annotated HTML) and a derived `search_text` field.
 - `config.py` branches on `HOST_ENVIRONMENT` (`local` / `docker` / `staging` / `production`) to pick upload folders, cookie domain, and the Elasticsearch host.
-- `setup/` contains one-off/admin scripts (not imported by the running app): `joyce_import.py` and `es_setup.py` create ES index mappings, `*_ops.py` files hold per-doc-type import/migration helpers.
+- `setup/` contains one-off/admin scripts (not imported by the running app): `joyce_import.py` and `es_setup.py` create ES index mappings, `*_ops.py` files hold per-doc-type import/migration helpers, and `prod_snapshot.sh` mirrors the production S3 backups onto a dev machine and restores them into the local stack. Nothing under `setup/` may write to the production backup buckets — `prod_snapshot.sh` reads from S3 only, and restores local Elasticsearch from the downloaded copy via a `readonly` repository rather than registering the bucket.
 
 ### Frontend (`src/`)
 
@@ -70,6 +70,10 @@ docker compose up -d
 
 # Data import / ES setup (Flask + Elasticsearch must be running)
 python -m setup.joyce_import
+
+# Replicate production data locally (read-only against S3; see README.md)
+sh setup/prod_snapshot.sh all       # pull both backup buckets, restore into the local stack
+sh setup/prod_snapshot.sh pull      # download only, change nothing locally
 
 # Tests
 npm test                # jest (frontend), config in jest.config.js

@@ -65,8 +65,13 @@ const ReaderContent = ({
 			<ImageGroup media_docs={readerNoteMedia} />
 		}
 
+		{/* These two info pages are the only reader content derived from the note corpus,
+		    and the list now arrives after the document rather than at boot. Spin rather
+		    than render a count of 0 or an empty index for the moment in between. */}
 		{currentDocument.title === infoPageTitleConstants.TALLY_INFO_PAGE_TITLE &&
-			<NoteTallySummary noteCount={notes.length}/>
+			(notes.length > 0
+				? <NoteTallySummary noteCount={notes.length}/>
+				: <LoadingSpinner />)
 		}
 		{currentDocument.title === infoPageTitleConstants.COLOR_CODING_INFO_PAGE_TITLE &&
 			<ColorCodingSummary tags={tags} />
@@ -74,7 +79,9 @@ const ReaderContent = ({
 		<br />
 		<br />		
 		{currentDocument.title === infoPageTitleConstants.NOTE_INDEX_INFO_PAGE_TITLE &&
-			<NoteIndexSummary notes={notes} />
+			(notes.length > 0
+				? <NoteIndexSummary notes={notes} />
+				: <LoadingSpinner />)
 		}
 	</div>
 

@@ -238,57 +238,80 @@ describe('after saving and deleting', () => {
 	})
 })
 
-describe('loading the media list on the way into the editor', () => {
-	// src/joyce.js stopped fetching /api/media/ at boot: 4,032 documents and 782KB out of
-	// Elasticsearch on every reader page view, for a list only the editor reads (docType
-	// 'media' exists only under /edit; the annotation modal fetches a note's images through
-	// /api/media/bulk/). The navbar's Edit link is a NavLink, so entering the editor never
-	// reloads the page — joyceRouter has to notice the route change and fetch it.
-	const setupWithoutMedia = (path = '/') => {
+describe('loading the large lists only where they are read', () => {
+	// src/joyce.js stopped fetching /api/notes/ (1,221 docs, 247KB) and /api/media/
+	// (4,032 docs, 782KB) at boot — between them 84% of everything Elasticsearch sent, on
+	// every reader page view. Media is editor-only; notes is read by the notes sidebar and
+	// by the Tally/Index info pages, all of which live under /notes or /info. Every link
+	// into those routes is a react-router Link, so arriving there never reloads the page
+	// and joyceRouter is what has to notice.
+	const setupLazy = (path = '/') => {
 		const recorder = createRecorder()
 		const harness = buildStore([joyceRouter], { path, observer: recorder.middleware })
-		seedDocumentLists(harness.store, { except: ['media'] })
+		seedDocumentLists(harness.store, { except: ['notes', 'media'] })
 		recorder.clear()
 		return { ...harness, recorder }
 	}
+	const requested = (recorder, docType) => listRequests(recorder, docType).length
 
-	test('entering /edit requests the media list', () => {
-		const { navigate, recorder } = setupWithoutMedia('/')
-		navigate('/edit')
-		expect(listRequests(recorder, 'media')).toHaveLength(1)
+	test.each([
+		['/4', 0, 0],
+		['/', 0, 0],
+		['/search', 0, 0],
+		['/notes/noteAAAAAAAAAAAAAA01', 1, 0],
+		['/notes/index', 1, 0],
+		['/notes/tally', 1, 0],
+		['/info/infoAAAAAAAAAAAAAA03', 1, 0],
+		['/edit', 1, 1],
+		['/edit/notes', 1, 1],
+	])('%s requests notes x%i and media x%i', (path, notes, media) => {
+		const { navigate, recorder } = setupLazy('/')
+		navigate(path)
+		expect(requested(recorder, 'notes')).toBe(notes)
+		expect(requested(recorder, 'media')).toBe(media)
 	})
 
-	test('entering an editor docType route requests it too', () => {
-		const { navigate, recorder } = setupWithoutMedia('/')
-		navigate('/edit/notes')
-		expect(listRequests(recorder, 'media')).toHaveLength(1)
-	})
-
-	test('reading never requests it', () => {
-		const { navigate, recorder } = setupWithoutMedia('/')
+	test('reading a chapter never requests either', () => {
+		const { navigate, recorder } = setupLazy('/')
 		navigate('/4')
-		navigate('/notes/noteAAAAAAAAAAAAAA01')
-		navigate('/info/infoAAAAAAAAAAAAAA03')
-		navigate('/notes/index')
-		expect(listRequests(recorder, 'media')).toEqual([])
+		navigate('/18')
+		navigate('/1')
+		expect(requested(recorder, 'notes')).toBe(0)
+		expect(requested(recorder, 'media')).toBe(0)
 	})
 
-	test('it is not requested again once it has arrived', () => {
-		const { store, navigate, recorder } = setupWithoutMedia('/')
+	test('neither is requested again once it has arrived', () => {
+		const { store, navigate, recorder } = setupLazy('/')
 		navigate('/edit')
-		store.dispatch(actions.getDocumentList({
-			docType: 'media', status: 'success', data: MEDIA,
-		}))
+		store.dispatch(actions.getDocumentList({ docType: 'notes', status: 'success', data: NOTES }))
+		store.dispatch(actions.getDocumentList({ docType: 'media', status: 'success', data: MEDIA }))
 		recorder.clear()
 		navigate('/edit/notes')
-		expect(listRequests(recorder, 'media')).toEqual([])
+		expect(requested(recorder, 'notes')).toBe(0)
+		expect(requested(recorder, 'media')).toBe(0)
 	})
 
 	test('no other list is refetched on the way into the editor', () => {
-		const { navigate, recorder } = setupWithoutMedia('/')
+		const { navigate, recorder } = setupLazy('/')
 		navigate('/edit')
-		for (const docType of ['chapters', 'notes', 'info', 'tags', 'editions']) {
+		for (const docType of ['chapters', 'info', 'tags', 'editions']) {
 			expect(listRequests(recorder, docType)).toEqual([])
 		}
+	})
+
+	test('a note reached from a chapter is still selected once its list arrives', () => {
+		const { store, navigate, recorder } = setupLazy('/4')
+		navigate('/notes/noteAAAAAAAAAAAAAA02')
+		recorder.clear()
+		store.dispatch(actions.getDocumentList({ docType: 'notes', status: 'success', data: NOTES }))
+		expect(selections(recorder)).toContainEqual(['noteAAAAAAAAAAAAAA02', 'notes'])
+	})
+
+	test('/notes/:id still lands on the first note once its list arrives', () => {
+		const { store, navigate, recorder } = setupLazy('/')
+		navigate('/notes/:id')
+		recorder.clear()
+		store.dispatch(actions.getDocumentList({ docType: 'notes', status: 'success', data: NOTES }))
+		expect(selections(recorder)).toContainEqual([NOTES[0].id, 'notes'])
 	})
 })

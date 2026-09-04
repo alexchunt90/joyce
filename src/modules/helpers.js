@@ -36,6 +36,22 @@ const helpers = {
 				break
 		}	
 	},
+	// The notes (~1,200 docs, 247KB) and media (~4,000 docs, 782KB) lists are by far the
+	// largest, and a reader on a chapter needs neither, so they are no longer fetched at
+	// boot. These say which routes do need them. Both src/joyce.js (direct load) and
+	// joyceRouter (client-side navigation) ask, because ReduxRouter does not announce the
+	// initial location.
+	//
+	// Notes are read by the notes sidebar list and by the two info pages derived from the
+	// note corpus, Tally of Notes and Index of Titles — every one of which lives under a
+	// /notes or /info path. Annotation links do not need the list: the modal fetches the
+	// note it wants by id.
+	notesListNeeded: path =>
+		regex.checkEditRoute(path) ||
+		(regex.checkIfDocTypePath(path) && regex.parseDocTypeFromPath(path) !== 'chapters'),
+	// Media is only ever read in the editor: docType 'media' exists only under /edit, and
+	// the annotation modal fetches a note's images through /api/media/bulk/.
+	mediaListNeeded: path => regex.checkEditRoute(path),
 	// TODO: I hate this function and need to reevaluate anywhere its used
 	documentsOfDocType: (docType, chapters, notes, tags, editions, media, info) => {
 		switch(docType) {

@@ -12,7 +12,7 @@ import 'bootstrap'
 // src modules
 import reduceJoyce from './reducers/reduceJoyce'
 import actions from './actions'
-import regex from './modules/regex'
+import helpers from './modules/helpers'
 import { logger, joyceAPI, joyceInterface, joyceRouter, joycePaginate, googleAuth } from './middleware/'
 import NavbarContainer from './containers/navbarContainer'
 import ReaderPageContainer from './containers/readerPageContainer'
@@ -37,17 +37,17 @@ const store = configureStore({
 })
 
 store.dispatch(actions.getDocumentList({docType: 'chapters'}))
-store.dispatch(actions.getDocumentList({docType: 'notes'}))
 store.dispatch(actions.getDocumentList({docType: 'info'}))
 store.dispatch(actions.getDocumentList({docType: 'tags'}))
 store.dispatch(actions.getDocumentList({docType: 'editions'}))
 
-// The media list is ~4,000 documents (782KB) and nothing in the reader reads it: docType
-// 'media' only exists under /edit, and the annotation modal fetches the images a note
-// references through /api/media/bulk/. joyceRouter loads the list when navigation reaches
-// an editor route, but ReduxRouter does not announce the initial location, so landing
-// directly on an editor URL is covered here.
-if (regex.checkEditRoute(location.pathname)) {
+// Notes (247KB) and media (782KB) are the two large lists and a reader on a chapter needs
+// neither, so they load only on the routes that read them — see helpers for which. This
+// covers a direct load; joyceRouter covers navigating there afterwards.
+if (helpers.notesListNeeded(location.pathname)) {
+	store.dispatch(actions.getDocumentList({docType: 'notes'}))
+}
+if (helpers.mediaListNeeded(location.pathname)) {
 	store.dispatch(actions.getDocumentList({docType: 'media'}))
 }
 

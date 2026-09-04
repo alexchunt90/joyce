@@ -59,6 +59,10 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx-static.conf:/etc/nginx/snippets/static.conf:ro
+      # Same host directory the web service writes uploads to, mounted read-only so
+      # nginx can serve /static/ without the request reaching Flask.
+      - ./static:/usr/share/nginx/static:ro
       - ./server.key:/etc/nginx/server.key
       - ./server.crt:/etc/nginx/server.crt
       - ./certbot/www/:/var/www/certbot/:ro

@@ -61,7 +61,6 @@ const joycePaginate = store => next => action => {
 			}
 			break
 		case 'GET_DOCUMENT_LIST':
-			// TODO: Figure out how to delay this till currentDoc and editions BOTH load, preventing race condition
 			if (action.status === 'success' && action.docType === 'editions' && docType ==='chapters' && currentDocument.html_source) {
 				const firstEdition = action.data[0]
 				const editorState = editorConstructor.returnEditorStateFromHTML(currentDocument.html_source, readerDecorator)

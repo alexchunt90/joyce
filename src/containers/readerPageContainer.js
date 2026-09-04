@@ -14,9 +14,6 @@ import AnnotationModal from '../components/annotationModal'
 import { ReaderSidebarOptions } from '../components/mobileSidebarOptions'
 import LicenseDisclaimer from '../components/licenseDisclaimer'
 
-// TODO: ReaderSidebar being a container while mobile sidebar options take props from ReaderPage container
-// 		 creates a lot of redunancy. DRY this up by making mobile sidebar a container?
-
 const ReaderPage = ({
 	chapters,
 	notes,

@@ -12,7 +12,8 @@
     "test:py": ".venv/bin/python -m pytest",
     "test:py:es": ".venv/bin/python -m pytest -m integration",
     "stats": "webpack --profile --json > stats.json --mode=production",
-    "pull_snapshot": "sh setup/prod_snapshot.sh all"
+    "pull_snapshot": "sh setup/prod_snapshot.sh all",
+    "push_static_build": "scp -o BatchMode=yes static/js/* root@joyceproject.com:/joyce/static/js/"
   },
   "author": "Alex Hunt",
   "license": "ISC",

@@ -48,7 +48,10 @@ ES Snapshotting
 - Create S3 bucket and IAM user/policy with required permissions
 	- https://www.elastic.co/guide/en/elasticsearch/reference/8.17/repository-s3.html#repository-s3-permissions
 - Add S3 Access and Secret keys to ES keystore using Docker terminal
-- Configure repository in Kibana
+- Configure repository in Kibana — Kibana is not in the default stack, so start it first
+  with `docker compose --profile debug up -d kibana` and reach it through an SSH tunnel
+  (`ssh -L 5601:localhost:5601 <host>`). Stop it again when you are done; see
+  **Production host memory** below.
 
 ## Production data for local testing
 
@@ -91,7 +94,49 @@ pointer disagrees with the highest `index-N` in the mirror. (Elasticsearch recov
 a stale pointer on its own by scanning the `index-N` blobs, so a disagreement is a
 staleness signal rather than a broken restore.)
 
-ES Security
+## Production host memory
+
+Production is a single 3.8GiB VM running Elasticsearch, Flask, nginx and (formerly)
+Kibana, with no swap. Between 14 and 21 June 2026 Elasticsearch was killed 11 times by
+the kernel's OOM killer. `research/elasticsearch-production-stability.md` has the full
+investigation; three things came out of it.
+
+**The heap is pinned and the container is capped** (`docker-compose.yml`). Left to
+itself, Elasticsearch sizes its heap at 50% of *host* RAM and commits all of it at
+startup, which on this VM meant a ~3.3GiB ceiling for one process. `ES_JAVA_OPTS` fixes
+the heap at 1GiB — which also halves the direct-memory allowance to 512MiB — and
+`mem_limit: 2g` gives Docker a ceiling it enforces itself, so overrunning it kills the
+container (visibly, as `OOMKilled=true`) rather than letting the kernel pick a victim.
+
+**Kibana is not in the default stack.** It is roughly 1GB resident and nothing in the
+application talks to it, so it sits behind a Compose profile:
+
+```bash
+docker compose --profile debug up -d kibana   # start it
+docker compose stop kibana                     # stop it again
+```
+
+It binds to loopback only — it has no TLS and holds cluster credentials — so reach it
+with `ssh -L 5601:localhost:5601 <host>`. A profiled service is invisible to Compose
+commands that do not name the profile, so a plain `docker compose down` will not stop
+it. Daily snapshots do not depend on it: Kibana configures the SLM policy, but
+Elasticsearch executes it.
+
+**Swap is a host change**, so it is a script rather than part of the stack. Run it once
+on the VM:
+
+```bash
+sudo bash setup/host_swap.sh status              # report swap, memory, swappiness
+sudo bash setup/host_swap.sh install --dry-run   # show what it would do
+sudo bash setup/host_swap.sh install             # 2GiB swap file, persisted in fstab
+```
+
+It refuses if swap is already active, backs up `/etc/fstab` before touching it, and sets
+`vm.swappiness=1` so the kernel treats swap as a last resort rather than routine paging —
+a swapping Elasticsearch node is a slow one, and the point is to survive a spike, not to
+live in swap. Capping the heap is the real fix; this is insurance.
+
+## ES Security
 
 - Use `docker compose exec` to reset passwords for the elastic and kibana_system users.
 - Save the resulting passwords in the .env file. 

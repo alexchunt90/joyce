@@ -10,6 +10,7 @@
 // loaded document is joyceInterface's job, not this middleware's.
 
 import joyceRouter from '../../src/middleware/joyceRouter'
+import actions from '../../src/actions'
 import {
 	buildStore, createRecorder, seedDocumentLists,
 	CHAPTERS, NOTES, INFO, TAGS, MEDIA,
@@ -27,6 +28,9 @@ const selections = recorder =>
 	recorder.ofType('SET_CURRENT_DOCUMENT').map(a => [a.id, a.docType])
 const pushedPaths = recorder =>
 	recorder.ofType('@@router/CALL_HISTORY_METHOD').map(a => a.payload?.args?.[0])
+const listRequests = (recorder, docType) =>
+	recorder.ofType('GET_DOCUMENT_LIST')
+		.filter(a => a.status === 'request' && a.docType === docType)
 
 describe('selecting a document from the path', () => {
 	test('a chapter number selects the chapter with that number', () => {
@@ -231,5 +235,60 @@ describe('after saving and deleting', () => {
 			type: 'DELETE_DOCUMENT', status: 'success', docType: 'notes', data: [],
 		})
 		expect(selections(recorder)).toEqual([])
+	})
+})
+
+describe('loading the media list on the way into the editor', () => {
+	// src/joyce.js stopped fetching /api/media/ at boot: 4,032 documents and 782KB out of
+	// Elasticsearch on every reader page view, for a list only the editor reads (docType
+	// 'media' exists only under /edit; the annotation modal fetches a note's images through
+	// /api/media/bulk/). The navbar's Edit link is a NavLink, so entering the editor never
+	// reloads the page — joyceRouter has to notice the route change and fetch it.
+	const setupWithoutMedia = (path = '/') => {
+		const recorder = createRecorder()
+		const harness = buildStore([joyceRouter], { path, observer: recorder.middleware })
+		seedDocumentLists(harness.store, { except: ['media'] })
+		recorder.clear()
+		return { ...harness, recorder }
+	}
+
+	test('entering /edit requests the media list', () => {
+		const { navigate, recorder } = setupWithoutMedia('/')
+		navigate('/edit')
+		expect(listRequests(recorder, 'media')).toHaveLength(1)
+	})
+
+	test('entering an editor docType route requests it too', () => {
+		const { navigate, recorder } = setupWithoutMedia('/')
+		navigate('/edit/notes')
+		expect(listRequests(recorder, 'media')).toHaveLength(1)
+	})
+
+	test('reading never requests it', () => {
+		const { navigate, recorder } = setupWithoutMedia('/')
+		navigate('/4')
+		navigate('/notes/noteAAAAAAAAAAAAAA01')
+		navigate('/info/infoAAAAAAAAAAAAAA03')
+		navigate('/notes/index')
+		expect(listRequests(recorder, 'media')).toEqual([])
+	})
+
+	test('it is not requested again once it has arrived', () => {
+		const { store, navigate, recorder } = setupWithoutMedia('/')
+		navigate('/edit')
+		store.dispatch(actions.getDocumentList({
+			docType: 'media', status: 'success', data: MEDIA,
+		}))
+		recorder.clear()
+		navigate('/edit/notes')
+		expect(listRequests(recorder, 'media')).toEqual([])
+	})
+
+	test('no other list is refetched on the way into the editor', () => {
+		const { navigate, recorder } = setupWithoutMedia('/')
+		navigate('/edit')
+		for (const docType of ['chapters', 'notes', 'info', 'tags', 'editions']) {
+			expect(listRequests(recorder, docType)).toEqual([])
+		}
 	})
 })

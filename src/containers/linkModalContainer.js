@@ -1,5 +1,4 @@
 // Same as LinkContainer but w/o modal-toggle attributes
-// TODO: Dry this up later
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'

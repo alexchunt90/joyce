@@ -26,6 +26,12 @@ const joyceRouter = store => next => action => {
 
 	switch(action.type) {
 		case '@@router/ON_LOCATION_CHANGED':
+			// The reader does not load the media list (see src/joyce.js), so fetch it the
+			// first time navigation reaches an editor route. The navbar's Edit link is a
+			// NavLink, so entering the editor from the reader never reloads the page.
+			if (regex.checkEditRoute(path) && media.length === 0) {
+				store.dispatch(actions.getDocumentList({docType: 'media'}))
+			}
 			// If you navigate to /edit while e.g. docType=notes, redirect to /edit/notes
 			if (regex.checkEditBaseRoute(path)){
 				if (docType !== 'chapters') {

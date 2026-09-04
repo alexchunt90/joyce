@@ -95,13 +95,15 @@ export const TAGS = [{ id: 'tagAAAAAAAAAAAAAAA01', title: 'Homeric', color: 'FF0
 export const MEDIA = [{ id: 'mediaAAAAAAAAAAAAA01', title: 'Martello Tower', type: 'img' }]
 export const EDITIONS = [{ id: 'editionAAAAAAAAAAA01', year: 1922, title: 'Shakespeare' }]
 
-// Load the document lists the app fetches at startup.
-export const seedDocumentLists = store => {
+// Load the document lists the app fetches at startup. `except` leaves a list unseeded,
+// which is how a reader actually starts: src/joyce.js does not fetch media.
+export const seedDocumentLists = (store, { except = [] } = {}) => {
 	const lists = {
 		chapters: CHAPTERS, notes: NOTES, info: INFO,
 		tags: TAGS, media: MEDIA, editions: EDITIONS,
 	}
 	for (const [docType, data] of Object.entries(lists)) {
+		if (except.includes(docType)) continue
 		store.dispatch(actions.getDocumentList({ docType, status: 'success', data }))
 	}
 }

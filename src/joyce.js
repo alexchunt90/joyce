@@ -12,6 +12,7 @@ import 'bootstrap'
 // src modules
 import reduceJoyce from './reducers/reduceJoyce'
 import actions from './actions'
+import regex from './modules/regex'
 import { logger, joyceAPI, joyceInterface, joyceRouter, joycePaginate, googleAuth } from './middleware/'
 import NavbarContainer from './containers/navbarContainer'
 import ReaderPageContainer from './containers/readerPageContainer'
@@ -39,8 +40,16 @@ store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'notes'}))
 store.dispatch(actions.getDocumentList({docType: 'info'}))
 store.dispatch(actions.getDocumentList({docType: 'tags'}))
-store.dispatch(actions.getDocumentList({docType: 'media'}))
 store.dispatch(actions.getDocumentList({docType: 'editions'}))
+
+// The media list is ~4,000 documents (782KB) and nothing in the reader reads it: docType
+// 'media' only exists under /edit, and the annotation modal fetches the images a note
+// references through /api/media/bulk/. joyceRouter loads the list when navigation reaches
+// an editor route, but ReduxRouter does not announce the initial location, so landing
+// directly on an editor URL is covered here.
+if (regex.checkEditRoute(location.pathname)) {
+	store.dispatch(actions.getDocumentList({docType: 'media'}))
+}
 
 const cookies = document.cookie
 if (cookies.includes('csrf_access_token')) {

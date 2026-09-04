@@ -1,9 +1,6 @@
-npm run stage
-docker compose build
-docker compose up -d
-python -m setup.joyce_import
 
-docker exec -it nginx_proxy nginx -s reload
+
+# Push to prod: scp -o BatchMode=yes static/js/* root@joyceproject.com:/joyce/static/js/
 
 # Get CA certificates 
 #docker compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ --dry-run -d joyce-staging.net

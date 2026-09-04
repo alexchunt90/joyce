@@ -12,6 +12,7 @@ backups/
 /joyce-env/
 .venv/
 venv/
+research/
 /setup/target
 /plans
 .pytest_cache/

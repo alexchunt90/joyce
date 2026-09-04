@@ -140,9 +140,30 @@ s3_read() {
 
 # --- pull --------------------------------------------------------------------------
 
+# `aws s3 sync` writes each object to a temporary file inside its target directory, so
+# a single directory owned by another user aborts the entire sync with Errno 13 - after
+# it has already transferred everything else, and with the cause buried under a hundred
+# lines of per-object output. An earlier run of backups/joyce_backup.sh under root left
+# exactly that behind. Check it up front and say how to fix it.
+require_writable_mirror() {
+	local dir="$1"
+	[ -d "$dir" ] || return 0
+
+	local blocked
+	blocked="$(find "$dir" -type d ! -user "$(id -un)" 2>/dev/null | while IFS= read -r d; do
+		[ -w "$d" ] || printf '%s\n' "$d"
+	done)"
+	[ -n "$blocked" ] || return 0
+
+	warn "$(printf '%s\n' "$blocked" | wc -l | tr -d ' ') directories in the mirror are not writable by $(id -un):"
+	printf '%s\n' "$blocked" | sed 's/^/    /' >&2
+	die "fix with:  sudo chown -R $(id -un):staff $dir"
+}
+
 pull_snapshots() {
 	log "Mirroring s3://$ES_BUCKET -> backups/elasticsearch"
 	mkdir -p "$SNAPSHOT_MIRROR"
+	require_writable_mirror "$SNAPSHOT_MIRROR"
 	s3_read ls   "$ES_BUCKET" "$SNAPSHOT_MIRROR" "$ES_S3_ACCESS_KEY" "$ES_S3_SECRET_KEY" >/dev/null \
 		|| die "could not read s3://$ES_BUCKET - check ES_S3_ACCESS_KEY/ES_S3_SECRET_KEY"
 	s3_read sync "$ES_BUCKET" "$SNAPSHOT_MIRROR" "$ES_S3_ACCESS_KEY" "$ES_S3_SECRET_KEY"
@@ -186,6 +207,7 @@ check_mirror_generation() {
 pull_media() {
 	log "Mirroring s3://$MEDIA_BUCKET -> backups/static"
 	mkdir -p "$MEDIA_MIRROR"
+	require_writable_mirror "$MEDIA_MIRROR"
 	s3_read ls   "$MEDIA_BUCKET" "$MEDIA_MIRROR" "$IMAGE_S3_ACCESS_KEY" "$IMAGE_S3_SECRET_KEY" >/dev/null \
 		|| die "could not read s3://$MEDIA_BUCKET - check IMAGE_S3_ACCESS_KEY/IMAGE_S3_SECRET_KEY"
 	s3_read sync "$MEDIA_BUCKET" "$MEDIA_MIRROR" "$IMAGE_S3_ACCESS_KEY" "$IMAGE_S3_SECRET_KEY"

@@ -7,6 +7,7 @@ import os
 import time
 import json
 import config
+from . import es_cache
 
 es = Elasticsearch([config.ELASTICSEARCH_DOCKER_HOST], basic_auth=('elastic', os.getenv('ELASTIC_USER_PASSWORD')))
 
@@ -26,6 +27,10 @@ def merge_results(response):
 
 # Elasticsearch interface functions
 def es_document_list(index, es_client=es):
+	# Served from a 60s TTL cache that every write below invalidates. See es_cache.
+	return es_cache.get_or_build(index, lambda: query_document_list(index, es_client))
+
+def query_document_list(index, es_client=es):
 	body = {
 		'from': 0, 'size': 10000,
 		'query': {
@@ -71,6 +76,7 @@ def es_index_document(index, id, body, es_client=es):
 		refresh=True,
 		body=body
 	)
+	es_cache.invalidate(index)
 	return res
 
 
@@ -82,6 +88,7 @@ def es_create_document(index, body, es_client=es):
 		refresh=True,
 		body=data
 	)
+	es_cache.invalidate(index)
 	return res
 
 def es_update_document(index, id, data, es_client=es):
@@ -91,6 +98,7 @@ def es_update_document(index, id, data, es_client=es):
 		refresh=True,
 		body={'doc': data}
 	)
+	es_cache.invalidate(index)
 
 def es_delete_document(index, id):
 	res = es.delete(
@@ -98,6 +106,12 @@ def es_delete_document(index, id):
 		id=id,
 		refresh=True
 	)
+	# Every write invalidates after the call returns, never before: invalidating first
+	# leaves a window where a concurrent read misses, queries the pre-write state and
+	# caches it, and nothing clears it again until the TTL expires. Every write sets
+	# refresh=True, so by the time these return the change is already searchable.
+	# renumber_chapters below reads the list straight back and depends on this.
+	es_cache.invalidate(index)
 	if index == 'chapters':
 		return renumber_chapters()
 

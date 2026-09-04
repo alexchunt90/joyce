@@ -29,7 +29,7 @@ from elasticsearch import Elasticsearch  # noqa: E402
 from flask_jwt_extended import create_access_token  # noqa: E402
 
 import application as application_module  # noqa: E402
-from blueprints import es_func  # noqa: E402
+from blueprints import es_cache, es_func  # noqa: E402
 
 EDITOR_EMAIL = 'editor@example.com'
 
@@ -159,3 +159,17 @@ def fake_es(monkeypatch):
                 monkeypatch.setattr(obj, '__defaults__', rebound)
 
     return fake
+
+
+@pytest.fixture(autouse=True)
+def clear_document_list_cache():
+    """Empties the document-list cache around every test.
+
+    es_document_list is served from a 60s TTL cache keyed only on the index name, so
+    without this one test's cached list is handed to the next — and most of these tests
+    assert on how many times Elasticsearch was searched, which would then be zero.
+    Clearing afterwards too keeps a fake client's documents from outliving its test.
+    """
+    es_cache.clear()
+    yield
+    es_cache.clear()

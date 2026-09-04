@@ -8,6 +8,17 @@ services:
       - xpack.security.enabled=true
       - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
       - path.repo=/mnt/snapshots
+      # Without this Elasticsearch sizes its own heap at 50% of *host* RAM — 1.91GiB on
+      # the 3.8GiB production VM — and -XX:+AlwaysPreTouch commits every page of it at
+      # startup. Setting Xmx explicitly also halves MaxDirectMemorySize to 512MiB, which
+      # takes the process ceiling from ~3.3GiB to ~1.8GiB. The corpus is ~5,300 documents
+      # over ~14MB of source text; it has never needed a 2GiB heap.
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    # A ceiling Docker enforces, so exceeding it kills this container rather than letting
+    # the kernel pick the largest process on the host. `restart: unless-stopped` brings it
+    # back, and it shows up as OOMKilled=true in `docker inspect` — which is what the
+    # June crashes did not, because they were host OOM kills with nothing left behind.
+    mem_limit: 2g
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
       - elasticsearch-config:/usr/share/elasticsearch/config

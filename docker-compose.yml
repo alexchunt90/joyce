@@ -29,6 +29,18 @@ services:
 
   kibana:
     image: kibana:8.17.0
+    # Not part of the default stack. Kibana is ~1GB resident on a 3.8GiB host, it was
+    # running throughout the window when Elasticsearch was being OOM-killed every 8-20
+    # hours, and the crashes stopped within a day of it stopping. Nothing in the
+    # application talks to it — it is an operator tool, so start it when an operator
+    # wants it:
+    #
+    #   docker compose --profile debug up -d kibana
+    #   docker compose --profile debug down            # or: docker compose stop kibana
+    #
+    # `docker compose up -d` on its own no longer starts it, and no longer stops it
+    # either: a profiled service is invisible to commands that do not name the profile.
+    profiles: ["debug"]
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - KIBANA_USER_PASS=${KIBANA_USER_PASSWORD}
@@ -36,7 +48,12 @@ services:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
 
     ports:
-      - 5601:5601
+      # Loopback only. Kibana has no TLS and nothing in front of it, and it holds
+      # credentials for the cluster; published on 0.0.0.0 it was reachable from the
+      # internet. Reach it through an SSH tunnel instead:
+      #
+      #   ssh -L 5601:localhost:5601 <host>   then open http://localhost:5601
+      - "127.0.0.1:5601:5601"
     depends_on:
       - elasticsearch
 

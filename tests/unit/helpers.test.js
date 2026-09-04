@@ -83,3 +83,45 @@ describe('documentsOfDocType', () => {
 		expect(lookup('nonsense')).toBeUndefined()
 	})
 })
+
+// The reader stopped fetching these two lists at boot: notes is ~1,200 documents (247KB)
+// and media ~4,000 (782KB), and a reader on a chapter reads neither. These pin exactly
+// which routes still pull them, because getting the predicate wrong is either a blank
+// notes sidebar or the regression the change exists to remove.
+describe('notesListNeeded', () => {
+	test.each([
+		['/', false],
+		['/:id', false],
+		['/1', false],
+		['/18', false],
+		['/search', false],
+		['/admin', false],
+		['/notes', true],
+		['/notes/:id', true],
+		['/notes/noteAAAAAAAAAAAAAA01', true],
+		['/notes/index', true],
+		['/notes/tally', true],
+		['/info/infoAAAAAAAAAAAAAA03', true],
+		['/edit', true],
+		['/edit/notes', true],
+		['/edit/chapters', true],
+	])('%s -> %s', (path, expected) => {
+		expect(helpers.notesListNeeded(path)).toBe(expected)
+	})
+})
+
+describe('mediaListNeeded', () => {
+	test.each([
+		['/', false],
+		['/1', false],
+		['/notes/noteAAAAAAAAAAAAAA01', false],
+		['/info/infoAAAAAAAAAAAAAA03', false],
+		['/search', false],
+		['/edit', true],
+		['/edit/media', true],
+		['/edit/notes', true],
+	])('%s -> %s', (path, expected) => {
+		expect(helpers.mediaListNeeded(path)).toBe(expected)
+	})
+})
+

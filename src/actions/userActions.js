@@ -189,6 +189,11 @@ const userActions = {
 		({
 			type: 'CLOSE_ANNOTATION_NOTE'
 		}),
+	// The router hid the annotation modal because the URL no longer names a note
+	dismissAnnotationNote: () =>
+		({
+			type: 'DISMISS_ANNOTATION_NOTE'
+		}),
 	// Select a tag from the drop down to go with your annotation
 	selectAnnotationTag: tag =>
 		({

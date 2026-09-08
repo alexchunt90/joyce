@@ -160,8 +160,23 @@ describe('note media slices', () => {
 			.toEqual([])
 	})
 
-	test.each([['annotationNoteMedia', annotationNoteMedia], ['readerNoteMedia', readerNoteMedia]])(
-		'%s clears when a new document is selected', (_name, reducer) => {
-			expect(reducer(DOCS, { type: 'SET_CURRENT_DOCUMENT' })).toEqual([])
+	test('readerNoteMedia clears when a new document is selected', () => {
+		expect(readerNoteMedia(DOCS, { type: 'SET_CURRENT_DOCUMENT' })).toEqual([])
+	})
+
+	// annotationNoteMedia follows the modal's lifecycle instead: a deep-linked note's media
+	// can arrive before the chapter list selects the chapter, so a clear on document
+	// selection wiped the images of a note opened from a refreshed /4?note=<id> URL.
+	test('annotationNoteMedia survives a new document being selected', () => {
+		expect(annotationNoteMedia(DOCS, { type: 'SET_CURRENT_DOCUMENT' })).toEqual(DOCS)
+	})
+
+	test.each(['CLOSE_ANNOTATION_NOTE', 'DISMISS_ANNOTATION_NOTE'])(
+		'annotationNoteMedia clears on %s', type => {
+			expect(annotationNoteMedia(DOCS, { type })).toEqual([])
 		})
+
+	test('annotationNoteMedia clears as soon as another modal note is requested', () => {
+		expect(annotationNoteMedia(DOCS, { type: 'GET_DOCUMENT_TEXT', status: 'request', state: 'annotationNote' })).toEqual([])
+	})
 })

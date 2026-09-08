@@ -24,6 +24,7 @@ const syncAnnotationModalWithURL = store => {
 		}
 	} else if (modalControl.isAnnotationModalOpen()) {
 		modalControl.hideAnnotationModal()
+		store.dispatch(actions.dismissAnnotationNote())
 	}
 }
 
@@ -255,6 +256,7 @@ const joyceRouter = store => next => action => {
 				// A stale or bad deep link (deleted note) degrades to the plain document
 				if (action.status === 'error' && noteParam === action.id) {
 					modalControl.hideAnnotationModal()
+					store.dispatch(actions.dismissAnnotationNote())
 					store.dispatch(push(annotationURL.pathWithoutNote()))
 				}
 			}

@@ -186,11 +186,44 @@ describe('deep links', () => {
 })
 
 describe('modal media', () => {
+	const mediaArrives = store =>
+		store.dispatch(actions.getMediaDocs({ media_doc_ids: ['m1'], modal_note: true, status: 'success', data: [{ id: 'm1' }] }))
+
 	test('requesting a new modal note clears the previous note\'s media immediately', () => {
 		const { store } = setup('/4')
-		store.dispatch(actions.getMediaDocs({ media_doc_ids: ['m1'], modal_note: true, status: 'success', data: [{ id: 'm1' }] }))
+		mediaArrives(store)
 		expect(store.getState().annotationNoteMedia).toHaveLength(1)
 		store.dispatch(actions.getDocumentText({ id: NOTE_B, docType: 'notes', state: 'annotationNote' }))
+		expect(store.getState().annotationNoteMedia).toEqual([])
+	})
+
+	// Regression: on a refresh of /4?note=<id> the note's media arrived before the chapter
+	// list selected the chapter, and SET_CURRENT_DOCUMENT wiped it, so the images never showed
+	test('a deep-linked note keeps its media when the chapter is selected afterwards', () => {
+		const { store } = setup('/4?note=' + NOTE_A)
+		noteArrives(store, NOTE_A)
+		mediaArrives(store)
+		store.dispatch(actions.setCurrentDocument('chapterAAAAAAAAAA004', 'chapters'))
+		expect(store.getState().annotationNoteMedia).toHaveLength(1)
+	})
+
+	test('closing the modal clears the media', async () => {
+		const { store } = setup('/4')
+		await open(store, NOTE_A)
+		noteArrives(store, NOTE_A)
+		mediaArrives(store)
+		store.dispatch(actions.closeAnnotationNote())
+		await flush()
+		expect(store.getState().annotationNoteMedia).toEqual([])
+	})
+
+	test('the router closing the modal on Back clears the media too', async () => {
+		const { store, navigate } = setup('/4')
+		await open(store, NOTE_A)
+		noteArrives(store, NOTE_A)
+		mediaArrives(store)
+		modalControl.isAnnotationModalOpen.mockReturnValue(true)
+		navigate('/4')
 		expect(store.getState().annotationNoteMedia).toEqual([])
 	})
 })

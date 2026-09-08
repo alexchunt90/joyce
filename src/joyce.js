@@ -12,6 +12,7 @@ import 'bootstrap'
 // src modules
 import reduceJoyce from './reducers/reduceJoyce'
 import actions from './actions'
+import annotationURL from './modules/annotationURL'
 import helpers from './modules/helpers'
 import { logger, joyceAPI, joyceInterface, joyceRouter, joycePaginate, googleAuth } from './middleware/'
 import NavbarContainer from './containers/navbarContainer'
@@ -40,6 +41,13 @@ store.dispatch(actions.getDocumentList({docType: 'chapters'}))
 store.dispatch(actions.getDocumentList({docType: 'info'}))
 store.dispatch(actions.getDocumentList({docType: 'tags'}))
 store.dispatch(actions.getDocumentList({docType: 'editions'}))
+
+// Deep link to an annotation (/4?note=<id>): no location change fires on boot, so start
+// loading the note now; joyceRouter opens the modal once it arrives
+const bootNoteID = annotationURL.parseNoteParam()
+if (typeof bootNoteID !== 'undefined') {
+	store.dispatch(actions.selectAnnotationNote(bootNoteID))
+}
 
 // Notes (247KB) and media (782KB) are the two large lists and a reader on a chapter needs
 // neither, so they load only on the routes that read them — see helpers for which. This

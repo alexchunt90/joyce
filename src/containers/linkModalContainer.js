@@ -1,4 +1,4 @@
-// Same as LinkContainer but w/o modal-toggle attributes
+// Same as LinkContainer, used for note-to-note links inside the annotation modal
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -9,7 +9,7 @@ const ModalLink = (props) => {
 	const data = props.contentState.getEntity(props.entityKey).getData()
     return (
     	<a href='#' 
-    		onClick={()=>props.onAnnotationClick(data['url'])}
+    		onClick={(e)=>{e.preventDefault(); props.onAnnotationClick(data['url'])}}
     		style={{color: '#' + data['data-color']}}
     		data-color={data['data-color']}
     		data-url={data['url']}
@@ -26,7 +26,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onAnnotationClick: id => {
-			dispatch(actions.selectAnnotationNote(id))
+			dispatch(actions.openAnnotationNote(id))
 		}
 	}
 }

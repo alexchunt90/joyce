@@ -11,10 +11,8 @@ const Link = (props) => {
 	const color = data['color']
     return (
     	<a href='#' 
-    		onClick={()=>props.onAnnotationClick(data['url'])}
+    		onClick={(e)=>{e.preventDefault(); props.onAnnotationClick(data['url'])}}
     		style={{color: '#' + color}}
-    		data-bs-toggle='modal'
-    		data-bs-target='#annotation_modal'
     		data-color={color}
     		data-url={data['url']}
 		>
@@ -30,7 +28,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onAnnotationClick: id => {
-			dispatch(actions.selectAnnotationNote(id))
+			dispatch(actions.openAnnotationNote(id))
 		}
 	}
 }

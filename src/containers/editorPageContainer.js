@@ -45,10 +45,11 @@ const EditorPage = ({
 	clearAnnotationTag,
 	selectionState,
 	userErrors,
+	onModalHidden,
 }) =>
 	<div id='joyce_page' className='container-fluid'>
 		{matchPath('edit', location.pathname) &&
-			<Navigate to=':id'/>
+			<Navigate to={':id' + location.search + location.hash}/>
 		}
 		<div id='page_wrapper' className="row">
 			<EditorSidebarContainer />
@@ -75,7 +76,7 @@ const EditorPage = ({
 			</Content>
 		</div>
 		<DeleteConfirmModal onDeleteConfirm={()=>onDeleteConfirm(currentDocument.id, docType)}/>
-		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} />
+		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} onModalHidden={onModalHidden} />
 		<ExternalURLModal externalURLInput={inputs.externalURL} onInputChange={onURLInputChange} onSubmitClick={()=>onURLModalSubmit(inputs.externalURL, editorState)}/>
 		<ChooseAnnotationModal 
 			notes={notes}
@@ -145,6 +146,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		onSubmitAnnotationClick: (annotationNote, annotationTag, selectionState, editorState, docType) => {
 			dispatch(actions.submitAnnotation(annotationNote, annotationTag, selectionState, editorState, docType))
+		},
+		onModalHidden: () => {
+			dispatch(actions.closeAnnotationNote())
 		}
 	}
 }
@@ -167,6 +171,7 @@ EditorPage.propTypes = {
 	onSubmitAnnotationClick: PropTypes.func,
 	selectAnnotationNote: PropTypes.func,
 	selectAnnotationTag: PropTypes.func,
+	onModalHidden: PropTypes.func,
 }
 
 const EditorPageContainer = connect(mapStateToProps, mapDispatchToProps)(EditorPage)

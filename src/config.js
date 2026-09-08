@@ -122,3 +122,5 @@ export const LATEST_TALLY = [
 	"title": "Penelope"
 	}
 ]
+// Query string parameter that carries the id of the annotation note open in the reader modal
+export const ANNOTATION_QUERY_PARAM = 'note'

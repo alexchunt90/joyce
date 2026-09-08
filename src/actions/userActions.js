@@ -178,6 +178,17 @@ const userActions = {
 			type: 'SELECT_ANNOTATION_NOTE',
 			id: id
 		}),
+	// Click a note link in the reader; joyceRouter turns this into a URL push (?note=<id>)
+	openAnnotationNote: id =>
+		({
+			type: 'OPEN_ANNOTATION_NOTE',
+			id: id
+		}),
+	// The reader dismissed the annotation modal (close button, ESC or backdrop)
+	closeAnnotationNote: () =>
+		({
+			type: 'CLOSE_ANNOTATION_NOTE'
+		}),
 	// Select a tag from the drop down to go with your annotation
 	selectAnnotationTag: tag =>
 		({

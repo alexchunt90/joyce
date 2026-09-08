@@ -30,13 +30,14 @@ const ReaderPage = ({
 	onHighlightClick,
 	onPaginationToggle,
 	choosePaginationEdition,
+	onModalHidden,
 }) =>
 	<div id='joyce_page' className='container-fluid'>
 		{matchPath('/', location.pathname) &&
-			<Navigate to=':id'/>
+			<Navigate to={':id' + location.search + location.hash}/>
 		}
 		{matchPath('notes', location.pathname) &&
-			<Navigate to=':id'/>
+			<Navigate to={':id' + location.search + location.hash}/>
 		}
 		<div id='page_wrapper' className='row'>
 			<ReaderSidebarContainer />
@@ -66,7 +67,7 @@ const ReaderPage = ({
 				}				
 			</Content>
 		</div>
-		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} />
+		<AnnotationModal annotationNote={annotationNote} annotationNoteMedia={annotationNoteMedia} modalEditorState={modalEditorState} onModalHidden={onModalHidden} />
 	</div>
 
 const mapStateToProps = state => {
@@ -98,7 +99,10 @@ const mapDispatchToProps = dispatch => {
 		},
 		choosePaginationEdition: (edition) => {
 			dispatch(actions.choosePaginationEdition(edition))
-		}		
+		},
+		onModalHidden: () => {
+			dispatch(actions.closeAnnotationNote())
+		}
 	}
 }
 
@@ -114,6 +118,7 @@ ReaderPage.propTypes = {
 	toggles: PropTypes.object,
 	onPaginationClick: PropTypes.func,
 	setPaginationEdition: PropTypes.func,
+	onModalHidden: PropTypes.func,
 }
 
 const ReaderPageContainer = connect(mapStateToProps, mapDispatchToProps)(ReaderPage)

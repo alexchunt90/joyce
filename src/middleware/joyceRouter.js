@@ -5,7 +5,27 @@ import editorConstructor from '../modules/editorConstructor'
 import actions from '../actions'
 import helpers from '../modules/helpers'
 import regex from '../modules/regex'
+import annotationURL from '../modules/annotationURL'
+import modalControl from '../modules/modalControl'
 import {infoPageTitleConstants, exemptNotePaths} from '../config'
+
+// Make the annotation modal agree with the ?note= param of the current URL.
+// This is the single code path for a link click, Back/Forward and a deep link:
+// the URL is the source of truth, and this brings the note/modal state in line with it.
+const syncAnnotationModalWithURL = store => {
+	const annotationNote = store.getState().annotationNote
+	const noteParam = annotationURL.parseNoteParam()
+	if (typeof noteParam !== 'undefined') {
+		if (noteParam !== annotationNote.id) {
+			store.dispatch(actions.selectAnnotationNote(noteParam))
+		}
+		if (!modalControl.isAnnotationModalOpen()) {
+			modalControl.showAnnotationModal()
+		}
+	} else if (modalControl.isAnnotationModalOpen()) {
+		modalControl.hideAnnotationModal()
+	}
+}
 
 const joyceRouter = store => next => action => {
 	// State
@@ -40,10 +60,10 @@ const joyceRouter = store => next => action => {
 				if (docType !== 'chapters') {
 					const basePath = '/edit/' + docType + '/'
 					if (currentDocument.hasOwnProperty('id')) {
-						store.dispatch(push(basePath + currentDocument.id))
+						store.dispatch(push(annotationURL.carryNoteParam(basePath + currentDocument.id)))
 					}
 					else {
-						store.dispatch(push(basePath + ':id'))
+						store.dispatch(push(annotationURL.carryNoteParam(basePath + ':id')))
 					}
 				}
 			}
@@ -88,7 +108,7 @@ const joyceRouter = store => next => action => {
 				// If the above conditions aren't met and currentDocument is set, redirect to the right identifier
 				else if (currentDocument.hasOwnProperty('id')) {
 					const routeID = docType === 'chapters' ? String(currentDocument.number) : currentDocument.id
-					store.dispatch(push(routeID))
+					store.dispatch(push(annotationURL.carryNoteParam(routeID)))
 				}
 			}
 			// If routing to reader for a new chapter, set new currentDocument
@@ -167,7 +187,26 @@ const joyceRouter = store => next => action => {
 						store.dispatch(actions.setCurrentDocument(info_page.id, 'info'))
 					}
 				}				
-			}				
+			}
+			// Last, so it never runs against a path one of the redirects above is replacing.
+			// Opens/loads/closes the annotation modal to match ?note= (click, Back/Forward, deep link).
+			syncAnnotationModalWithURL(store)
+			break
+		case 'OPEN_ANNOTATION_NOTE':
+			// A note link click becomes a history entry; ON_LOCATION_CHANGED does the loading.
+			// Guard: re-clicking the note that is already in the URL must not stack entries.
+			if (annotationURL.parseNoteParam() !== action.id) {
+				store.dispatch(push(annotationURL.pathWithNote(action.id)))
+			} else {
+				syncAnnotationModalWithURL(store)
+			}
+			break
+		case 'CLOSE_ANNOTATION_NOTE':
+			// The reader closed the modal: push (not replace) the clean URL, so Back reopens
+			// the note they were on rather than jumping to the middle of the chain
+			if (typeof annotationURL.parseNoteParam() !== 'undefined') {
+				store.dispatch(push(annotationURL.pathWithoutNote()))
+			}
 			break
 		case 'GET_DOCUMENT_LIST':
 			// 
@@ -205,6 +244,20 @@ const joyceRouter = store => next => action => {
 			}
 			break
 		case 'GET_DOCUMENT_TEXT':
+			if (action.state === 'annotationNote') {
+				const noteParam = annotationURL.parseNoteParam()
+				// Safety net for the deep-link/boot case, where no ON_LOCATION_CHANGED fires and
+				// the modal element may not exist yet when the fetch starts: once the note the
+				// URL asks for has loaded, make sure the modal is showing.
+				if (action.status === 'success' && noteParam === action.id && !modalControl.isAnnotationModalOpen()) {
+					modalControl.showAnnotationModal()
+				}
+				// A stale or bad deep link (deleted note) degrades to the plain document
+				if (action.status === 'error' && noteParam === action.id) {
+					modalControl.hideAnnotationModal()
+					store.dispatch(push(annotationURL.pathWithoutNote()))
+				}
+			}
 			if (action.status === 'success' && action.state === 'currentDocument') {
 				// For Info docs accessible through note paths, reset docType to notes after loading doc
 				if (exemptNotePaths.indexOf(path) >= 0) {
@@ -216,7 +269,10 @@ const joyceRouter = store => next => action => {
 				const actionIdentifier = action.docType === 'chapters' ? String(action.data.number) : action.data.id
 				const pathIdentifier = action.docType === 'chapters' ? String(pathNumber) : pathID
 				if (actionIdentifier !== pathIdentifier) {
-					store.dispatch(push(actionIdentifier))
+					// Resolving a placeholder path (/:id) keeps an open note; a genuine document
+					// change (e.g. picking another chapter) drops it, closing the modal
+					const redirectPath = regex.checkIfRedirectPath(path) ? annotationURL.carryNoteParam(actionIdentifier) : actionIdentifier
+					store.dispatch(push(redirectPath))
 				}
 				if (actionIdentifier === pathIdentifier && typeof hash !== 'undefined') {
 					store.dispatch(actions.setCurrentBlock(action.data.id, hash))

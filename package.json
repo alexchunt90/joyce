@@ -53,7 +53,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^24.0.0",
     "postcss-loader": "^8.0.0",
-    "rimraf": "^5",
+    "rimraf": "^6",
     "sass": "^1.53.0",
     "sass-loader": "^14.1.0",
     "style-loader": "^3.3.1",

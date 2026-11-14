@@ -35,7 +35,9 @@ jobs:
 
   backend:
     name: Pytest (Python 3.11.7 — matches Dockerfile)
-    runs-on: ubuntu-latest
+    # Pinned, not ubuntu-latest: actions/python-versions publishes 3.11.7 only up to
+    # Ubuntu 24.04, so setup-python fails on the 26.04 image ubuntu-latest now points at.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -54,7 +56,8 @@ jobs:
 
   integration:
     name: Pytest integration (real Elasticsearch)
-    runs-on: ubuntu-latest
+    # Pinned for the same reason as the backend job: no 3.11.7 build for Ubuntu 26.04.
+    runs-on: ubuntu-24.04
     services:
       # Same image and version as the compose service, on a different port so nothing
       # here can reach a real cluster. Security is off because the test client is

@@ -58,19 +58,12 @@ const inputs = (state=initialState, action) => {
 					filterInput: ''
 				}									
 			} else if (action.status === 'success' && action.docType === 'media' && action.state === 'currentDocument') {
-				if (action.data.type === 'yt') {
-					return {
-						...state,
-						documentTitle: action.data.title,
-						filterInput: '',
-						externalURL: action.data.youtube_url
-					}					
-				} else {
-					return {
-						...state,
-						documentTitle: action.data.title,
-						filterInput: '',
-					}
+				return {
+					...state,
+					documentTitle: action.data.title,
+					filterInput: '',
+					uploadFile: undefined,
+					externalURL: action.data.type === 'yt' ? action.data.youtube_url : '',
 				}
 			} else { return state }
 
@@ -162,10 +155,15 @@ const inputs = (state=initialState, action) => {
 			if (action.status === 'success' && action.docType === 'tags') {
 				return {
 					...state,
-					colorPicker: '',
-					uploadFile: undefined
+					colorPicker: ''
 				}
-			} else { return state }			
+			} else if (action.status === 'success' && action.docType === 'media') {
+				return {
+					...state,
+					uploadFile: undefined,
+					externalURL: ''
+				}
+			} else { return state }
 		case 'CREATE_DOCUMENT':
 			return {
 				...state,
